@@ -1,10 +1,44 @@
-## Welcome to GitHub Pages
+## TeleTux
+
+حمایت از TeleTux جهت پرداخت کارمزد پلی استور
+
+سلام ما یک تیم توسعه دهنده کوچیک هستیم که دغدغه ما حریم خصوصی کاربران و آزاد بودن نرم افزار است .همینطور که میدانید اکثر تلگرام های غیر رسمی دارای کد های مخرب و بصورت کد بسته هستند که حریم خصوصی کاربران و مولفه حقوقی GPL را نقص میکنند بنابراین ما یک کلاینت (اپلیکیشن) غیررسمی از تلگرام به نام TeleTux را بصورت آزاد و متن باز بدون تبلیغات و با محوریت احترام به حریم خصوصی کاربران و با درنظر گرفتن نیاز کاربران ایرانی به ابزارهای بومی(تقویم و تاریخ شمسی) توسعه دادیم .
+حال برای قرار دادن آن در PlayStore گوگل نیازمند ۲۵ دلار معادل حدود ۶۰۰ هزار تومان جهت کارمزد ثبت نام در سرویس گوگل هستیم.
+برای حمایت از حریم خصوصی خود میتوانید مبلغی دلخواه را اهدا نمایید .
+
+صمیمانه از شما بابت حمایت از TeleTux سپاسگذاریم
+صفحه پروژه در سایت گیتهاب
+https://github.com/TeleTux/TeleTux
+دریافت آخرین نسخه برنامه
+
+https://github.com/TeleTux/TeleTux/releases
+تماس با توسعه دهنده
+
+https://github.com/herotuxحمایت از TeleTux جهت پرداخت کارمزد پلی استور
+
+سلام ما یک تیم توسعه دهنده کوچیک هستیم که دغدغه ما حریم خصوصی کاربران و آزاد بودن نرم افزار است .همینطور که میدانید اکثر تلگرام های غیر رسمی دارای کد های مخرب و بصورت کد بسته هستند که حریم خصوصی کاربران و مولفه حقوقی GPL را نقص میکنند بنابراین ما یک کلاینت (اپلیکیشن) غیررسمی از تلگرام به نام TeleTux را بصورت آزاد و متن باز بدون تبلیغات و با محوریت احترام به حریم خصوصی کاربران و با درنظر گرفتن نیاز کاربران ایرانی به ابزارهای بومی(تقویم و تاریخ شمسی) توسعه دادیم .
+حال برای قرار دادن آن در PlayStore گوگل نیازمند ۲۵ دلار معادل حدود ۶۰۰ هزار تومان جهت کارمزد ثبت نام در سرویس گوگل هستیم.
+برای حمایت از حریم خصوصی خود میتوانید مبلغی دلخواه را اهدا نمایید .
+
+صمیمانه از شما بابت حمایت از TeleTux سپاسگذاریم
+صفحه پروژه در سایت گیتهاب
+https://github.com/TeleTux/TeleTux
+دریافت آخرین نسخه برنامه
+
+https://github.com/TeleTux/TeleTux/releases
+تماس با توسعه دهنده
+
+https://github.com/herotux
+https://t.me/freetux
+https://t.me/freetux
+
+
 
 You can use the [editor on GitHub](https://github.com/TeleTux/TeleTux/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+### ویژگی ها
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
