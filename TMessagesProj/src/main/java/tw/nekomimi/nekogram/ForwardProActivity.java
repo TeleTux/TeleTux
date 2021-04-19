@@ -19,7 +19,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.googlecode.mp4parser.authoring.tracks.h265.NalUnitTypes;
-import telegram.messenger.xtelex.R;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
