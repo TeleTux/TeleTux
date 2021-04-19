@@ -10,7 +10,7 @@ import org.telegram.tgnet.TLRPC;
 
 import java.util.ArrayList;
 
-import sections.categories.DatabaseCategories;
+
 
 
 public class Const {
@@ -55,22 +55,7 @@ public class Const {
 
     public static ArrayList<TLRPC.TL_dialog> dialogsCats = new ArrayList<>();
 
-    public static void setCats(int code) {
-        DatabaseCategories catDB = new DatabaseCategories(ApplicationLoader.applicationContext);
-        //catDB.open();
-        dialogsCats.clear();
-        int isCated;
-        for (int i = 0; i < MessagesController.getInstance(currentAccount).dialogs.size(); i++) {
-            TLRPC.TL_dialog d = MessagesController.getInstance(currentAccount).dialogs.get(i);
-            isCated = catDB.isCategoried((int) d.id);
-            if (isCated == code) {
-                dialogsCats.add(d);
-            }
 
-        }
-
-        catDB.close();
-    }
 
 
     public static final String BASE_URL = "";

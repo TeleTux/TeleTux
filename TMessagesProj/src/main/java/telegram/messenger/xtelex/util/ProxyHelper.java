@@ -9,7 +9,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestTimeDelegate;
 
-import telegram.messenger.xtelex.R;
+import org.telegram.messenger.R;
 
 public class ProxyHelper {
 

@@ -28,10 +28,10 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import tw.nekomimi.nekogram.ExternalGcm;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import org.telegram.SQLite.DatabaseHandler;
+
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ContactsController;
@@ -58,8 +58,6 @@ import org.telegram.ui.Components.ForegroundDetector;
 
 import java.io.File;
 
-import sections.ui.Favorite;
-
 public class ApplicationLoader extends Application {
 
     @SuppressLint("StaticFieldLeak")
@@ -78,7 +76,7 @@ public class ApplicationLoader extends Application {
     public static volatile long mainInterfacePausedStageQueueTime;
 
     //Devgram->
-    public static DatabaseHandler databaseHandler;
+
     public static boolean SHOW_ANDROID_EMOJI;
     public static boolean KEEP_ORIGINAL_FILENAME;
     public static boolean USE_DEVICE_FONT;
@@ -219,8 +217,7 @@ public class ApplicationLoader extends Application {
 
 
         //Devgram->
-        databaseHandler = new DatabaseHandler(applicationContext);
-        Favorite.getInstance();
+
         SharedPreferences plusPreferences = ApplicationLoader.applicationContext.getSharedPreferences(Theme.CONFIG_PREF_NAME, Activity.MODE_PRIVATE);
         SHOW_ANDROID_EMOJI = plusPreferences.getBoolean("showAndroidEmoji", false);
         KEEP_ORIGINAL_FILENAME = plusPreferences.getBoolean("keepOriginalFilename", false);
@@ -271,7 +268,7 @@ public class ApplicationLoader extends Application {
 
     private void initPlayServices() {
         AndroidUtilities.runOnUIThread(() -> {
-            if (checkPlayServices()) {
+            if (ExternalGcm.checkPlayServices()) {
                 final String currentPushString = SharedConfig.pushString;
                 if (!TextUtils.isEmpty(currentPushString)) {
                     if (BuildVars.LOGS_ENABLED) {
@@ -302,15 +299,6 @@ public class ApplicationLoader extends Application {
         }, 1000);
     }
 
-    private boolean checkPlayServices() {
-        try {
-            int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-            return resultCode == ConnectionResult.SUCCESS;
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-        return true;
-    }
 
     /*
     private static void ensureCurrentNetworkGet() {
