@@ -264,10 +264,10 @@ public class ForwardProActivity extends BaseFragment {
 
             }
 
-            @Override
-            public void didPressShare(ChatMessageCell cell) {
+            //@Override
+            //public void didPressShare(ChatMessageCell cell) {
 
-            }
+            //}
 
 
             @Override
@@ -328,7 +328,7 @@ public class ForwardProActivity extends BaseFragment {
 
 
         chatActivityEnterView = new ChatActivityEnterView(getParentActivity(), contentView, null, false);
-        chatActivityEnterView.setDialogId(selectedObject.getDialogId(), currentMessageObject.currentAccount);
+        chatActivityEnterView.setDialogId(selectedObject.getDialogId(), selectedObject.currentAccount);
 
         LinearLayout l2 = new LinearLayout(context);
         l2.setOrientation(LinearLayout.VERTICAL);
@@ -354,7 +354,7 @@ public class ForwardProActivity extends BaseFragment {
 
         chatActivityEnterView.setDelegate(new ChatActivityEnterView.ChatActivityEnterViewDelegate() {
             @Override
-            public void onMessageSend(CharSequence message) {
+            public void onMessageSend(CharSequence message, boolean notify, int scheduleDate) {
 
             }
 
@@ -392,18 +392,22 @@ public class ForwardProActivity extends BaseFragment {
             public void onMessageEditEnd(boolean loading) {
 
             }
+            @Override
+            public void onAudioVideoInterfaceUpdated() {
+
+            }
 
 
         });
         chatActivityEnterView.setAllowStickersAndGifs(false, false);
 
-        chatActivityEnterView.getMessageEditText().setText(caption);
+        chatActivityEnterView.getEditField().setText(caption);
 
 
         if (myObject != null && myObject.messageOwner != null && myObject.messageOwner.media != null) {
             InputFilter[] fa = new InputFilter[1];
             fa[0] = new InputFilter.LengthFilter(200);
-            chatActivityEnterView.getMessageEditText().setFilters(fa);
+            chatActivityEnterView..getEditField()().setFilters(fa);
         }
 
 
@@ -489,13 +493,13 @@ public class ForwardProActivity extends BaseFragment {
 
         final MessageObject m = selectedObject;
 
-        if (m != null && chatActivityEnterView.getMessageEditText().getText() != null) {
-            m.messageOwner.message = chatActivityEnterView.getMessageEditText().getText().toString();
+        if (m != null && chatActivityEnterView.getEditField()().getText() != null) {
+            m.messageOwner.message = chatActivityEnterView.getEditField()().getText().toString();
             if (m.messageOwner.media != null)
-                m.messageOwner.media.caption = chatActivityEnterView.getMessageEditText().getText().toString();
+                m.messageOwner.media.caption = chatActivityEnterView.getEditField()().getText().toString();
 
-            m.caption = chatActivityEnterView.getMessageEditText().getText().toString();
-            m.messageText = chatActivityEnterView.getMessageEditText().getText().toString();
+            m.caption = chatActivityEnterView.getEditField()().getText().toString();
+            m.messageText = chatActivityEnterView.getEditField()().getText().toString();
             m.messageOwner.from_id = -1;
             m.applyNewText();
         }
