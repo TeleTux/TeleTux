@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+      - proforward
     paths-ignore:
       - '**.md'
       - '.github/**'

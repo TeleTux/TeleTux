@@ -20,7 +20,11 @@
     <string name="Channelicon" translatable="false">f0a1</string>
     <string name="Groupicon" translatable="false">f0c0</string>
     <string name="hideBottomButton">Hide Bottom Button</string>
-
-
-
+    <string name="TimedForward">Forward on time</string>
+    <string name="ProForward">Forward Pro</string>
+    <string name="MediaCaption">Media Caption</string>
+    <string name="Media">Media</string>
+    <string name="sendTime">Sending Time</string>
+    <string name="ProForwardError">This is disabled for the Pro Forward ..</string>
+    <string name="Sent">Sent</string>    
 </resources>
