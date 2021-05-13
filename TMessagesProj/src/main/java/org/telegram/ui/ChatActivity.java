@@ -11612,7 +11612,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (inPreviewMode) {
             bottomOverlay.setVisibility(View.INVISIBLE);
         }
-        if (NekoConfig.hideBottomButton == 1)
+        if (NekoConfig.hideBottomButton == 1) {
             bottomOverlay.setVisibility(View.INVISIBLE);
         }
 
