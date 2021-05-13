@@ -58,13 +58,13 @@ public class ForwardProActivity extends BaseFragment {
     long timer = 0;
 
     public ForwardProActivity(MessageObject selectedObject, TLRPC.Chat currentChat) {
-        this.selectedObject = new MessageObject(currentAccount, newMessage(selectedObject.messageOwner), null, true);
+        this.selectedObject = new MessageObject(currentAccount, newMessage(selectedObject.messageOwner), false, true);
         this.selectedObject.photoThumbs = selectedObject.photoThumbs;
         this.currentChat = currentChat;
     }
 
     public ForwardProActivity(MessageObject selectedObject, TLRPC.Chat currentChat, int i) {
-        this.selectedObject = new MessageObject(currentAccount, newMessage(selectedObject.messageOwner), null, true);
+        this.selectedObject = new MessageObject(currentAccount, newMessage(selectedObject.messageOwner), false, true);
         this.selectedObject.photoThumbs = selectedObject.photoThumbs;
         this.currentChat = currentChat;
         this.mode = i;
@@ -73,7 +73,8 @@ public class ForwardProActivity extends BaseFragment {
     @Override
     public View createView(final Context context) {
         actionBar.setBackgroundColor(Theme.ACTION_BAR_MEDIA_PICKER_COLOR);
-        actionBar.setItemsBackgroundColor(Theme.ACTION_BAR_PICKER_SELECTOR_COLOR);
+        actionBar.setItemsBackgroundColor(Theme.getColor(Theme.key_actionBarWhiteSelector), false);
+
         actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         actionBar.setAllowOverlayTitle(true);
         actionBar.setTitle(mode == 1 ? LocaleController.getString("ProForward", R.string.ProForward) : LocaleController.getString("TimedForward", R.string.TimedForward));
@@ -191,7 +192,7 @@ public class ForwardProActivity extends BaseFragment {
         };
 
         SizeNotifierFrameLayout contentView = (SizeNotifierFrameLayout) fragmentView;
-        contentView.setBackgroundImage(ApplicationLoader.getCachedWallpaper());
+        contentView.setBackgroundImage(Theme.getCachedWallpaper());
 
 
         ScrollView scrollView = new ScrollView(context);
@@ -209,47 +210,47 @@ public class ForwardProActivity extends BaseFragment {
         if (temp.messageOwner != null) {
             temp.messageOwner.message = "";
             if (temp.messageOwner.media != null)
-                temp.messageOwner.media.caption = "";
+                temp.messageOwner.message.caption = "";
         }
         temp.caption = "";
         temp.messageText = "";
-        chatMessageCell.setMessageObject(temp ,false , false);
+        chatMessageCell.setMessageObject(temp , null, false , false);
         chatMessageCell.setOnClickListener(null);
         chatMessageCell.setOnTouchListener(null);
         chatMessageCell.setOnLongClickListener(null);
         chatMessageCell.setDelegate(new ChatMessageCell.ChatMessageCellDelegate() {
             @Override
-            public void didPressedUserAvatar(ChatMessageCell cell, TLRPC.User user) {
+            public void didPressUserAvatar(ChatMessageCell cell, TLRPC.User user) {
 
             }
 
             @Override
-            public void didPressedViaBot(ChatMessageCell cell, String username) {
+            public void didPressViaBot(ChatMessageCell cell, String username) {
 
             }
 
             @Override
-            public void didPressedChannelAvatar(ChatMessageCell cell, TLRPC.Chat chat, int postId) {
+            public void didPressChannelAvatar(ChatMessageCell cell, TLRPC.Chat chat, int postId) {
 
             }
 
             @Override
-            public void didPressedCancelSendButton(ChatMessageCell cell) {
+            public void didPressCancelSendButton(ChatMessageCell cell) {
 
             }
 
             @Override
-            public void didLongPressed(ChatMessageCell cell) {
+            public void didLongPress(ChatMessageCell cell) {
 
             }
 
             @Override
-            public void didPressedReplyMessage(ChatMessageCell cell, int id) {
+            public void didPressReplyMessage(ChatMessageCell cell, int id) {
 
             }
 
             @Override
-            public void didPressedUrl(MessageObject messageObject, CharacterStyle url, boolean longPress) {
+            public void didPressUrl(MessageObject messageObject, CharacterStyle url, boolean longPress) {
 
             }
 
@@ -260,28 +261,28 @@ public class ForwardProActivity extends BaseFragment {
             }
 
             @Override
-            public void didPressedImage(ChatMessageCell cell) {
+            public void didPressImage(ChatMessageCell cell) {
 
             }
 
             @Override
-            public void didPressedShare(ChatMessageCell cell) {
+            public void didPressShare(ChatMessageCell cell) {
 
             }
 
 
             @Override
-            public void didPressedOther(ChatMessageCell cell) {
+            public void didPressOther(ChatMessageCell cell) {
 
             }
 
             @Override
-            public void didPressedBotButton(ChatMessageCell cell, TLRPC.KeyboardButton button) {
+            public void didPressBotButton(ChatMessageCell cell, TLRPC.KeyboardButton button) {
 
             }
 
             @Override
-            public void didPressedInstantButton(ChatMessageCell cell) {
+            public void didPressInstantButton(ChatMessageCell cell) {
 
             }
 
