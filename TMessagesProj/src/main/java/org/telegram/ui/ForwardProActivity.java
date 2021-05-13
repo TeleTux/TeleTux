@@ -40,8 +40,8 @@ import org.telegram.ui.Components.ShareAlert;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 
 import java.util.Calendar;
-
-import static org.telegram.messenger.exoplayer2.C.ENCODING_PCM_32BIT;
+ 
+import static com.google.android.exoplayer2.C.ENCODING_PCM_32BIT;
 
 
 public class ForwardProActivity extends BaseFragment {
@@ -58,13 +58,13 @@ public class ForwardProActivity extends BaseFragment {
     long timer = 0;
 
     public ForwardProActivity(MessageObject selectedObject, TLRPC.Chat currentChat) {
-        this.selectedObject = new MessageObject(newMessage(selectedObject.messageOwner), null, true);
+        this.selectedObject = new MessageObject(currentAccount, newMessage(selectedObject.messageOwner), null, true);
         this.selectedObject.photoThumbs = selectedObject.photoThumbs;
         this.currentChat = currentChat;
     }
 
     public ForwardProActivity(MessageObject selectedObject, TLRPC.Chat currentChat, int i) {
-        this.selectedObject = new MessageObject(newMessage(selectedObject.messageOwner), null, true);
+        this.selectedObject = new MessageObject(currentAccount, newMessage(selectedObject.messageOwner), null, true);
         this.selectedObject.photoThumbs = selectedObject.photoThumbs;
         this.currentChat = currentChat;
         this.mode = i;
