@@ -7285,12 +7285,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (getParentActivity() == null) {
                 return;
             }
-            if (NekoConfig.hideBottomButton == 0) {
-                return;
-            }
-            if (MessagesController.getGlobalMainSettings().getBoolean("hideBottomButton", false)) {
-                return;
-            }
+            //if (NekoConfig.hideBottomButton == 0) {
+            //    return;
+            //}
+            //if (MessagesController.getGlobalMainSettings().getBoolean("hideBottomButton", false)) {
+            //    return;
+            //}
             if (reportType >= 0) {
                 showDialog(new ReportAlert(getParentActivity(), reportType) {
                     @Override
@@ -11612,6 +11612,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (inPreviewMode) {
             bottomOverlay.setVisibility(View.INVISIBLE);
         }
+        if (NekoConfig.hideBottomButton == 1)
+            bottomOverlay.setVisibility(View.INVISIBLE);
+        }
+
         if (hideKeyboard) {
             chatActivityEnterView.hidePopup(false);
             if (getParentActivity() != null) {
@@ -17046,9 +17050,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 bottomOverlayChatText.setText(LocaleController.getString("DeleteThisChat", R.string.DeleteThisChat));
             }
         }
-        if (NekoConfig.hideBottomButton == 0) {
-            bottomOverlayChatText.setText("");
-        }
+        //if (NekoConfig.hideBottomButton == 0) {
+        //    bottomOverlayChatText.setText("");
+        //}
 
         if (currentChat != null && currentChat.gigagroup && reportType < 0 && chatMode == 0) {
             bottomOverlayImage.setVisibility(View.VISIBLE);
