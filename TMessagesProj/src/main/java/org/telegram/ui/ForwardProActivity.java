@@ -192,7 +192,7 @@ public class ForwardProActivity extends BaseFragment {
         };
 
         SizeNotifierFrameLayout contentView = (SizeNotifierFrameLayout) fragmentView;
-        contentView.setBackgroundImage(Theme.getCachedWallpaper());
+        contentView.setBackgroundImage(Theme.getCachedWallpaper(), Theme.isWallpaperMotion());
 
 
         ScrollView scrollView = new ScrollView(context);
@@ -206,11 +206,10 @@ public class ForwardProActivity extends BaseFragment {
         ChatMessageCell chatMessageCell = new ChatMessageCell(getParentActivity());
         MessageObject temp = selectedObject;
 
-
         if (temp.messageOwner != null) {
             temp.messageOwner.message = "";
-            if (temp.messageOwner.media != null)
-                temp.messageOwner.message.caption = "";
+            //if (temp.messageOwner.media != null)
+                //temp.messageOwner.message.caption = "";
         }
         temp.caption = "";
         temp.messageText = "";
@@ -220,7 +219,7 @@ public class ForwardProActivity extends BaseFragment {
         chatMessageCell.setOnLongClickListener(null);
         chatMessageCell.setDelegate(new ChatMessageCell.ChatMessageCellDelegate() {
             @Override
-            public void didPressUserAvatar(ChatMessageCell cell, TLRPC.User user) {
+            public void didPressUserAvatar(ChatMessageCell cell, TLRPC.User user, float touchX, float touchY) {
 
             }
 
@@ -230,7 +229,7 @@ public class ForwardProActivity extends BaseFragment {
             }
 
             @Override
-            public void didPressChannelAvatar(ChatMessageCell cell, TLRPC.Chat chat, int postId) {
+            public void didPressChannelAvatar(ChatMessageCell cell, TLRPC.Chat chat, int postId, float touchX, float touchY) {
 
             }
 
@@ -240,7 +239,7 @@ public class ForwardProActivity extends BaseFragment {
             }
 
             @Override
-            public void didLongPress(ChatMessageCell cell) {
+            public void didLongPress(ChatMessageCell cell, float x, float y) {
 
             }
 
@@ -250,7 +249,7 @@ public class ForwardProActivity extends BaseFragment {
             }
 
             @Override
-            public void didPressUrl(MessageObject messageObject, CharacterStyle url, boolean longPress) {
+            public void didPressUrl(ChatMessageCell cell, final CharacterStyle url, boolean longPress) {
 
             }
 
@@ -261,7 +260,7 @@ public class ForwardProActivity extends BaseFragment {
             }
 
             @Override
-            public void didPressImage(ChatMessageCell cell) {
+            public void didPressImage(ChatMessageCell cell, float x, float y) {
 
             }
 
@@ -272,7 +271,7 @@ public class ForwardProActivity extends BaseFragment {
 
 
             @Override
-            public void didPressOther(ChatMessageCell cell) {
+            public void didPressOther(ChatMessageCell cell, float x, float y) {
 
             }
 
@@ -282,14 +281,14 @@ public class ForwardProActivity extends BaseFragment {
             }
 
             @Override
-            public void didPressInstantButton(ChatMessageCell cell) {
+            public void didPressInstantButton(ChatMessageCell cell, int type) {
 
             }
 
-            @Override
-            public boolean needPlayAudio(MessageObject messageObject) {
-                return false;
-            }
+            //@Override
+            //public boolean needPlayAudio(MessageObject messageObject) {
+            //    return false;
+            //}
 
             @Override
             public boolean canPerformActions() {
@@ -329,7 +328,7 @@ public class ForwardProActivity extends BaseFragment {
 
 
         chatActivityEnterView = new ChatActivityEnterView(getParentActivity(), contentView, null, false);
-        chatActivityEnterView.setDialogId(selectedObject.getDialogId());
+        chatActivityEnterView.setDialogId(selectedObject.getDialogId(), currentMessageObject.currentAccount);
 
         LinearLayout l2 = new LinearLayout(context);
         l2.setOrientation(LinearLayout.VERTICAL);
