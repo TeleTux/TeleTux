@@ -474,7 +474,7 @@ public class ForwardProActivity extends BaseFragment {
         if (myObject != null && myObject.messageOwner != null && myObject.messageOwner.media != null) {
             InputFilter[] fa = new InputFilter[1];
             fa[0] = new InputFilter.LengthFilter(200);
-            chatActivityEnterView..getEditField().setFilters(fa);
+            chatActivityEnterView.getEditField().setFilters(fa);
         }
 
 
@@ -541,7 +541,7 @@ public class ForwardProActivity extends BaseFragment {
     private void editDone() {
 
 
-        final ArrayList<MessageObject> m = ArrayList<selectedObject>;
+        final ArrayList<MessageObject> m = ArrayList<selectedObject>();
         
         if (m != null && chatActivityEnterView.getEditField().getText() != null) {
             m.messageOwner.message = chatActivityEnterView.getEditField().getText().toString();
@@ -550,7 +550,7 @@ public class ForwardProActivity extends BaseFragment {
 
             m.caption = chatActivityEnterView.getEditField().getText().toString();
             m.messageText = chatActivityEnterView.getEditField().getText().toString();
-            int m.messageOwner.from_id = -1;
+            m.messageOwner.from_id = -1;
             m.applyNewText();
         }
 
