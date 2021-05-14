@@ -36,7 +36,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.ChatActivityEnterView;
 import org.telegram.ui.Components.LayoutHelper;
-import sections.ui.components.ShareAlert;
+import org.telegram.ui.components.ShareAlert;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.messenger.UserConfig;
 
@@ -541,7 +541,7 @@ public class ForwardProActivity extends BaseFragment {
     private void editDone() {
 
 
-        final MessageObject m = selectedObject;
+        final ArrayList<MessageObject> m = new ArrayList<>(selectedObject);
         
         if (m != null && chatActivityEnterView.getEditField().getText() != null) {
             m.messageOwner.message = chatActivityEnterView.getEditField().getText().toString();

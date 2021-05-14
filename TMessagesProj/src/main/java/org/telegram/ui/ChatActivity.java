@@ -20772,6 +20772,25 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 showDialog(builder.create());
                 break;
             }
+            //Direct share->
+            case 30: {
+                if (getParentActivity() == null) {
+                    selectedObject = null;
+                    return;
+                }
+                if (chatActivityEnterView != null) {
+                    chatActivityEnterView.closeKeyboard();
+                }
+                showDialog(sections.ui.components.ShareAlert.createShareAlert(getParentActivity(), selectedObject, null, ChatObject.isChannel(currentChat) && !currentChat.megagroup && currentChat.username != null && currentChat.username.length() > 0, null, true));
+
+                break;
+            }
+
+            //AdvancedForward->
+            case 34:
+                presentFragment(new ForwardProActivity(selectedObject, currentChat, 1));
+                break;
+
             case 87: {
                 if (Build.VERSION.SDK_INT >= 23 && getParentActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     getParentActivity().requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 4);
