@@ -36,8 +36,9 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.ChatActivityEnterView;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.Components.ShareAlert;
+import sections.ui.components.ShareAlert;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
+import org.telegram.messenger.UserConfig;
 
 import java.util.Calendar;
  
@@ -45,6 +46,8 @@ import static com.google.android.exoplayer2.C.ENCODING_PCM_32BIT;
 
 
 public class ForwardProActivity extends BaseFragment {
+
+    private int currentAccount = UserConfig.selectedAccount;
     private MessageObject selectedObject;
     protected ChatActivityEnterView chatActivityEnterView;
     private FrameLayout emptyViewContainer;
@@ -281,18 +284,33 @@ public class ForwardProActivity extends BaseFragment {
             }
 
             @Override
+            public void didPressVoteButton(ChatMessageCell cell, TLRPC.Chat chat, int postId) {
+
+            }
+
+            @Override
             public void didPressInstantButton(ChatMessageCell cell, int type) {
 
             }
 
-            //@Override
-            //public boolean needPlayAudio(MessageObject messageObject) {
-            //    return false;
-            //}
+            @Override
+            public boolean isChatAdminCell(int uid) {
+                return false;
+            }
+
+            @Override
+            public boolean needPlayMessage(MessageObject messageObject) {
+                return false;
+            }
 
             @Override
             public boolean canPerformActions() {
                 return false;
+            }
+
+            @Override
+            public void videoTimerReached() {
+
             }
 
 
@@ -369,6 +387,15 @@ public class ForwardProActivity extends BaseFragment {
             }
 
             @Override
+            public void onTextSelectionChanged(int start, int end) {
+
+            }
+            @Override
+            public void onTextSpansChanged(CharSequence text) {
+
+            }
+
+            @Override
             public void onAttachButtonHidden() {
 
             }
@@ -396,6 +423,46 @@ public class ForwardProActivity extends BaseFragment {
             public void onAudioVideoInterfaceUpdated() {
 
             }
+            @Override
+            public void didPressAttachButton() {
+
+            }
+
+
+            @Override
+            public void needStartRecordVideo(int state, boolean notify, int scheduleDate) {
+
+            }
+
+            @Override
+            public void needChangeVideoPreviewState(int state, float seekProgress) {
+
+            }
+
+            @Override
+            public void onSwitchRecordMode(boolean video) {
+
+            }
+
+            @Override
+            public void onPreAudioVideoRecord() {
+
+            }
+
+            @Override
+            public void needStartRecordAudio(int state) {
+
+            }
+
+            @Override
+            public void needShowMediaBanHint() {
+
+            }
+
+            @Override
+            public void onStickersExpandedChange() {
+
+            }
 
 
         });
@@ -407,7 +474,7 @@ public class ForwardProActivity extends BaseFragment {
         if (myObject != null && myObject.messageOwner != null && myObject.messageOwner.media != null) {
             InputFilter[] fa = new InputFilter[1];
             fa[0] = new InputFilter.LengthFilter(200);
-            chatActivityEnterView..getEditField()().setFilters(fa);
+            chatActivityEnterView..getEditField().setFilters(fa);
         }
 
 
@@ -459,24 +526,7 @@ public class ForwardProActivity extends BaseFragment {
         timePickerDialog.show();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateTheme();
-        if (constant.AnalyticInitialized)
-            ApplicationLoader.getInstance().trackScreenView("ForwardProActivity");
-    }
 
-    private void updateTheme() {
-        SharedPreferences themePrefs = ApplicationLoader.applicationContext.getSharedPreferences(AndroidUtilities.THEME_PREFS, AndroidUtilities.THEME_PREFS_MODE);
-        int def = themePrefs.getInt("themeColor", AndroidUtilities.defColor);
-        actionBar.setBackgroundColor(themePrefs.getInt("prefHeaderColor", def));
-        actionBar.setTitleColor(themePrefs.getInt("prefHeaderTitleColor", 0xffffffff));
-
-        Drawable back = getParentActivity().getResources().getDrawable(R.drawable.ic_ab_back);
-        back.setColorFilter(themePrefs.getInt("prefHeaderIconsColor", 0xffffffff), PorterDuff.Mode.MULTIPLY);
-        actionBar.setBackButtonDrawable(back);
-    }
 
 
     @Override
@@ -491,20 +541,20 @@ public class ForwardProActivity extends BaseFragment {
     private void editDone() {
 
 
-        final MessageObject m = selectedObject;
+        final ArrayList<MessageObject> m = ArrayList<selectedObject>;
+        
+        if (m != null && chatActivityEnterView.getEditField().getText() != null) {
+            m.messageOwner.message = chatActivityEnterView.getEditField().getText().toString();
+            //if (m.messageOwner.media != null)
+            //    m.messageOwner.media.caption = chatActivityEnterView.getEditField().getText().toString();
 
-        if (m != null && chatActivityEnterView.getEditField()().getText() != null) {
-            m.messageOwner.message = chatActivityEnterView.getEditField()().getText().toString();
-            if (m.messageOwner.media != null)
-                m.messageOwner.media.caption = chatActivityEnterView.getEditField()().getText().toString();
-
-            m.caption = chatActivityEnterView.getEditField()().getText().toString();
-            m.messageText = chatActivityEnterView.getEditField()().getText().toString();
-            m.messageOwner.from_id = -1;
+            m.caption = chatActivityEnterView.getEditField().getText().toString();
+            m.messageText = chatActivityEnterView.getEditField().getText().toString();
+            int m.messageOwner.from_id = -1;
             m.applyNewText();
         }
 
-        final ShareAlert d = new ShareAlert(getParentActivity(), m,null, ChatObject.isChannel(currentChat) && !currentChat.megagroup && currentChat.username != null && currentChat.username.length() > 0  ,null, true);
+        final ShareAlert d = new ShareAlert(getParentActivity(), m, null, ChatObject.isChannel(currentChat) && !currentChat.megagroup && currentChat.username != null && currentChat.username.length() > 0  ,null, true);
         d.getQuoteSwitch().setChecked(false);
         d.getQuoteSwitch().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -516,7 +566,7 @@ public class ForwardProActivity extends BaseFragment {
 
             }
         });
-        showDialog2(d);
+        showDialog(d);
         chatActivityEnterView.openKeyboard();
         d.getDoneButtonTextView().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -588,7 +638,7 @@ public class ForwardProActivity extends BaseFragment {
     private TLRPC.MessageMedia newMessageMedia(TLRPC.MessageMedia messageMedia) {
         TLRPC.MessageMedia tL_messageMediaUnsupported_old = messageMedia instanceof TLRPC.TL_messageMediaUnsupported_old ? new TLRPC.TL_messageMediaUnsupported_old() : messageMedia instanceof TLRPC.TL_messageMediaAudio_layer45 ? new TLRPC.TL_messageMediaAudio_layer45() : messageMedia instanceof TLRPC.TL_messageMediaPhoto_old ? new TLRPC.TL_messageMediaPhoto_old() : messageMedia instanceof TLRPC.TL_messageMediaUnsupported ? new TLRPC.TL_messageMediaUnsupported() : messageMedia instanceof TLRPC.TL_messageMediaEmpty ? new TLRPC.TL_messageMediaEmpty() : messageMedia instanceof TLRPC.TL_messageMediaVenue ? new TLRPC.TL_messageMediaVenue() : messageMedia instanceof TLRPC.TL_messageMediaVideo_old ? new TLRPC.TL_messageMediaVideo_old() : messageMedia instanceof TLRPC.TL_messageMediaDocument_old ? new TLRPC.TL_messageMediaDocument_old() : messageMedia instanceof TLRPC.TL_messageMediaDocument ? new TLRPC.TL_messageMediaDocument() : messageMedia instanceof TLRPC.TL_messageMediaContact ? new TLRPC.TL_messageMediaContact() : messageMedia instanceof TLRPC.TL_messageMediaPhoto ? new TLRPC.TL_messageMediaPhoto() : messageMedia instanceof TLRPC.TL_messageMediaVideo_layer45 ? new TLRPC.TL_messageMediaVideo_layer45() : messageMedia instanceof TLRPC.TL_messageMediaWebPage ? new TLRPC.TL_messageMediaWebPage() : messageMedia instanceof TLRPC.TL_messageMediaGeo ? new TLRPC.TL_messageMediaGeo() : new TLRPC.MessageMedia();
         tL_messageMediaUnsupported_old.bytes = messageMedia.bytes;
-        tL_messageMediaUnsupported_old.caption = messageMedia.caption;
+        //tL_messageMediaUnsupported_old.caption = messageMedia.caption;
         tL_messageMediaUnsupported_old.photo = messageMedia.photo;
         tL_messageMediaUnsupported_old.audio_unused = messageMedia.audio_unused;
         tL_messageMediaUnsupported_old.geo = messageMedia.geo;
@@ -604,6 +654,19 @@ public class ForwardProActivity extends BaseFragment {
         tL_messageMediaUnsupported_old.user_id = messageMedia.user_id;
         tL_messageMediaUnsupported_old.webpage = messageMedia.webpage;
         return tL_messageMediaUnsupported_old;
+    }
+
+
+    @Override
+    public ThemeDescription[] getThemeDescriptions() {
+
+        return new ThemeDescription[]{
+
+                new ThemeDescription(actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_actionBarDefault),
+                new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, Theme.key_actionBarDefaultIcon),
+                new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_TITLECOLOR, null, null, null, null, Theme.key_actionBarDefaultTitle),
+                new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_SELECTORCOLOR, null, null, null, null, Theme.key_actionBarDefaultSelector),
+        };
     }
 
 
