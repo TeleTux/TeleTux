@@ -19,6 +19,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import java.util.ArrayList;
+
 
 import com.googlecode.mp4parser.authoring.tracks.h265.NalUnitTypes;
 import org.telegram.messenger.R;
@@ -284,18 +286,13 @@ public class ForwardProActivity extends BaseFragment {
             }
 
             @Override
-            public void didPressVoteButton(ChatMessageCell cell, TLRPC.Chat chat, int postId) {
+            public void didPressVoteButtons(ChatMessageCell cell, ArrayList<TLRPC.TL_pollAnswer> buttons, int showCount, int x, int y) {
 
             }
 
             @Override
             public void didPressInstantButton(ChatMessageCell cell, int type) {
 
-            }
-
-            @Override
-            public boolean isChatAdminCell(int uid) {
-                return false;
             }
 
             @Override
@@ -373,6 +370,11 @@ public class ForwardProActivity extends BaseFragment {
         chatActivityEnterView.setDelegate(new ChatActivityEnterView.ChatActivityEnterViewDelegate() {
             @Override
             public void onMessageSend(CharSequence message, boolean notify, int scheduleDate) {
+
+            }
+
+            @Override
+            public void onSendLongClick() {
 
             }
 
@@ -555,17 +557,7 @@ public class ForwardProActivity extends BaseFragment {
         }
 
         final ShareAlert d = new ShareAlert(getParentActivity(), m, null, ChatObject.isChannel(currentChat) && !currentChat.megagroup && currentChat.username != null && currentChat.username.length() > 0  ,null, true);
-        d.getQuoteSwitch().setChecked(false);
-        d.getQuoteSwitch().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (d.getQuoteSwitch().isChecked())
-                    d.getQuoteSwitch().setChecked(false);
 
-                Toast.makeText(getParentActivity(), getParentActivity().getResources().getString(R.string.ProForwardError), Toast.LENGTH_LONG).show();
-
-            }
-        });
         showDialog(d);
         chatActivityEnterView.openKeyboard();
         d.getDoneButtonTextView().setOnClickListener(new View.OnClickListener() {
