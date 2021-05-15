@@ -26,5 +26,6 @@
     <string name="Media">Media</string>
     <string name="sendTime">Sending Time</string>
     <string name="ProForwardError">This is disabled for the Pro Forward ..</string>
-    <string name="Sent">Sent</string>    
+    <string name="Sent">Sent</string>  
+    <string name="Quote">Quote</string> 
 </resources>

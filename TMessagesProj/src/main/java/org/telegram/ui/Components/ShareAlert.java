@@ -92,11 +92,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
+import java.util.HashMap;
 
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class ShareAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
-
+    private Switch quoteSwitch;
     private FrameLayout frameLayout;
     private FrameLayout frameLayout2;
     private TextView doneButtonBadgeTextView;
@@ -319,6 +320,40 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 searchEditText.setText("");
                 AndroidUtilities.showKeyboard(searchEditText);
             });
+
+
+            //switch
+            final SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("BaseConfig", Activity.MODE_PRIVATE);
+            quoteSwitch = new Switch(context);
+            quoteSwitch.setTag("chat");
+            quoteSwitch.setDuplicateParentStateEnabled(false);
+            quoteSwitch.setFocusable(false);
+            quoteSwitch.setFocusableInTouchMode(false);
+            quoteSwitch.setClickable(true);
+            setCheck(preferences.getBoolean("directShareQuote", true));
+            setCheckColor();
+            frameLayout.addView(quoteSwitch, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.CENTER_VERTICAL, 32, 2, 0, 0));
+            /*quoteSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("directShareQuote", isChecked).apply();
+                    setCheckColor();
+                }
+            });*/
+
+            TextView quoteTextView = new TextView(context);
+            quoteTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 9);
+            //quoteTextView.setTextColor(0xff979797);
+            quoteTextView.setTextColor(quoteTextView.getCurrentTextColor() != 0xff757575 ? 0xff757575 : 0xff979797);
+            quoteTextView.setGravity(Gravity.CENTER);
+            quoteTextView.setCompoundDrawablePadding(AndroidUtilities.dp(8));
+            quoteTextView.setText(LocaleController.getString("Quote", R.string.Quote).toUpperCase());
+            quoteTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            frameLayout.addView(quoteTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 44, 2, 0, 0));
+
+
+
 
             searchEditText = new EditTextBoldCursor(context) {
                 @Override
@@ -1685,13 +1720,22 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     }
 
 
+    public void setCheck(boolean checked) {
+        if (Build.VERSION.SDK_INT < 11) {
+            quoteSwitch.resetLayout();
+            quoteSwitch.requestLayout();
+        }
+        quoteSwitch.setChecked(checked);
+        setCheckColor();
+    }
 
+    
     public TextView getDoneButtonTextView() {
         return doneButtonTextView;
     }
 
     public void DoneClicked() {
-        if (selectedDialogs.isEmpty() && isPublicChannel) {
+        if (selectedDialogs.size() == 0 && isChannel) {
             if (loadingLink) {
                 copyLinkOnEnd = true;
                 Toast.makeText(ShareAlert.this.getContext(), LocaleController.getString("Loading", R.string.Loading), Toast.LENGTH_SHORT).show();
@@ -1706,7 +1750,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 if (lower_id < 0) {
                     TLRPC.Chat chat = MessagesController.getInstance(currentAccount).getChat(-lower_id);
                 }
-                Log.i("TAG", "DoneClicked: entry.getKey() = "+entry.getKey());
+                //Log.i("TAG", "DoneClicked: entry.getKey() = "+entry.getKey());
                 if (quoteSwitch.isChecked()) {
                     SendMessagesHelper.getInstance(currentAccount).sendMessage(sendingMessageObjects, entry.getKey());
                 } else {
