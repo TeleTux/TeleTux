@@ -21,7 +21,7 @@ enable_smart_app_banner                   : true                                
 # Information About Yourself
 your_name                                 : Freetux                                
 your_link                                 : https://freetux.ir                     
-your_city                                 : freeland                                
+your_city                                 : TeleTux                                
 email_address                             : itsfreetux@gmail.com
 facebook_username                         :                                           
 instagram_username                        : freetux01
@@ -59,7 +59,7 @@ features                                  :
   
   - title                                 : Translation support for selected text on input and in messages
     description                           : #Add features (like this one) to your site via the _config.yml file. No HTML/CSS needed.
-    fontawesome_icon_name                 : translate
+    fontawesome_icon_name                 : language
 
   - title                                 : Delete all messages in group
     description                           : #Display a smart app banner on iOS devices.
