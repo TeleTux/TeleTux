@@ -550,7 +550,7 @@ public class ForwardProActivity extends BaseFragment {
     private void editDone() {
 
 
-        final ArrayList<MessageObject> m = new ArrayList<selectedObject>();
+        final ArrayList<MessageObject> m = new ArrayList<>();
         
         
         if (m != null && chatActivityEnterView.getEditField().getText() != null) {

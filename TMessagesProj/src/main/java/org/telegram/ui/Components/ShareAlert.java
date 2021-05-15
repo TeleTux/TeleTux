@@ -844,6 +844,40 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
         frameLayout = new FrameLayout(context);
         frameLayout.setBackgroundColor(Theme.getColor(darkTheme ? Theme.key_voipgroup_inviteMembersBackground : Theme.key_dialogBackground));
+        
+
+
+        doneButton = new LinearLayout(context);
+        doneButton.setOrientation(LinearLayout.HORIZONTAL);
+        doneButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector), 0));
+        doneButton.setPadding(AndroidUtilities.dp(21), 0, AndroidUtilities.dp(21), 0);
+        frameLayout.addView(doneButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.RIGHT));
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DoneClicked();
+            }
+        });
+
+        doneButtonBadgeTextView = new TextView(context);
+        doneButtonBadgeTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        doneButtonBadgeTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+        doneButtonBadgeTextView.setTextColor(Theme.getColor(Theme.key_dialogBadgeText));
+        doneButtonBadgeTextView.setGravity(Gravity.CENTER);
+        doneButtonBadgeTextView.setBackgroundDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(12.5f), Theme.getColor(Theme.key_dialogBadgeBackground)));
+        doneButtonBadgeTextView.setMinWidth(AndroidUtilities.dp(23));
+        doneButtonBadgeTextView.setPadding(AndroidUtilities.dp(8), 0, AndroidUtilities.dp(8), AndroidUtilities.dp(1));
+        doneButton.addView(doneButtonBadgeTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 23, Gravity.CENTER_VERTICAL, 0, 0, 10, 0));
+
+        doneButtonTextView = new TextView(context);
+        doneButtonTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        doneButtonTextView.setGravity(Gravity.CENTER);
+        doneButtonTextView.setCompoundDrawablePadding(AndroidUtilities.dp(8));
+        doneButtonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        doneButton.addView(doneButtonTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL));
+
+        
+
 
         if (darkTheme && linkToCopy[1] != null) {
             switchView = new SwitchView(context) {
