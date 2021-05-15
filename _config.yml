@@ -51,7 +51,7 @@ features                                  :
 
   - title                                 : Ipv6 MTProxy support
     description                           : #Enter iOS app ID in the _config.yml file to automatically fetch app icon, price and App Store Link.
-    fontawesome_icon_name                 : fa-server
+    fontawesome_icon_name                 : server
 
   - title                                 : Scan the QR code (any link, can add a proxy)
     description                           : #Tweak accent color, images, icons and transparency via the _config.yml file. No HTML/CSS needed.
@@ -75,7 +75,7 @@ features                                  :
 
   - title                                 : Built-in Material Design themes / Telegram X style icons
     description                           : # New Feature Description
-    fontawesome_icon_name                 : icons
+    fontawesome_icon_name                 : code
 
   - title                                 : Custom app ID and Hash (optional TeleTux / Android / Android X or Manual input)
     description                           : # New Feature Description
