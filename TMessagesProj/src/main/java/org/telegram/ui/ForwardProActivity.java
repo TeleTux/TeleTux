@@ -550,7 +550,7 @@ public class ForwardProActivity extends BaseFragment {
     private void editDone() {
 
 
-        final ArrayList<MessageObject> m = ArrayList<>(selectedObject);
+        final ArrayList<MessageObject> m = selectedObject;
         
         if (m != null && chatActivityEnterView.getEditField().getText() != null) {
             m.messageOwner.message = chatActivityEnterView.getEditField().getText().toString();
@@ -634,7 +634,7 @@ public class ForwardProActivity extends BaseFragment {
         return message2;
     }
 
-    private TLRPC.MessageMedia new MessageMedia(TLRPC.MessageMedia messageMedia) {
+    private TLRPC.MessageMedia newMessageMedia(TLRPC.MessageMedia messageMedia) {
         TLRPC.MessageMedia tL_messageMediaUnsupported_old = messageMedia instanceof TLRPC.TL_messageMediaUnsupported_old ? new TLRPC.TL_messageMediaUnsupported_old() : messageMedia instanceof TLRPC.TL_messageMediaAudio_layer45 ? new TLRPC.TL_messageMediaAudio_layer45() : messageMedia instanceof TLRPC.TL_messageMediaPhoto_old ? new TLRPC.TL_messageMediaPhoto_old() : messageMedia instanceof TLRPC.TL_messageMediaUnsupported ? new TLRPC.TL_messageMediaUnsupported() : messageMedia instanceof TLRPC.TL_messageMediaEmpty ? new TLRPC.TL_messageMediaEmpty() : messageMedia instanceof TLRPC.TL_messageMediaVenue ? new TLRPC.TL_messageMediaVenue() : messageMedia instanceof TLRPC.TL_messageMediaVideo_old ? new TLRPC.TL_messageMediaVideo_old() : messageMedia instanceof TLRPC.TL_messageMediaDocument_old ? new TLRPC.TL_messageMediaDocument_old() : messageMedia instanceof TLRPC.TL_messageMediaDocument ? new TLRPC.TL_messageMediaDocument() : messageMedia instanceof TLRPC.TL_messageMediaContact ? new TLRPC.TL_messageMediaContact() : messageMedia instanceof TLRPC.TL_messageMediaPhoto ? new TLRPC.TL_messageMediaPhoto() : messageMedia instanceof TLRPC.TL_messageMediaVideo_layer45 ? new TLRPC.TL_messageMediaVideo_layer45() : messageMedia instanceof TLRPC.TL_messageMediaWebPage ? new TLRPC.TL_messageMediaWebPage() : messageMedia instanceof TLRPC.TL_messageMediaGeo ? new TLRPC.TL_messageMediaGeo() : new TLRPC.MessageMedia();
         tL_messageMediaUnsupported_old.bytes = messageMedia.bytes;
         //tL_messageMediaUnsupported_old.caption = messageMedia.caption;
