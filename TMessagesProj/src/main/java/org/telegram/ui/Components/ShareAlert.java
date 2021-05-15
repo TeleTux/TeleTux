@@ -93,6 +93,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.HashMap;
+import android.content.SharedPreferences;
 
 import tw.nekomimi.nekogram.NekoConfig;
 
@@ -1721,12 +1722,13 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
 
     public void setCheck(boolean checked) {
-        if (Build.VERSION.SDK_INT < 11) {
-            quoteSwitch.resetLayout();
-            quoteSwitch.requestLayout();
-        }
         quoteSwitch.setChecked(checked);
         setCheckColor();
+    }
+
+    private void setCheckColor() {
+        SharedPreferences themePrefs = ApplicationLoader.applicationContext.getSharedPreferences(AndroidUtilities.THEME_PREFS, AndroidUtilities.THEME_PREFS_MODE);
+       // quoteSwitch.setColor(themePrefs.getInt("chatAttachTextColor", 0xffd94c3a));
     }
 
     
