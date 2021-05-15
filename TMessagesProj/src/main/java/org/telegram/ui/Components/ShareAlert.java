@@ -1684,6 +1684,42 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         }
     }
 
+
+
+    public TextView getDoneButtonTextView() {
+        return doneButtonTextView;
+    }
+
+    public void DoneClicked() {
+        if (selectedDialogs.isEmpty() && isPublicChannel) {
+            if (loadingLink) {
+                copyLinkOnEnd = true;
+                Toast.makeText(ShareAlert.this.getContext(), LocaleController.getString("Loading", R.string.Loading), Toast.LENGTH_SHORT).show();
+            } else {
+                copyLink(ShareAlert.this.getContext());
+            }
+            dismiss();
+        } else {
+            for (HashMap.Entry<Long, TLRPC.TL_dialog> entry : selectedDialogs.entrySet()) {
+                TLRPC.TL_dialog dialog = entry.getValue();
+                int lower_id = (int) dialog.id;
+                if (lower_id < 0) {
+                    TLRPC.Chat chat = MessagesController.getInstance(currentAccount).getChat(-lower_id);
+                }
+                Log.i("TAG", "DoneClicked: entry.getKey() = "+entry.getKey());
+                if (quoteSwitch.isChecked()) {
+                    SendMessagesHelper.getInstance(currentAccount).sendMessage(sendingMessageObjects, entry.getKey());
+                } else {
+                    for (MessageObject object : sendingMessageObjects) {
+                        SendMessagesHelper.getInstance(currentAccount).processForwardFromMyName(object, entry.getKey());
+                    }
+                }
+            }
+            dismiss();
+        }
+    }
+
+
     public static class DialogSearchResult {
         public TLRPC.Dialog dialog = new TLRPC.TL_dialog();
         public TLObject object;
