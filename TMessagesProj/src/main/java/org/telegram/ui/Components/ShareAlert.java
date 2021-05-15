@@ -332,7 +332,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             quoteSwitch.setFocusableInTouchMode(false);
             quoteSwitch.setClickable(true);
             setCheck(preferences.getBoolean("directShareQuote", true));
-            setCheckColor();
+            quoteSwitch.setColors(Theme.key_switchTrack, Theme.key_switchTrackChecked, Theme.key_windowBackgroundWhite, Theme.key_windowBackgroundWhite);
             frameLayout.addView(quoteSwitch, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.CENTER_VERTICAL, 32, 2, 0, 0));
             /*quoteSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
                 @Override
@@ -1722,14 +1722,10 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
 
     public void setCheck(boolean checked) {
-        quoteSwitch.setChecked(checked);
-        setCheckColor();
+        quoteSwitch.setChecked(checked, false);
+        quoteSwitch.setColors(Theme.key_switchTrack, Theme.key_switchTrackChecked, Theme.key_windowBackgroundWhite, Theme.key_windowBackgroundWhite);
     }
 
-    private void setCheckColor() {
-        SharedPreferences themePrefs = ApplicationLoader.applicationContext.getSharedPreferences(AndroidUtilities.THEME_PREFS, AndroidUtilities.THEME_PREFS_MODE);
-       // quoteSwitch.setColor(themePrefs.getInt("chatAttachTextColor", 0xffd94c3a));
-    }
 
     
     public TextView getDoneButtonTextView() {
