@@ -28,7 +28,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC;
-import org.telegram.ui.ShareAlert;
+import org.telegram.ui.Components.ShareAlert;
 
 
 public class ShareActivity extends Activity {

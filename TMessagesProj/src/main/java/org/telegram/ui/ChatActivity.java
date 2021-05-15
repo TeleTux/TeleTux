@@ -20781,7 +20781,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (chatActivityEnterView != null) {
                     chatActivityEnterView.closeKeyboard();
                 }
-                showDialog(org.telegram.ui.components.ShareAlert.createShareAlert(getParentActivity(), selectedObject, null, ChatObject.isChannel(currentChat) && !currentChat.megagroup && currentChat.username != null && currentChat.username.length() > 0, null, true));
+                showDialog(ShareAlert.createShareAlert(getParentActivity(), selectedObject, null, ChatObject.isChannel(currentChat) && !currentChat.megagroup && currentChat.username != null && currentChat.username.length() > 0, null, true));
 
                 break;
             }
@@ -24054,6 +24054,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     public static boolean isClickableLink(String str) {
         return str.startsWith("https://") || str.startsWith("vmess://") || str.startsWith("vmess1://") || str.startsWith("ss://") || str.startsWith("ssr://") || str.startsWith("ws://") || str.startsWith("wss://") || str.startsWith("@") || str.startsWith("#") || str.startsWith("$");
     }
+
 
     @Override
     public ArrayList<ThemeDescription> getThemeDescriptions() {
