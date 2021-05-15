@@ -38,7 +38,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.ChatActivityEnterView;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.components.ShareAlert;
+import org.telegram.ui.Components.ShareAlert;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.ThemeDescription;
@@ -596,12 +596,12 @@ public class ForwardProActivity extends BaseFragment {
         }
         message2.id = message.id;
         message2.from_id = message.from_id;
-        message2.to_id = message.to_id;
+        message2.peer_id = message.peer_id;
         message2.date = message.date;
         message2.action = message.action;
-        message2.reply_to_msg_id = message.reply_to_msg_id;
+        message2.reply_to.reply_to_msg_id = message.reply_to.reply_to_msg_id;
         message2.fwd_from = message.fwd_from;
-        message2.reply_to_random_id = message.reply_to_random_id;
+        message2.reply_to.reply_to_random_id = message.reply_to.reply_to_random_id;
         message2.via_bot_name = message.via_bot_name;
         message2.edit_date = message.edit_date;
         message2.silent = message.silent;
