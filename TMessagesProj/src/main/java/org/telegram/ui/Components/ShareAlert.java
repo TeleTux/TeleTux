@@ -88,7 +88,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.MessageStatisticActivity;
-
+import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
@@ -99,6 +99,9 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
     private FrameLayout frameLayout;
     private FrameLayout frameLayout2;
+    private TextView doneButtonBadgeTextView;
+    private TextView doneButtonTextView;
+    private LinearLayout doneButton;
     private EditTextEmoji commentTextView;
     private FrameLayout writeButtonContainer;
     private View selectedCountView;
@@ -876,7 +879,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         doneButtonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         doneButton.addView(doneButtonTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL));
 
-        
+
 
 
         if (darkTheme && linkToCopy[1] != null) {
