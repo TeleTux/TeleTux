@@ -53,6 +53,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.Person;
 import androidx.core.app.RemoteInput;
 import androidx.core.content.FileProvider;
+import androidx.core.content.LocusIdCompat;
 import androidx.core.content.pm.ShortcutInfoCompat;
 import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
@@ -70,7 +71,6 @@ import org.telegram.ui.PopupNotificationActivity;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -112,6 +112,7 @@ public class NotificationsController extends BaseController {
     public long lastNotificationChannelCreateTime;
 
     private Boolean groupsCreated;
+    private boolean channelGroupsCreated;
 
     public static long globalSecretChatId = -(1L << 32);
 
@@ -250,6 +251,7 @@ public class NotificationsController extends BaseController {
     public void cleanup() {
         popupMessages.clear();
         popupReplyMessages.clear();
+        channelGroupsCreated = false;
         notificationsQueue.postRunnable(() -> {
             opened_dialog_id = 0;
             total_unread_count = 0;
@@ -2760,11 +2762,22 @@ public class NotificationsController extends BaseController {
         }
         try {
             String id = "ndid_" + did;
+
+            Intent shortcutIntent = new Intent(ApplicationLoader.applicationContext, OpenChatReceiver.class);
+            shortcutIntent.setAction("com.tmessages.openchat" + Math.random() + Integer.MAX_VALUE);
+            if (did > 0) {
+                shortcutIntent.putExtra("userId", did);
+            } else {
+                shortcutIntent.putExtra("chatId", -did);
+            }
+
             ShortcutInfoCompat.Builder shortcutBuilder = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, id)
                     .setShortLabel(chat != null ? name : UserObject.getFirstName(user))
                     .setLongLabel(name)
                     .setIntent(new Intent(Intent.ACTION_DEFAULT))
-                    .setLongLived(true);
+                    .setIntent(shortcutIntent)
+                    .setLongLived(true)
+                    .setLocusId(new LocusIdCompat(id));
 
             Bitmap avatar = null;
             if (person != null) {
@@ -2774,11 +2787,9 @@ public class NotificationsController extends BaseController {
                     avatar = person.getIcon().getBitmap();
                 }
             }
-            ArrayList<ShortcutInfoCompat> arrayList = new ArrayList<>(1);
-            arrayList.add(shortcutBuilder.build());
-            ShortcutManagerCompat.addDynamicShortcuts(ApplicationLoader.applicationContext, arrayList);
-            builder.setShortcutId(id);
-            NotificationCompat.BubbleMetadata.Builder bubbleBuilder = new NotificationCompat.BubbleMetadata.Builder();
+            ShortcutInfoCompat shortcut = shortcutBuilder.build();
+            ShortcutManagerCompat.pushDynamicShortcut(ApplicationLoader.applicationContext, shortcut);
+            builder.setShortcutInfo(shortcut);
             Intent intent = new Intent(ApplicationLoader.applicationContext, BubbleActivity.class);
             intent.setAction("com.tmessages.openchat" + Math.random() + Integer.MAX_VALUE);
             if (did > 0) {
@@ -2787,19 +2798,21 @@ public class NotificationsController extends BaseController {
                 intent.putExtra("chatId", -did);
             }
             intent.putExtra("currentAccount", currentAccount);
-            bubbleBuilder.setIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
+            IconCompat icon;
+            if (avatar != null) {
+                icon = IconCompat.createWithAdaptiveBitmap(avatar);
+            } else if (user != null) {
+                icon = IconCompat.createWithResource(ApplicationLoader.applicationContext, user.bot ? R.drawable.book_bot : R.drawable.book_user);
+            } else {
+                icon = IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_group);
+            }
+            NotificationCompat.BubbleMetadata.Builder bubbleBuilder =
+                    new NotificationCompat.BubbleMetadata.Builder(
+                            PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT),
+                            icon);
             bubbleBuilder.setSuppressNotification(opened_dialog_id == did);
             bubbleBuilder.setAutoExpandBubble(false);
             bubbleBuilder.setDesiredHeight(AndroidUtilities.dp(640));
-            if (avatar != null) {
-                bubbleBuilder.setIcon(IconCompat.createWithAdaptiveBitmap(avatar));
-            } else {
-                if (user != null) {
-                    bubbleBuilder.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, user.bot ? R.drawable.book_bot : R.drawable.book_user));
-                } else {
-                    bubbleBuilder.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_group));
-                }
-            }
             builder.setBubbleMetadata(bubbleBuilder.build());
             return id;
         } catch (Exception e) {
@@ -2863,26 +2876,61 @@ public class NotificationsController extends BaseController {
             } catch (Exception e) {
                 FileLog.e(e);
             }
-            TLRPC.User user = getMessagesController().getUser(getUserConfig().getClientUserId());
-            if (user == null) {
-                getUserConfig().getCurrentUser();
-            }
-            String userName;
-            if (user != null) {
-                userName = " (" + ContactsController.formatName(user.first_name, user.last_name) + ")";
-            } else {
-                userName = "";
-            }
-
-            systemNotificationManager.createNotificationChannelGroups(Arrays.asList(
-                    new NotificationChannelGroup("channels" + currentAccount, LocaleController.getString("NotificationsChannels", R.string.NotificationsChannels) + userName),
-                    new NotificationChannelGroup("groups" + currentAccount, LocaleController.getString("NotificationsGroups", R.string.NotificationsGroups) + userName),
-                    new NotificationChannelGroup("private" + currentAccount, LocaleController.getString("NotificationsPrivateChats", R.string.NotificationsPrivateChats) + userName),
-                    new NotificationChannelGroup("other" + currentAccount, LocaleController.getString("NotificationsOther", R.string.NotificationsOther) + userName)
-            ));
-
             preferences.edit().putBoolean("groupsCreated4", true).commit();
             groupsCreated = true;
+        }
+        if (!channelGroupsCreated) {
+            List<NotificationChannelGroup> list = systemNotificationManager.getNotificationChannelGroups();
+            String channelsId = "channels" + currentAccount;
+            String groupsId = "groups" + currentAccount;
+            String privateId = "private" + currentAccount;
+            String otherId = "other" + currentAccount;
+            for (int a = 0, N = list.size(); a < N; a++) {
+                String id = list.get(a).getId();
+                if (channelsId != null && channelsId.equals(id)) {
+                    channelsId = null;
+                } else if (groupsId != null && groupsId.equals(id)) {
+                    groupsId = null;
+                } else if (privateId != null && privateId.equals(id)) {
+                    privateId = null;
+                } else if (otherId != null && otherId.equals(id)) {
+                    otherId = null;
+                }
+                if (channelsId == null && groupsId == null && privateId == null && otherId == null) {
+                    break;
+                }
+            }
+
+            if (channelsId != null || groupsId != null || privateId != null || otherId != null) {
+                TLRPC.User user = getMessagesController().getUser(getUserConfig().getClientUserId());
+                if (user == null) {
+                    getUserConfig().getCurrentUser();
+                }
+                String userName;
+                if (user != null) {
+                    userName = " (" + ContactsController.formatName(user.first_name, user.last_name) + ")";
+                } else {
+                    userName = "";
+                }
+
+                ArrayList<NotificationChannelGroup> channelGroups = new ArrayList<>();
+                if (channelsId != null) {
+                    channelGroups.add(new NotificationChannelGroup(channelsId, LocaleController.getString("NotificationsChannels", R.string.NotificationsChannels) + userName));
+                }
+                if (groupsId != null) {
+                    channelGroups.add(new NotificationChannelGroup(groupsId, LocaleController.getString("NotificationsGroups", R.string.NotificationsGroups) + userName));
+                }
+                if (privateId != null) {
+                    channelGroups.add(new NotificationChannelGroup(privateId, LocaleController.getString("NotificationsPrivateChats", R.string.NotificationsPrivateChats) + userName));
+                }
+                if (otherId != null) {
+                    channelGroups.add(new NotificationChannelGroup(otherId, LocaleController.getString("NotificationsOther", R.string.NotificationsOther) + userName));
+                }
+
+                systemNotificationManager.createNotificationChannelGroups(channelGroups);
+            }
+
+            channelGroupsCreated = true;
         }
     }
 

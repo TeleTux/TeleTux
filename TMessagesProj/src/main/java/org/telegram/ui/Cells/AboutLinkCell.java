@@ -22,24 +22,26 @@ import android.text.style.URLSpan;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.ViewConfiguration;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.R;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.ui.ActionBar.BaseFragment;
+import org.telegram.ui.ActionBar.BottomSheet;
+import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.EmojiTextView;
+import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkPath;
-import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.StaticLayoutEx;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 
@@ -70,6 +72,7 @@ public class AboutLinkCell extends FrameLayout {
         valueTextView.setSingleLine(true);
         valueTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
         valueTextView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
+        valueTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         addView(valueTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.BOTTOM, 23, 0, 23, 10));
 
         setWillNotDraw(false);
@@ -83,6 +86,7 @@ public class AboutLinkCell extends FrameLayout {
         if (pressedLink != null) {
             pressedLink = null;
         }
+        AndroidUtilities.cancelRunOnUIThread(longPressedRunnable);
         invalidate();
     }
 
@@ -94,7 +98,11 @@ public class AboutLinkCell extends FrameLayout {
         if (TextUtils.isEmpty(text) || TextUtils.equals(text, oldText)) {
             return;
         }
-        oldText = text;
+        try {
+            oldText = AndroidUtilities.getSafeString(text);
+        } catch (Throwable e) {
+            oldText = text;
+        }
         stringBuilder = new SpannableStringBuilder(oldText);
         MessageObject.addLinks(false, stringBuilder, false, false, !parseLinks);
         if (TextUtils.isEmpty(value)) {
@@ -105,6 +113,42 @@ public class AboutLinkCell extends FrameLayout {
         }
         requestLayout();
     }
+
+    Runnable longPressedRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (pressedLink != null) {
+                String url;
+                if (pressedLink instanceof URLSpanNoUnderline) {
+                    url = ((URLSpanNoUnderline) pressedLink).getURL();
+                } else if (pressedLink instanceof URLSpan) {
+                    url = ((URLSpan) pressedLink).getURL();
+                } else {
+                    url = pressedLink.toString();
+                }
+
+                ClickableSpan pressedLinkFinal = pressedLink;
+                BottomSheet.Builder builder = new BottomSheet.Builder(parentFragment.getParentActivity());
+                builder.setTitle(url);
+                builder.setItems(new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
+                    if (which == 0) {
+                        onLinkClick(pressedLinkFinal);
+                    } else if (which == 1) {
+                        AndroidUtilities.addToClipboard(url);
+                        if (url.startsWith("@")) {
+                            BulletinFactory.of(parentFragment).createSimpleBulletin(R.raw.copy, LocaleController.getString("UsernameCopied", R.string.UsernameCopied)).show();
+                        } else if (url.startsWith("#") || url.startsWith("$")) {
+                            BulletinFactory.of(parentFragment).createSimpleBulletin(R.raw.copy, LocaleController.getString("HashtagCopied", R.string.HashtagCopied)).show();
+                        } else {
+                            BulletinFactory.of(parentFragment).createSimpleBulletin(R.raw.copy, LocaleController.getString("LinkCopied", R.string.LinkCopied)).show();
+                        }
+                    }
+                });
+                builder.show();
+                resetPressedLink();
+            }
+        }
+    };
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -137,6 +181,8 @@ public class AboutLinkCell extends FrameLayout {
                                 } catch (Exception e) {
                                     FileLog.e(e);
                                 }
+
+                                AndroidUtilities.runOnUIThread(longPressedRunnable,  ViewConfiguration.getLongPressTimeout());
                             } else {
                                 resetPressedLink();
                             }
@@ -149,23 +195,7 @@ public class AboutLinkCell extends FrameLayout {
                     }
                 } else if (pressedLink != null) {
                     try {
-                        if (pressedLink instanceof URLSpanNoUnderline) {
-                            String url = ((URLSpanNoUnderline) pressedLink).getURL();
-                            if (url.startsWith("@") || url.startsWith("#") || url.startsWith("/")) {
-                                didPressUrl(url);
-                            }
-                        } else {
-                            if (pressedLink instanceof URLSpan) {
-                                String url = ((URLSpan) pressedLink).getURL();
-                                if (AndroidUtilities.shouldShowUrlInAlert(url)) {
-                                    AlertsCreator.showOpenUrlAlert(parentFragment, url, true, true);
-                                } else {
-                                    Browser.openUrl(getContext(), url);
-                                }
-                            } else {
-                                pressedLink.onClick(this);
-                            }
-                        }
+                        onLinkClick(pressedLink);
                     } catch (Exception e) {
                         FileLog.e(e);
                     }
@@ -177,6 +207,26 @@ public class AboutLinkCell extends FrameLayout {
             }
         }
         return result || super.onTouchEvent(event);
+    }
+
+    private void onLinkClick(ClickableSpan pressedLink) {
+        if (pressedLink instanceof URLSpanNoUnderline) {
+            String url = ((URLSpanNoUnderline) pressedLink).getURL();
+            if (url.startsWith("@") || url.startsWith("#") || url.startsWith("/")) {
+                didPressUrl(url);
+            }
+        } else {
+            if (pressedLink instanceof URLSpan) {
+                String url = ((URLSpan) pressedLink).getURL();
+                if (AndroidUtilities.shouldShowUrlInAlert(url)) {
+                    AlertsCreator.showOpenUrlAlert(parentFragment, url, true, true);
+                } else {
+                    Browser.openUrl(getContext(), url);
+                }
+            } else {
+                pressedLink.onClick(this);
+            }
+        }
     }
 
     @SuppressLint("DrawAllocation")

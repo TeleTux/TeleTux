@@ -34,6 +34,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
@@ -70,7 +71,7 @@ public class DrawerProfileCell extends FrameLayout {
     private FireworksEffect fireworksEffect;
     private boolean accountsShown;
     private int darkThemeBackgroundColor;
-
+    public static boolean switchingTheme;
 
     private Bitmap lastBitmap;
     private TLRPC.User user;
@@ -137,7 +138,7 @@ public class DrawerProfileCell extends FrameLayout {
 
         nameTextView = new EmojiTextView(context);
         nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         nameTextView.setLines(1);
         nameTextView.setMaxLines(1);
         nameTextView.setSingleLine(true);
@@ -154,6 +155,7 @@ public class DrawerProfileCell extends FrameLayout {
                 textView.setMaxLines(1);
                 textView.setSingleLine(true);
                 textView.setGravity(Gravity.LEFT);
+                textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
                 return textView;
             }
         };

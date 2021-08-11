@@ -1,9 +1,9 @@
 /*
- * This is the source code of Telegram for Android v. 5.x.x.
+ * This is the source code of Telegram for Android v. 7.x.x.
  * It is licensed under GNU GPL v. 2 or later.
  * You should have received a copy of the license in this archive (see LICENSE).
  *
- * Copyright Nikolai Kudashov, 2013-2018.
+ * Copyright Nikolai Kudashov, 2013-2020.
  */
 
 package org.telegram.messenger;
@@ -20,6 +20,7 @@ public class BuildVars {
     public static boolean DEBUG_PRIVATE_VERSION = DEBUG_VERSION;
     public static boolean LOGS_ENABLED = DEBUG_PRIVATE_VERSION;
     public static boolean USE_CLOUD_STRINGS = true;
+    public static boolean NO_SCOPED_STORAGE = true;
 
     public static int BUILD_VERSION;
     public static String BUILD_VERSION_STRING;
@@ -31,15 +32,16 @@ public class BuildVars {
     public static String TGX_APP_HASH = "3e0cb5efcd52300aec5994fdfc5bdc16";
 
     public static boolean isUnknown = !BuildConfig.BUILD_TYPE.startsWith("release");
-    public static boolean isMini = BuildConfig.FLAVOR.startsWith("mini");
     public static boolean isPlay = BuildConfig.FLAVOR.endsWith("Play");
+    public static boolean isFdroid = BuildConfig.BUILD_TYPE.toLowerCase().contains("fdroid");
+    public static boolean isMini = !BuildConfig.FLAVOR.startsWith("full");
 
     static {
 
         try {
             PackageInfo info = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
             BUILD_VERSION = info.versionCode;
-            BUILD_VERSION_STRING = info.packageName;
+            BUILD_VERSION_STRING = info.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             BUILD_VERSION = BuildConfig.VERSION_CODE;
             BUILD_VERSION_STRING = BuildConfig.VERSION_NAME;

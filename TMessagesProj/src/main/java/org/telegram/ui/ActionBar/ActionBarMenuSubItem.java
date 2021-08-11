@@ -23,6 +23,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
     private TextView subtextView;
     private ImageView imageView;
     private ImageView checkView;
+    private ImageView rightIcon;
 
     private int textColor = Theme.getColor(Theme.key_actionBarDefaultSubmenuItem);
     private int iconColor = Theme.getColor(Theme.key_actionBarDefaultSubmenuItemIcon);
@@ -30,6 +31,8 @@ public class ActionBarMenuSubItem extends FrameLayout {
 
     boolean top;
     boolean bottom;
+
+    private int itemHeight = 48;
 
     public ActionBarMenuSubItem(Context context, boolean top, boolean bottom) {
         this(context, false, top, bottom);
@@ -69,9 +72,12 @@ public class ActionBarMenuSubItem extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48), View.MeasureSpec.EXACTLY));
+        super.onMeasure(widthMeasureSpec, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(itemHeight), View.MeasureSpec.EXACTLY));
     }
 
+    public void setItemHeight(int itemHeight) {
+        this.itemHeight = itemHeight;
+    }
     public void setChecked(boolean checked) {
         if (checkView == null) {
             return;
@@ -81,6 +87,20 @@ public class ActionBarMenuSubItem extends FrameLayout {
 
     public void setCheckColor(int color) {
         checkView.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
+    }
+
+    public void setRightIcon(int icon) {
+        if (rightIcon == null) {
+            rightIcon = new ImageView(getContext());
+            rightIcon.setScaleType(ImageView.ScaleType.CENTER);
+            rightIcon.setColorFilter(textColor, PorterDuff.Mode.MULTIPLY);
+            if (LocaleController.isRTL) {
+                rightIcon.setScaleX(-1);
+            }
+            addView(rightIcon, LayoutHelper.createFrame(24, LayoutHelper.MATCH_PARENT, Gravity.CENTER_VERTICAL | (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT)));
+        }
+        setPadding(AndroidUtilities.dp(LocaleController.isRTL ? 8 : 18), 0, AndroidUtilities.dp(LocaleController.isRTL ? 18 : 8), 0);
+        rightIcon.setImageResource(icon);
     }
 
     public void setTextAndIcon(CharSequence text, int icon) {
@@ -103,9 +123,10 @@ public class ActionBarMenuSubItem extends FrameLayout {
         }
     }
 
-    public void setColors(int textColor, int iconColor) {
+    public ActionBarMenuSubItem setColors(int textColor, int iconColor) {
         setTextColor(textColor);
         setIconColor(iconColor);
+        return this;
     }
 
     public void setTextColor(int textColor) {
@@ -172,6 +193,9 @@ public class ActionBarMenuSubItem extends FrameLayout {
     }
 
     public void updateSelectorBackground(boolean top, boolean bottom) {
+        if (this.top == top && this.bottom == bottom) {
+            return;
+        }
         this.top = top;
         this.bottom = bottom;
         updateBackground();

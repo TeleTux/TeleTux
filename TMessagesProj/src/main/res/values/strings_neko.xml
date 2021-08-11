@@ -109,5 +109,10 @@
     <string name="ProviderDeepLTranslate">DeepL Translate</string>
     <string name="ProviderMicrosoftTranslator">Microsoft Translator</string>
     <string name="ProviderYouDao">YouDao Translate</string>
+    <string name="pressTitleToOpenAllChats">Press title to open \"All Chats\" tab</string>
+    <string name="DontSendGreetingSticker">Don\'t send greeting sticker</string>
+    <string name="TakeGIFasVideo">Take GIF as Video</string>
+    <string name="UseMediaStreamInVoip">Use media stream in Voip</string>
+    <string name="HideTimeForSticker">Hide time for stickers</string>
 
 </resources>

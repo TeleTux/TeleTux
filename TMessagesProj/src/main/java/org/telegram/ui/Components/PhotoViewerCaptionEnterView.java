@@ -150,7 +150,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
 
         lengthTextPaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
         lengthTextPaint.setTextSize(AndroidUtilities.dp(13));
-        lengthTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        lengthTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         lengthTextPaint.setColor(0xffd9d9d9);
 
         messageEditText = new EditTextCaption(context) {
@@ -354,7 +354,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         captionLimitView.setVisibility(View.GONE);
         captionLimitView.setTextSize(15);
         captionLimitView.setTextColor(0xffffffff);
-        captionLimitView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        captionLimitView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         captionLimitView.setCenterAlign(true);
         addView(captionLimitView, LayoutHelper.createFrame(48, 20, Gravity.BOTTOM | Gravity.RIGHT, 3, 0, 3, 48));
     }
@@ -482,7 +482,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
     }
 
     public void onCreate() {
-        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiDidLoad);
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
         sizeNotifierLayout.setDelegate(this);
     }
 
@@ -492,7 +492,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             closeKeyboard();
         }
         keyboardVisible = false;
-        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiDidLoad);
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
         if (sizeNotifierLayout != null) {
             sizeNotifierLayout.setDelegate(null);
         }
@@ -809,7 +809,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
 
     @Override
     public void didReceivedNotification(int id, int account, Object... args) {
-        if (id == NotificationCenter.emojiDidLoad) {
+        if (id == NotificationCenter.emojiLoaded) {
             if (emojiView != null) {
                 emojiView.invalidateViews();
             }

@@ -64,7 +64,7 @@ public class CounterView extends View {
         setVisibility(View.GONE);
         circlePaint.setColor(Color.BLACK);
 
-        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         textPaint.setTextSize(AndroidUtilities.dp(13));
     }
 
@@ -88,6 +88,9 @@ public class CounterView extends View {
         }
         if (count > 0) {
             setVisibility(View.VISIBLE);
+        }
+        if (Math.abs(count - currentCount) > 99) {
+            animated = false;
         }
         if (!animated) {
             currentCount = count;

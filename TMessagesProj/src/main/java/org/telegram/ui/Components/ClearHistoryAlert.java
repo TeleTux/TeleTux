@@ -26,7 +26,6 @@ import android.widget.TextView;
 import androidx.core.widget.NestedScrollView;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
@@ -92,7 +91,7 @@ public class ClearHistoryAlert extends BottomSheet {
             textView.setGravity(Gravity.CENTER);
             textView.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
             addView(textView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         }
 
@@ -123,8 +122,10 @@ public class ClearHistoryAlert extends BottomSheet {
             newTimer = currentTimer = 0;
         } else if (ttl == 24 * 60 * 60) {
             newTimer = currentTimer = 1;
-        } else {
+        } else if (ttl == 7 * 24 * 60 * 60) {
             newTimer = currentTimer = 2;
+        } else {
+            newTimer = currentTimer = 3;
         }
 
         shadowDrawable = context.getResources().getDrawable(R.drawable.sheet_shadow_round).mutate();
@@ -236,7 +237,7 @@ public class ClearHistoryAlert extends BottomSheet {
 
         if (!autoDeleteOnly) {
             TextView textView = new TextView(context);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
             textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
             textView.setText(LocaleController.getString("ClearHistory", R.string.ClearHistory));
@@ -307,7 +308,7 @@ public class ClearHistoryAlert extends BottomSheet {
             linearLayout.addView(lottieImageView, LayoutHelper.createLinear(160, 160, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 17, 0, 17, 0));
 
             TextView percentTextView = new TextView(context);
-            percentTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            percentTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
             percentTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
             percentTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
             percentTextView.setText(LocaleController.getString("AutoDeleteAlertTitle", R.string.AutoDeleteAlertTitle));
@@ -345,7 +346,8 @@ public class ClearHistoryAlert extends BottomSheet {
         String[] strings = new String[]{
                 LocaleController.getString("AutoDeleteNever", R.string.AutoDeleteNever),
                 LocaleController.getString("AutoDelete24Hours", R.string.AutoDelete24Hours),
-                LocaleController.getString("AutoDelete7Days", R.string.AutoDelete7Days)
+                LocaleController.getString("AutoDelete7Days", R.string.AutoDelete7Days),
+                LocaleController.getString("AutoDelete1Month", R.string.AutoDelete1Month)
         };
         slideChooseView.setOptions(currentTimer, strings);
         linearLayout.addView(slideChooseView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 8, 0, 0));
@@ -379,8 +381,11 @@ public class ClearHistoryAlert extends BottomSheet {
                 dismissedDelayed = true;
                 int time;
                 int action;
-                if (newTimer == 2) {
-                    time = BuildVars.DEBUG_PRIVATE_VERSION ? 5 : 7 * 24 * 60 * 60;
+                if (newTimer == 3) {
+                    time = 31 * 24 * 60 * 60;
+                    action = UndoView.ACTION_AUTO_DELETE_ON;
+                } else if (newTimer == 2) {
+                    time = 7 * 24 * 60 * 60;
                     action = UndoView.ACTION_AUTO_DELETE_ON;
                 } else if (newTimer == 1) {
                     time = 24 * 60 * 60;

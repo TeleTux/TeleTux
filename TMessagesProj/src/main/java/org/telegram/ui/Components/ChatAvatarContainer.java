@@ -29,7 +29,6 @@ import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
-import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
@@ -110,7 +109,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         titleTextView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultTitle));
         titleTextView.setTextSize(18);
         titleTextView.setGravity(Gravity.LEFT);
-        titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         titleTextView.setLeftDrawableTopPadding(-AndroidUtilities.dp(1.3f));
         addView(titleTextView);
 
@@ -119,6 +118,8 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         subtitleTextView.setTag(Theme.key_actionBarDefaultSubtitle);
         subtitleTextView.setTextSize(14);
         subtitleTextView.setGravity(Gravity.LEFT);
+        subtitleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+
         addView(subtitleTextView);
 
         if (parentFragment != null) {
@@ -599,7 +600,6 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     }
 
     public void setUserAvatar(TLRPC.User user, boolean showSelf) {
-        TLRPC.FileLocation newPhoto = null;
         avatarDrawable.setInfo(user);
         if (UserObject.isReplyUser(user)) {
             avatarDrawable.setAvatarType(AvatarDrawable.AVATAR_TYPE_REPLIES);

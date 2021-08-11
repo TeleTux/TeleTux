@@ -32,6 +32,7 @@ import android.util.Log;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.multidex.MultiDex;
 
+import org.telegram.messenger.voip.VideoCapturerDevice;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
@@ -77,16 +78,14 @@ public class ApplicationLoader extends Application {
 
     @Override
     protected void attachBaseContext(Context base) {
-        if (SDK_INT >= Build.VERSION_CODES.P) {
-            Reflection.unseal(base);
-        }
         super.attachBaseContext(base);
+        MultiDex.install(this);
         try {
             applicationContext = getApplicationContext();
         } catch (Throwable ignore) {
         }
-        if (SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            MultiDex.install(this);
+        if (SDK_INT >= Build.VERSION_CODES.P) {
+            Reflection.unseal(base);
         }
         Thread.currentThread().setUncaughtExceptionHandler((thread, error) -> {
             Log.e("nekox", "from " + thread.toString(), error);
@@ -274,7 +273,7 @@ public class ApplicationLoader extends Application {
                 FileLog.d("screen state = " + isScreenOn);
             }
         } catch (Exception e) {
-            FileLog.e(e);
+            e.printStackTrace();
         }
 
         for (int a : SharedConfig.activeAccounts) {
@@ -315,9 +314,6 @@ public class ApplicationLoader extends Application {
         if (user != null) {
             MessagesController.getInstance(account).putUser(user, true);
         }
-
-        MediaController.getInstance().init(account);
-
         Utilities.stageQueue.postRunnable(() -> {
             Theme.init(account);
             SendMessagesHelper.getInstance(account).checkUnsentMessages();
@@ -355,6 +351,8 @@ public class ApplicationLoader extends Application {
         Utilities.stageQueue.postRunnable(() -> {
             NekoConfig.preferences.contains("qwq");
             NekoXConfig.preferences.contains("qwq");
+
+            //SignturesKt.checkMT(this);
         });
 
         try {
@@ -451,6 +449,7 @@ public class ApplicationLoader extends Application {
         try {
             LocaleController.getInstance().onDeviceConfigurationChange(newConfig);
             AndroidUtilities.checkDisplaySize(applicationContext, newConfig);
+            VideoCapturerDevice.checkScreenCapturerSize();
         } catch (Exception e) {
             e.printStackTrace();
         }

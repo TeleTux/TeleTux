@@ -197,6 +197,10 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         contacts.addAll(ContactsController.getInstance(currentAccount).contacts);
         int selfId = UserConfig.getInstance(currentAccount).clientUserId;
         for (int a = 0, N = contacts.size(); a < N; a++) {
+            TLObject object = contacts.get(a);
+            if (!(object instanceof TLRPC.TL_contact)) {
+                continue;
+            }
             int userId = ((TLRPC.TL_contact) contacts.get(a)).user_id;
             if (userId == selfId || ignoredUsers.indexOfKey(userId) >= 0 || invitedUsers.contains(userId)) {
                 contacts.remove(a);
@@ -266,10 +270,11 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                         continue;
                     }
                     TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(participant.user_id);
-                    if (user == null || !user.bot) {
-                        participants.add(participant);
-                        participantsMap.put(participant.user_id, participant);
+                    if (UserObject.isDeleted(user) || user.bot) {
+                        continue;
                     }
+                    participants.add(participant);
+                    participantsMap.put(participant.user_id, participant);
                 }
                 if (participants.isEmpty()) {
                     showContacts = true;
@@ -343,7 +348,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                             remove = true;
                         }
                         TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(peerId);
-                        if (user != null && user.bot) {
+                        if (user != null && user.bot || UserObject.isDeleted(user)) {
                             remove = true;
                         }
                         if (remove) {

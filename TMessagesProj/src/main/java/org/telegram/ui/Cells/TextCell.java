@@ -23,12 +23,13 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.RLottieImageView;
 
 public class TextCell extends FrameLayout {
 
-    private SimpleTextView textView;
-    private SimpleTextView valueTextView;
-    private ImageView imageView;
+    public final SimpleTextView textView;
+    public final SimpleTextView valueTextView;
+    public final RLottieImageView imageView;
     private ImageView valueImageView;
     private int leftPadding;
     private boolean needDivider;
@@ -47,20 +48,21 @@ public class TextCell extends FrameLayout {
 
         textView = new SimpleTextView(context);
         textView.setTextColor(Theme.getColor(dialog ? Theme.key_dialogTextBlack : Theme.key_windowBackgroundWhiteBlackText));
-        textView.setTextSize(16);
+        textView.setTextSize(14);
         textView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
         textView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         addView(textView);
 
         valueTextView = new SimpleTextView(context);
         valueTextView.setTextColor(Theme.getColor(dialog ? Theme.key_dialogTextBlue2 : Theme.key_windowBackgroundWhiteValueText));
-        valueTextView.setTextSize(16);
+        valueTextView.setTextSize(14);
         valueTextView.setGravity(LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT);
         valueTextView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
+        valueTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         addView(valueTextView);
 
-        imageView = new ImageView(context);
-        imageView.setVisibility(GONE);
+        imageView = new RLottieImageView(context);
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(dialog ? Theme.key_dialogIcon : Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.SRC_IN));
         addView(imageView);

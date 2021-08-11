@@ -276,7 +276,7 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
             tab.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(selectorColorKey), 3));
             tab.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             tab.setSingleLine(true);
-            tab.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            tab.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
             tab.setPadding(AndroidUtilities.dp(16), 0, AndroidUtilities.dp(16), 0);
             tab.setOnClickListener(v -> {
                 int position1 = tabsContainer.indexOfChild(v);
@@ -428,9 +428,9 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
         int currentScrollX = getScrollX();
         int left = child.getLeft();
         int width = child.getMeasuredWidth();
-        if (left < currentScrollX) {
-            smoothScrollTo(left, 0);
-        } else if (left + width > currentScrollX + getWidth()) {
+        if (left - AndroidUtilities.dp(50) < currentScrollX) {
+            smoothScrollTo(left - AndroidUtilities.dp(50), 0);
+        } else if (left + width + AndroidUtilities.dp(21) > currentScrollX + getWidth()) {
             smoothScrollTo(left + width, 0);
         }
     }

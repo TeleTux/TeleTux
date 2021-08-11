@@ -43,6 +43,7 @@ public class NekoConfig {
     public static boolean hideKeyboardOnChatScroll;
     public static boolean rearVideoMessages;
     public static boolean hideAllTab;
+    public static boolean pressTitleToOpenAllChats;
     public static boolean confirmAVMessage;
     public static boolean askBeforeCall;
     public static boolean disableNumberRounding;
@@ -62,8 +63,10 @@ public class NekoConfig {
     public static boolean showRepeat;
     public static boolean showMessageHide;
 
+    public static int hideBottomButton;
     public static boolean hidePhone;
     public static int typeface;
+    public static int useVazirFont;
     public static boolean transparentStatusBar;
     public static int tabletMode;
     public static boolean openArchiveOnPull;
@@ -144,9 +147,15 @@ public class NekoConfig {
     public static boolean avatarBackgroundBlur;
     public static boolean avatarBackgroundDarken;
     public static boolean disableTrending;
+    public static boolean dontSendGreetingSticker;
+    public static boolean hideTimeForSticker;
+    public static boolean takeGIFasVideo;
 
     public static boolean disableAutoDownloadingWin32Executable;
     public static boolean disableAutoDownloadingArchive;
+
+    public static boolean enableStickerPin;
+    public static boolean useMediaStreamInVoip;
 
     public static String getOpenPGPAppName() {
 
@@ -205,6 +214,8 @@ public class NekoConfig {
             tabletMode = preferences.getInt("tabletMode", 0);
         }
 
+        hideBottomButton = preferences.getInt("hideBottomButton", 0);
+        useVazirFont = preferences.getInt("useVazirFont", 0);
         typeface = preferences.getInt("typeface", 0);
         nameOrder = preferences.getInt("nameOrder", 1);
         mapPreviewProvider = preferences.getInt("mapPreviewProvider", 0);
@@ -240,6 +251,7 @@ public class NekoConfig {
         showTabsOnForward = preferences.getBoolean("showTabsOnForward", false);
         rearVideoMessages = preferences.getBoolean("rearVideoMessages", false);
         hideAllTab = preferences.getBoolean("hideAllTab", false);
+        pressTitleToOpenAllChats = preferences.getBoolean("pressTitleToOpenAllChats", false);
 
         disableChatAction = preferences.getBoolean("disable_chat_action", false);
         sortByUnread = preferences.getBoolean("sort_by_unread", false);
@@ -305,9 +317,15 @@ public class NekoConfig {
         increaseVoiceMessageQuality = preferences.getBoolean("increaseVoiceMessageQuality", true);
         acceptSecretChat = preferences.getBoolean("acceptSecretChat", true);
         disableTrending = preferences.getBoolean("disableTrending", true);
+        dontSendGreetingSticker = preferences.getBoolean("dontSendGreetingSticker", false);
+        hideTimeForSticker = preferences.getBoolean("hideTimeForSticker", false);
+        takeGIFasVideo = preferences.getBoolean("takeGIFasVideo", false);
 
         disableAutoDownloadingWin32Executable = preferences.getBoolean("disableAutoDownloadingWin32Executable", true);
         disableAutoDownloadingArchive = preferences.getBoolean("disableAutoDownloadingArchive", true);
+
+        enableStickerPin = preferences.getBoolean("enableStickerPin", false);
+        useMediaStreamInVoip = preferences.getBoolean("useMediaStreamInVoip", false);
 
     }
 
@@ -438,6 +456,20 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("transparentStatusBar", transparentStatusBar);
+        editor.apply();
+    }
+    public static void toggleUseVazirFont() {
+        useVazirFont = useVazirFont == 0 ? 1 : 0;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("useVazirFont", useVazirFont);
+        editor.apply();
+    }
+    public static void togglehideBottomButton() {
+        hideBottomButton = hideBottomButton == 0 ? 1 : 0;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("hideBottomButton", hideBottomButton);
         editor.apply();
     }
 
@@ -577,6 +609,10 @@ public class NekoConfig {
 
     public static void toggleHideAllTab() {
         preferences.edit().putBoolean("hideAllTab", hideAllTab = !hideAllTab).apply();
+    }
+
+    public static void togglePressTitleToOpenAllChats() {
+        preferences.edit().putBoolean("pressTitleToOpenAllChats", pressTitleToOpenAllChats = !pressTitleToOpenAllChats).apply();
     }
 
     public static void toggleSortByUnmuted() {
@@ -783,6 +819,26 @@ public class NekoConfig {
 
     public static void toggleDisableAutoDownloadingArchive() {
         preferences.edit().putBoolean("disableAutoDownloadingArchive", disableAutoDownloadingArchive = !disableAutoDownloadingArchive).apply();
+    }
+
+    public static void toggleDontSendGreetingSticker() {
+        preferences.edit().putBoolean("dontSendGreetingSticker", dontSendGreetingSticker = !dontSendGreetingSticker).apply();
+    }
+
+    public static void toggleHideTimeForSticker() {
+        preferences.edit().putBoolean("hideTimeForSticker", hideTimeForSticker = !hideTimeForSticker).apply();
+    }
+
+    public static void toggleTakeGIFasVideo() {
+        preferences.edit().putBoolean("takeGIFasVideo", takeGIFasVideo = !takeGIFasVideo).apply();
+    }
+
+    public static void toggleEnableStickerPin() {
+        preferences.edit().putBoolean("enableStickerPin", enableStickerPin = !enableStickerPin).apply();
+    }
+
+    public static void toggleUseMediaStreamInVoip() {
+        preferences.edit().putBoolean("useMediaStreamInVoip", useMediaStreamInVoip = !useMediaStreamInVoip).apply();
     }
 
     private static final String EMOJI_FONT_AOSP = "NotoColorEmoji.ttf";

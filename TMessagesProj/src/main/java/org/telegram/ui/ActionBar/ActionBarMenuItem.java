@@ -53,7 +53,6 @@ import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -182,7 +181,7 @@ public class ActionBarMenuItem extends FrameLayout {
         if (text) {
             textView = new TextView(context);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
             textView.setGravity(Gravity.CENTER);
             textView.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
             textView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
@@ -231,7 +230,7 @@ public class ActionBarMenuItem extends FrameLayout {
                     toggleSubMenu();
                     return true;
                 }
-            } else if (popupWindow != null && popupWindow.isShowing()) {
+            } else if (showSubmenuByMove && popupWindow != null && popupWindow.isShowing()) {
                 getLocationOnScreen(location);
                 float x = event.getX() + location[0];
                 float y = event.getY() + location[1];
@@ -247,14 +246,14 @@ public class ActionBarMenuItem extends FrameLayout {
                         if (!rect.contains((int) x, (int) y)) {
                             child.setPressed(false);
                             child.setSelected(false);
-                            if (Build.VERSION.SDK_INT == 21) {
+                            if (Build.VERSION.SDK_INT == 21 && child.getBackground() != null) {
                                 child.getBackground().setVisible(false, false);
                             }
                         } else {
                             child.setPressed(true);
                             child.setSelected(true);
                             if (Build.VERSION.SDK_INT >= 21) {
-                                if (Build.VERSION.SDK_INT == 21) {
+                                if (Build.VERSION.SDK_INT == 21 && child.getBackground() != null) {
                                     child.getBackground().setVisible(true, false);
                                 }
                                 child.drawableHotspotChanged(x, y - child.getTop());
@@ -273,7 +272,7 @@ public class ActionBarMenuItem extends FrameLayout {
                     delegate.onItemClick((Integer) selectedMenuView.getTag());
                 }
                 popupWindow.dismiss(allowCloseAnimation);
-            } else {
+            } else if (showSubmenuByMove) {
                 popupWindow.dismiss();
             }
         } else {
@@ -703,6 +702,7 @@ public class ActionBarMenuItem extends FrameLayout {
             searchContainer.setVisibility(VISIBLE);
                     searchContainer.setAlpha(1f);
             setVisibility(GONE);
+            clearSearchFilters();
             searchField.setText("");
             searchField.requestFocus();
             if (openKeyboard) {
@@ -711,6 +711,7 @@ public class ActionBarMenuItem extends FrameLayout {
             if (listener != null) {
                 listener.onSearchExpand();
             }
+            searchContainer.setTag(1);
             return true;
         }
     }
@@ -729,7 +730,9 @@ public class ActionBarMenuItem extends FrameLayout {
 
     public void addSearchFilter(FiltersView.MediaFilterData filter) {
         currentSearchFilters.add(filter);
-        selectedFilterIndex = currentSearchFilters.size() - 1;
+        if (searchContainer.getTag() != null) {
+            selectedFilterIndex = currentSearchFilters.size() - 1;
+        }
         onFiltersChanged();
     }
 
@@ -747,7 +750,7 @@ public class ActionBarMenuItem extends FrameLayout {
         boolean visible = !currentSearchFilters.isEmpty();
         ArrayList<FiltersView.MediaFilterData> localFilters = new ArrayList<>(currentSearchFilters);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && searchContainer.getTag() != null) {
             TransitionSet transition = new TransitionSet();
             ChangeBounds changeBounds = new ChangeBounds();
             changeBounds.setDuration(150);
@@ -855,17 +858,19 @@ public class ActionBarMenuItem extends FrameLayout {
         searchFilterLayout.setTag(visible ? 1 : null);
 
         float oldX = searchField.getX();
-        searchField.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                searchField.getViewTreeObserver().removeOnPreDrawListener(this);
-                if (searchField.getX() != oldX) {
-                    searchField.setTranslationX(oldX - searchField.getX());
+        if (searchContainer.getTag() != null) {
+            searchField.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    searchField.getViewTreeObserver().removeOnPreDrawListener(this);
+                    if (searchField.getX() != oldX) {
+                        searchField.setTranslationX(oldX - searchField.getX());
+                    }
+                    searchField.animate().translationX(0).setDuration(250).setStartDelay(0).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
+                    return true;
                 }
-                searchField.animate().translationX(0).setDuration(250).setStartDelay(0).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
-                return true;
-            }
-        });
+            });
+        }
         checkClearButton();
     }
 
@@ -1546,6 +1551,16 @@ public class ActionBarMenuItem extends FrameLayout {
             view.setVisibility(GONE);
             measurePopup = true;
         }
+    }
+
+    public void hideAllSubItems() {
+        if (popupLayout == null) {
+            return;
+        }
+        for (int a = 0, N = popupLayout.getItemsCount(); a < N; a++) {
+            popupLayout.getItemAt(a).setVisibility(GONE);
+        }
+        measurePopup = true;
     }
 
     public boolean isSubItemVisible(int id) {

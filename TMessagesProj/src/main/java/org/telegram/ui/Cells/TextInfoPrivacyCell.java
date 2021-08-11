@@ -51,6 +51,7 @@ public class TextInfoPrivacyCell extends FrameLayout {
             protected void onDraw(Canvas canvas) {
                 onTextDraw();
                 super.onDraw(canvas);
+                afterTextDraw();
             }
         };
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -60,10 +61,15 @@ public class TextInfoPrivacyCell extends FrameLayout {
         textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText4));
         textView.setLinkTextColor(Theme.getColor(linkTextColorKey));
         textView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, padding, 0, padding, 0));
     }
 
     protected void onTextDraw() {
+
+    }
+
+    protected void afterTextDraw() {
 
     }
 

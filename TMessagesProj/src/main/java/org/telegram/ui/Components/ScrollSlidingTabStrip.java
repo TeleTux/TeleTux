@@ -226,7 +226,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
             tab.addView(imageView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
             textView = new TextView(getContext());
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
             textView.setTextColor(Theme.getColor(Theme.key_chat_emojiPanelBadgeText));
             textView.setGravity(Gravity.CENTER);
@@ -378,7 +378,11 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
                 imageLocation = ImageLocation.getForDocument(thumb, sticker);
             } else if (object instanceof TLRPC.PhotoSize) {
                 TLRPC.PhotoSize thumb = (TLRPC.PhotoSize) object;
-                imageLocation = ImageLocation.getForSticker(thumb, sticker);
+                int thumbVersion = 0;
+                if (parentObject instanceof TLRPC.TL_messages_stickerSet) {
+                    thumbVersion = ((TLRPC.TL_messages_stickerSet) parentObject).set.thumb_version;
+                }
+                imageLocation = ImageLocation.getForSticker(thumb, sticker, thumbVersion);
             } else {
                 continue;
             }
@@ -426,7 +430,11 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
                 imageLocation = ImageLocation.getForDocument(thumb, sticker);
             } else if (object instanceof TLRPC.PhotoSize) {
                 TLRPC.PhotoSize thumb = (TLRPC.PhotoSize) object;
-                imageLocation = ImageLocation.getForSticker(thumb, sticker);
+                int thumbVersion = 0;
+                if (parentObject instanceof TLRPC.TL_messages_stickerSet) {
+                    thumbVersion = ((TLRPC.TL_messages_stickerSet) parentObject).set.thumb_version;
+                }
+                imageLocation = ImageLocation.getForSticker(thumb, sticker, thumbVersion);
             } else {
                 continue;
             }

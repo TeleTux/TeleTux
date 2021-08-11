@@ -40,9 +40,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.Emoji;
-import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
@@ -152,7 +150,7 @@ public class PollVotesAlert extends BottomSheet {
 
             textView = new EmojiTextView(getContext());
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
             textView.setTextColor(Theme.getColor(Theme.key_graySectionText));
             textView.setSingleLine(true);
             textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -219,7 +217,7 @@ public class PollVotesAlert extends BottomSheet {
             } else {
                 builder = new SpannableStringBuilder(String.format(" – %s%%", percent));
             }
-            builder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface("fonts/rmedium.ttf")), 3, 3 + p.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf")), 3, 3 + p.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             middleTextView.setText(builder);
             if (collapsed == 0) {
                 if (poll.quiz) {
@@ -281,7 +279,7 @@ public class PollVotesAlert extends BottomSheet {
 
             nameTextView = new SimpleTextView(context);
             nameTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
-            nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
             nameTextView.setTextSize(16);
             nameTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
             addView(nameTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 20, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 28 : 65, 14, LocaleController.isRTL ? 65 : 28, 0));
@@ -449,21 +447,7 @@ public class PollVotesAlert extends BottomSheet {
         TLRPC.TL_messageMediaPoll mediaPoll = (TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media;
         poll = mediaPoll.poll;
         Context context = parentFragment.getParentActivity();
-
-        TLRPC.Chat chat = parentFragment.getCurrentChat();
-        TLRPC.User user = parentFragment.getCurrentUser();
-        if (ChatObject.isChannel(chat)) {
-            peer = new TLRPC.TL_inputPeerChannel();
-            peer.channel_id = chat.id;
-            peer.access_hash = chat.access_hash;
-        } else if (chat != null) {
-            peer = new TLRPC.TL_inputPeerChat();
-            peer.chat_id = chat.id;
-        } else {
-            peer = new TLRPC.TL_inputPeerUser();
-            peer.user_id = user.id;
-            peer.access_hash = user.access_hash;
-        }
+        peer = parentFragment.getMessagesController().getInputPeer((int) message.getDialogId());
 
         ArrayList<VotesList> loadedVoters = new ArrayList<>();
         int count = mediaPoll.results.results.size();
@@ -840,7 +824,7 @@ public class PollVotesAlert extends BottomSheet {
 
         titleTextView = new EmojiTextView(context);
         titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
-        titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         titleTextView.setPadding(AndroidUtilities.dp(21), AndroidUtilities.dp(5), AndroidUtilities.dp(14), AndroidUtilities.dp(21));
         titleTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         titleTextView.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
@@ -1033,7 +1017,7 @@ public class PollVotesAlert extends BottomSheet {
         }
 
         @Override
-        public boolean isEnabled(int section, int row) {
+        public boolean isEnabled(RecyclerView.ViewHolder holder, int section, int row) {
             if (section == 0 || row == 0 || queries != null && !queries.isEmpty()) {
                 return false;
             }

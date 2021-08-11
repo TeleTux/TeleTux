@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.os.SystemClock;
@@ -15,6 +14,8 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.Theme;
+
+import java.util.Random;
 
 public class FlickerLoadingView extends View {
 
@@ -28,6 +29,8 @@ public class FlickerLoadingView extends View {
     public final static int CALL_LOG_TYPE = 8;
     public final static int INVITE_LINKS_TYPE = 9;
     public final static int USERS2_TYPE = 10;
+    public final static int BOTS_MENU_TYPE = 11;
+    public final static int SHARE_ALERT_TYPE = 12;
 
     private int gradientWidth;
     private LinearGradient gradient;
@@ -54,8 +57,17 @@ public class FlickerLoadingView extends View {
     private String colorKey3;
     private int itemsCount = 1;
 
+    float[] randomParams;
+
     public void setViewType(int type) {
         this.viewType = type;
+        if (viewType == BOTS_MENU_TYPE) {
+            Random random = new Random();
+            randomParams = new float[2];
+            for (int i = 0; i < 2; i++) {
+                randomParams[i] = Math.abs(random.nextInt() % 1000) / 1000f;
+            }
+        }
         invalidate();
     }
 
@@ -358,6 +370,47 @@ public class FlickerLoadingView extends View {
                     break;
                 }
             }
+        } else if (getViewType() == BOTS_MENU_TYPE) {
+            int k = 0;
+            while (h <= getMeasuredHeight()) {
+                rectF.set(AndroidUtilities.dp(18), AndroidUtilities.dp((36 - 8) / 2f), getMeasuredWidth() * 0.5f + AndroidUtilities.dp(40 * randomParams[0]), AndroidUtilities.dp((36 - 8) / 2f) + AndroidUtilities.dp(8));
+                checkRtl(rectF);
+                canvas.drawRoundRect(rectF, AndroidUtilities.dp(4), AndroidUtilities.dp(4), paint);
+
+                rectF.set(getMeasuredWidth() - AndroidUtilities.dp(18), AndroidUtilities.dp((36 - 8) / 2f), getMeasuredWidth() - getMeasuredWidth() * 0.2f -AndroidUtilities.dp(20 * randomParams[0]), AndroidUtilities.dp((36 - 8) / 2f) + AndroidUtilities.dp(8));
+                checkRtl(rectF);
+                canvas.drawRoundRect(rectF, AndroidUtilities.dp(4), AndroidUtilities.dp(4), paint);
+
+//                rectF.set(AndroidUtilities.dp(), AndroidUtilities.dp((36 - 8) / 2), AndroidUtilities.dp(268), AndroidUtilities.dp((36 - 8) / 2) + AndroidUtilities.dp(8));
+//                checkRtl(rectF);
+//                canvas.drawRoundRect(rectF, AndroidUtilities.dp(4), AndroidUtilities.dp(4), paint);
+
+                h += getCellHeight(getMeasuredWidth());
+                k++;
+                if (isSingleCell && k >= itemsCount) {
+                    break;
+                }
+            }
+        } else if (getViewType() == SHARE_ALERT_TYPE) {
+            int k = 0;
+            h += AndroidUtilities.dp(14);
+            while (h <= getMeasuredHeight()) {
+                int part = getMeasuredWidth() / 4;
+                for (int i = 0; i < 4; i++) {
+                    float cx = part * i + part / 2f;
+                    float cy = h + AndroidUtilities.dp(7) + AndroidUtilities.dp(56) / 2f;
+                    canvas.drawCircle(cx, cy, AndroidUtilities.dp(56 / 2f), paint);
+
+                    float y = h + AndroidUtilities.dp(7) + AndroidUtilities.dp(56) + AndroidUtilities.dp(16);
+                    AndroidUtilities.rectTmp.set(cx - AndroidUtilities.dp(24), y - AndroidUtilities.dp(4), cx + AndroidUtilities.dp(24), y + AndroidUtilities.dp(4));
+                    canvas.drawRoundRect(AndroidUtilities.rectTmp, AndroidUtilities.dp(4), AndroidUtilities.dp(4), paint);
+                }
+                h += getCellHeight(getMeasuredWidth());
+                k++;
+                if (isSingleCell) {
+                    break;
+                }
+            }
         }
 
         long newUpdateTime = SystemClock.elapsedRealtime();
@@ -419,6 +472,10 @@ public class FlickerLoadingView extends View {
             return AndroidUtilities.dp(58);
         } else if (getViewType() == CALL_LOG_TYPE) {
             return AndroidUtilities.dp(61);
+        } else if (getViewType() == BOTS_MENU_TYPE) {
+            return AndroidUtilities.dp(36);
+        } else if (getViewType() == SHARE_ALERT_TYPE) {
+            return AndroidUtilities.dp(103);
         }
         return 0;
     }

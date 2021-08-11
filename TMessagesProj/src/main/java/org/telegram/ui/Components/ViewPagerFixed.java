@@ -54,8 +54,8 @@ public class ViewPagerFixed extends FrameLayout {
 
     int currentPosition;
     int nextPosition;
-    private View viewPages[];
-    private int viewTypes[];
+    private View[] viewPages;
+    private int[] viewTypes;
 
     protected SparseArray<View> viewsByType = new SparseArray<>();
 
@@ -872,9 +872,9 @@ public class ViewPagerFixed extends FrameLayout {
         public TabsView(Context context) {
             super(context);
             textCounterPaint.setTextSize(AndroidUtilities.dp(13));
-            textCounterPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textCounterPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
             textPaint.setTextSize(AndroidUtilities.dp(15));
-            textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
             deletePaint.setStyle(Paint.Style.STROKE);
             deletePaint.setStrokeCap(Paint.Cap.ROUND);
             deletePaint.setStrokeWidth(AndroidUtilities.dp(1.5f));
@@ -945,11 +945,6 @@ public class ViewPagerFixed extends FrameLayout {
                     };
                     linearSmoothScroller.setTargetPosition(position);
                     startSmoothScroll(linearSmoothScroller);
-                }
-
-                @Override
-                public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State state) {
-                    return super.scrollHorizontallyBy(dx, recycler, state);
                 }
 
                 @Override

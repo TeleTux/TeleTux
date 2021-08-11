@@ -33,6 +33,7 @@ import android.text.Editable;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.ImageSpan;
 import android.util.Property;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -62,7 +63,7 @@ import org.jetbrains.annotations.NotNull;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
-import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
@@ -114,8 +115,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     }
 
     public interface ChatAttachViewDelegate {
-        void didPressedButton(int button, boolean arg, boolean notify, int scheduleDate);
-
+        void didPressedButton(int button, boolean arg, boolean notify, int scheduleDate, boolean forceDocument);
         View getRevealView();
 
         void didSelectBot(TLRPC.User user);
@@ -403,9 +403,11 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
 
     protected boolean paused;
 
-    private Paint attachButtonPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint attachButtonPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private float bottomPannelTranslation;
-    private boolean forceDarkTheme;
+    private final boolean forceDarkTheme;
+    private final boolean showingFromDialog;
+
 
     private class AttachButton extends FrameLayout {
 
@@ -578,9 +580,10 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     float currentPanTranslationY;
 
     @SuppressLint("ClickableViewAccessibility")
-    public ChatAttachAlert(Context context, final BaseFragment parentFragment, boolean forceDarkTheme) {
+    public ChatAttachAlert(Context context, final BaseFragment parentFragment, boolean forceDarkTheme, boolean showingFromDialog) {
         super(context, false);
         this.forceDarkTheme = forceDarkTheme;
+        this.showingFromDialog = showingFromDialog;
         drawNavigationBar = true;
         inBubbleMode = parentFragment instanceof ChatActivity && parentFragment.isInBubbleMode();
         openInterpolator = new OvershootInterpolator(0.7f);
@@ -1155,7 +1158,11 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 }
             });
             fragment.setMaxSelectedPhotos(maxSelectedPhotos, allowOrder);
-            baseFragment.presentFragment(fragment);
+            if (showingFromDialog) {
+                baseFragment.showAsSheet(fragment);
+            } else {
+                baseFragment.presentFragment(fragment);
+            }
             dismiss();
         });
 
@@ -1174,7 +1181,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         };
         selectedTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         selectedTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-        selectedTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        selectedTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         selectedTextView.setGravity(Gravity.LEFT | Gravity.TOP);
         selectedTextView.setVisibility(View.INVISIBLE);
         selectedTextView.setAlpha(0.0f);
@@ -1260,7 +1267,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     }
                     showLayout(pollLayout);
                 } else {
-                    delegate.didPressedButton((Integer) view.getTag(), true, true, 0);
+                    delegate.didPressedButton((Integer) view.getTag(), true, true, 0, false);
                 }
                 int left = view.getLeft();
                 int right = view.getRight();
@@ -1353,7 +1360,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         captionLimitView.setVisibility(View.GONE);
         captionLimitView.setTextSize(15);
         captionLimitView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
-        captionLimitView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        captionLimitView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         captionLimitView.setCenterAlign(true);
         frameLayout2.addView(captionLimitView, LayoutHelper.createFrame(56, 20, Gravity.BOTTOM | Gravity.RIGHT, 3, 0, 14, 78));
 
@@ -1430,18 +1437,30 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         commentTextView.onResume();
         commentTextView.getEditText().addTextChangedListener(new TextWatcher() {
 
+            private boolean processChange;
+
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                if ((count - before) >= 1) {
+                    processChange = true;
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
+                if (processChange) {
+                    ImageSpan[] spans = editable.getSpans(0, editable.length(), ImageSpan.class);
+                    for (int i = 0; i < spans.length; i++) {
+                        editable.removeSpan(spans[i]);
+                    }
+                    Emoji.replaceEmoji(editable, commentTextView.getEditText().getPaint().getFontMetricsInt(), AndroidUtilities.dp(20), false);
+                    processChange = false;
+                }
                 int beforeLimit;
                 codepointCount = Character.codePointCount(editable, 0, editable.length());
                 boolean sendButtonEnabledLocal = true;
@@ -1701,7 +1720,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         });
 
         textPaint.setTextSize(AndroidUtilities.dp(12));
-        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
 
         selectedCountView = new View(context) {
             @Override
@@ -1794,6 +1813,12 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             calcMandatoryInsets = chatActivity.isKeyboardVisible();
         }
         openTransitionFinished = false;
+        if (Build.VERSION.SDK_INT >= 30) {
+            int color = Theme.getColor(Theme.key_windowBackgroundGray);
+            if (AndroidUtilities.computePerceivedBrightness(color) < 0.721) {
+                getWindow().setNavigationBarColor(color);
+            }
+        }
     }
 
     public void setEditingMessageObject(MessageObject messageObject) {
@@ -1836,7 +1861,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
         applyCaption();
         buttonPressed = true;
-        delegate.didPressedButton(7, true, notify, scheduleDate);
+        delegate.didPressedButton(7, true, notify, scheduleDate, false);
     }
 
     private void showLayout(AttachAlertLayout layout) {
@@ -1967,9 +1992,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             layouts[4] = documentLayout = new ChatAttachAlertDocumentLayout(this, getContext(), false);
             documentLayout.setDelegate(new ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate() {
                 @Override
-                public void didSelectFiles(ArrayList<String> files, String caption, boolean notify, int scheduleDate) {
+                public void didSelectFiles(ArrayList<String> files, String caption, ArrayList<MessageObject> fmessages, boolean notify, int scheduleDate) {
                     if (baseFragment instanceof ChatActivity) {
-                        ((ChatActivity) baseFragment).didSelectFiles(files, caption, notify, scheduleDate);
+                        ((ChatActivity) baseFragment).didSelectFiles(files, caption, fmessages, notify, scheduleDate);
                     } else if (baseFragment instanceof PassportActivity) {
                         ((PassportActivity) baseFragment).didSelectFiles(files, caption, notify, scheduleDate);
                     }

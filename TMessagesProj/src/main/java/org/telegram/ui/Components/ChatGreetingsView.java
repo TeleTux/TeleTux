@@ -22,6 +22,8 @@ import org.telegram.ui.ActionBar.Theme;
 
 import java.util.Locale;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class ChatGreetingsView extends LinearLayout {
 
     private TLRPC.Document preloadedGreetingsSticker;
@@ -41,7 +43,7 @@ public class ChatGreetingsView extends LinearLayout {
 
         titleView = new TextView(context);
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        titleView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         titleView.setGravity(Gravity.CENTER_HORIZONTAL);
 
         descriptionView = new TextView(context);
@@ -84,6 +86,8 @@ public class ChatGreetingsView extends LinearLayout {
             stickerToSendView.setImage(ImageLocation.getForDocument(sticker), createFilter(sticker), ImageLocation.getForDocument(thumb, sticker), null, 0, sticker);
         }
         stickerToSendView.setOnClickListener(v -> {
+            if (NekoConfig.dontSendGreetingSticker)
+                return;
             if (listener != null) {
                 listener.onGreetings(sticker);
             }
@@ -131,7 +135,6 @@ public class ChatGreetingsView extends LinearLayout {
     private void updateColors() {
         titleView.setTextColor(Theme.getColor(Theme.key_chat_serviceText));
         descriptionView.setTextColor(Theme.getColor(Theme.key_chat_serviceText));
-        setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(10), Theme.getColor(Theme.key_chat_serviceBackground)));
     }
 
     public void setListener(Listener listener) {

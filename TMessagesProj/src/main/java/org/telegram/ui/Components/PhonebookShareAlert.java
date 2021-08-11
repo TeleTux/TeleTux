@@ -121,7 +121,7 @@ public class PhonebookShareAlert extends BottomSheet {
             addView(avatarImageView, LayoutHelper.createLinear(80, 80, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 32, 0, 0));
 
             TextView textView = new TextView(context);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
             textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
             textView.setSingleLine(true);
@@ -286,7 +286,12 @@ public class PhonebookShareAlert extends BottomSheet {
                 }
             }
             if (!result.isEmpty()) {
-                vcard = result.get(0).restriction_reason;
+                TLRPC.User u = result.get(0);
+                vcard = u.restriction_reason;
+                if (TextUtils.isEmpty(firstName)) {
+                    firstName = u.first_name;
+                    lastName = u.last_name;
+                }
             }
         }
         currentUser = new TLRPC.TL_userContact_old2();
@@ -435,7 +440,7 @@ public class PhonebookShareAlert extends BottomSheet {
 
             @Override
             protected int computeScrollDeltaToGetChildRectOnScreen(Rect rect) {
-                if (linearLayout.getTop() != getPaddingTop()) {
+                if (focusingView == null || linearLayout.getTop() != getPaddingTop()) {
                     return 0;
                 }
                 int delta = super.computeScrollDeltaToGetChildRectOnScreen(rect);
@@ -611,7 +616,7 @@ public class PhonebookShareAlert extends BottomSheet {
         } else {
             buttonTextView.setText(LocaleController.getString("ShareContactTitle", R.string.ShareContactTitle));
         }
-        buttonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        buttonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4), Theme.getColor(Theme.key_featuredStickers_addButton), Theme.getColor(Theme.key_featuredStickers_addButtonPressed)));
         frameLayout.addView(buttonTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 42, Gravity.LEFT | Gravity.BOTTOM, 16, 16, 16, 16));
         buttonTextView.setOnClickListener(v -> {

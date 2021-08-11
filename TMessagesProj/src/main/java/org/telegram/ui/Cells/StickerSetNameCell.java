@@ -62,13 +62,13 @@ public class StickerSetNameCell extends FrameLayout {
         textView = new EmojiTextView(context);
         textView.setTextColor(Theme.getColor(Theme.key_chat_emojiPanelStickerSetName));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setSingleLine(true);
         if (supportRtl) {
-            lp = LayoutHelper.createFrameRelatively(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.START, emoji ? 15 : 17, 4, 57, 0);
+            lp = LayoutHelper.createFrameRelatively(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.START, emoji ? 15 : 17, 2, 57, 0);
         } else {
-            lp = LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.LEFT, emoji ? 15 : 17, 4, 57, 0);
+            lp = LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.LEFT, emoji ? 15 : 17, 2, 57, 0);
         }
         addView(textView, lp);
 
@@ -78,6 +78,8 @@ public class StickerSetNameCell extends FrameLayout {
         urlTextView.setEllipsize(TextUtils.TruncateAt.END);
         urlTextView.setSingleLine(true);
         urlTextView.setVisibility(INVISIBLE);
+        urlTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+
         if (supportRtl) {
             lp = LayoutHelper.createFrameRelatively(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.END, 17, 6, 17, 0);
         } else {

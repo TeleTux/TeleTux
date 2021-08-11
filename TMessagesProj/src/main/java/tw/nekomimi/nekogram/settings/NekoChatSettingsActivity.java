@@ -74,6 +74,9 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     private int sendCommentAfterForwardRow;
     private int disableProximityEventsRow;
     private int disableTrendingRow;
+    private int dontSendGreetingStickerRow;
+    private int hideTimeForStickerRow;
+    private int takeGIFasVideoRow;
 
     private int mapPreviewRow;
     private int messageMenuRow;
@@ -87,6 +90,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     private int foldersRow;
     private int showTabsOnForwardRow;
     private int hideAllTabRow;
+    private int pressTitleToOpenAllChatsRow;
     private int tabsTitleTypeRow;
     private int folders2Row;
 
@@ -94,7 +98,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
 
-        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiDidLoad);
+//        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiDidLoad);
         updateRows();
 
         return true;
@@ -205,6 +209,12 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                     ((TextCheckCell) view).setChecked(NekoConfig.hideAllTab);
                 }
                 getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
+            } else if (position == pressTitleToOpenAllChatsRow) {
+                NekoConfig.togglePressTitleToOpenAllChats();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.pressTitleToOpenAllChats);
+                }
+                getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
             } else if (position == tabsTitleTypeRow) {
                 PopupBuilder builder = new PopupBuilder(view);
 
@@ -262,6 +272,21 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.disableTrending);
                 }
+            } else if (position == dontSendGreetingStickerRow) {
+                NekoConfig.toggleDontSendGreetingSticker();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.dontSendGreetingSticker);
+                }
+            } else if (position == hideTimeForStickerRow) {
+                NekoConfig.toggleHideTimeForSticker();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.hideTimeForSticker);
+                }
+            } else if (position == takeGIFasVideoRow) {
+                NekoConfig.toggleTakeGIFasVideo();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.takeGIFasVideo);
+                }
             } else if (position == win32Row) {
                 NekoConfig.toggleDisableAutoDownloadingWin32Executable();
                 if (view instanceof TextCheckCell) {
@@ -309,6 +334,9 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         sendCommentAfterForwardRow = rowCount++;
         disableProximityEventsRow = rowCount++;
         disableTrendingRow = rowCount++;
+        dontSendGreetingStickerRow = rowCount++;
+        hideTimeForStickerRow = rowCount++;
+        takeGIFasVideoRow = rowCount++;
 
         mapPreviewRow = rowCount++;
         messageMenuRow = rowCount++;
@@ -322,6 +350,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         foldersRow = rowCount++;
         showTabsOnForwardRow = rowCount++;
         hideAllTabRow = rowCount++;
+        pressTitleToOpenAllChatsRow = rowCount++;
         tabsTitleTypeRow = rowCount++;
         folders2Row = rowCount++;
 
@@ -497,17 +526,17 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
 
     @Override
     public void didReceivedNotification(int id, int account, Object... args) {
-        if (id == NotificationCenter.emojiDidLoad) {
+       /* if (id == NotificationCenter.emojiDidLoad) {
             if (listView != null) {
                 listView.invalidateViews();
             }
-        }
+        }*/
     }
 
     @Override
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
-        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiDidLoad);
+//        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiDidLoad);
     }
 
     private class StickerSizeCell extends FrameLayout {
@@ -651,6 +680,8 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                         textCell.setTextAndCheck(LocaleController.getString("RearVideoMessages", R.string.RearVideoMessages), NekoConfig.rearVideoMessages, true);
                     } else if (position == hideAllTabRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("HideAllTab", R.string.HideAllTab), LocaleController.getString("HideAllTabAbout", R.string.HideAllTabAbout), NekoConfig.hideAllTab, true, true);
+                    } else if(position == pressTitleToOpenAllChatsRow){
+                        textCell.setTextAndCheck(LocaleController.getString("pressTitleToOpenAllChats", R.string.pressTitleToOpenAllChats),NekoConfig.pressTitleToOpenAllChats, true);
                     } else if (position == confirmAVRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ConfirmAVMessage", R.string.ConfirmAVMessage), NekoConfig.confirmAVMessage, true);
                     } else if (position == useChatAttachMediaMenuRow) {
@@ -665,6 +696,12 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                         textCell.setTextAndCheck(LocaleController.getString("DisableProximityEvents", R.string.DisableProximityEvents), NekoConfig.disableProximityEvents, true);
                     } else if (position == disableTrendingRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DisableTrending", R.string.DisableTrending), NekoConfig.disableTrending, true);
+                    } else if (position == dontSendGreetingStickerRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("DontSendGreetingSticker", R.string.DontSendGreetingSticker), NekoConfig.dontSendGreetingSticker, true);
+                    } else if (position == hideTimeForStickerRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("HideTimeForSticker", R.string.HideTimeForSticker), NekoConfig.hideTimeForSticker, true);
+                    } else if (position == takeGIFasVideoRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("TakeGIFasVideo", R.string.TakeGIFasVideo), NekoConfig.takeGIFasVideo, true);
                     } else if (position == win32Row) {
                         textCell.setTextAndCheck(LocaleController.getString("Win32ExecutableFiles", R.string.Win32ExecutableFiles), !NekoConfig.disableAutoDownloadingWin32Executable, true);
                     } else if (position == archiveRow) {

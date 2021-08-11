@@ -61,6 +61,7 @@ public class PhotoEditRadioCell extends FrameLayout {
         nameTextView.setMaxLines(1);
         nameTextView.setSingleLine(true);
         nameTextView.setEllipsize(TextUtils.TruncateAt.END);
+        nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Bold.ttf"));
         addView(nameTextView, LayoutHelper.createFrame(80, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.CENTER_VERTICAL, 0, 0, 0, 0));
 
         tintButtonsContainer = new LinearLayout(context);
@@ -70,18 +71,15 @@ public class PhotoEditRadioCell extends FrameLayout {
             radioButton.setSize(AndroidUtilities.dp(20));
             radioButton.setTag(a);
             tintButtonsContainer.addView(radioButton, LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT, 1.0f / tintShadowColors.length));
-            radioButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    RadioButton radioButton = (RadioButton) v;
-                    if (currentType == 0) {
-                        currentColor = tintShadowColors[(Integer) radioButton.getTag()];
-                    } else {
-                        currentColor = tintHighlighsColors[(Integer) radioButton.getTag()];
-                    }
-                    updateSelectedTintButton(true);
-                    onClickListener.onClick(PhotoEditRadioCell.this);
+            radioButton.setOnClickListener(v -> {
+                RadioButton radioButton1 = (RadioButton) v;
+                if (currentType == 0) {
+                    currentColor = tintShadowColors[(Integer) radioButton1.getTag()];
+                } else {
+                    currentColor = tintHighlighsColors[(Integer) radioButton1.getTag()];
                 }
+                updateSelectedTintButton(true);
+                onClickListener.onClick(PhotoEditRadioCell.this);
             });
         }
         addView(tintButtonsContainer, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 40, Gravity.LEFT | Gravity.TOP, 96, 0, 24, 0));

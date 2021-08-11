@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -51,7 +52,7 @@ public class ReportAlert extends BottomSheet {
             textView.setGravity(Gravity.CENTER);
             textView.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
             addView(textView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         }
 
@@ -70,8 +71,12 @@ public class ReportAlert extends BottomSheet {
         setApplyBottomPadding(false);
         setApplyTopPadding(false);
 
+        ScrollView scrollView = new ScrollView(context);
+        scrollView.setFillViewport(true);
+        setCustomView(scrollView);
+
         FrameLayout frameLayout = new FrameLayout(context);
-        setCustomView(frameLayout);
+        scrollView.addView(frameLayout, LayoutHelper.createScroll(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP));
 
         RLottieImageView imageView = new RLottieImageView(context);
         imageView.setAnimation(R.raw.report_police, 120, 120);
@@ -79,7 +84,7 @@ public class ReportAlert extends BottomSheet {
         frameLayout.addView(imageView, LayoutHelper.createFrame(160, 160, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 17, 14, 17, 0));
 
         TextView percentTextView = new TextView(context);
-        percentTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        percentTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         percentTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
         percentTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         if (type == 0) {

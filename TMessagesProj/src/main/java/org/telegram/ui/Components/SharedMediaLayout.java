@@ -488,7 +488,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
         @Override
         public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int index, boolean needPreview) {
-            if (messageObject == null || mediaPages[0].selectedType != 0 && mediaPages[0].selectedType != 1 && mediaPages[0].selectedType != 5) {
+            if (messageObject == null || mediaPages[0].selectedType != 0 && mediaPages[0].selectedType != 1 && mediaPages[0].selectedType != 3 && mediaPages[0].selectedType != 5) {
                 return null;
             }
             final RecyclerListView listView = mediaPages[0].listView;
@@ -542,6 +542,13 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     MessageObject message = (MessageObject) cell.getParentObject();
                     if (message != null && message.getId() == messageObject.getId()) {
                         imageReceiver = cell.getPhotoImage();
+                        cell.getLocationInWindow(coords);
+                    }
+                } else if (view instanceof SharedLinkCell) {
+                    SharedLinkCell cell = (SharedLinkCell) view;
+                    MessageObject message = cell.getMessage();
+                    if (message != null && message.getId() == messageObject.getId()) {
+                        imageReceiver = cell.getLinkImageView();
                         cell.getLocationInWindow(coords);
                     }
                 }
@@ -886,7 +893,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
         selectedMessagesCountTextView = new NumberTextView(context);
         selectedMessagesCountTextView.setTextSize(18);
-        selectedMessagesCountTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        selectedMessagesCountTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         selectedMessagesCountTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2));
         actionModeLayout.addView(selectedMessagesCountTextView, LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT, 1.0f, 18, 0, 0, 0));
         actionModeViews.add(selectedMessagesCountTextView);
@@ -1067,6 +1074,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 protected void onLayout(boolean changed, int l, int t, int r, int b) {
                     super.onLayout(changed, l, t, r, b);
                     checkLoadMoreScroll(mediaPage, mediaPage.listView, layoutManager);
+                    if (mediaPage.selectedType == 0) {
+                        PhotoViewer.getInstance().checkCurrentImageVisibility();
+                    }
                 }
 
                 @Override
@@ -1691,7 +1701,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     for (int a = 0; a < dids.size(); a++) {
                         long did = dids.get(a);
                         if (message != null) {
-                            profileActivity.getSendMessagesHelper().sendMessage(message.toString(), did, null, null, null, true, null, null, null, true, 0);
+                            profileActivity.getSendMessagesHelper().sendMessage(message.toString(), did, null, null, null, true, null, null, null, true, 0, null);
                         }
                         if (id == forward_noquote) {
                             profileActivity.getMessageHelper().processForwardFromMyName(fmessages, did, true, 0);
@@ -2545,11 +2555,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 changed++;
             }
         } else {
-            TLRPC.EncryptedChat currentEncryptedChat = profileActivity.getMessagesController().getEncryptedChat((int) (dialog_id >> 32));
-            if (currentEncryptedChat != null && AndroidUtilities.getPeerLayerVersion(currentEncryptedChat.layer) >= 46) {
-                if ((hasMedia[4] <= 0) == scrollSlidingTextTabStrip.hasTab(4)) {
-                    changed++;
-                }
+            if ((hasMedia[4] <= 0) == scrollSlidingTextTabStrip.hasTab(4)) {
+                changed++;
             }
         }
         if ((hasMedia[2] <= 0) == scrollSlidingTextTabStrip.hasTab(2)) {
@@ -2660,12 +2667,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     }
                 }
             } else {
-                TLRPC.EncryptedChat currentEncryptedChat = profileActivity.getMessagesController().getEncryptedChat((int) (dialog_id >> 32));
-                if (currentEncryptedChat != null && AndroidUtilities.getPeerLayerVersion(currentEncryptedChat.layer) >= 46) {
-                    if (hasMedia[4] > 0) {
-                        if (!scrollSlidingTextTabStrip.hasTab(4)) {
-                            scrollSlidingTextTabStrip.addTextTab(4, LocaleController.getString("SharedMusicTab2", R.string.SharedMusicTab2), idToView);
-                        }
+                if (hasMedia[4] > 0) {
+                    if (!scrollSlidingTextTabStrip.hasTab(4)) {
+                        scrollSlidingTextTabStrip.addTextTab(4, LocaleController.getString("SharedMusicTab2", R.string.SharedMusicTab2), idToView);
                     }
                 }
             }
@@ -3027,7 +3031,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                             ArticleViewer.getInstance().open(message);
                             return;
                         } else if (webPage.embed_url != null && webPage.embed_url.length() != 0) {
-                            openWebView(webPage);
+                            openWebView(webPage, message);
                             return;
                         } else {
                             link = webPage.url;
@@ -3054,8 +3058,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
     }
 
-    private void openWebView(TLRPC.WebPage webPage) {
-        EmbedBottomSheet.show(profileActivity.getParentActivity(), webPage.site_name, webPage.description, webPage.url, webPage.embed_url, webPage.embed_width, webPage.embed_height, false);
+    private void openWebView(TLRPC.WebPage webPage, MessageObject message) {
+        EmbedBottomSheet.show(profileActivity.getParentActivity(), message, provider, webPage.site_name, webPage.description, webPage.url, webPage.embed_url, webPage.embed_width, webPage.embed_height, false);
     }
 
     private void recycleAdapter(RecyclerView.Adapter adapter) {
@@ -3095,8 +3099,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
     SharedLinkCell.SharedLinkCellDelegate sharedLinkCellDelegate = new SharedLinkCell.SharedLinkCellDelegate() {
         @Override
-        public void needOpenWebView(TLRPC.WebPage webPage) {
-            openWebView(webPage);
+        public void needOpenWebView(TLRPC.WebPage webPage, MessageObject message) {
+            openWebView(webPage, message);
         }
 
         @Override
@@ -3151,7 +3155,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
 
         @Override
-        public boolean isEnabled(int section, int row) {
+        public boolean isEnabled(RecyclerView.ViewHolder holder, int section, int row) {
             if (sharedMediaData[3].sections.size() == 0 && !sharedMediaData[3].loading) {
                 return false;
             }
@@ -3289,7 +3293,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
 
         @Override
-        public boolean isEnabled(int section, int row) {
+        public boolean isEnabled(RecyclerView.ViewHolder holder, int section, int row) {
             if (sharedMediaData[currentType].sections.size() == 0 && !sharedMediaData[currentType].loading) {
                 return false;
             }

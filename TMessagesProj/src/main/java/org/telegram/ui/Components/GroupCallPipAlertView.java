@@ -27,7 +27,6 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.messenger.voip.VoIPBaseService;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.voip.VoIPButtonsLayout;
@@ -35,7 +34,7 @@ import org.telegram.ui.Components.voip.VoIPToggleButton;
 import org.telegram.ui.GroupCallActivity;
 import org.telegram.ui.LaunchActivity;
 
-public class GroupCallPipAlertView extends LinearLayout implements VoIPBaseService.StateListener, NotificationCenter.NotificationCenterDelegate {
+public class GroupCallPipAlertView extends LinearLayout implements VoIPService.StateListener, NotificationCenter.NotificationCenterDelegate {
 
     public static final int POSITION_LEFT = 0;
     public static final int POSITION_RIGHT = 1;
@@ -102,7 +101,7 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPBaseServi
         titleView.setTextSize(15);
         titleView.setMaxLines(2);
         titleView.setEllipsize(TextUtils.TruncateAt.END);
-        titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        titleView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         linearLayout.addView(titleView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
         subtitleView = new TextView(context);

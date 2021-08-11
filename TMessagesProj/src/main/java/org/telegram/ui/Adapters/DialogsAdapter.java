@@ -32,7 +32,6 @@ import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -171,7 +170,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
         if (hasHints) {
             count += 2 + messagesController.hintDialogs.size();
         } else if (dialogsType == 0 && messagesController.dialogs_dict.size() <= 10 && folderId == 0 && messagesController.isDialogsEndReached(folderId)) {
-            if (ContactsController.getInstance(currentAccount).contacts.isEmpty() && ContactsController.getInstance(currentAccount).isLoadingContacts()) {
+            if (ContactsController.getInstance(currentAccount).contacts.isEmpty() && !ContactsController.getInstance(currentAccount).doneLoadingContacts) {
                 onlineContacts = null;
                 return (currentCount = 0);
             }
@@ -368,7 +367,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
 
                 TextView textView = new TextView(mContext);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-                textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+                textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
                 textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader));
                 textView.setText(LocaleController.getString("RecentlyViewedHide", R.string.RecentlyViewedHide));
                 textView.setGravity((LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.CENTER_VERTICAL);
@@ -433,15 +432,25 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
                     private int movement;
                     private float moveProgress;
                     private long lastUpdateTime;
-                    private int x;
-                    private int y;
+                    private int originalX;
+                    private int originalY;
+
+                    @Override
+                    protected void afterTextDraw() {
+                        if (arrowDrawable != null) {
+                            Rect bounds = arrowDrawable.getBounds();
+                            arrowDrawable.setBounds(originalX, originalY, originalX + bounds.width(), originalY + bounds.height());
+                        }
+                    }
 
                     @Override
                     protected void onTextDraw() {
                         if (arrowDrawable != null) {
                             Rect bounds = arrowDrawable.getBounds();
                             int dx = (int) (moveProgress * AndroidUtilities.dp(3));
-                            arrowDrawable.setBounds(x + dx, y + AndroidUtilities.dp(1), x + dx + bounds.width(), y + AndroidUtilities.dp(1) + bounds.height());
+                            originalX = bounds.left;
+                            originalY = bounds.top;
+                            arrowDrawable.setBounds(originalX + dx, originalY + AndroidUtilities.dp(1), originalX + dx + bounds.width(), originalY + AndroidUtilities.dp(1) + bounds.height());
 
                             long newUpdateTime = SystemClock.elapsedRealtime();
                             long dt = newUpdateTime - lastUpdateTime;
@@ -463,15 +472,6 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
                                 }
                             }
                             getTextView().invalidate();
-                        }
-                    }
-
-                    @Override
-                    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-                        super.onLayout(changed, left, top, right, bottom);
-                        if (arrowDrawable != null) {
-                            x = arrowDrawable.getBounds().left;
-                            y = arrowDrawable.getBounds().top;
                         }
                     }
                 };

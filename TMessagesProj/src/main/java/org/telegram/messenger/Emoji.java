@@ -45,7 +45,7 @@ public class Emoji {
     private static int bigImgSize;
     private static boolean inited = false;
     private static Paint placeholderPaint;
-    private static int[] emojiCounts = new int[]{1695, 199, 123, 332, 128, 222, 290, 259};
+    private static int[] emojiCounts = new int[]{1906, 199, 123, 332, 128, 222, 292, 259};
     private static Bitmap[][] emojiBmp = new Bitmap[8][];
     private static boolean[][] loadingEmoji = new boolean[8][];
 
@@ -53,7 +53,7 @@ public class Emoji {
     public static ArrayList<String> recentEmoji = new ArrayList<>();
     public static HashMap<String, String> emojiColor = new HashMap<>();
     private static boolean recentEmojiLoaded;
-    private static Runnable invalidateUiRunnable = () -> NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiDidLoad);
+    private static Runnable invalidateUiRunnable = () -> NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiLoaded);
 
     private final static int MAX_RECENT_EMOJI_COUNT = 48;
 
@@ -308,7 +308,7 @@ public class Emoji {
 
         @Override
         public void setAlpha(int alpha) {
-
+            paint.setAlpha(alpha);
         }
 
         @Override
@@ -506,7 +506,7 @@ public class Emoji {
                     emojiCode.setLength(0);
                     doneEmoji = false;
                 }
-                if ((Build.VERSION.SDK_INT < 23 || Build.VERSION.SDK_INT >= 29) && emojiCount >= 50) {
+                if ((Build.VERSION.SDK_INT < 23 || Build.VERSION.SDK_INT >= 29) && !BuildVars.DEBUG_PRIVATE_VERSION && emojiCount >= 50) {
                     break;
                 }
             }
@@ -570,6 +570,19 @@ public class Emoji {
                     getDrawable().setBounds(0, 0, size, size);
                 }
                 return size;
+            }
+        }
+
+        @Override
+        public void draw(Canvas canvas, CharSequence text, int start, int end, float x, int top, int y, int bottom, Paint paint) {
+            boolean restoreAlpha = false;
+            if (paint.getAlpha() != 255) {
+                restoreAlpha = true;
+                getDrawable().setAlpha(paint.getAlpha());
+            }
+            super.draw(canvas, text, start, end, x, top, y, bottom, paint);
+            if (restoreAlpha) {
+                getDrawable().setAlpha(255);
             }
         }
     }

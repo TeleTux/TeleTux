@@ -79,7 +79,7 @@ public class JoinGroupAlert extends BottomSheet {
         }
 
         TextView textView = new TextView(context);
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
         textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         textView.setText(title);
@@ -93,7 +93,11 @@ public class JoinGroupAlert extends BottomSheet {
             textView.setTextColor(Theme.getColor(Theme.key_dialogTextGray3));
             textView.setSingleLine(true);
             textView.setEllipsize(TextUtils.TruncateAt.END);
-            textView.setText(LocaleController.formatPluralString("Members", participants_count));
+            if (invite.channel || ChatObject.isChannel(invite.chat) && !invite.chat.megagroup) {
+                textView.setText(LocaleController.formatPluralString("Subscribers", participants_count));
+            } else {
+                textView.setText(LocaleController.formatPluralString("Members", participants_count));
+            }
             linearLayout.addView(textView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 10, 3, 10, 20));
         }
 

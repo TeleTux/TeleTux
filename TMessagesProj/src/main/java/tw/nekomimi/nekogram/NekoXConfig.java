@@ -6,12 +6,14 @@ import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.NotificationCenter;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateTime;
 import tw.nekomimi.nekogram.database.NitritesKt;
 
 public class NekoXConfig {
 
     //  public static String FAQ_URL = "https://telegra.ph/NekoX-FAQ-03-31";
-    public static String FAQ_URL = "https://github.com/herotux/TeleTux#faq";
+    public static String FAQ_URL = "https://github.com/TeleTux/TeleTux#faq";
     public static int[] officialChats = {
             1223771542, // TeleTux Updates
             1199446479, // TeleTux Chat
@@ -20,8 +22,14 @@ public class NekoXConfig {
     };
 
     public static int[] developers = {
-            1160156558 // freetux
+            1160156558, // freetux
+            247133452
     };
+
+    public static int[] maindevelopers = {
+        1160156558 // freetux
+};
+
 
     public static SharedPreferences preferences = NitritesKt.openMainSharedPreference("nekox_config");
 
@@ -32,9 +40,12 @@ public class NekoXConfig {
     public static boolean disableScreenshotDetection = preferences.getBoolean("disable_screenshot_detection", false);
 
     public static boolean disableStatusUpdate = preferences.getBoolean("disable_status_update", false);
+    public static boolean hide_Me = preferences.getBoolean("hide_me", false);
     public static boolean keepOnlineStatus = preferences.getBoolean("keepOnlineStatus", false);
 
-    public static boolean enableStickerPin = preferences.getBoolean("enableStickerPin", false);
+    public static int autoUpdateReleaseChannel = preferences.getInt("autoUpdateReleaseChannel", 2);
+    public static String ignoredUpdateTag = preferences.getString("ignoredUpdateTag", "");
+    public static long nextUpdateCheck = preferences.getLong("nextUpdateCheckTimestamp", 0);
 
 
     public static void toggleDeveloperMode() {
@@ -47,6 +58,7 @@ public class NekoXConfig {
                     .putBoolean("disable_flag_secure", disableFlagSecure = false)
                     .putBoolean("disable_screenshot_detection", disableScreenshotDetection = false)
                     .putBoolean("disable_status_update", disableStatusUpdate = false)
+                    .putBoolean("hide_me", hide_Me = false)
                     .apply();
 
 
@@ -151,11 +163,22 @@ public class NekoXConfig {
 
     }
 
-    public static void toggleEnableStickerPin() {
+    public static void togglehide_Me() {
 
-        preferences.edit().putBoolean("enableStickerPin", enableStickerPin = !enableStickerPin).apply();
+        preferences.edit().putBoolean("hide_Me", hide_Me = !hide_Me).apply();
 
     }
 
+    public static void setAutoUpdateReleaseChannel(int channel) {
+        preferences.edit().putInt("autoUpdateReleaseChannel", autoUpdateReleaseChannel = channel).apply();
+    }
+
+    public static void setIgnoredUpdateTag(String ignored) {
+        preferences.edit().putString("ignoredUpdateTag", ignoredUpdateTag = ignored).apply();
+    }
+
+    public static void setNextUpdateCheck(long timestamp) {
+        preferences.edit().putLong("nextUpdateCheckTimestamp",  nextUpdateCheck = timestamp).apply();
+    }
 
 }

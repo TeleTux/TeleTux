@@ -126,6 +126,12 @@ void InstanceImpl::setAudioOutputDuckingEnabled(bool enabled) {
 	// TODO: not implemented
 }
 
+void InstanceImpl::addExternalAudioSamples(std::vector<uint8_t> &&samples) {
+    _manager->perform(RTC_FROM_HERE, [samples = std::move(samples)](Manager *manager) mutable {
+        manager->addExternalAudioSamples(std::move(samples));
+    });
+}
+
 void InstanceImpl::setIsLowBatteryLevel(bool isLowBatteryLevel) {
     _manager->perform(RTC_FROM_HERE, [isLowBatteryLevel](Manager *manager) {
         manager->setIsLowBatteryLevel(isLowBatteryLevel);
@@ -169,7 +175,7 @@ void InstanceImpl::stop(std::function<void(FinalState)> completion) {
 }
 
 int InstanceImpl::GetConnectionMaxLayer() {
-	return 92;  // TODO: retrieve from LayerBase
+	return 92;
 }
 
 std::vector<std::string> InstanceImpl::GetVersions() {

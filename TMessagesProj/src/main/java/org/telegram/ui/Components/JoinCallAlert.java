@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.telegram.messenger.AccountInstance;
@@ -44,6 +45,7 @@ import org.telegram.ui.Cells.ShareDialogCell;
 
 import java.util.ArrayList;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -133,13 +135,13 @@ public class JoinCallAlert extends BottomSheet {
                 textView[a].setGravity(Gravity.CENTER);
                 if (hasBackground) {
                     textView[a].setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
-                    textView[a].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+                    textView[a].setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
                 } else {
                     textView[a].setTextColor(Theme.getColor(Theme.key_featuredStickers_addButton));
                 }
                 textView[a].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 textView[a].setPadding(0, 0, 0, hasBackground ? 0 : AndroidUtilities.dp(13));
-                addView(textView[a], LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
+                addView(textView[a], LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
                 if (a == 1) {
                     textView[a].setAlpha(0.0f);
                 }
@@ -350,7 +352,9 @@ public class JoinCallAlert extends BottomSheet {
                 }
             };
             linearLayout.setOrientation(LinearLayout.VERTICAL);
-            setCustomView(internalLayout = linearLayout);
+            NestedScrollView scrollView = new NestedScrollView(context);
+            scrollView.addView(internalLayout = linearLayout);
+            setCustomView(scrollView);
         } else {
             containerView = new FrameLayout(context) {
 
@@ -480,7 +484,7 @@ public class JoinCallAlert extends BottomSheet {
         }
 
         textView = new TextView(context);
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
         if (type == TYPE_DISPLAY) {
             textView.setTextColor(Theme.getColor(Theme.key_voipgroup_nameText));

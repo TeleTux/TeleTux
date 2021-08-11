@@ -583,7 +583,7 @@ public class ManageLinksActivity extends BaseFragment {
                 }
             }
         });
-        recyclerItemsEnterAnimator = new RecyclerItemsEnterAnimator(listView);
+        recyclerItemsEnterAnimator = new RecyclerItemsEnterAnimator(listView, false);
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
         defaultItemAnimator.setDelayAnimations(false);
         defaultItemAnimator.setSupportsChangeAnimations(false);
@@ -1004,6 +1004,8 @@ public class ManageLinksActivity extends BaseFragment {
             textView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText2));
             textView.setTag(Theme.key_windowBackgroundWhiteBlueText2);
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+
             addView(textView);
 
             imageView = new ImageView(context);
