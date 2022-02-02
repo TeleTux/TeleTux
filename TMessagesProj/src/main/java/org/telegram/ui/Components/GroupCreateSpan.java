@@ -68,7 +68,7 @@ public class GroupCreateSpan extends View {
         super(context);
 
         currentContact = contact;
-        deleteDrawable = getResources().getDrawable(R.drawable.baseline_delete_24);
+        deleteDrawable = getResources().getDrawable(R.drawable.delete);
         textPaint.setTextSize(AndroidUtilities.dp(14));
 
         String firstName;
