@@ -394,7 +394,79 @@ public class FilterTabsView extends FrameLayout {
                 }
             }
 
+<<<<<<< HEAD
             if (animateCounterEnter || counterText != null || showRemove && (isEditing || editingStartAnimationProgress != 0)) {
+=======
+            int iconX = 0;
+            if (NekoConfig.tabsTitleType.Int() != NekoXConfig.TITLE_TYPE_TEXT) {
+                int emoticonWidth = FolderIconHelper.getIconWidth();
+                if (!TextUtils.equals(currentTab.emoticon, currentEmoticon)) {
+                    currentEmoticon = currentTab.emoticon;
+                    android.graphics.Rect bounds = new android.graphics.Rect(0, 0, emoticonWidth, emoticonWidth);
+                    activeIcon = getResources().getDrawable(FolderIconHelper.getTabIcon(currentTab.emoticon, true)).mutate();
+                    activeIcon.setTint(Theme.getColor(activeTextColorKey));
+                    activeIcon.setBounds(bounds);
+                    icon = getResources().getDrawable(FolderIconHelper.getTabIcon(currentTab.emoticon, false)).mutate();
+                    icon.setTint(Theme.getColor(unactiveTextColorKey));
+                    icon.setBounds(bounds);
+                }
+                iconX = (int) ((getMeasuredWidth() - tabWidth) / 2f);
+                if (animateIconX) {
+                    iconX = (int) (iconX * changeProgress + animateFromIconX * (1f - changeProgress));
+                }
+                int iconY = (int) ((getMeasuredHeight() - emoticonWidth) / 2f);
+                if (animateIconChange) {
+                    if (iconAnimateOutDrawable != null) {
+                        canvas.save();
+                        canvas.translate(iconX, iconY);
+                        int alpha = iconAnimateOutDrawable.getAlpha();
+                        iconAnimateOutDrawable.setAlpha((int) (alpha * (1f - changeProgress)));
+                        iconAnimateOutDrawable.draw(canvas);
+                        canvas.restore();
+                        iconAnimateOutDrawable.setAlpha(alpha);
+                    }
+                    if (iconAnimateInDrawable != null) {
+                        canvas.save();
+                        canvas.translate(iconX, iconY);
+                        int alpha = iconAnimateInDrawable.getAlpha();
+                        iconAnimateInDrawable.setAlpha((int) (alpha * changeProgress));
+                        iconAnimateInDrawable.draw(canvas);
+                        canvas.restore();
+                        iconAnimateInDrawable.setAlpha(alpha);
+                    }
+                } else {
+                    int alphaAnimation = 0;
+                    if (animateToKey == null) {
+                        if ((animatingIndicator || manualScrollingToId != -1) && (currentTab.id == id1 || currentTab.id == id2)) {
+                            alphaAnimation = (int) (255 * animatingIndicatorProgress);
+                            if (currentTab.id == id2) {
+                                alphaAnimation = 255 - alphaAnimation;
+                            }
+                        } else if (currentTab.id == id1) {
+                            alphaAnimation = 255;
+                        }
+                    } else {
+                        if ((animatingIndicator || manualScrollingToPosition != -1) && (currentTab.id == id1 || currentTab.id == id2)) {
+                            alphaAnimation = (int) (255 * animationValue);
+                            if (currentTab.id == id2) {
+                                alphaAnimation = 255 - alphaAnimation;
+                            }
+                        } else if (currentTab.id == id1) {
+                            alphaAnimation = 255;
+                        }
+                    }
+                    canvas.save();
+                    canvas.translate(iconX, iconY);
+                    activeIcon.setAlpha(alphaAnimation);
+                    activeIcon.draw(canvas);
+                    icon.setAlpha(255 - alphaAnimation);
+                    icon.draw(canvas);
+                    canvas.restore();
+                }
+            }
+
+            if (animateCounterEnter || counterText != null || currentTab.id != Integer.MAX_VALUE && (isEditing || editingStartAnimationProgress != 0)) {
+>>>>>>> 57a677882 (feat: add folder icon settings ported from Nekogram)
                 if (aBackgroundColorKey == null) {
                     textCounterPaint.setColor(Theme.getColor(backgroundColorKey));
                 } else {
@@ -427,7 +499,11 @@ public class FilterTabsView extends FrameLayout {
                 }
                 int countTop = (getMeasuredHeight() - AndroidUtilities.dp(20)) / 2;
 
+<<<<<<< HEAD
                 if (showRemove && (isEditing || editingStartAnimationProgress != 0) && counterText == null) {
+=======
+                if ((isEditing || editingStartAnimationProgress != 0) && counterText == null) {
+>>>>>>> 57a677882 (feat: add folder icon settings ported from Nekogram)
                     counterPaint.setAlpha((int) (editingStartAnimationProgress * 255));
                 } else {
                     counterPaint.setAlpha(255);
@@ -508,6 +584,7 @@ public class FilterTabsView extends FrameLayout {
 
             lastEmoticon = currentEmoticon;
             lastTextX = textX;
+            lastIconX = iconX;
             lastTabCount = currentTab.counter;
             lastTitleLayout = textLayout;
             lastTitle = currentText;
@@ -1195,7 +1272,11 @@ public class FilterTabsView extends FrameLayout {
         selectedTabId = -1;
     }
 
+<<<<<<< HEAD
     public void addTab(int id, int stableId, String text, boolean isDefault, boolean isLocked) {
+=======
+    public void addTab(int id, int stableId, String text, String emoticon) {
+>>>>>>> 57a677882 (feat: add folder icon settings ported from Nekogram)
         int position = tabs.size();
         if (position == 0 && selectedTabId == -1) {
             selectedTabId = id;
@@ -1208,8 +1289,11 @@ public class FilterTabsView extends FrameLayout {
         }
 
         Tab tab = new Tab(id, text, emoticon);
+<<<<<<< HEAD
         tab.isDefault = isDefault;
         tab.isLocked = isLocked;
+=======
+>>>>>>> 57a677882 (feat: add folder icon settings ported from Nekogram)
         allTabsWidth += tab.getWidth(true) + FolderIconHelper.getPaddingTab();
         tabs.add(tab);
     }
@@ -1806,10 +1890,17 @@ public class FilterTabsView extends FrameLayout {
         if (show == showAllChatsTab)
             return;
         showAllChatsTab = show;
+<<<<<<< HEAD
+=======
+        removeTabs();
+        if (showAllChatsTab)
+            addTab(Integer.MAX_VALUE, 0, LocaleController.getString("FilterAllChats", R.string.FilterAllChats), null);
+>>>>>>> 57a677882 (feat: add folder icon settings ported from Nekogram)
         ArrayList<MessagesController.DialogFilter> filters = AccountInstance.getInstance(UserConfig.selectedAccount).getMessagesController().dialogFilters;
         removeTabs();
         for (int a = 0, N = filters.size(); a < N; a++) {
             MessagesController.DialogFilter dialogFilter = filters.get(a);
+<<<<<<< HEAD
             if (filters.get(a).isDefault()) {
                 if (showAllChatsTab)
                     addTab(a, 0, LocaleController.getString("FilterAllChats", R.string.FilterAllChats), true,  false);
@@ -1825,6 +1916,18 @@ public class FilterTabsView extends FrameLayout {
                         addTab(a, filters.get(a).localId, dialogFilter.emoticon != null ? dialogFilter.emoticon + " " + dialogFilter.name : "📂 " + dialogFilter.name, false, false);
                         break;
                 }
+=======
+            switch (NekoConfig.tabsTitleType.Int()) {
+                case NekoXConfig.TITLE_TYPE_TEXT:
+                    addTab(a, filters.get(a).localId, filters.get(a).name, dialogFilter.name);
+                    break;
+                case NekoXConfig.TITLE_TYPE_ICON:
+                    addTab(a, filters.get(a).localId, filters.get(a).name, dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1");
+                    break;
+                case NekoXConfig.TITLE_TYPE_MIX:
+                    addTab(a, filters.get(a).localId, filters.get(a).name, dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1 " + dialogFilter.name);
+                    break;
+>>>>>>> 57a677882 (feat: add folder icon settings ported from Nekogram)
             }
         }
         finishAddingTabs(true);
