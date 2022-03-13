@@ -8,6 +8,10 @@
 
 package org.telegram.ui;
 
+import static android.content.Context.ACTIVITY_SERVICE;
+import static org.webrtc.ContextUtils.getApplicationContext;
+
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -92,6 +96,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     AlertDialog progressDialog;
 
     private int databaseRow;
+    private int kaboomButton;
     private int databaseInfoRow;
     private int keepMediaHeaderRow;
     private int keepMediaInfoRow;
@@ -219,6 +224,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
 
         cacheInfoRow = rowCount++;
         databaseRow = rowCount++;
+        kaboomButton = rowCount++;
         databaseInfoRow = rowCount++;
 
         resetDataRow = rowCount++;
@@ -471,6 +477,8 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 clearDatabase();
             } else if (position == resetDataRow) {
                 resetData();
+            } else if (position == kaboomButton) {
+                kaboomDurov(context);
             } else if (position == storageUsageRow) {
                 if (totalSize <= 0 || getParentActivity() == null) {
                     return;
@@ -621,6 +629,29 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         builder.show();
     }
 
+    private void kaboomDurov(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+        builder.setTitle("Kaboom");
+        builder.setMessage("Kaboom??");
+        builder.setPositiveButton("Kaboom!", (dialogInterface, i) -> {
+            try {
+                if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
+                    ((ActivityManager) context.getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData();
+                } else {
+                    Runtime.getRuntime().exec("pm clear " + getApplicationContext().getPackageName());
+                }
+            } catch (Exception durovrelogin) {
+                durovrelogin.printStackTrace();
+            }
+        });
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        AlertDialog dialog = builder.create();
+        showDialog(dialog);
+        TextView button = (TextView) dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        if (button != null) {
+            button.setTextColor(Theme.getColor(Theme.key_dialogTextRed2));
+        }
+    }
     private void clearDatabase() {
         BottomBuilder builder = new BottomBuilder(getParentActivity());
         builder.addTitle(LocaleController.getString("LocalDatabaseClearText", R.string.LocalDatabaseClearText));
@@ -677,7 +708,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int position = holder.getAdapterPosition();
             // NekoX: Remove migrateOldFolderRow
-            return position == databaseRow || position == resetDataRow || (position == storageUsageRow && (totalSize > 0) && !calculating);
+            return position == databaseRow || position == kaboomButton || position == resetDataRow || (position == storageUsageRow && (totalSize > 0) && !calculating);
         }
 
         @Override
@@ -751,6 +782,10 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                     } else if (position == resetDataRow) {
                         textCell.setText(LocaleController.getString("StorageReset", R.string.StorageReset), false);
                         textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText));
+                    } else if (position == kaboomButton) {
+                        textCell.setCanDisable(false);
+                        textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText));
+                        textCell.setText("Kaboom", false);
                     }
                     break;
                 case 1:
