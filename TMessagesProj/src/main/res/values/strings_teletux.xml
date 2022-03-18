@@ -20,7 +20,5 @@
     <string name="Channelicon" translatable="false">f0a1</string>
     <string name="Groupicon" translatable="false">f0c0</string>
     <string name="hideBottomButton">Hide Bottom Button</string>
-
-
-
+    <string name="FullShadowBan">Full Shadow Ban</string>
 </resources>

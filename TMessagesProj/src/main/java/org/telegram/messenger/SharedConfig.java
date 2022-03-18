@@ -1344,6 +1344,59 @@ public class SharedConfig {
         getCountryLangs();
     }
 
+    public static HashSet<Long> getShadowBannedHS() {
+        if (shadowBannedHS == null) shadowBannedHS = new HashSet<>();
+        return shadowBannedHS;
+    }
+
+    public static boolean isShadowBanned(Long id) {
+//        System.out.printf("isShadowBanned `%s`%n", "the id");
+        if (shadowBannedHS == null) {
+            shadowBannedHS = new HashSet<>();
+            return false;
+        }
+        return isShadowBanned(id);
+    }
+
+    public static boolean isShadowBanned(TLRPC.Message m) {
+//        System.out.printf("isShadowBanned `%s`%n", "the message");
+        if (shadowBannedHS == null) {
+            shadowBannedHS = new HashSet<>();
+            return false;
+        }
+        return isShadowBanned(m.from_id.channel_id) || isShadowBanned(m.from_id.chat_id) || isShadowBanned(m.from_id.user_id);
+    }
+
+    public static boolean isShadowBanned(TLRPC.Updates m) {
+//        System.out.printf("isShadowBanned `%s`%n", "the Updates");
+        if (shadowBannedHS == null) {
+            shadowBannedHS = new HashSet<>();
+            return false;
+        }
+        return m instanceof TLRPC.TL_updateShortChatMessage ? isShadowBanned(m.from_id) : isShadowBanned(m.user_id);
+    }
+
+    public static boolean isShadowBanned(long id) {
+//        System.out.printf("isShadowBanned `%d`%n", id);
+        if (shadowBannedHS == null) {
+            shadowBannedHS = new HashSet<>();
+            return false;
+        }
+        return shadowBannedHS.contains(id < 0L ? -id : id);
+    }
+
+    public static void addShadowBanned(long id) {
+//        System.out.printf("addShadowBanned `%d`%n", id);
+        if (shadowBannedHS == null) shadowBannedHS = new HashSet<>();
+        shadowBannedHS.add(id < 0L ? -id : id);
+    }
+
+    public static void delShadowBanned(long id) {
+//        System.out.printf("delShadowBanned `%d`%n", id);
+        if (shadowBannedHS == null) shadowBannedHS = new HashSet<>();
+        shadowBannedHS.remove(id < 0L ? -id : id);
+    }
+
     public static HashMap<String, String> getCountryLangs() {
         if (passportConfigMap == null) {
             passportConfigMap = new HashMap<>();
