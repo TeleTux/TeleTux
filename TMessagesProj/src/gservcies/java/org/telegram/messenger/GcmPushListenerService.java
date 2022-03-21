@@ -281,7 +281,7 @@ public class GcmPushListenerService extends FirebaseMessagingService {
                                 ids.add(Utilities.parseInt(messagesArgs[a]));
                             }
                             deletedMessages.put(-channel_id, ids);
-                            NotificationsController.getInstance(currentAccount).removeDeletedMessagesFromNotifications(deletedMessages);
+//                            NotificationsController.getInstance(currentAccount).removeDeletedMessagesFromNotifications(deletedMessages);
 
                             MessagesController.getInstance(currentAccount).deleteMessagesByPush(dialogId, ids, channel_id);
                             if (BuildVars.LOGS_ENABLED) {

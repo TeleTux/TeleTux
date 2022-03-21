@@ -54400,6 +54400,7 @@ public class TLRPC {
         public String translatedMessage; //custom
         public boolean translated; // custom
         public boolean hide; // custom
+        public boolean isDeleted = false;
 
         public static Message TLdeserialize(AbstractSerializedData stream, int constructor, boolean exception) {
             Message result = null;
