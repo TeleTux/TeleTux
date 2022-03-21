@@ -32,6 +32,8 @@ import org.dizitart.no2.objects.filters.ObjectFilters;
 import org.json.JSONArray;
 import org.json.JSONException;
 import androidx.annotation.IntDef;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 import org.telegram.tgnet.ConnectionsManager;
@@ -46,7 +48,10 @@ import java.net.Proxy;
 import java.util.Arrays;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -189,6 +194,7 @@ public class SharedConfig {
 
     public static CopyOnWriteArraySet<Integer> activeAccounts;
     public static int loginingAccount = -1;
+    public static HashSet<Long> shadowBannedHS;
 
     static {
         loadConfig();
@@ -1087,6 +1093,13 @@ public class SharedConfig {
                 editor.putInt("lockRecordAudioVideoHint", lockRecordAudioVideoHint);
                 editor.putString("storageCacheDir", !TextUtils.isEmpty(storageCacheDir) ? storageCacheDir : "");
 
+                SharedPreferences preferencesTH = ApplicationLoader.applicationContext.getSharedPreferences("telegraher", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editorTH = preferencesTH.edit();
+                editorTH.putString("shadowBannedHS", new Gson().toJson(shadowBannedHS));
+//                System.out.printf("SAVE `%s`%n", new Gson().toJson(shadowBannedHS));
+                editorTH.commit();
+//                System.out.println("preferencesTH saved!");
+
                 if (pendingAppUpdate != null) {
                     try {
                         SerializedData data = new SerializedData(pendingAppUpdate.getObjectSize());
@@ -1297,6 +1310,12 @@ public class SharedConfig {
 
             preferences = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", Activity.MODE_PRIVATE);
             showNotificationsForAllAccounts = preferences.getBoolean("AllAccounts", true);
+
+            preferences = ApplicationLoader.applicationContext.getSharedPreferences("telegraher", Activity.MODE_PRIVATE);
+            Type lhs = new TypeToken<HashSet<Long>>() {}.getType();
+            shadowBannedHS = new Gson().fromJson(preferences.getString("shadowBannedHS", "[]"), lhs);
+//            System.out.printf("LOAD `%s`%n", preferences.getString("shadowBannedHS", "[]"));
+//            System.out.println("preferencesTH loaded!");
 
             configLoaded = true;
 

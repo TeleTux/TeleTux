@@ -353,7 +353,6 @@ dependencies {
     implementation "androidx.dynamicanimation:dynamicanimation:1.0.0"
     implementation "androidx.multidex:multidex:2.0.1"
     implementation "androidx.sharetarget:sharetarget:1.1.0"
-
     compileOnly "org.checkerframework:checker-qual:3.16.0"
     compileOnly "org.checkerframework:checker-compat-qual:2.5.5"
 
@@ -361,7 +360,7 @@ dependencies {
     //noinspection GradleDependency
     implementation "com.googlecode.mp4parser:isoparser:1.0.6"
 
-    implementation "com.google.code.gson:gson:2.8.8"
+    implementation "com.google.code.gson:gson:2.9.0"
     implementation "org.osmdroid:osmdroid-android:6.1.10"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.30"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
