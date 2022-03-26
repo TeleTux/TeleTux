@@ -180,6 +180,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class ChatActivityEnterView extends BlurredFrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StickersAlert.StickersAlertDelegate {
 
+    public EditTextCaption getMessageEditText() {
+        return messageEditText;
+    }
+    
     public interface ChatActivityEnterViewDelegate {
         default void beforeMessageSend(CharSequence message, boolean notify, int scheduleDate) {
         }

@@ -80,7 +80,7 @@ public class ApplicationLoader extends Application {
 
     public static boolean hasPlayServices;
 
-    public static SharedPreferences superPreferences;
+    public static SharedPreferences TuxPreferences;
 
     @Override
     protected void attachBaseContext(Context base) {
