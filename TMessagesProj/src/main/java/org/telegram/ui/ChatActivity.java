@@ -1673,7 +1673,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     @Override
     public boolean onFragmentCreate() {
-        QuoteForward = ApplicationLoader.superPreferences.getBoolean("QuoteForward", false);
+        QuoteForward = ApplicationLoader.TuxPreferences.getBoolean("QuoteForward", false);
         final long chatId = arguments.getLong("chat_id", 0);
         final long userId = arguments.getLong("user_id", 0);
         final int encId = arguments.getInt("enc_id", 0);
@@ -2488,7 +2488,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 } else if (id == forward) {
                     //openForward(true);
                     QuoteForward = true;
-                    ApplicationLoader.superPreferences.edit().putBoolean("QuoteForward", true).commit();
+                    ApplicationLoader.TuxPreferences.edit().putBoolean("QuoteForward", true).commit();
                     Bundle args = new Bundle();
                     args.putBoolean("onlySelect", true);
                     args.putInt("dialogsType", 3);
@@ -8396,8 +8396,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (isForwardEdit) {
                 chatActivityEnterView.getMessageEditText().setText("");
                 isForwardEdit = false;
-                ApplicationLoader.superPreferences.edit().putBoolean("QuoteForward", true).commit();
-                ApplicationLoader.superPreferences.edit().putBoolean("ForwardEditClose" + dialog_id, true).commit();
+                ApplicationLoader.TuxPreferences.edit().putBoolean("QuoteForward", true).commit();
+                ApplicationLoader.TuxPreferences.edit().putBoolean("ForwardEditClose" + dialog_id, true).commit();
                 QuoteForward = true;
                 updateBottomOverlay();
                 chatAdapter.notifyDataSetChanged();
@@ -20972,7 +20972,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     @Override
     public void onResume() {
         super.onResume();
-        QuoteForward = ApplicationLoader.superPreferences.getBoolean("QuoteForward", false);
+        QuoteForward = ApplicationLoader.TuxPreferences.getBoolean("QuoteForward", false);
         checkShowBlur(false);
         activityResumeTime = System.currentTimeMillis();
         if (openImport && getSendMessagesHelper().getImportingHistory(dialog_id) != null) {
@@ -21102,20 +21102,20 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             pullingDownOffset = 0;
             chatListView.invalidate();
         }
-        if (ApplicationLoader.superPreferences.getBoolean("ForwardEditClose" + dialog_id, false)) {
-            if (ApplicationLoader.superPreferences.getInt("MarkedMessageForwardEdit" + dialog_id, -1) != -1) {
-                scrollToMessageId(ApplicationLoader.superPreferences.getInt("MarkedMessageForwardEdit" + dialog_id, -1), attach_photo, true, attach_photo, false);
-                ApplicationLoader.superPreferences.edit().putInt("MarkedMessageForwardEdit" + dialog_id, -1).commit();
+        if (ApplicationLoader.TuxPreferences.getBoolean("ForwardEditClose" + dialog_id, false)) {
+            if (ApplicationLoader.TuxPreferences.getInt("MarkedMessageForwardEdit" + dialog_id, -1) != -1) {
+                scrollToMessageId(ApplicationLoader.TuxPreferences.getInt("MarkedMessageForwardEdit" + dialog_id, -1), attach_photo, true, attach_photo, false);
+                ApplicationLoader.TuxPreferences.edit().putInt("MarkedMessageForwardEdit" + dialog_id, -1).commit();
             }
-            ApplicationLoader.superPreferences.edit().putBoolean("ForwardEditClose" + dialog_id, false).commit();
+            ApplicationLoader.TuxPreferences.edit().putBoolean("ForwardEditClose" + dialog_id, false).commit();
         }
         
-        if (ApplicationLoader.superPreferences.getBoolean("ForwardEditClose" + dialog_id, false)) {
-            if (ApplicationLoader.superPreferences.getInt("MarkedMessageForwardEdit" + dialog_id, -1) != -1) {
-                scrollToMessageId(ApplicationLoader.superPreferences.getInt("MarkedMessageForwardEdit" + dialog_id, -1), attach_photo, true, attach_photo, false);
-                ApplicationLoader.superPreferences.edit().putInt("MarkedMessageForwardEdit" + dialog_id, -1).commit();
+        if (ApplicationLoader.TuxPreferences.getBoolean("ForwardEditClose" + dialog_id, false)) {
+            if (ApplicationLoader.TuxPreferences.getInt("MarkedMessageForwardEdit" + dialog_id, -1) != -1) {
+                scrollToMessageId(ApplicationLoader.TuxPreferences.getInt("MarkedMessageForwardEdit" + dialog_id, -1), attach_photo, true, attach_photo, false);
+                ApplicationLoader.TuxPreferences.edit().putInt("MarkedMessageForwardEdit" + dialog_id, -1).commit();
             }
-            ApplicationLoader.superPreferences.edit().putBoolean("ForwardEditClose" + dialog_id, false).commit();
+            ApplicationLoader.TuxPreferences.edit().putBoolean("ForwardEditClose" + dialog_id, false).commit();
         }
     }
 
@@ -21134,7 +21134,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             scrimPopupWindow.setPauseNotifications(false);
             closeMenu();
         }
-        QuoteForward = ApplicationLoader.superPreferences.getBoolean("QuoteForward", false);
+        QuoteForward = ApplicationLoader.TuxPreferences.getBoolean("QuoteForward", false);
         updateBottomOverlay();
         if (isForwardEdit) {
             if (forwardingMessages != null) {
@@ -21143,7 +21143,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             showFieldPanel(false, null, null, null, foundWebPage, true);
             chatActivityEnterView.getMessageEditText().setText("");
             isForwardEdit = false;
-            ApplicationLoader.superPreferences.edit().putBoolean("QuoteForward", true).commit();
+            ApplicationLoader.TuxPreferences.edit().putBoolean("QuoteForward", true).commit();
             QuoteForward = true;
         }
     }
@@ -21281,7 +21281,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (AvatarPreviewer.hasVisibleInstance()) {
             AvatarPreviewer.getInstance().close();
         }
-        QuoteForward = ApplicationLoader.superPreferences.getBoolean("QuoteForward", false);
+        QuoteForward = ApplicationLoader.TuxPreferences.getBoolean("QuoteForward", false);
         updateBottomOverlay();
         if (isForwardEdit) {
             if (forwardingMessages != null) {
@@ -21290,7 +21290,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             showFieldPanel(false, null, null, null, foundWebPage, true);
             chatActivityEnterView.getMessageEditText().setText("");
             isForwardEdit = false;
-            ApplicationLoader.superPreferences.edit().putBoolean("QuoteForward", true).commit();
+            ApplicationLoader.TuxPreferences.edit().putBoolean("QuoteForward", true).commit();
             QuoteForward = true;
         }
     }
@@ -23568,7 +23568,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 noForwardQuote = false; //fuck
 
                 QuoteForward = true;
-                ApplicationLoader.superPreferences.edit().putBoolean("QuoteForward", true).commit();
+                ApplicationLoader.TuxPreferences.edit().putBoolean("QuoteForward", true).commit();
                 ((LaunchActivity) getParentActivity()).rebuildAllFragments(true);
 
                 forwardingMessage = selectedObject;
@@ -24189,7 +24189,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             case forward_no_quote: {
                 QuoteForward = false;
-                ApplicationLoader.superPreferences.edit().putBoolean("QuoteForward", false).commit();
+                ApplicationLoader.TuxPreferences.edit().putBoolean("QuoteForward", false).commit();
                 ((LaunchActivity) getParentActivity()).rebuildAllFragments(true);
                 forwardingMessage = selectedObject;
                 forwardingMessageGroup = selectedObjectGroup;
@@ -24216,11 +24216,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 break;
             }
             case forward_edit: {
-                ApplicationLoader.superPreferences.edit().putInt("MarkedMessageForwardEdit" + dialog_id, selectedObject.getId()).commit();
+                ApplicationLoader.TuxPreferences.edit().putInt("MarkedMessageForwardEdit" + dialog_id, selectedObject.getId()).commit();
                 isForwardEdit = true;
                 updateBottomOverlay();
                 QuoteForward = false;
-                ApplicationLoader.superPreferences.edit().putBoolean("QuoteForward", false).commit();
+                ApplicationLoader.TuxPreferences.edit().putBoolean("QuoteForward", false).commit();
                 MessageObject selectedObjectNew = selectedObject;
                 if (selectedObjectNew.caption != null) {
                     chatActivityEnterView.getMessageEditText().setText(selectedObjectNew.caption);
@@ -24257,7 +24257,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             showFieldPanel(false, null, null, null, null, foundWebPage, true, true);
                             chatActivityEnterView.getMessageEditText().setText("");
                             isForwardEdit = false;
-                            ApplicationLoader.superPreferences.edit().putBoolean("QuoteForward", true).commit();
+                            ApplicationLoader.TuxPreferences.edit().putBoolean("QuoteForward", true).commit();
                             QuoteForward = true;
                             updateBottomOverlay();
                         });

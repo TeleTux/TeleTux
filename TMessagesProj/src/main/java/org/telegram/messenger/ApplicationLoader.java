@@ -80,6 +80,7 @@ public class ApplicationLoader extends Application {
 
     public static boolean hasPlayServices;
 
+    public static SharedPreferences superPreferences;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -388,6 +389,14 @@ public class ApplicationLoader extends Application {
 
         startPushService();
 
+        TuxPreferences = applicationContext.getSharedPreferences("nkmrcfg" , Context.MODE_PRIVATE);
+
+        //MeowTypefaceHelper.init(
+                //Typeface.createFromAsset(getAssets(), "fonts/iransans.ttf"),
+                //Typeface.createFromAsset(getAssets(), "fonts/iransans_medium.ttf"),
+                //Typeface.createFromAsset(getAssets(), "fonts/iransans_bold.ttf"),
+                //Typeface.createFromAsset(getAssets(), "fonts/iransans_light.ttf"));
+        
     }
 
     public static void startPushService() {
