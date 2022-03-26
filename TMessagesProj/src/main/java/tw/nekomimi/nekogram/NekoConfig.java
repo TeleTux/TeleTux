@@ -111,7 +111,7 @@ public class NekoConfig {
     public static ConfigItem disableSystemAccount = addConfig("DisableSystemAccount", configTypeBool, false);
 //    public static ConfigItem disableProxyWhenVpnEnabled = addConfig("DisableProxyWhenVpnEnabled", configTypeBool, false);
     public static ConfigItem skipOpenLinkConfirm = addConfig("SkipOpenLinkConfirm", configTypeBool, false);
-
+    public static boolean disableVoiceMessageAutoPlay = false;
     public static ConfigItem ignoreMutedCount = addConfig("IgnoreMutedCount", configTypeBool, true);
     public static ConfigItem useDefaultTheme = addConfig("UseDefaultTheme", configTypeBool, false);
     public static ConfigItem showIdAndDc = addConfig("ShowIdAndDc", configTypeBool, false);
@@ -262,6 +262,11 @@ public class NekoConfig {
 
         // NekoConfig.java read & migrate
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+
+
+
+        if (preferences.contains("disableVoiceMessageAutoPlay"))
+            disableVoiceMessageAutoPlay.setConfigBool(preferences.getBoolean("disableVoiceMessageAutoPlay", false));;
 
         if (preferences.contains("typeface"))
             typeface.setConfigBool(preferences.getInt("typeface", 0) != 0);
