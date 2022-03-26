@@ -346,7 +346,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private final static int forward_multiple = 106;
     public static boolean isForwardEdit = false;
     private int isNoQuoteForward;
-
+    private SuperTextView replyTextView;
     protected TLRPC.Chat currentChat;
     protected TLRPC.User currentUser;
     protected TLRPC.EncryptedChat currentEncryptedChat;
