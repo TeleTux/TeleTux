@@ -299,6 +299,8 @@ import tw.nekomimi.nekogram.utils.EnvUtil;
 import tw.nekomimi.nekogram.utils.PGPUtil;
 import tw.nekomimi.nekogram.utils.ProxyUtil;
 import tw.nekomimi.nekogram.utils.TelegramUtil;
+import tw.nekomimi.nekogram.ui.SuperTextView;
+
 import xyz.nextalone.nagram.NaConfig;
 import xyz.nextalone.nagram.helper.DoubleTap;
 
@@ -12042,6 +12044,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         showFieldPanel(show, null, messageObjectToEdit, null, null, true, 0, false, true);
     }
 
+    public void showFieldPanelForForwardEdit(boolean show, MessageObject messageObjectToForwardEdit) {
+        showFieldPanel(show, null, null, messageObjectToForwardEdit, null, null, false, true);
+    }
+
+    public void showFieldPanel(boolean show, MessageObject messageObjectToReply, MessageObject messageObjectToEdit, ArrayList<MessageObject> messageObjectsToForward, TLRPC.WebPage webPage, boolean cancel) {
+        showFieldPanel(show, messageObjectToReply, messageObjectToEdit, null, messageObjectsToForward, webPage, cancel, true);
+    }
+
     public void beforeMessageSend(boolean notify, int scheduleDate, boolean beforeSend) {
         if (beforeSend != NekoConfig.sendCommentAfterForward.Bool()) return;
         if (forwardingMessages != null) {
@@ -21104,7 +21114,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
         if (ApplicationLoader.TuxPreferences.getBoolean("ForwardEditClose" + dialog_id, false)) {
             if (ApplicationLoader.TuxPreferences.getInt("MarkedMessageForwardEdit" + dialog_id, -1) != -1) {
-                scrollToMessageId(ApplicationLoader.TuxPreferences.getInt("MarkedMessageForwardEdit" + dialog_id, -1), attach_photo, true, attach_photo, false);
+                scrollToMessageId(ApplicationLoader.TuxPreferences.getInt("MarkedMessageForwardEdit" + dialog_id, -1), attach_photo, true, attach_photo, false, 0);
                 ApplicationLoader.TuxPreferences.edit().putInt("MarkedMessageForwardEdit" + dialog_id, -1).commit();
             }
             ApplicationLoader.TuxPreferences.edit().putBoolean("ForwardEditClose" + dialog_id, false).commit();
@@ -21112,7 +21122,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         
         if (ApplicationLoader.TuxPreferences.getBoolean("ForwardEditClose" + dialog_id, false)) {
             if (ApplicationLoader.TuxPreferences.getInt("MarkedMessageForwardEdit" + dialog_id, -1) != -1) {
-                scrollToMessageId(ApplicationLoader.TuxPreferences.getInt("MarkedMessageForwardEdit" + dialog_id, -1), attach_photo, true, attach_photo, false);
+                scrollToMessageId(ApplicationLoader.TuxPreferences.getInt("MarkedMessageForwardEdit" + dialog_id, -1), attach_photo, true, attach_photo, false, 0);
                 ApplicationLoader.TuxPreferences.edit().putInt("MarkedMessageForwardEdit" + dialog_id, -1).commit();
             }
             ApplicationLoader.TuxPreferences.edit().putBoolean("ForwardEditClose" + dialog_id, false).commit();
@@ -21138,7 +21148,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         updateBottomOverlay();
         if (isForwardEdit) {
             if (forwardingMessages != null) {
-                forwardingMessages.clear();
+                forwardingMessages.messages.clear();
             }
             showFieldPanel(false, null, null, null, foundWebPage, true);
             chatActivityEnterView.getMessageEditText().setText("");
@@ -21285,7 +21295,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         updateBottomOverlay();
         if (isForwardEdit) {
             if (forwardingMessages != null) {
-                forwardingMessages.clear();
+                forwardingMessages.messages.clear();
             }
             showFieldPanel(false, null, null, null, foundWebPage, true);
             chatActivityEnterView.getMessageEditText().setText("");
@@ -24252,7 +24262,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         shareAlert.getDoneButtonTextView().setOnClickListener(view12 -> {
                             shareAlert.sendMessagesToDialogs();
                             if (forwardingMessages != null) {
-                                forwardingMessages.clear();
+                                forwardingMessages.messages.clear();
                             }
                             showFieldPanel(false, null, null, null, null, foundWebPage, true, true);
                             chatActivityEnterView.getMessageEditText().setText("");
@@ -24436,6 +24446,19 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 updateVisibleRows();
             }
         }
+    }
+
+    private String removeUrl(String commentstr) {
+        String urlPattern = "((https?|ftp|gopher|telnet|file|Unsure|http):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
+        Pattern p = Pattern.compile(urlPattern, Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(commentstr);
+        int i = 0;
+        while (m.find()) {
+            commentstr = commentstr.replaceAll(m.group(i), "").trim();
+            i++;
+        }
+        commentstr = commentstr.replaceAll("@[^\\s]+", "");
+        return commentstr;
     }
 
     public boolean checkRecordLocked(boolean forceCloseOnDiscard) {
