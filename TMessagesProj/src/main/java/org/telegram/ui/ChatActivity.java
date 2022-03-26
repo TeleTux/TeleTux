@@ -8357,7 +8357,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         createChatAttachView();
                     }
                     chatAttachAlert.setEditingMessageObject(editingMessageObject);
-                    openAttachMenu()
+                    openAttachMenu();
                 } else {
                     scrollToMessageId(editingMessageObject.getId(), 0, true, 0, true, 0);
                 }
@@ -8393,7 +8393,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 showFieldPanel(false, null, null, null, foundWebPage, true, 0, true, true);
             }
             showFieldPanel(false, null, null, null, foundWebPage, true);
-            else if (isForwardEdit) {
+            if (isForwardEdit) {
                 chatActivityEnterView.getMessageEditText().setText("");
                 isForwardEdit = false;
                 ApplicationLoader.superPreferences.edit().putBoolean("QuoteForward", true).commit();
@@ -19845,13 +19845,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (notify) {
             chatAdapter.updateRowWithMessageObject(replyMessageHeaderObject, true);
         }
+        if (isForwardEdit) {
+            chatActivityEnterView.setVisibility(View.VISIBLE);
+            bottomOverlayChat.setVisibility(View.INVISIBLE);
+            chatActivityEnterView.setFieldFocused();
+            AndroidUtilities.runOnUIThread(() -> chatActivityEnterView.openKeyboard(), 100);
+        }
     }
-    if (isForwardEdit) {
-        chatActivityEnterView.setVisibility(View.VISIBLE);
-        bottomOverlayChat.setVisibility(View.INVISIBLE);
-        chatActivityEnterView.setFieldFocused();
-        AndroidUtilities.runOnUIThread(() -> chatActivityEnterView.openKeyboard(), 100);
-    }
+        
 
     public void showAlert(String name, String message) {
         if (alertView == null || name == null || message == null) {
