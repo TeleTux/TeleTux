@@ -765,9 +765,7 @@ public boolean retriedToSend;
         return localInstance;
     }
 
-    public processForwardFromMyName(MessageObject messageObject, long did) {
-        processForwardFromMyName(messageObject, did, false);
-    }
+    
 
     public SendMessagesHelper(int instance) {
         super(instance);
@@ -1420,6 +1418,10 @@ public boolean retriedToSend;
         if (prevSize != 0 && unsentMessages.size() == 0) {
             checkUnsentMessages();
         }
+    }
+
+    public void processForwardFromMyName(MessageObject messageObject, long did) {
+        processForwardFromMyName(messageObject, did, false);
     }
 
     public void processForwardFromMyName(MessageObject messageObject, long did) {
