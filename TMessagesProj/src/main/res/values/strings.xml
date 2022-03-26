@@ -5156,4 +5156,8 @@
     <string name="PasscodeBadInfo">Sorry, firstly you have to turn on your local passcode in Privacy Settings.</string>
     <string name="PasscodeClear">Clear all passcodes</string>
     <string name="PasscodeCleared">Cleared</string>
+    <string name="QuoteForward">Forward with quote</string>
+    <string name="NoQuoteForward">Forward no quote</string>
+    <string name="MultiForward">Multiple forward</string>
+    <string name="EditForward">Forward with edit</string>
 </resources>

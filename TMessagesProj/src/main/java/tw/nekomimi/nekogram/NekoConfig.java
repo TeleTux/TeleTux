@@ -266,7 +266,7 @@ public class NekoConfig {
 
 
         if (preferences.contains("disableVoiceMessageAutoPlay"))
-            disableVoiceMessageAutoPlay.setConfigBool(preferences.getBoolean("disableVoiceMessageAutoPlay", false));;
+            disableVoiceMessageAutoPlay.setConfigBool(preferences.getBoolean("disableVoiceMessageAutoPlay", false));
 
         if (preferences.contains("typeface"))
             typeface.setConfigBool(preferences.getInt("typeface", 0) != 0);
