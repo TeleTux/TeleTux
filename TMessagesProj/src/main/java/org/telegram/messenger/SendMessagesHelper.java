@@ -765,7 +765,7 @@ public boolean retriedToSend;
         return localInstance;
     }
 
-    public void processForwardFromMyName(MessageObject messageObject, long did) {
+    public processForwardFromMyName(MessageObject messageObject, long did) {
         processForwardFromMyName(messageObject, did, false);
     }
 

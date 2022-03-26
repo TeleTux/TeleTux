@@ -152,7 +152,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     private int previousScrollOffsetY;
     private int topBeforeSwitch;
     private boolean panTranslationMoveLayout;
-
+    private Switch quoteSwitch, allSwitch;
     private ShareAlertDelegate delegate;
     private float currentPanTranslationY;
 
@@ -311,6 +311,80 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
         public SearchField(Context context) {
             super(context);
+
+            allSwitch = new Switch(context);
+            allSwitch.setTag("chat");
+            allSwitch.setDuplicateParentStateEnabled(false);
+            allSwitch.setFocusable(false);
+            allSwitch.setFocusableInTouchMode(false);
+            allSwitch.setClickable(true);
+            allSwitch.setChecked(false, true);
+            addView(allSwitch, LayoutHelper.createFrame(50, 48, Gravity.LEFT | Gravity.TOP, 8, 14, 0, 0));
+            allSwitch.setOnClickListener(v -> {
+                allSwitch.setChecked(!allSwitch.isChecked(), true);
+                if (!allSwitch.isChecked()) {
+                    selectedDialogs.clear();
+                    updateSelectedCount(2);
+                }
+                if (gridView.getAdapter() != null) {
+                    for (int i = 1; i < gridView.getAdapter().getItemCount(); i++) {
+                        TLRPC.Dialog dialog;
+                        if (gridView.getAdapter() == listAdapter) {
+                            dialog = listAdapter.getItem(i);
+                        } else {
+                            dialog = searchAdapter.getItem(i);
+                        }
+                        if (dialog == null) {
+                            return;
+                        }
+                        try {
+                            ShareDialogCell cell = (ShareDialogCell) gridView.getChildAt(i);
+                            if (allSwitch.isChecked()) {
+                                selectedDialogs.put(dialog.id, dialog);
+                                cell.setChecked(true, false);
+                                updateSelectedCount(1);
+                            } else {
+                                cell.setChecked(false, false);
+                                updateSelectedCount(2);
+                            }
+                        } catch (Exception ignored) {}
+                    }
+                }
+            });
+            TextView allTextView = new SuperTextView(context);
+            allTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 9);
+            allTextView.setTextColor(0xff757575/*textColor != 0xff757575 ? 0xff757575 : 0xff979797*/);
+            allTextView.setGravity(Gravity.CENTER);
+            allTextView.setCompoundDrawablePadding(AndroidUtilities.dp(8));
+            allTextView.setText(LocaleController.getString("CheckAll", R.string.CheckAll).toUpperCase());
+            allTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            addView(allTextView, LayoutHelper.createFrame(50, 25, Gravity.LEFT | Gravity.TOP, 12 - 3, 6, 0, 0));
+
+            quoteSwitch = new Switch(context);
+            quoteSwitch.setTag("chat");
+            quoteSwitch.setDuplicateParentStateEnabled(false);
+            quoteSwitch.setFocusable(false);
+            quoteSwitch.setFocusableInTouchMode(false);
+            quoteSwitch.setClickable(true);
+            setCheck(ApplicationLoader.superPreferences.getBoolean("QuoteForward", true));
+            addView(quoteSwitch, LayoutHelper.createFrame(50, 48, Gravity.LEFT | Gravity.TOP, 48 + 8, 14, 0, 0));
+            quoteSwitch.setOnClickListener(v -> {
+                if (!ChatActivity.isForwardEdit) {
+                    boolean isChecked = !quoteSwitch.isChecked();
+                    quoteSwitch.setChecked(isChecked, true);
+                    ApplicationLoader.superPreferences.edit().putBoolean("QuoteForward", isChecked).apply();
+                }
+            });
+            TextView quoteTextView = new SuperTextView(context);
+            quoteTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 9);
+            quoteTextView.setTextColor(0xff757575/*textColor != 0xff757575 ? 0xff757575 : 0xff979797*/);
+            quoteTextView.setGravity(Gravity.CENTER);
+            quoteTextView.setCompoundDrawablePadding(AndroidUtilities.dp(8));
+            quoteTextView.setText(LocaleController.getString("Quote", R.string.Quote).toUpperCase());
+            quoteTextView.setTypeface(AndroidUtilities.getTypeface("fonts/iransans_light.ttf"));
+            addView(quoteTextView, LayoutHelper.createFrame(50, 25, Gravity.LEFT | Gravity.TOP, 60 - 3, 6, 0, 0));
+            
+
 
             searchBackground = new View(context);
             searchBackground.setBackgroundDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(18), getThemedColor(darkTheme ? Theme.key_voipgroup_searchBackground : Theme.key_dialogSearchBackground)));
@@ -1573,6 +1647,24 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     protected void onSend(LongSparseArray<TLRPC.Dialog> dids, int count) {
 
     }
+
+
+    public void setCheck(boolean checked) {
+        quoteSwitch.setChecked(checked, true);
+    }
+
+
+
+    public Switch getQuoteSwitch() {
+        return quoteSwitch;
+    }
+    
+
+
+    public FrameLayout getDoneButtonTextView() {
+        return writeButtonContainer;
+    }
+    
 
     private int getCurrentTop() {
         if (gridView.getChildCount() != 0) {
