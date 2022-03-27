@@ -1424,7 +1424,7 @@ public boolean retriedToSend;
         processForwardFromMyName(messageObject, did, false);
     }
 
-    public void processForwardFromMyName(MessageObject messageObject, long did) {
+    public void processForwardFromMyName(MessageObject messageObject, long did, boolean noQuoteForward) {
         if (messageObject == null) {
             return;
         }
@@ -1435,8 +1435,24 @@ public boolean retriedToSend;
                 params.put("parentObject", "sent_" + messageObject.messageOwner.peer_id.channel_id + "_" + messageObject.getId());
             }
             if (messageObject.messageOwner.media.photo instanceof TLRPC.TL_photo) {
+                //**/
+                if (noQuoteForward) {
+                    TLRPC.TL_photo tl_photo = (TLRPC.TL_photo) messageObject.messageOwner.media.photo;
+                    if (messageObject.caption != null) {
+                        tl_photo.caption = messageObject.messageOwner.media.captionLegacy;
+                    }
+                }
+                //
                 sendMessage((TLRPC.TL_photo) messageObject.messageOwner.media.photo, null, did, messageObject.replyMessageObject, null, messageObject.messageOwner.message, messageObject.messageOwner.entities, null, params, true, 0, messageObject.messageOwner.media.ttl_seconds, messageObject);
             } else if (messageObject.messageOwner.media.document instanceof TLRPC.TL_document) {
+                //* */
+                if (noQuoteForward) {
+                    TLRPC.TL_document tl_document = (TLRPC.TL_document) messageObject.messageOwner.media.document;
+                    if (messageObject.caption != null) {
+                        tl_document.file_name = messageObject.messageOwner.media.captionLegacy;
+                    }
+                }
+                //
                 sendMessage((TLRPC.TL_document) messageObject.messageOwner.media.document, null, messageObject.messageOwner.attachPath, did, messageObject.replyMessageObject, null, messageObject.messageOwner.message, messageObject.messageOwner.entities, null, params, true, 0, messageObject.messageOwner.media.ttl_seconds, messageObject, null);
             } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaVenue || messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGeo) {
                 sendMessage(messageObject.messageOwner.media, did, messageObject.replyMessageObject, null, null, null, true, 0);
@@ -1481,7 +1497,7 @@ public boolean retriedToSend;
             sendMessage(arrayList, did, true, false, true, 0);
         }
     }
-
+    
     public void sendScreenshotMessage(TLRPC.User user, int messageId, TLRPC.Message resendMessage) {
         if (user == null || messageId == 0 || user.id == getUserConfig().getClientUserId()) {
             return;
@@ -1715,7 +1731,7 @@ public boolean retriedToSend;
                     newMsg.fwd_from.flags = msgObj.messageOwner.fwd_from.flags;
                     newMsg.fwd_from.from_id = msgObj.messageOwner.fwd_from.from_id;
                     newMsg.fwd_from.date = msgObj.messageOwner.fwd_from.date;
-                    newMsg.fwd_from.channel_id = msgObj.messageOwner.fwd_from.channel_id;
+                    newMsg.fwd_from.from_id.channel_id = msgObj.messageOwner.fwd_from.from_id.channel_id;
                     newMsg.fwd_from.channel_post = msgObj.messageOwner.fwd_from.channel_post;
                     newMsg.fwd_from.post_author = msgObj.messageOwner.fwd_from.post_author;
                     newMsg.fwd_from.from_name = msgObj.messageOwner.fwd_from.from_name;
@@ -1728,7 +1744,7 @@ public boolean retriedToSend;
                         newMsg.fwd_from.from_id = msgObj.messageOwner.from_id;
                         newMsg.fwd_from.flags |= 1;
                     } else {
-                        newMsg.fwd_from.channel_id = msgObj.messageOwner.to_id.channel_id;
+                        newMsg.fwd_from.from_id.channel_id = msgObj.messageOwner.to_id.channel_id;
                         newMsg.fwd_from.flags |= 2;
                         if (msgObj.messageOwner.post && msgObj.messageOwner.from_id > 0) {
                             newMsg.fwd_from.from_id = msgObj.messageOwner.from_id;

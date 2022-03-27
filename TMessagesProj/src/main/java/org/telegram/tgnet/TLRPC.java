@@ -40699,7 +40699,6 @@ public class TLRPC {
     public static class TL_messageFwdHeader_layer68 extends TL_messageFwdHeader {
         public static int constructor = 0xc786ddcb;
 
-
         public void readParams(AbstractSerializedData stream, boolean exception) {
             flags = stream.readInt32(exception);
             if ((flags & 1) != 0) {

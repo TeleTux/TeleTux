@@ -103,6 +103,7 @@ import org.telegram.ui.MessageStatisticActivity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import tw.nekomimi.nekogram.NekoConfig;
 
@@ -366,13 +367,13 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             quoteSwitch.setFocusable(false);
             quoteSwitch.setFocusableInTouchMode(false);
             quoteSwitch.setClickable(true);
-            setCheck(ApplicationLoader.superPreferences.getBoolean("QuoteForward", true));
+            setCheck(ApplicationLoader.Tuxpreferences.getBoolean("QuoteForward", true));
             addView(quoteSwitch, LayoutHelper.createFrame(50, 48, Gravity.LEFT | Gravity.TOP, 48 + 8, 14, 0, 0));
             quoteSwitch.setOnClickListener(v -> {
                 if (!ChatActivity.isForwardEdit) {
                     boolean isChecked = !quoteSwitch.isChecked();
                     quoteSwitch.setChecked(isChecked, true);
-                    ApplicationLoader.superPreferences.edit().putBoolean("QuoteForward", isChecked).apply();
+                    ApplicationLoader.Tuxpreferences.edit().putBoolean("QuoteForward", isChecked).apply();
                 }
             });
             TextView quoteTextView = new SuperTextView(context);

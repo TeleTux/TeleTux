@@ -5162,4 +5162,6 @@
     <string name="EditForward">Forward with edit</string>
     <string name="RemoveLinks">clear link</string>
     <string name="ProForwardError">This is disabled for the Pro Forward ..</string>
+    <string name="CheckAll">CheckAll</string>
+    <string name="Quote">Quote</string>
 </resources>
