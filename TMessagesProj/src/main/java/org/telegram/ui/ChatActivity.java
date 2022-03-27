@@ -12062,6 +12062,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
+
+    public void showFieldPanel(boolean show, MessageObject messageObjectToReply, MessageObject messageObjectToEdit, ArrayList<MessageObject> messageObjectsToForward, TLRPC.WebPage webPage, boolean cancel) {
+        showFieldPanel(show, messageObjectToReply, messageObjectToEdit, null, messageObjectsToForward, webPage, cancel, true);
+    }
+
     public void showFieldPanel(boolean show, MessageObject messageObjectToReply, MessageObject messageObjectToEdit, ArrayList<MessageObject> messageObjectsToForward, TLRPC.WebPage webPage, boolean notify, int scheduleDate, boolean cancel, boolean animated) {
         if (chatActivityEnterView == null) {
             return;
@@ -24459,6 +24464,78 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
         commentstr = commentstr.replaceAll("@[^\\s]+", "");
         return commentstr;
+    }
+
+    private TLRPC.Message newMessage(TLRPC.Message message) {
+        if (message == null) {
+            return null;
+        }
+        TLRPC.Message message2 = new TLRPC.Message();
+        if (message instanceof TLRPC.TL_message) {
+            message2 = new TLRPC.TL_message();
+        } else if (message instanceof TLRPC.TL_message_secret) {
+            message2 = new TLRPC.TL_message_secret();
+        }
+        message2.id = message.id;
+        message2.from_id = message.from_id;
+        message2.to_id = message.to_id;
+        message2.date = message.date;
+        message2.action = message.action;
+        message2.reply_to_msg_id = message.reply_to_msg_id;
+        message2.fwd_from = message.fwd_from;
+        message2.reply_to_random_id = message.reply_to_random_id;
+        message2.via_bot_name = message.via_bot_name;
+        message2.edit_date = message.edit_date;
+        message2.silent = message.silent;
+        message2.message = message.message;
+        if (message.media != null) {
+            message2.media = newMessageMedia(message.media);
+        }
+        message2.flags = message.flags;
+        message2.mentioned = message.mentioned;
+        message2.media_unread = message.media_unread;
+        message2.out = message.out;
+        message2.unread = message.unread;
+        message2.entities = message.entities;
+        message2.reply_markup = message.reply_markup;
+        message2.views = message.views;
+        message2.via_bot_id = message.via_bot_id;
+        message2.send_state = message.send_state;
+        message2.fwd_msg_id = message.fwd_msg_id;
+        message2.attachPath = message.attachPath;
+        message2.params = message.params;
+        message2.random_id = message.random_id;
+        message2.local_id = message.local_id;
+        message2.dialog_id = message.dialog_id;
+        message2.ttl = message.ttl;
+        message2.destroyTime = message.destroyTime;
+        message2.layer = message.layer;
+        message2.seq_in = message.seq_in;
+        message2.seq_out = message.seq_out;
+        message2.replyMessage = message.replyMessage;
+        return message2;
+    }
+
+    
+    private TLRPC.MessageMedia newMessageMedia(TLRPC.MessageMedia messageMedia) {
+        TLRPC.MessageMedia tL_messageMediaUnsupported_old = messageMedia instanceof TLRPC.TL_messageMediaUnsupported_old ? new TLRPC.TL_messageMediaUnsupported_old() : messageMedia instanceof TLRPC.TL_messageMediaAudio_layer45 ? new TLRPC.TL_messageMediaAudio_layer45() : messageMedia instanceof TLRPC.TL_messageMediaPhoto_old ? new TLRPC.TL_messageMediaPhoto_old() : messageMedia instanceof TLRPC.TL_messageMediaUnsupported ? new TLRPC.TL_messageMediaUnsupported() : messageMedia instanceof TLRPC.TL_messageMediaEmpty ? new TLRPC.TL_messageMediaEmpty() : messageMedia instanceof TLRPC.TL_messageMediaVenue ? new TLRPC.TL_messageMediaVenue() : messageMedia instanceof TLRPC.TL_messageMediaVideo_old ? new TLRPC.TL_messageMediaVideo_old() : messageMedia instanceof TLRPC.TL_messageMediaDocument_old ? new TLRPC.TL_messageMediaDocument_old() : messageMedia instanceof TLRPC.TL_messageMediaDocument ? new TLRPC.TL_messageMediaDocument() : messageMedia instanceof TLRPC.TL_messageMediaContact ? new TLRPC.TL_messageMediaContact() : messageMedia instanceof TLRPC.TL_messageMediaPhoto ? new TLRPC.TL_messageMediaPhoto() : messageMedia instanceof TLRPC.TL_messageMediaVideo_layer45 ? new TLRPC.TL_messageMediaVideo_layer45() : messageMedia instanceof TLRPC.TL_messageMediaWebPage ? new TLRPC.TL_messageMediaWebPage() : messageMedia instanceof TLRPC.TL_messageMediaGeo ? new TLRPC.TL_messageMediaGeo() : new TLRPC.MessageMedia();
+        tL_messageMediaUnsupported_old.bytes = messageMedia.bytes;
+        tL_messageMediaUnsupported_old.captionLegacy = messageMedia.captionLegacy;
+        tL_messageMediaUnsupported_old.photo = messageMedia.photo;
+        tL_messageMediaUnsupported_old.audio_unused = messageMedia.audio_unused;
+        tL_messageMediaUnsupported_old.geo = messageMedia.geo;
+        tL_messageMediaUnsupported_old.title = messageMedia.title;
+        tL_messageMediaUnsupported_old.address = messageMedia.address;
+        tL_messageMediaUnsupported_old.provider = messageMedia.provider;
+        tL_messageMediaUnsupported_old.venue_id = messageMedia.venue_id;
+        tL_messageMediaUnsupported_old.document = messageMedia.document;
+        tL_messageMediaUnsupported_old.video_unused = messageMedia.video_unused;
+        tL_messageMediaUnsupported_old.phone_number = messageMedia.phone_number;
+        tL_messageMediaUnsupported_old.first_name = messageMedia.first_name;
+        tL_messageMediaUnsupported_old.last_name = messageMedia.last_name;
+        tL_messageMediaUnsupported_old.user_id = messageMedia.user_id;
+        tL_messageMediaUnsupported_old.webpage = messageMedia.webpage;
+        return tL_messageMediaUnsupported_old;
     }
 
     public boolean checkRecordLocked(boolean forceCloseOnDiscard) {
