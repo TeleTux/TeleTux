@@ -1676,6 +1676,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     @Override
     public boolean onFragmentCreate() {
         QuoteForward = ApplicationLoader.TuxPreferences.getBoolean("QuoteForward", false);
+        isNoQuoteForward = arguments.getInt("NoQuoteForward", 0);
         final long chatId = arguments.getLong("chat_id", 0);
         final long userId = arguments.getLong("user_id", 0);
         final int encId = arguments.getInt("enc_id", 0);
@@ -8804,7 +8805,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
             }
         });
-
+        
         bottomOverlayProgress = new RadialProgressView(context, themeDelegate);
         bottomOverlayProgress.setSize(AndroidUtilities.dp(22));
         bottomOverlayProgress.setProgressColor(getThemedColor(Theme.key_chat_fieldOverlayText));
@@ -8857,8 +8858,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         });
         bottomMessagesActionContainer.addView(replyButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP));
 
-        forwardButton = new TextView(context);
-        forwardButton.setText(LocaleController.getString("Forward", R.string.Forward));
+        forwardButton = new SuperTextView(context);
+        forwardButton.setText(LocaleController.getString("MultiForward", R.string.MultiForward));
         forwardButton.setGravity(Gravity.CENTER_VERTICAL);
         forwardButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         forwardButton.setPadding(AndroidUtilities.dp(21), 0, AndroidUtilities.dp(21), 0);
@@ -8866,12 +8867,49 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         forwardButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), 3));
         forwardButton.setTextColor(getThemedColor(Theme.key_actionBarActionModeDefaultIcon));
         forwardButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        image = context.getResources().getDrawable(R.drawable.baseline_forward_24).mutate();
+        Drawable image = context.getResources().getDrawable(R.drawable.super_msg_multi_forward).mutate();
         image.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.SRC_IN));
         forwardButton.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null);
-        forwardButton.setOnClickListener(v -> {
-            noForwardQuote = false;
-            openForward(false);
+        if (getParentActivity() == null) {
+            selectedObject = null;
+            return;
+        }
+        if (chatActivityEnterView != null) {
+            chatActivityEnterView.closeKeyboard();
+        }
+        ArrayList<MessageObject> fmessages = new ArrayList<>();
+        if (forwardingMessage != null) {
+            if (forwardingMessageGroup != null) {
+                fmessages.addAll(forwardingMessageGroup.messages);
+            } else {
+                fmessages.add(forwardingMessage);
+            }
+            forwardingMessage = null;
+            forwardingMessageGroup = null;
+        } else {
+            for (int a = 1; a >= 0; a--) {
+                ArrayList<Integer> ids = new ArrayList<>();
+                for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
+                    ids.add(selectedMessagesIds[a].keyAt(b));
+                }
+                Collections.sort(ids);
+                for (int b = 0; b < ids.size(); b++) {
+                    Integer id = ids.get(b);
+                    MessageObject messageObject = selectedMessagesIds[a].get(id);
+                    if (messageObject != null) {
+                        fmessages.add(messageObject);
+                    }
+                }
+                selectedMessagesCanCopyIds[a].clear();
+                selectedMessagesCanStarIds[a].clear();
+                selectedMessagesIds[a].clear();
+            }
+            hideActionMode();
+            updatePinnedMessageView(true);
+        }
+        showDialog(new ShareAlert(getParentActivity(), fmessages, null, ChatObject.isChannel(currentChat) && !currentChat.megagroup && currentChat.username != null && currentChat.username.length() > 0, null, false));
+        updatePinnedMessageView(true);
+        updateVisibleRows();
         });
         bottomMessagesActionContainer.addView(forwardButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.RIGHT | Gravity.TOP));
 
@@ -11954,6 +11992,29 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         });
     }
 
+    private void forwardMessages(ArrayList<MessageObject> arrayList, boolean fromMyName) {
+        if (arrayList == null || arrayList.isEmpty()) {
+            return;
+        }
+        if (isNoQuoteForward != 0) {
+            if (isNoQuoteForward == 1) {
+                AlertsCreator.showSendMediaAlert(SendMessagesHelper.getInstance(currentAccount).sendMessage(arrayList, dialog_id), this);
+            } else {
+                for (MessageObject object : arrayList) {
+                    SendMessagesHelper.getInstance(currentAccount).processForwardFromMyName(object, dialog_id, true);
+                }
+            }
+        } else {
+            if (QuoteForward) {
+                AlertsCreator.showSendMediaAlert(SendMessagesHelper.getInstance(currentAccount).sendMessage(arrayList, dialog_id), this);
+            } else {
+                for (MessageObject object : arrayList) {
+                    SendMessagesHelper.getInstance(currentAccount).processForwardFromMyName(object, dialog_id, true);
+                }
+            }
+        }
+    }
+
     private void forwardMessages(ArrayList<MessageObject> arrayList, boolean fromMyName, boolean hideCaption, boolean notify, int scheduleDate) {
         if (arrayList == null || arrayList.isEmpty()) {
             return;
@@ -12067,18 +12128,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         showFieldPanel(show, messageObjectToReply, messageObjectToEdit, null, messageObjectsToForward, webPage, cancel, true);
     }
 
-    public void showFieldPanel(boolean show, MessageObject messageObjectToReply, MessageObject messageObjectToEdit, ArrayList<MessageObject> messageObjectsToForward, TLRPC.WebPage webPage, boolean notify, int scheduleDate, boolean cancel, boolean animated) {
+    public void showFieldPanel(boolean show, MessageObject messageObjectToReply, MessageObject messageObjectToEdit, MessageObject messageObjectToForwardEdit, ArrayList<MessageObject> messageObjectsToForward, TLRPC.WebPage webPage, boolean notify, int scheduleDate, boolean cancel, boolean animated) {
         if (chatActivityEnterView == null) {
             return;
         }
         boolean showHint = false;
         if (show) {
-            if (messageObjectToReply == null && messageObjectsToForward == null && messageObjectToEdit == null && webPage == null) {
+            if (messageObjectToReply == null && messageObjectsToForward == null && messageObjectToEdit == null && webPage == null && messageObjectToForwardEdit == null) {
                 return;
             }
             hideHints(false);
             if (searchItem != null && actionBar.isSearchFieldVisible()) {
-                actionBar.closeSearchField(false);
+                actionBar.closeSearchField(false);notify
                 chatActivityEnterView.setFieldFocused();
                 AndroidUtilities.runOnUIThread(() -> {
                     if (chatActivityEnterView != null) {
@@ -12387,7 +12448,149 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (!SharedConfig.forwardingOptionsHintShown) {
                     showHint = true;
                 }
-            } else {
+            } else if (messageObjectToForwardEdit != null) {
+                ArrayList<MessageObject> messageObjectsToForwardEdit = new ArrayList<>();
+                messageObjectsToForwardEdit.add(messageObjectToForwardEdit);
+
+                if (messageObjectsToForwardEdit.isEmpty()) {
+                    return;
+                }
+                replyingMessageObject = null;
+                editingMessageObject = null;
+                chatActivityEnterView.setReplyingMessageObject(null);
+                chatActivityEnterView.setEditingMessageObject(null, false);
+                forwardingMessages = messageObjectsToForwardEdit;
+                if (foundWebPage != null) {
+                    return;
+                }
+                chatActivityEnterView.setForceShowSendButton(true, false);
+                ArrayList<Integer> uids = new ArrayList<>();
+                //replyIconImageView.setImageResource(R.drawable.msg_panel_forward);
+                replyIconImageView.setVisibility(View.GONE);
+                replyTextView.setVisibility(View.VISIBLE);
+                MessageObject object = messageObjectsToForwardEdit.get(0);
+                if (object.isFromUser()) {
+                    uids.add(object.messageOwner.from_id);
+                } else {
+                    uids.add(-object.messageOwner.to_id.channel_id);
+                }
+                int type = messageObjectsToForwardEdit.get(0).type;
+                for (int a = 1; a < messageObjectsToForwardEdit.size(); a++) {
+                    object = messageObjectsToForwardEdit.get(a);
+                    Integer uid;
+                    if (object.isFromUser()) {
+                        uid = object.messageOwner.from_id;
+                    } else {
+                        uid = -object.messageOwner.to_id.channel_id;
+                    }
+                    if (!uids.contains(uid)) {
+                        uids.add(uid);
+                    }
+                    if (messageObjectsToForwardEdit.get(a).type != type) {
+                        type = -1;
+                    }
+                }
+                StringBuilder userNames = new StringBuilder();
+                for (int a = 0; a < uids.size(); a++) {
+                    Integer uid = uids.get(a);
+                    TLRPC.Chat chat = null;
+                    TLRPC.User user = null;
+                    if (uid > 0) {
+                        user = MessagesController.getInstance(currentAccount).getUser(uid);
+                    } else {
+                        chat = MessagesController.getInstance(currentAccount).getChat(-uid);
+                    }
+                    if (user == null && chat == null) {
+                        continue;
+                    }
+                    if (uids.size() == 1) {
+                        if (user != null) {
+                            userNames.append(UserObject.getUserName(user));
+                        } else {
+                            userNames.append(chat.title);
+                        }
+                    } else if (uids.size() == 2 || userNames.length() == 0) {
+                        if (userNames.length() > 0) {
+                            userNames.append(", ");
+                        }
+                        if (user != null) {
+                            if (!TextUtils.isEmpty(user.first_name)) {
+                                userNames.append(user.first_name);
+                            } else if (!TextUtils.isEmpty(user.last_name)) {
+                                userNames.append(user.last_name);
+                            } else {
+                                userNames.append(" ");
+                            }
+                        } else {
+                            userNames.append(chat.title);
+                        }
+                    } else {
+                        userNames.append(" ");
+                        userNames.append(LocaleController.formatPluralString("AndOther", uids.size() - 1));
+                        break;
+                    }
+                }
+                replyNameTextView.setText(userNames);
+                if (type == -1 || type == 0 || type == 10 || type == 11) {
+                    if (messageObjectsToForwardEdit.size() == 1 && messageObjectsToForwardEdit.get(0).messageText != null) {
+                        MessageObject messageObject = messageObjectsToForwardEdit.get(0);
+                        if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGame) {
+                            replyObjectTextView.setText(Emoji.replaceEmoji(messageObject.messageOwner.media.game.title, replyObjectTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14), false));
+                        } else {
+                            String mess = messageObject.messageText.toString();
+                            if (mess.length() > 150) {
+                                mess = mess.substring(0, 150);
+                            }
+                            mess = mess.replace('\n', ' ');
+                            replyObjectTextView.setText(Emoji.replaceEmoji(mess, replyObjectTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14), false));
+                        }
+                    } else {
+                        replyObjectTextView.setText(LocaleController.formatPluralString("ForwardedMessageCount", messageObjectsToForwardEdit.size()));
+                    }
+                } else {
+                    if (type == 1) {
+                        replyObjectTextView.setText(LocaleController.formatPluralString("ForwardedPhoto", messageObjectsToForwardEdit.size()));
+                        if (messageObjectsToForwardEdit.size() == 1) {
+                            messageObjectToReply = messageObjectsToForwardEdit.get(0);
+                        }
+                    } else if (type == 4) {
+                        replyObjectTextView.setText(LocaleController.formatPluralString("ForwardedLocation", messageObjectsToForwardEdit.size()));
+                    } else if (type == 3) {
+                        replyObjectTextView.setText(LocaleController.formatPluralString("ForwardedVideo", messageObjectsToForwardEdit.size()));
+                        if (messageObjectsToForwardEdit.size() == 1) {
+                            messageObjectToReply = messageObjectsToForwardEdit.get(0);
+                        }
+                    } else if (type == 12) {
+                        replyObjectTextView.setText(LocaleController.formatPluralString("ForwardedContact", messageObjectsToForwardEdit.size()));
+                    } else if (type == 2) {
+                        replyObjectTextView.setText(LocaleController.formatPluralString("ForwardedAudio", messageObjectsToForwardEdit.size()));
+                    } else if (type == 5) {
+                        replyObjectTextView.setText(LocaleController.formatPluralString("ForwardedRound", messageObjectsToForwardEdit.size()));
+                    } else if (type == 14) {
+                        replyObjectTextView.setText(LocaleController.formatPluralString("ForwardedMusic", messageObjectsToForwardEdit.size()));
+                    } else if (type == 13) {
+                        replyObjectTextView.setText(LocaleController.formatPluralString("ForwardedSticker", messageObjectsToForwardEdit.size()));
+                    } else if (type == 17) {
+                        replyObjectTextView.setText(LocaleController.formatPluralString("ForwardedPoll", messageObjectsToForwardEdit.size()));
+                    } else if (type == 8 || type == 9) {
+                        if (messageObjectsToForwardEdit.size() == 1) {
+                            if (type == 8) {
+                                replyObjectTextView.setText(LocaleController.getString("AttachGif", R.string.AttachGif));
+                            } else {
+                                String name;
+                                if ((name = FileLoader.getDocumentFileName(messageObjectsToForwardEdit.get(0).getDocument())).length() != 0) {
+                                    replyObjectTextView.setText(name);
+                                }
+                                messageObjectToReply = messageObjectsToForwardEdit.get(0);
+                            }
+                        } else {
+                            replyObjectTextView.setText(LocaleController.formatPluralString("ForwardedFile", messageObjectsToForwardEdit.size()));
+                        }
+                    }
+                }
+            }
+            
+            else {
                 replyIconImageView.setImageResource(R.drawable.baseline_link_24);
                 if (webPage instanceof TLRPC.TL_webPagePending) {
                     replyNameTextView.setText(LocaleController.getString("GettingLinkInfo", R.string.GettingLinkInfo));

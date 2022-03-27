@@ -24,7 +24,7 @@ public class InternalUpdater {
     static final long CHANNEL_METADATA_ID = 1309937983;
     static final String CHANNEL_METADATA_NAME = "teletux_update_metadata";
     static final long CHANNEL_APKS_ID = 1336955033;
-    static final String CHANNEL_APKS_NAME = "TeleTuxapks";
+    static final String CHANNEL_APKS_NAME = "teletux_apk";
 
     static void retrieveUpdateMetadata(retrieveUpdateMetadataCallback callback) {
         final int localVersionCode = BuildVars.BUILD_VERSION;
