@@ -8870,46 +8870,47 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         Drawable image = context.getResources().getDrawable(R.drawable.super_msg_multi_forward).mutate();
         image.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.SRC_IN));
         forwardButton.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null);
-        if (getParentActivity() == null) {
-            selectedObject = null;
-            return;
-        }
-        if (chatActivityEnterView != null) {
-            chatActivityEnterView.closeKeyboard();
-        }
-        ArrayList<MessageObject> fmessages = new ArrayList<>();
-        if (forwardingMessage != null) {
-            if (forwardingMessageGroup != null) {
-                fmessages.addAll(forwardingMessageGroup.messages);
+        forwardButton.setOnClickListener(v -> {
+            if (getParentActivity() == null) {
+                selectedObject = null;
+                return;
+            }
+            if (chatActivityEnterView != null) {
+                chatActivityEnterView.closeKeyboard();
+            }
+            ArrayList<MessageObject> fmessages = new ArrayList<>();
+            if (forwardingMessage != null) {
+                if (forwardingMessageGroup != null) {
+                    fmessages.addAll(forwardingMessageGroup.messages);
+                } else {
+                    fmessages.add(forwardingMessage);
+                }
+                forwardingMessage = null;
+                forwardingMessageGroup = null;
             } else {
-                fmessages.add(forwardingMessage);
-            }
-            forwardingMessage = null;
-            forwardingMessageGroup = null;
-        } else {
-            for (int a = 1; a >= 0; a--) {
-                ArrayList<Integer> ids = new ArrayList<>();
-                for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
-                    ids.add(selectedMessagesIds[a].keyAt(b));
-                }
-                Collections.sort(ids);
-                for (int b = 0; b < ids.size(); b++) {
-                    Integer id = ids.get(b);
-                    MessageObject messageObject = selectedMessagesIds[a].get(id);
-                    if (messageObject != null) {
-                        fmessages.add(messageObject);
+                for (int a = 1; a >= 0; a--) {
+                    ArrayList<Integer> ids = new ArrayList<>();
+                    for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
+                        ids.add(selectedMessagesIds[a].keyAt(b));
                     }
+                    Collections.sort(ids);
+                    for (int b = 0; b < ids.size(); b++) {
+                        Integer id = ids.get(b);
+                        MessageObject messageObject = selectedMessagesIds[a].get(id);
+                        if (messageObject != null) {
+                            fmessages.add(messageObject);
+                        }
+                    }
+                    selectedMessagesCanCopyIds[a].clear();
+                    selectedMessagesCanStarIds[a].clear();
+                    selectedMessagesIds[a].clear();
                 }
-                selectedMessagesCanCopyIds[a].clear();
-                selectedMessagesCanStarIds[a].clear();
-                selectedMessagesIds[a].clear();
+                hideActionMode();
+                updatePinnedMessageView(true);
             }
-            hideActionMode();
+            showDialog(new ShareAlert(getParentActivity(), fmessages, null, ChatObject.isChannel(currentChat) && !currentChat.megagroup && currentChat.username != null && currentChat.username.length() > 0, null, false));
             updatePinnedMessageView(true);
-        }
-        showDialog(new ShareAlert(getParentActivity(), fmessages, null, ChatObject.isChannel(currentChat) && !currentChat.megagroup && currentChat.username != null && currentChat.username.length() > 0, null, false));
-        updatePinnedMessageView(true);
-        updateVisibleRows();
+            updateVisibleRows();
         });
         bottomMessagesActionContainer.addView(forwardButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.RIGHT | Gravity.TOP));
 
