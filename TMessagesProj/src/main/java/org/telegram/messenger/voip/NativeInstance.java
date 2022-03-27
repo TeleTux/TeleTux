@@ -11,6 +11,8 @@ import org.webrtc.VideoSink;
 import java.nio.ByteBuffer;
 import java.util.concurrent.CountDownLatch;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class NativeInstance {
 
     private Instance.OnStateUpdatedListener onStateUpdatedListener;
@@ -25,6 +27,7 @@ public class NativeInstance {
     private VideoSourcesCallback unknownParticipantsCallback;
     private RequestBroadcastPartCallback requestBroadcastPartCallback;
     private RequestBroadcastPartCallback cancelRequestBroadcastPartCallback;
+    private RequestCurrentTimeCallback requestCurrentTimeCallback;
     private float[] temp = new float[1];
 
     private boolean isGroup;
@@ -47,7 +50,11 @@ public class NativeInstance {
     }
 
     public interface RequestBroadcastPartCallback {
-        void run(long timestamp, long duration);
+        void run(long timestamp, long duration, int videoChannel, int quality);
+    }
+
+    public interface RequestCurrentTimeCallback {
+        void run(long taskPtr);
     }
 
     public static NativeInstance make(String version, Instance.Config config, String path, Instance.Endpoint[] endpoints, Instance.Proxy proxy, int networkType, Instance.EncryptionKey encryptionKey, VideoSink remoteSink, long videoCapturer, AudioLevelsCallback audioLevelsCallback) {
@@ -62,7 +69,8 @@ public class NativeInstance {
         return instance;
     }
 
-    public static NativeInstance makeGroup(String logPath, long videoCapturer, boolean screencast, boolean noiseSupression, PayloadCallback payloadCallback, AudioLevelsCallback audioLevelsCallback, VideoSourcesCallback unknownParticipantsCallback, RequestBroadcastPartCallback requestBroadcastPartCallback, RequestBroadcastPartCallback cancelRequestBroadcastPartCallback) {
+    public static NativeInstance makeGroup(String logPath, long videoCapturer, boolean screencast, boolean noiseSupression, PayloadCallback payloadCallback, AudioLevelsCallback audioLevelsCallback, VideoSourcesCallback unknownParticipantsCallback, RequestBroadcastPartCallback requestBroadcastPartCallback, RequestBroadcastPartCallback cancelRequestBroadcastPartCallback, RequestCurrentTimeCallback requestCurrentTimeCallback) {
+        // NekoX: Custom Audio Bitrate
         ContextUtils.initialize(ApplicationLoader.applicationContext);
         NativeInstance instance = new NativeInstance();
         instance.payloadCallback = payloadCallback;
@@ -70,8 +78,9 @@ public class NativeInstance {
         instance.unknownParticipantsCallback = unknownParticipantsCallback;
         instance.requestBroadcastPartCallback = requestBroadcastPartCallback;
         instance.cancelRequestBroadcastPartCallback = cancelRequestBroadcastPartCallback;
+        instance.requestCurrentTimeCallback = requestCurrentTimeCallback;
         instance.isGroup = true;
-        instance.nativePtr = makeGroupNativeInstance(instance, logPath, SharedConfig.disableVoiceAudioEffects, videoCapturer, screencast, noiseSupression);
+        instance.nativePtr = makeGroupNativeInstance(instance, logPath, SharedConfig.disableVoiceAudioEffects, videoCapturer, screencast, noiseSupression, (short) NekoConfig.customAudioBitrate.Int());
         return instance;
     }
 
@@ -152,16 +161,20 @@ public class NativeInstance {
         }
     }
 
-    private void onRequestBroadcastPart(long timestamp, long duration) {
-        requestBroadcastPartCallback.run(timestamp, duration);
+    private void onRequestBroadcastPart(long timestamp, long duration, int videoChannel, int quality) {
+        requestBroadcastPartCallback.run(timestamp, duration, videoChannel, quality);
     }
 
-    private void onCancelRequestBroadcastPart(long timestamp) {
-        cancelRequestBroadcastPartCallback.run(timestamp, 0);
+    private void onCancelRequestBroadcastPart(long timestamp, int videoChannel, int quality) {
+        cancelRequestBroadcastPartCallback.run(timestamp, 0, 0, 0);
+    }
+
+    private void requestCurrentTime(long taskPtr) {
+        requestCurrentTimeCallback.run(taskPtr);
     }
 
     public native void setJoinResponsePayload(String payload);
-    public native void prepareForStream();
+    public native void prepareForStream(boolean isRtpStream);
     public native void resetGroupInstance(boolean set, boolean disconnect);
 
     private Instance.FinalState finalState;
@@ -188,7 +201,7 @@ public class NativeInstance {
         stopGroupNative();
     }
 
-    private static native long makeGroupNativeInstance(NativeInstance instance, String persistentStateFilePath, boolean highQuality, long videoCapturer, boolean screencast, boolean noiseSupression);
+    private static native long makeGroupNativeInstance(NativeInstance instance, String persistentStateFilePath, boolean highQuality, long videoCapturer, boolean screencast, boolean noiseSupression, short customBitrate);
     private static native long makeNativeInstance(String version, NativeInstance instance, Instance.Config config, String persistentStateFilePath, Instance.Endpoint[] endpoints, Instance.Proxy proxy, int networkType, Instance.EncryptionKey encryptionKey, VideoSink remoteSink, long videoCapturer, float aspectRatio);
     public static native long createVideoCapturer(VideoSink localSink, int type);
     public static native void setVideoStateCapturer(long videoCapturer, int videoState);
@@ -222,6 +235,7 @@ public class NativeInstance {
     public native void switchCamera(boolean front);
     public native void setVideoState(int videoState);
     public native void onSignalingDataReceive(byte[] data);
-    public native void onStreamPartAvailable(long ts, ByteBuffer buffer, int size, long timestamp);
+    public native void onStreamPartAvailable(long ts, ByteBuffer buffer, int size, long timestamp, int videoChannel, int quality);
     public native boolean hasVideoCapturer();
+    public native void onRequestTimeComplete(long taskPtr, long time);
 }

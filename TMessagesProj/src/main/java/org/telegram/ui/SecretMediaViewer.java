@@ -12,6 +12,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -33,6 +34,7 @@ import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.VelocityTracker;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
@@ -59,6 +61,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimationProperties;
+import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Scroller;
 import org.telegram.ui.Components.TimerParticles;
@@ -225,7 +228,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     private ImageReceiver centerImage = new ImageReceiver();
     private SecretDeleteTimer secretDeleteTimer;
     private boolean isVisible;
-    private int currentChannelId;
+    private long currentDialogId;
     private AspectRatioFrameLayout aspectRatioFrameLayout;
     private TextureView videoTextureView;
     private VideoPlayer videoPlayer;
@@ -308,6 +311,8 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     private VelocityTracker velocityTracker;
     private Scroller scroller;
 
+    private boolean closeAfterAnimation;
+
     @SuppressLint("StaticFieldLeak")
     private static volatile SecretMediaViewer Instance = null;
     public static SecretMediaViewer getInstance() {
@@ -338,37 +343,34 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             if (currentMessageObject == null) {
                 return;
             }
-            int channelId = (Integer) args[1];
+            long channelId = (Long) args[1];
             if (channelId != 0) {
                 return;
             }
-            ArrayList<Integer> markAsDeletedMessages = (ArrayList<Integer>)args[0];
+            ArrayList<Integer> markAsDeletedMessages = (ArrayList<Integer>) args[0];
             if (markAsDeletedMessages.contains(currentMessageObject.getId())) {
                 if (isVideo && !videoWatchedOneTime) {
                     closeVideoAfterWatch = true;
                 } else {
-                    closePhoto(true, true);
+                    if (!closePhoto(true, true)) {
+                        closeAfterAnimation = true;
+                    }
                 }
             }
         } else if (id == NotificationCenter.didCreatedNewDeleteTask) {
             if (currentMessageObject == null || secretDeleteTimer == null) {
                 return;
             }
-            SparseArray<ArrayList<Long>> mids = (SparseArray<ArrayList<Long>>)args[0];
+            long dialogId = (long) args[0];
+            if (dialogId != currentDialogId) {
+                return;
+            }
+            SparseArray<ArrayList<Integer>> mids = (SparseArray<ArrayList<Integer>>) args[1];
             for (int i = 0; i < mids.size(); i++) {
                 int key = mids.keyAt(i);
-                ArrayList<Long> arr = mids.get(key);
+                ArrayList<Integer> arr = mids.get(key);
                 for (int a = 0; a < arr.size(); a++) {
                     long mid = arr.get(a);
-                    if (a == 0) {
-                        int channelId = (int) (mid >> 32);
-                        if (channelId < 0) {
-                            channelId = 0;
-                        }
-                        if (channelId != currentChannelId) {
-                            return;
-                        }
-                    }
                     if (currentMessageObject.getId() == mid) {
                         currentMessageObject.messageOwner.destroyTime = key;
                         secretDeleteTimer.invalidate();
@@ -382,7 +384,9 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                 if (isVideo && !videoWatchedOneTime) {
                     closeVideoAfterWatch = true;
                 } else {
-                    closePhoto(true, true);
+                    if (!closePhoto(true, true)) {
+                        closeAfterAnimation = true;
+                    }
                 }
             }
         }
@@ -652,7 +656,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         windowLayoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         windowLayoutParams.gravity = Gravity.TOP;
         windowLayoutParams.type = WindowManager.LayoutParams.LAST_APPLICATION_WINDOW;
-        if (Build.VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             windowLayoutParams.flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
                     WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR |
                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
@@ -666,6 +670,9 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         centerImage.setParentView(containerView);
         centerImage.setForceCrossfade(true);
     }
+
+    private int wasNavigationBarColor;
+    private boolean wasLightNavigationBar;
 
     public void openMedia(MessageObject messageObject, PhotoViewer.PhotoViewerProvider provider, Runnable onOpen) {
         if (parentActivity == null || messageObject == null || !messageObject.needDrawBluredPreview() || provider == null) {
@@ -751,7 +758,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.messagesDeleted);
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.updateMessageMedia);
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.didCreatedNewDeleteTask);
-        currentChannelId = messageObject.messageOwner.peer_id != null ? messageObject.messageOwner.peer_id.channel_id : 0;
+        currentDialogId = MessageObject.getPeerId(messageObject.messageOwner.peer_id);
         toggleActionBar(true, false);
 
         currentMessageObject = messageObject;
@@ -783,9 +790,9 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                 isVideo = true;
                 centerImage.setImage(null, null, currentThumb != null ? new BitmapDrawable(currentThumb.bitmap) : null, -1, null, messageObject, 2);
                 long destroyTime = (long) messageObject.messageOwner.destroyTime * 1000;
-                long currentTime = System.currentTimeMillis() + ConnectionsManager.getInstance(currentAccount).getTimeDifference() * 1000;
+                long currentTime = System.currentTimeMillis() + ConnectionsManager.getInstance(currentAccount).getTimeDifference() * 1000L;
                 long timeToDestroy = destroyTime - currentTime;
-                long duration = messageObject.getDuration() * 1000;
+                long duration = messageObject.getDuration() * 1000L;
                 if (duration > timeToDestroy) {
                     secretDeleteTimer.setDestroyTime(-1, -1, true);
                 } else {
@@ -812,6 +819,14 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         secretDeleteTimer.invalidate();
         isVisible = true;
 
+        final Window window = parentActivity.getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            wasNavigationBarColor = window.getNavigationBarColor();
+            wasLightNavigationBar = AndroidUtilities.getLightNavigationBar(window);
+            AndroidUtilities.setLightNavigationBar(window, false);
+            AndroidUtilities.setNavigationBarColor(window, 0xff000000);
+        }
+
         imageMoveAnimation = new AnimatorSet();
         imageMoveAnimation.playTogether(
                 ObjectAnimator.ofFloat(actionBar, View.ALPHA, 0, 1.0f),
@@ -834,6 +849,9 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                 containerView.setLayerType(View.LAYER_TYPE_NONE, null);
             }
             containerView.invalidate();
+            if (closeAfterAnimation) {
+                closePhoto(true, true);
+            }
         };
         imageMoveAnimation.setDuration(250);
         imageMoveAnimation.addListener(new AnimatorListenerAdapter() {
@@ -1113,9 +1131,15 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         return currentMessageObject;
     }
 
-    public void closePhoto(boolean animated, boolean byDelete) {
+    public boolean closePhoto(boolean animated, boolean byDelete) {
         if (parentActivity == null || !isPhotoVisible || checkPhotoAnimation()) {
-            return;
+            return false;
+        }
+
+        if (parentActivity != null) {
+            final Window window = parentActivity.getWindow();
+            AndroidUtilities.setLightNavigationBar(window, wasLightNavigationBar);
+            AndroidUtilities.setNavigationBarColor(window, wasNavigationBarColor);
         }
 
         NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.messagesDeleted);
@@ -1138,6 +1162,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         if (videoPlayer != null) {
             videoPlayer.pause();
         }
+
         if (animated) {
             photoAnimationInProgress = 3;
             containerView.invalidate();
@@ -1267,6 +1292,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             }
             animatorSet.start();
         }
+        return true;
     }
 
     private void onPhotoClosed(PhotoViewer.PlaceProviderObject object) {

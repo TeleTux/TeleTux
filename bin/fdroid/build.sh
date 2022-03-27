@@ -4,6 +4,7 @@ source $HOME/.bashrc
 source "bin/init/env.sh"
 
 # Native dependencies
+bin/init/libs/libvpx.sh
 bin/init/libs/ffmpeg.sh
 bin/init/libs/boringssl.sh
 

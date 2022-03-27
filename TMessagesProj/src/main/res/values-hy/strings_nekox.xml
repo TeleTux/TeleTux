@@ -11,7 +11,9 @@
     <string name="DisableLinkPreviewByDefault">Անջատեք հղման նախադիտումը լռելյայն</string>
     <string name="DisableLinkPreviewByDefaultNotice">Լռելյայնորեն անջատեք հղման նախադիտման հայցը լռելյայնորեն, որպեսզի սերվերը չիմանա, որ հղումը տարածվում է Telegram- ի միջոցով:</string>
     <string name="CustomApi">Հատուկ API</string>
-    <string name="UseCustomApiNotice">Մուտք գործեք հատուկ api- ով, եթե չեք կարող գրանցվել կամ մուտք գործել, դա կարող է օգնել:\n\nՆշում. Fcm- ը չի աշխատի, եթե դուք օգտագործում եք թողարկման տարբերակը.</string>
+    <string name="UseCustomApiNotice">Մուտք գործեք հատուկ api- ով, եթե չեք կարող գրանցվել կամ մուտք գործել, դա կարող է օգնել:
+\n
+\nՆշում. Fcm- ը չի աշխատի, եթե դուք օգտագործում եք թողարկման տարբերակը.</string>
     <string name="CustomApiNo">Մի օգտագործեք հատուկ API</string>
     <string name="CustomApiOfficial">Հեռագիր Android</string>
     <string name="CustomApiTGX">Հեռագիր Android X</string>
@@ -103,7 +105,7 @@
     <string name="ProxyTypeVmess">VMess վստահված անձ</string>
     <string name="AddProxySocks5">Ավելացնել SOCKS5 վստահված անձը</string>
     <string name="AddProxyTelegram">Ավելացնել MTProto վստահված անձ</string>
-    <string name="AddProxyVmess">Ավելացնել Vmess վստահված անձը</string>
+    <string name="AddProxyVmess">Ավելացնել VMess վստահված անձը</string>
     <string name="AddProxySS">Ավելացնել Shadowsocks վստահված անձը</string>
     <string name="AddProxySSR">Ավելացնել ShadowsocksR վստահված անձ</string>
     <string name="AddProxyTrojan">Ավելացնել Trojan վստահված անձ</string>
@@ -111,7 +113,7 @@
     <string name="EditProxy">Փոխել վստահված անձը</string>
     <string name="ShareProxy">Համօգտագործել վստահված անձը</string>
     <string name="ProxyDelete">Deleteնջել վստահված անձը</string>
-    <string name="ProxyInfoVmess">Vmess վստահված անձի կարգավորումներ</string>
+    <string name="ProxyInfoVmess">VMess վստահված անձի կարգավորումներ</string>
     <string name="VmessUserId">օգտագործողի այ - Դի</string>
     <string name="VmessAlterId">Փոխել ID- ն</string>
     <string name="VmessSecurity">Անվտանգություն</string>
@@ -147,10 +149,10 @@
     <string name="ImportStickersX">Ներմուծեք պիտակները ֆայլից</string>
     <string name="ImportStickersList">Ներմուծեք պիտակները</string>
     <string name="StickerSets">Կպչուն պիտակներ</string>
-    <string name="InvalidStickersFile">Կպչուկների անվավեր ֆայլ ՝ </string>
-    <string name="InvalidProxyFile">Վստահված անձի ցուցակի անվավեր ֆայլ ՝ </string>
-    <string name="ImportedProxies">Ներմուծված վստահված սերվերներ. </string>
-    <string name="ErrorsInImport">Ներմուծման սխալներ. </string>
+    <string name="InvalidStickersFile">Կպչուկների անվավեր ֆայլ ՝</string>
+    <string name="InvalidProxyFile">Վստահված անձի ցուցակի անվավեր ֆայլ ՝</string>
+    <string name="ImportedProxies">Ներմուծված վստահված սերվերներ.</string>
+    <string name="ErrorsInImport">Ներմուծման սխալներ.</string>
     <string name="NoProxy">Դուք վստահված սերվեր չեք ավելացրել:</string>
     <string name="DeleteAllServer">Deleteնջել բոլոր սերվերները</string>
     <string name="DeleteUnavailableServer">Deleteնջել անհասանելի սերվերները</string>

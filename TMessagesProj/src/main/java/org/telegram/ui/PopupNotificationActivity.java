@@ -39,6 +39,7 @@ import android.widget.TextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
+import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.DownloadController;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
@@ -178,7 +179,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         statusDrawables[0] = new TypingDotsDrawable(false);
         statusDrawables[1] = new RecordStatusDrawable(false);
         statusDrawables[2] = new SendingFileDrawable(false);
-        statusDrawables[3] = new PlayingGameDrawable(false);
+        statusDrawables[3] = new PlayingGameDrawable(false, null);
         statusDrawables[4] = new RoundStatusDrawable(false);
 
         SizeNotifierFrameLayout contentView = new SizeNotifierFrameLayout(this) {
@@ -550,7 +551,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
-            builder.setMessage(LocaleController.getString("PermissionNoAudio", R.string.PermissionNoAudio));
+            builder.setMessage(LocaleController.getString("PermissionNoAudioWithHint", R.string.PermissionNoAudioWithHint));
             builder.setNegativeButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), (dialog, which) -> {
                 try {
                     Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -931,7 +932,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 double lat = geoPoint.lat;
                 double lon = geoPoint._long;
 
-                if (NekoConfig.mapPreviewProvider == 0) {
+                if (NekoConfig.mapPreviewProvider.Int() == 0) {
                     imageView.setImage(ImageLocation.getForWebFile(WebFile.createWithGeoPoint(geoPoint, 100, 100, 15, Math.min(2, (int) Math.ceil(AndroidUtilities.density)))), null, null, null, messageObject);
                 } else {
                     String currentUrl = AndroidUtilities.formapMapUrl(false, lat, lon, 100, 100, true, 15);
@@ -1251,16 +1252,13 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             return;
         }
         Intent intent = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
-        long dialog_id = currentMessageObject.getDialogId();
-        if ((int) dialog_id != 0) {
-            int lower_id = (int) dialog_id;
-            if (lower_id < 0) {
-                intent.putExtra("chatId", -lower_id);
-            } else {
-                intent.putExtra("userId", lower_id);
-            }
-        } else {
-            intent.putExtra("encId", (int) (dialog_id >> 32));
+        long dialogId = currentMessageObject.getDialogId();
+        if (DialogObject.isEncryptedDialog(dialogId)) {
+            intent.putExtra("encId", DialogObject.getEncryptedChatId(dialogId));
+        } else if (DialogObject.isUserDialog(dialogId)) {
+            intent.putExtra("userId", dialogId);
+        } else if (DialogObject.isChatDialog(dialogId)) {
+            intent.putExtra("chatId", -dialogId);
         }
         intent.putExtra("currentAccount", currentMessageObject.currentAccount);
         intent.setAction("com.tmessages.openchat" + Math.random() + Integer.MAX_VALUE);
@@ -1283,21 +1281,18 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         }
         currentChat = null;
         currentUser = null;
-        long dialog_id = currentMessageObject.getDialogId();
-        chatActivityEnterView.setDialogId(dialog_id, currentMessageObject.currentAccount);
-        if ((int) dialog_id != 0) {
-            int lower_id = (int) dialog_id;
-            if (lower_id > 0) {
-                currentUser = MessagesController.getInstance(currentMessageObject.currentAccount).getUser(lower_id);
-            } else {
-                currentChat = MessagesController.getInstance(currentMessageObject.currentAccount).getChat(-lower_id);
-                if (currentMessageObject.isFromUser()) {
-                    currentUser = MessagesController.getInstance(currentMessageObject.currentAccount).getUser(currentMessageObject.messageOwner.from_id.user_id);
-                }
-            }
-        } else {
-            TLRPC.EncryptedChat encryptedChat = MessagesController.getInstance(currentMessageObject.currentAccount).getEncryptedChat((int) (dialog_id >> 32));
+        long dialogId = currentMessageObject.getDialogId();
+        chatActivityEnterView.setDialogId(dialogId, currentMessageObject.currentAccount);
+        if (DialogObject.isEncryptedDialog(dialogId)) {
+            TLRPC.EncryptedChat encryptedChat = MessagesController.getInstance(currentMessageObject.currentAccount).getEncryptedChat(DialogObject.getEncryptedChatId(dialogId));
             currentUser = MessagesController.getInstance(currentMessageObject.currentAccount).getUser(encryptedChat.user_id);
+        } else if (DialogObject.isUserDialog(dialogId)) {
+            currentUser = MessagesController.getInstance(currentMessageObject.currentAccount).getUser(dialogId);
+        } else if (DialogObject.isChatDialog(dialogId)) {
+            currentChat = MessagesController.getInstance(currentMessageObject.currentAccount).getChat(-dialogId);
+            if (currentMessageObject.isFromUser()) {
+                currentUser = MessagesController.getInstance(currentMessageObject.currentAccount).getUser(currentMessageObject.messageOwner.from_id.user_id);
+            }
         }
 
         if (currentChat != null) {
@@ -1311,7 +1306,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             nameTextView.setCompoundDrawablePadding(0);
         } else if (currentUser != null) {
             nameTextView.setText(UserObject.getUserName(currentUser));
-            if ((int) dialog_id == 0) {
+            if (DialogObject.isEncryptedDialog(dialogId)) {
                 nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock_white, 0, 0, 0);
                 nameTextView.setCompoundDrawablePadding(AndroidUtilities.dp(4));
             } else {
@@ -1500,7 +1495,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             }
             if ((updateMask & MessagesController.UPDATE_MASK_USER_PRINT) != 0) {
                 CharSequence printString = MessagesController.getInstance(currentMessageObject.currentAccount).getPrintingString(currentMessageObject.getDialogId(), 0, false);
-                if (lastPrintString != null && printString == null || lastPrintString == null && printString != null || lastPrintString != null && printString != null && !lastPrintString.equals(printString)) {
+                if (lastPrintString != null && printString == null || lastPrintString == null && printString != null || lastPrintString != null && !lastPrintString.equals(printString)) {
                     updateSubtitle();
                 }
             }

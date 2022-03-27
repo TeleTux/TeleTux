@@ -21,9 +21,9 @@ import android.os.Build;
 import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.style.DynamicDrawableSpan;
 import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -35,7 +35,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Locale;
+
 import tw.nekomimi.nekogram.EmojiProvider;
+import tw.nekomimi.nekogram.NekoXConfig;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class Emoji {
@@ -54,6 +63,8 @@ public class Emoji {
     public static HashMap<String, String> emojiColor = new HashMap<>();
     private static boolean recentEmojiLoaded;
     private static Runnable invalidateUiRunnable = () -> NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiLoaded);
+    public static float emojiDrawingYOffset;
+    public static boolean emojiDrawingUseAlpha = true;
 
     private final static int MAX_RECENT_EMOJI_COUNT = 48;
 
@@ -126,7 +137,14 @@ public class Emoji {
             }
             Bitmap bitmap = null;
             try {
-                InputStream is = ApplicationLoader.applicationContext.getAssets().open("emoji/" + String.format(Locale.US, "%d_%d.png", page, page2));
+                InputStream is;
+                String entry = "emoji/" + String.format(Locale.US, "%d_%d.png", page, page2);
+                if (NekoConfig.useCustomEmoji.Bool()) {
+                    entry = "custom_emoji/" + entry;
+                    is = new FileInputStream(new File(ApplicationLoader.applicationContext.getFilesDir(), entry));
+                } else {
+                    is = ApplicationLoader.applicationContext.getAssets().open(entry);
+                }
                 BitmapFactory.Options opts = new BitmapFactory.Options();
                 opts.inJustDecodeBounds = false;
                 opts.inSampleSize = imageResize;
@@ -212,6 +230,9 @@ public class Emoji {
     }
 
     public static boolean isValidEmoji(CharSequence code) {
+        if (TextUtils.isEmpty(code)) {
+            return false;
+        }
         DrawableInfo info = rects.get(code);
         if (info == null) {
             CharSequence newCode = EmojiData.emojiAliasMap.get(code);
@@ -265,6 +286,11 @@ public class Emoji {
 
         @Override
         public void draw(Canvas canvas) {
+            if (!isLoaded()) {
+                loadEmoji(info.page, info.page2);
+                canvas.drawRect(getBounds(), placeholderPaint);
+                return;
+            }
 
             Rect b;
             if (fullSize) {
@@ -273,7 +299,7 @@ public class Emoji {
                 b = getBounds();
             }
 
-            if (!NekoConfig.useSystemEmoji && EmojiProvider.containsEmoji) {
+            if (!NekoConfig.useSystemEmoji.Bool() && EmojiProvider.containsEmoji) {
                 if (!isLoaded()) {
                     loadEmoji(info.page, info.page2);
                     canvas.drawRect(getBounds(), placeholderPaint);
@@ -285,14 +311,14 @@ public class Emoji {
 
             String emoji = fixEmoji(EmojiData.data[info.page][info.emojiIndex]);
 
-            if (!NekoConfig.useSystemEmoji && EmojiProvider.isFont) {
+            if (!NekoConfig.useSystemEmoji.Bool() && EmojiProvider.isFont) {
                 try {
                     textPaint.setTypeface(EmojiProvider.getFont());
                 } catch (RuntimeException ignored) {
                 }
-            } else if (NekoConfig.useSystemEmoji) {
+            } else if (NekoConfig.useSystemEmoji.Bool()) {
                 try {
-                    textPaint.setTypeface(NekoConfig.getSystemEmojiTypeface());
+                    textPaint.setTypeface(NekoXConfig.getSystemEmojiTypeface());
                 } catch (RuntimeException ignored) {
                 }
             }
@@ -317,7 +343,7 @@ public class Emoji {
         }
 
         public boolean isLoaded() {
-            if (!EmojiProvider.containsEmoji || NekoConfig.useSystemEmoji) {
+            if (!EmojiProvider.containsEmoji || NekoConfig.useSystemEmoji.Bool()) {
                 return true;
             }
             return emojiBmp[info.page][info.page2] != null;
@@ -576,11 +602,20 @@ public class Emoji {
         @Override
         public void draw(Canvas canvas, CharSequence text, int start, int end, float x, int top, int y, int bottom, Paint paint) {
             boolean restoreAlpha = false;
-            if (paint.getAlpha() != 255) {
+            if (paint.getAlpha() != 255 && emojiDrawingUseAlpha) {
                 restoreAlpha = true;
                 getDrawable().setAlpha(paint.getAlpha());
             }
+            boolean needRestore = false;
+            if (emojiDrawingYOffset != 0) {
+                needRestore = true;
+                canvas.save();
+                canvas.translate(0, emojiDrawingYOffset);
+            }
             super.draw(canvas, text, start, end, x, top, y, bottom, paint);
+            if (needRestore) {
+                canvas.restore();
+            }
             if (restoreAlpha) {
                 getDrawable().setAlpha(255);
             }

@@ -11,18 +11,14 @@ package org.telegram.messenger;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
-import android.provider.Settings;
 
 import androidx.core.app.NotificationCompat;
-
-import tw.nekomimi.nekogram.NekoConfig;
 
 public class NotificationsService extends Service {
 
@@ -32,28 +28,20 @@ public class NotificationsService extends Service {
         ApplicationLoader.postInitApplication();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String CHANNEL_ID = "push_service_channel";
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, LocaleController.getString("PlaceHolder", R.string.PlaceHolder), NotificationManager.IMPORTANCE_DEFAULT);
-            channel.setDescription("TeleTux - System");
-            channel.enableLights(false);
-            channel.enableVibration(false);
-            channel.setSound(null, null);
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-            Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
-            intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
-            intent.putExtra(Settings.EXTRA_CHANNEL_ID, CHANNEL_ID);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, LocaleController.getString("TeleTuxPushService", R.string.TeleTuxPushService), NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(channel);
+//            Intent explainIntent = new Intent("android.intent.action.VIEW");
+//            explainIntent.setData(Uri.parse("https://github.com/Telegram-FOSS-Team/Telegram-FOSS/blob/master/Notifications.md"));
+//            PendingIntent explainPendingIntent = PendingIntent.getActivity(this, 0, explainIntent, 0);
             Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+//                    .setContentIntent(explainPendingIntent)
+                    .setShowWhen(false)
+                    .setOngoing(true)
                     .setSmallIcon(R.drawable.notification)
-                    .setColor(NekoConfig.getNotificationColor())
-                    .setContentTitle(LocaleController.getString("TeleTuxRunning", R.string.TeleTuxRunning))
-                    .setContentText(LocaleController.getString("TapToDisable",R.string.TapToDisable))
-                    .setContentIntent(pendingIntent)
-                    .setCategory(NotificationCompat.CATEGORY_STATUS)
+                    .setContentText(LocaleController.getString("TeleTuxPushService", R.string.TeleTuxPushService))
                     .build();
-            startForeground(38264, notification);
+            startForeground(9999, notification);
         }
     }
 

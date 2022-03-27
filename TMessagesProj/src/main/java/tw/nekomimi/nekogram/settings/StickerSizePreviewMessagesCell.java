@@ -94,7 +94,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
 
 
         message = new TLRPC.TL_message();
-        message.message = NekoConfig.stickerSize < 9 ? LocaleController.getString("StickerSizeDialogMessageSmallOne", R.string.StickerSizeDialogMessageSmallOne) : LocaleController.getString("StickerSizeDialogMessageBigOne", R.string.StickerSizeDialogMessageBigOne);
+        message.message = NekoConfig.stickerSize.Float() < 9 ? LocaleController.getString("StickerSizeDialogMessageSmallOne", R.string.StickerSizeDialogMessageSmallOne) : LocaleController.getString("StickerSizeDialogMessageBigOne", R.string.StickerSizeDialogMessageBigOne);
         message.date = date + 1270;
         message.dialog_id = -1;
         message.flags = 259;
@@ -124,7 +124,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
         super.invalidate();
         for (int a = 0; a < cells.length; a++) {
             if (a == 1) {
-                messageObjects[a].messageOwner.message = NekoConfig.stickerSize < 9 ? LocaleController.getString("StickerSizeDialogMessageSmallOne", R.string.StickerSizeDialogMessageSmallOne) : LocaleController.getString("StickerSizeDialogMessageBigOne", R.string.StickerSizeDialogMessageBigOne);
+                messageObjects[a].messageOwner.message = NekoConfig.stickerSize.Float() < 9 ? LocaleController.getString("StickerSizeDialogMessageSmallOne", R.string.StickerSizeDialogMessageSmallOne) : LocaleController.getString("StickerSizeDialogMessageBigOne", R.string.StickerSizeDialogMessageBigOne);
                 messageObjects[a].applyNewText();
                 messageObjects[a].resetLayout();
             }

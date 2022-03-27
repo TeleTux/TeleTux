@@ -16,13 +16,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.text.Layout;
 import android.text.SpannableString;
+import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.transition.ChangeBounds;
@@ -38,9 +42,11 @@ import android.view.ViewPropertyAnimator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import org.checkerframework.checker.units.qual.A;
+import androidx.core.graphics.ColorUtils;
+
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.Adapters.FiltersView;
@@ -48,6 +54,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EllipsizeSpanAnimator;
 import org.telegram.ui.Components.FireworksEffect;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.SnowflakesEffect;
 
 import java.util.ArrayList;
@@ -66,7 +73,7 @@ public class ActionBar extends FrameLayout {
         }
     }
 
-    private ImageView backButtonImageView;
+    private UnreadImageView backButtonImageView;
     private SimpleTextView[] titleTextView = new SimpleTextView[2];
     private SimpleTextView subtitleTextView;
     private SimpleTextView additionalSubtitleTextView;
@@ -122,10 +129,18 @@ public class ActionBar extends FrameLayout {
     private boolean centerScale;
     private CharSequence subtitle;
 
+    private View.OnTouchListener interceptTouchEventListener;
+    private final Theme.ResourcesProvider resourcesProvider;
+
     EllipsizeSpanAnimator ellipsizeSpanAnimator = new EllipsizeSpanAnimator(this);
 
     public ActionBar(Context context) {
+        this(context, null);
+    }
+
+    public ActionBar(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.resourcesProvider = resourcesProvider;
         setOnClickListener(v -> {
             if (isSearchFieldVisible()) {
                 return;
@@ -140,7 +155,7 @@ public class ActionBar extends FrameLayout {
         if (backButtonImageView != null) {
             return;
         }
-        backButtonImageView = new ImageView(getContext());
+        backButtonImageView = new UnreadImageView(getContext());
         backButtonImageView.setScaleType(ImageView.ScaleType.CENTER);
         backButtonImageView.setBackgroundDrawable(Theme.createSelectorDrawable(itemsBackgroundColor));
         if (itemsColor != 0) {
@@ -202,7 +217,7 @@ public class ActionBar extends FrameLayout {
                 manualStart = true;
                 if (snowflakesEffect == null) {
                     fireworksEffect = null;
-                    snowflakesEffect = new SnowflakesEffect();
+                    snowflakesEffect = new SnowflakesEffect(0);
                     titleTextView[0].invalidate();
                     invalidate();
                 } else {
@@ -213,7 +228,7 @@ public class ActionBar extends FrameLayout {
                 }
             }
         }
-        return super.onInterceptTouchEvent(ev);
+        return interceptTouchEventListener != null && interceptTouchEventListener.onTouch(this, ev) || super.onInterceptTouchEvent(ev);
     }
 
     protected boolean shouldClipChild(View child) {
@@ -245,6 +260,7 @@ public class ActionBar extends FrameLayout {
                     int y = titleView.getTextStartY() + Theme.getCurrentHolidayDrawableYOffset() + (int) Math.ceil((titleView.getTextHeight() - rect.height()) / 2.0f);
                     drawable.setBounds(x, y - drawable.getIntrinsicHeight(), x + drawable.getIntrinsicWidth(), y);
                     drawable.setAlpha((int) (255 * titleView.getAlpha()));
+                    drawable.setColorFilter(textPaint.getColor(), PorterDuff.Mode.MULTIPLY);
                     drawable.draw(canvas);
                     if (overlayTitleAnimationInProgress) {
                         child.invalidate();
@@ -252,13 +268,13 @@ public class ActionBar extends FrameLayout {
                     }
                 }
             }
-            if (NekoConfig.actionBarDecoration == 2) {
+            if (NekoConfig.actionBarDecoration.Int() == 2) {
                 if (fireworksEffect == null) {
                     fireworksEffect = new FireworksEffect();
                 }
-            } else if (NekoConfig.actionBarDecoration == 1 || Theme.canStartHolidayAnimation()) {
+            } else if (NekoConfig.actionBarDecoration.Int() == 1 || Theme.canStartHolidayAnimation()) {
                 if (snowflakesEffect == null) {
-                    snowflakesEffect = new SnowflakesEffect();
+                    snowflakesEffect = new SnowflakesEffect(0);
                 }
             } else if (!manualStart) {
                 if (snowflakesEffect != null) {
@@ -303,9 +319,7 @@ public class ActionBar extends FrameLayout {
         subtitleTextView = new SimpleTextView(getContext());
         subtitleTextView.setGravity(Gravity.LEFT);
         subtitleTextView.setVisibility(GONE);
-        subtitleTextView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubtitle));
-        subtitleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
-
+        subtitleTextView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubtitle));
         addView(subtitleTextView, 0, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP));
     }
 
@@ -316,7 +330,7 @@ public class ActionBar extends FrameLayout {
         additionalSubtitleTextView = new SimpleTextView(getContext());
         additionalSubtitleTextView.setGravity(Gravity.LEFT);
         additionalSubtitleTextView.setVisibility(GONE);
-        additionalSubtitleTextView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubtitle));
+        additionalSubtitleTextView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubtitle));
         addView(additionalSubtitleTextView, 0, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP));
     }
 
@@ -362,7 +376,7 @@ public class ActionBar extends FrameLayout {
         if (titleColorToSet != 0) {
             titleTextView[i].setTextColor(titleColorToSet);
         } else {
-            titleTextView[i].setTextColor(Theme.getColor(Theme.key_actionBarDefaultTitle));
+            titleTextView[i].setTextColor(getThemedColor(Theme.key_actionBarDefaultTitle));
         }
         titleTextView[i].setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         addView(titleTextView[i], 0, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP));
@@ -496,12 +510,41 @@ public class ActionBar extends FrameLayout {
         actionMode = new ActionBarMenu(getContext(), this) {
             @Override
             public void setBackgroundColor(int color) {
-                super.setBackgroundColor(actionModeColor = color);
+                actionModeColor = color;
+                if (!blurredBackground) {
+                    super.setBackgroundColor(actionModeColor);
+                }
+            }
+
+            @Override
+            protected void dispatchDraw(Canvas canvas) {
+                if (blurredBackground && drawBlur) {
+                    rectTmp.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                    blurScrimPaint.setColor(actionModeColor);
+                    contentView.drawBlurRect(canvas, 0, rectTmp, blurScrimPaint, true);
+                }
+                super.dispatchDraw(canvas);
+            }
+
+            @Override
+            protected void onAttachedToWindow() {
+                super.onAttachedToWindow();
+                if (contentView != null) {
+                    contentView.blurBehindViews.add(this);
+                }
+            }
+
+            @Override
+            protected void onDetachedFromWindow() {
+                super.onDetachedFromWindow();
+                if (contentView != null) {
+                    contentView.blurBehindViews.remove(this);
+                }
             }
         };
         actionMode.isActionMode = true;
         actionMode.setClickable(true);
-        actionMode.setBackgroundColor(Theme.getColor(Theme.key_actionBarActionModeDefault));
+        actionMode.setBackgroundColor(getThemedColor(Theme.key_actionBarActionModeDefault));
         addView(actionMode, indexOfChild(backButtonImageView));
         actionMode.setPadding(0, occupyStatusBar ? AndroidUtilities.statusBarHeight : 0, 0, 0);
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) actionMode.getLayoutParams();
@@ -512,17 +555,17 @@ public class ActionBar extends FrameLayout {
         actionMode.setLayoutParams(layoutParams);
         actionMode.setVisibility(INVISIBLE);
 
-        if (occupyStatusBar && needTop && actionModeTop == null) {
-            actionModeTop = new View(getContext());
-            actionModeTop.setBackgroundColor(Theme.getColor(Theme.key_actionBarActionModeDefaultTop));
-            addView(actionModeTop);
-            layoutParams = (FrameLayout.LayoutParams) actionModeTop.getLayoutParams();
-            layoutParams.height = AndroidUtilities.statusBarHeight;
-            layoutParams.width = LayoutHelper.MATCH_PARENT;
-            layoutParams.gravity = Gravity.TOP | Gravity.LEFT;
-            actionModeTop.setLayoutParams(layoutParams);
-            actionModeTop.setVisibility(INVISIBLE);
-        }
+//        if (occupyStatusBar && needTop && actionModeTop == null && !blurredBackground) {
+//            actionModeTop = new View(getContext());
+//            actionModeTop.setBackgroundColor(getThemedColor(Theme.key_actionBarActionModeDefaultTop));
+//            addView(actionModeTop);
+//            layoutParams = (FrameLayout.LayoutParams) actionModeTop.getLayoutParams();
+//            layoutParams.height = AndroidUtilities.statusBarHeight;
+//            layoutParams.width = LayoutHelper.MATCH_PARENT;
+//            layoutParams.gravity = Gravity.TOP | Gravity.LEFT;
+//            actionModeTop.setLayoutParams(layoutParams);
+//            actionModeTop.setVisibility(INVISIBLE);
+//        }
 
         return actionMode;
     }
@@ -565,7 +608,7 @@ public class ActionBar extends FrameLayout {
                 animators.add(ObjectAnimator.ofFloat(actionModeTop, View.ALPHA, 0.0f, 1.0f));
             }
             if (SharedConfig.noStatusBar) {
-                if (AndroidUtilities.computePerceivedBrightness(actionModeColor) < 0.721f) {
+                if (ColorUtils.calculateLuminance(actionModeColor) < 0.7f) {
                     AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), false);
                 } else {
                     AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), true);
@@ -649,7 +692,7 @@ public class ActionBar extends FrameLayout {
                 actionModeTop.setAlpha(1.0f);
             }
             if (SharedConfig.noStatusBar) {
-                if (AndroidUtilities.computePerceivedBrightness(actionModeColor) < 0.721f) {
+                if (ColorUtils.calculateLuminance(actionModeColor) < 0.7f) {
                     AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), false);
                 } else {
                     AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), true);
@@ -714,10 +757,14 @@ public class ActionBar extends FrameLayout {
             animators.add(ObjectAnimator.ofFloat(actionModeTop, View.ALPHA, 0.0f));
         }
         if (SharedConfig.noStatusBar) {
-            if (AndroidUtilities.computePerceivedBrightness(actionBarColor) < 0.721f) {
-                AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), false);
+            if (actionBarColor == 0) {
+                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors);
             } else {
-                AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), true);
+                if (ColorUtils.calculateLuminance(actionBarColor) < 0.7f) {
+                    AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), false);
+                } else {
+                    AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), true);
+                }
             }
         }
         if (actionModeAnimation != null) {
@@ -772,7 +819,7 @@ public class ActionBar extends FrameLayout {
     public void showActionModeTop() {
         if (occupyStatusBar && actionModeTop == null) {
             actionModeTop = new View(getContext());
-            actionModeTop.setBackgroundColor(Theme.getColor(Theme.key_actionBarActionModeDefaultTop));
+            actionModeTop.setBackgroundColor(getThemedColor(Theme.key_actionBarActionModeDefaultTop));
             addView(actionModeTop);
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) actionModeTop.getLayoutParams();
             layoutParams.height = AndroidUtilities.statusBarHeight;
@@ -791,6 +838,12 @@ public class ActionBar extends FrameLayout {
     public void setSearchTextColor(int color, boolean placeholder) {
         if (menu != null) {
             menu.setSearchTextColor(color, placeholder);
+        }
+    }
+
+    public void setSearchCursorColor(int color) {
+        if (menu != null) {
+            menu.setSearchCursorColor(color);
         }
     }
 
@@ -894,6 +947,10 @@ public class ActionBar extends FrameLayout {
         interceptTouches = value;
     }
 
+    public void setInterceptTouchEventListener(View.OnTouchListener listener) {
+        interceptTouchEventListener = listener;
+    }
+
     public void setExtraHeight(int value) {
         extraHeight = value;
         if (actionMode != null) {
@@ -918,7 +975,14 @@ public class ActionBar extends FrameLayout {
         if (menu == null || text == null) {
             return;
         }
-        menu.openSearchField(!isSearchFieldVisible, text, animated);
+        menu.openSearchField(!isSearchFieldVisible, !isSearchFieldVisible, text, animated);
+    }
+
+    public void openSearchField(boolean animated) {
+        if (menu == null) {
+            return;
+        }
+        menu.openSearchField(!isSearchFieldVisible, false, "", animated);
     }
 
     public void setSearchFilter(FiltersView.MediaFilterData filter) {
@@ -1420,7 +1484,7 @@ public class ActionBar extends FrameLayout {
         super.onAttachedToWindow();
         ellipsizeSpanAnimator.onAttachedToWindow();
         if (SharedConfig.noStatusBar && actionModeVisible) {
-            if (AndroidUtilities.computePerceivedBrightness(actionModeColor) < 0.721f) {
+            if (ColorUtils.calculateLuminance(actionModeColor) < 0.7f) {
                 AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), false);
             } else {
                 AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), true);
@@ -1433,10 +1497,14 @@ public class ActionBar extends FrameLayout {
         super.onDetachedFromWindow();
         ellipsizeSpanAnimator.onDetachedFromWindow();
         if (SharedConfig.noStatusBar && actionModeVisible) {
-            if (AndroidUtilities.computePerceivedBrightness(actionBarColor) < 0.721f) {
-                AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), false);
+            if (actionBarColor == 0) {
+                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors);
             } else {
-                AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), true);
+                if (ColorUtils.calculateLuminance(actionBarColor) < 0.7f) {
+                    AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), false);
+                } else {
+                    AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), true);
+                }
             }
         }
     }
@@ -1468,7 +1536,7 @@ public class ActionBar extends FrameLayout {
                 public void captureEndValues(TransitionValues transitionValues) {
                     super.captureEndValues(transitionValues);
                     if (transitionValues.view instanceof SimpleTextView) {
-                        float textSize= ((SimpleTextView) transitionValues.view).getTextPaint().getTextSize();
+                        float textSize = ((SimpleTextView) transitionValues.view).getTextPaint().getTextSize();
                         transitionValues.values.put("text_size", textSize);
                     }
                 }
@@ -1477,12 +1545,14 @@ public class ActionBar extends FrameLayout {
                 public Animator createAnimator(ViewGroup sceneRoot, TransitionValues startValues, TransitionValues endValues) {
                     if (startValues != null && startValues.view instanceof SimpleTextView) {
                         AnimatorSet animatorSet = new AnimatorSet();
-                        Animator animator = super.createAnimator(sceneRoot, startValues, endValues);
-                        float s = (float) startValues.values.get("text_size") / (float) endValues.values.get("text_size");
-                        startValues.view.setScaleX(s);
-                        startValues.view.setScaleY(s);
-                        if (animator != null) {
-                            animatorSet.playTogether(animator);
+                        if (startValues != null && endValues != null) {
+                            Animator animator = super.createAnimator(sceneRoot, startValues, endValues);
+                            float s = (float) startValues.values.get("text_size") / (float) endValues.values.get("text_size");
+                            startValues.view.setScaleX(s);
+                            startValues.view.setScaleY(s);
+                            if (animator != null) {
+                                animatorSet.playTogether(animator);
+                            }
                         }
                         animatorSet.playTogether(ObjectAnimator.ofFloat(startValues.view, SCALE_X, 1f));
                         animatorSet.playTogether(ObjectAnimator.ofFloat(startValues.view, SCALE_Y, 1f));
@@ -1510,6 +1580,86 @@ public class ActionBar extends FrameLayout {
             transitionSet.setDuration(220);
             transitionSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
             TransitionManager.beginDelayedTransition(this, transitionSet);
+        }
+    }
+
+    private int getThemedColor(String key) {
+        Integer color = resourcesProvider != null ? resourcesProvider.getColor(key) : null;
+        if (color == null) {
+            color = parentFragment != null ? parentFragment.getThemedColor(key) : null;
+        }
+        return color != null ? color : Theme.getColor(key);
+    }
+
+    SizeNotifierFrameLayout contentView;
+    boolean blurredBackground;
+
+    public void setDrawBlurBackground(SizeNotifierFrameLayout contentView) {
+        blurredBackground = true;
+        this.contentView = contentView;
+        contentView.blurBehindViews.add(this);
+        setBackground(null);
+    }
+
+    public Paint blurScrimPaint = new Paint();
+    Rect rectTmp = new Rect();
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        if (blurredBackground && actionBarColor != Color.TRANSPARENT) {
+            rectTmp.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
+            blurScrimPaint.setColor(actionBarColor);
+            contentView.drawBlurRect(canvas, getY(), rectTmp, blurScrimPaint, true);
+        }
+        super.dispatchDraw(canvas);
+    }
+
+    // NekoX Changes
+
+    private StaticLayout countLayout;
+
+    private class UnreadImageView extends ImageView {
+        public UnreadImageView(Context context) {
+            super(context);
+        }
+
+        private int unreadCount = 0;
+        private RectF rect = new RectF();
+
+        @Override
+        public void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            if (countLayout == null || unreadCount == 0)
+                return;
+
+            Paint paint = Theme.dialogs_countPaint;
+            String unreadCountString = unreadCount > 99 ? "99+" : Integer.toString(unreadCount);
+            int countWidth = Math.max(AndroidUtilities.dp(12), (int) Math.ceil(Theme.dialogs_countTextPaint.measureText(unreadCountString)));
+            int countLeft = getMeasuredWidth() - countWidth - AndroidUtilities.dp(20);
+            int countTop = 0;
+
+            int x = countLeft - AndroidUtilities.dp(5.5f);
+            rect.set(x, countTop, x + countWidth + AndroidUtilities.dp(11), countTop + AndroidUtilities.dp(23));
+            canvas.drawRoundRect(rect, 11.5f * AndroidUtilities.density, 11.5f * AndroidUtilities.density, paint);
+            canvas.save();
+            canvas.translate(countLeft, countTop + AndroidUtilities.dp(4));
+            countLayout.draw(canvas);
+            canvas.restore();
+        }
+
+        public void setUnread(int count) {
+            if (count != unreadCount) {
+                unreadCount = count;
+                String countString = count > 99 ? "99+" : Integer.toString(count);
+                int countWidth = count == 0 ? 0 : Math.max(AndroidUtilities.dp(12), (int) Math.ceil(Theme.dialogs_countTextPaint.measureText(countString)));
+                countLayout = new StaticLayout(countString, Theme.dialogs_countTextPaint, countWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+                invalidate();
+            }
+        }
+    }
+
+    public void unreadBadgeSetCount(int count) {
+        if (backButtonImageView != null && NekoConfig.unreadBadgeOnBackButton.Bool()) {
+            backButtonImageView.setUnread(count);
         }
     }
 }

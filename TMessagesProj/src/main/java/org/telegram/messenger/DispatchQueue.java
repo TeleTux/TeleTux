@@ -20,6 +20,8 @@ public class DispatchQueue extends Thread {
     private volatile Handler handler = null;
     private CountDownLatch syncLatch = new CountDownLatch(1);
     private long lastTaskTime;
+    private static int indexPointer = 0;
+    public final int index = indexPointer++;
 
     public DispatchQueue(final String threadName) {
         this(threadName, true);
@@ -115,5 +117,9 @@ public class DispatchQueue extends Thread {
         };
         syncLatch.countDown();
         Looper.loop();
+    }
+
+    public boolean isReady() {
+        return syncLatch.getCount() == 0;
     }
 }

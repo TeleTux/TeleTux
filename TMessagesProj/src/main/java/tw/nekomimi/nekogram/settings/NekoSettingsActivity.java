@@ -50,6 +50,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.DocumentSelectActivity;
 import org.telegram.ui.LaunchActivity;
+import org.telegram.ui.ForkSettingsPasscodeActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private RecyclerListView listView;
     private ListAdapter listAdapter;
     private int rowCount;
-
+    private int passcodeRow;
     private int categoriesRow;
     private int generalRow;
     private int accountRow;
@@ -86,13 +87,20 @@ public class NekoSettingsActivity extends BaseFragment {
     private int translationRow;
     private int about2Row;
     private int donationRow;
+    private int teletuxRow;
+    private ArrayList<Integer> emptyRows = new ArrayList<Integer>();
+    private boolean longClicked = false;
+
+    public NekoSettingsActivity(boolean longClicked) {
+        this.longClicked = longClicked;
+    }
+
 
     @Override
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
 
         updateRows();
-
         return true;
     }
 
@@ -184,6 +192,8 @@ public class NekoSettingsActivity extends BaseFragment {
                 Browser.openUrl(getParentActivity(), "https://play.google.com/store/apps/details?id=teletux.messenger");
             } else if (position == sourceCodeRow) {
                 Browser.openUrl(getParentActivity(), "https://github.com/TeleTux/TeleTux");
+            } else if (position == passcodeRow) {
+                presentFragment(new ForkSettingsPasscodeActivity());
             }
         });
 
@@ -276,7 +286,7 @@ public class NekoSettingsActivity extends BaseFragment {
         spToJSON("mainconfig", configJson, mainconfig::contains);
         spToJSON("themeconfig", configJson, null);
 
-        spToJSON("nekoconfig", configJson, null);
+        spToJSON("nkmrcfg", configJson, null);
 
         return configJson.toString(4);
     }
@@ -388,11 +398,19 @@ public class NekoSettingsActivity extends BaseFragment {
         /*if (ExternalGcm.checkPlayServices()) {
             googlePlayRow = rowCount++;
         } else {*/
-            googlePlayRow = -1;
+        googlePlayRow = -1;
 //        }
         sourceCodeRow = rowCount++;
         translationRow = rowCount++;
         about2Row = rowCount++;
+        teletuxRow = rowCount++;
+        if (longClicked
+            || !MessagesController.getGlobalMainSettings().getBoolean("passcodeHideSection", false)) {
+            //emptyRows.add(rowCount++);
+            passcodeRow = rowCount++;
+        } else {
+            emptyRows.add(rowCount++);
+        }
 
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
@@ -471,9 +489,11 @@ public class NekoSettingsActivity extends BaseFragment {
                     } else if (position == generalRow) {
                         textCell.setTextAndIcon(LocaleController.getString("General", R.string.General), R.drawable.baseline_palette_24, true);
                     } else if (position == experimentRow) {
-                        textCell.setTextAndIcon(LocaleController.getString("Experiment", R.string.Experiment), R.drawable.baseline_star_24, false);
+                        textCell.setTextAndIcon(LocaleController.getString("Experiment", R.string.Experiment), R.drawable.baseline_star_24, true);
                     } else if (position == accountRow) {
                         textCell.setTextAndIcon(LocaleController.getString("Account", R.string.Account), R.drawable.baseline_person_24, true);
+                    } else if (position == passcodeRow) {
+                        textCell.setText(LocaleController.getString("ForkPasscodeSettingsTitle", R.string.ForkPasscodeSettingsTitle), false);
                     }
                     break;
                 }
@@ -500,6 +520,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         headerCell.setText(LocaleController.getString("Categories", R.string.Categories));
                     } else if (position == aboutRow) {
                         headerCell.setText(LocaleController.getString("About", R.string.About));
+                    } else if (position == teletuxRow) {
+                        headerCell.setText(LocaleController.getString("TeleTux", R.string.TeleTux));
                     }
                     break;
                 }
@@ -553,9 +575,9 @@ public class NekoSettingsActivity extends BaseFragment {
         public int getItemViewType(int position) {
             if (position == categories2Row || position == about2Row) {
                 return 1;
-            } else if (position == chatRow || position == accountRow || position == generalRow || position == experimentRow) {
+            } else if (position == chatRow|| position == passcodeRow || position == accountRow || position == generalRow || position == experimentRow) {
                 return 2;
-            } else if (position == categoriesRow || position == aboutRow) {
+            } else if (position == categoriesRow || position == aboutRow || position == teletuxRow) {
                 return 4;
             }
             return 3;

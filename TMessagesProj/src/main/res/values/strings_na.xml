@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="N_Config">TeleConf</string>
+    <string name="ForceCopy">Force Copy</string>
+    <string name="InvertReply">Invert</string>
+    <string name="Great">Great</string>
+    <string name="Poor">Poor</string>
+    <string name="CombineMessage">Combine Message</string>
+    <string name="TextStyle">Text Style</string>
+    <string name="CombineMessageEnabledWithReply">Combine Message Enabled With Reply</string>
+    <string name="CombineMessageEnabled">Combine Message Enabled</string>
+    <string name="CombineMessageDisabled">Combine Message Disabled</string>
+    <string name="TextUndoRedo">Undo/Redo</string>
+    <string name="TextUndo">Undo</string>
+    <string name="TextRedo">Redo</string>
+    <string name="NoiseSuppressAndVoiceEnhance">Noise Suppress And Voice Enhance</string>
+    <string name="RepeatAsCopy">Repeat as Copy</string>
+    <string name="DoubleTapAction">Double Tap Action</string>
+    <string name="SendReactions">Send Reactions</string>
+    <string name="ShowReactions">Show Reactions</string>
+</resources>

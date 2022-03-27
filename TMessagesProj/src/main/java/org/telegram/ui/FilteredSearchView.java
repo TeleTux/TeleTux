@@ -61,6 +61,7 @@ import org.telegram.ui.Cells.SharedMediaSectionCell;
 import org.telegram.ui.Cells.SharedPhotoVideoCell;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.BackupImageView;
+import org.telegram.ui.Components.BlurredRecyclerView;
 import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EmbedBottomSheet;
@@ -75,7 +76,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import kotlin.Unit;
-import tw.nekomimi.nekogram.BottomBuilder;
+import tw.nekomimi.nekogram.ui.BottomBuilder;
 import tw.nekomimi.nekogram.utils.AlertUtil;
 import tw.nekomimi.nekogram.utils.ProxyUtil;
 
@@ -99,7 +100,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
     String lastSearchFilterQueryString;
 
     FiltersView.MediaFilterData currentSearchFilter;
-    int currentSearchDialogId;
+    long currentSearchDialogId;
     long currentSearchMaxDate;
     long currentSearchMinDate;
     String currentSearchString;
@@ -221,11 +222,11 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                             if (view instanceof SharedDocumentCell) {
                                 top += AndroidUtilities.dp(8f);
                             }
-                            final int topOffset = top - object.viewY;
+                            final int topOffset = (int) (top - object.viewY);
                             if (topOffset > view.getHeight()) {
                                 listView.scrollBy(0, -(topOffset + pinnedHeader.getHeight()));
                             } else {
-                                int bottomOffset = object.viewY - listView.getHeight();
+                                int bottomOffset = (int) (object.viewY - listView.getHeight());
                                 if (view instanceof SharedDocumentCell) {
                                     bottomOffset -= AndroidUtilities.dp(8f);
                                 }
@@ -272,7 +273,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         parentFragment = fragment;
         Context context = parentActivity = fragment.getParentActivity();
         setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-        recyclerListView = new RecyclerListView(context) {
+        recyclerListView = new BlurredRecyclerView(context) {
 
             @Override
             protected void dispatchDraw(Canvas canvas) {
@@ -358,7 +359,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         });
         addView(recyclerListView);
 
-        recyclerListView.setSectionsType(2);
+        recyclerListView.setSectionsType(RecyclerListView.SECTIONS_TYPE_DATE);
         recyclerListView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -448,7 +449,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         return fromName == null ? "" : fromName;
     }
 
-    public void search(int dialogId, long minDate, long maxDate, FiltersView.MediaFilterData currentSearchFilter, boolean includeFolder, String query, boolean clearOldResults) {
+    public void search(long dialogId, long minDate, long maxDate, FiltersView.MediaFilterData currentSearchFilter, boolean includeFolder, String query, boolean clearOldResults) {
         String currentSearchFilterQueryString = String.format(Locale.ENGLISH, "%d%d%d%d%s%s", dialogId, minDate, maxDate, currentSearchFilter == null ? -1 : currentSearchFilter.filterType, query, includeFolder);
         boolean filterAndQueryIsSame = lastSearchFilterQueryString != null && lastSearchFilterQueryString.equals(currentSearchFilterQueryString);
         boolean forceClear = !filterAndQueryIsSame && clearOldResults;
@@ -553,14 +554,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                     MessageObject lastMessage = messages.get(messages.size() - 1);
                     req.offset_id = lastMessage.getId();
                     req.offset_rate = nextSearchRate;
-                    int id;
-                    if (lastMessage.messageOwner.peer_id.channel_id != 0) {
-                        id = -lastMessage.messageOwner.peer_id.channel_id;
-                    } else if (lastMessage.messageOwner.peer_id.chat_id != 0) {
-                        id = -lastMessage.messageOwner.peer_id.chat_id;
-                    } else {
-                        id = lastMessage.messageOwner.peer_id.user_id;
-                    }
+                    long id = MessageObject.getPeerId(lastMessage.messageOwner.peer_id);
                     req.offset_peer = MessagesController.getInstance(currentAccount).getInputPeer(id);
                 } else {
                     req.offset_rate = 0;
@@ -827,7 +821,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         emptyView.setKeyboardHeight(keyboardSize, animated);
     }
 
-    public void messagesDeleted(int channelId, ArrayList<Integer> markAsDeletedMessages) {
+    public void messagesDeleted(long channelId, ArrayList<Integer> markAsDeletedMessages) {
         boolean changed = false;
         for (int j = 0; j < messages.size(); j++) {
             MessageObject messageObject = messages.get(j);
@@ -988,14 +982,9 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
             return;
         }
         if (currentSearchFilter.filterType == FiltersView.FILTER_TYPE_MEDIA) {
-            if (view instanceof DialogCell) {
-                uiCallback.goToMessage(((DialogCell) view).getMessage());
-            } else {
-                PhotoViewer.getInstance().setParentActivity(parentActivity);
-                PhotoViewer.getInstance().openPhoto(messages, index, 0, 0, provider);
-                photoViewerClassGuid = PhotoViewer.getInstance().getClassGuid();
-            }
-
+            PhotoViewer.getInstance().setParentActivity(parentActivity);
+            PhotoViewer.getInstance().openPhoto(messages, index, 0, 0, provider);
+            photoViewerClassGuid = PhotoViewer.getInstance().getClassGuid();
         } else if (currentSearchFilter.filterType == FiltersView.FILTER_TYPE_MUSIC || currentSearchFilter.filterType == FiltersView.FILTER_TYPE_VOICE) {
             if (view instanceof SharedAudioCell) {
                 ((SharedAudioCell) view).didPressedButton();
@@ -1024,6 +1013,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                     AndroidUtilities.openDocument(message, parentActivity, parentFragment);
                 } else if (!cell.isLoading()) {
                     MessageObject messageObject = cell.getMessage();
+                    messageObject.putInDownloadsStore = true;
                     AccountInstance.getInstance(UserConfig.selectedAccount).getFileLoader().loadFile(document, messageObject, 0, 0);
                     cell.updateFileExistIcon(true);
                 } else {
@@ -1240,8 +1230,9 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
 
         @Override
-        public int getPositionForScrollProgress(float progress) {
-            return 0;
+        public void getPositionForScrollProgress(RecyclerListView listView, float progress, int[] position) {
+            position[0] = 0;
+            position[1] = 0;
         }
     }
 
@@ -1325,7 +1316,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                     break;
                 case 3:
                 default:
-                    view = new SharedAudioCell(mContext, SharedAudioCell.VIEW_TYPE_GLOBAL_SEARCH) {
+                    view = new SharedAudioCell(mContext, SharedAudioCell.VIEW_TYPE_GLOBAL_SEARCH, null) {
                         @Override
                         public boolean needPlayMessage(MessageObject messageObject) {
                             if (messageObject.isVoice() || messageObject.isRoundVideo()) {
@@ -1433,8 +1424,9 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
 
         @Override
-        public int getPositionForScrollProgress(float progress) {
-            return 0;
+        public void getPositionForScrollProgress(RecyclerListView listView, float progress, int[] position) {
+            position[0] = 0;
+            position[1] = 0;
         }
     }
 
@@ -1707,6 +1699,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
     public void setChatPreviewDelegate(SearchViewPager.ChatPreviewDelegate chatPreviewDelegate) {
         this.chatPreviewDelegate = chatPreviewDelegate;
     }
+
 
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();

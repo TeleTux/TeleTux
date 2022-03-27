@@ -17,7 +17,6 @@ import android.util.SparseArray;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC;
 
-import java.io.File;
 import java.util.Arrays;
 
 public class UserConfig extends BaseController {
@@ -32,7 +31,7 @@ public class UserConfig extends BaseController {
     public int lastSendMessageId = -210000;
     public int lastBroadcastId = -1;
     public int contactsSavedCount;
-    public int clientUserId;
+    public long clientUserId;
     public int lastContactsSyncTime;
     public int lastHintsSyncTime;
     public boolean draftsLoaded;
@@ -44,9 +43,9 @@ public class UserConfig extends BaseController {
     public boolean hasValidDialogLoadIds;
     public int migrateOffsetId = -1;
     public int migrateOffsetDate = -1;
-    public int migrateOffsetUserId = -1;
-    public int migrateOffsetChatId = -1;
-    public int migrateOffsetChannelId = -1;
+    public long migrateOffsetUserId = -1;
+    public long migrateOffsetChatId = -1;
+    public long migrateOffsetChannelId = -1;
     public long migrateOffsetAccess = -1;
     public boolean filtersLoaded;
 
@@ -67,16 +66,6 @@ public class UserConfig extends BaseController {
     public volatile byte[] savedPasswordHash;
     public volatile byte[] savedSaltedPassword;
     public volatile long savedPasswordTime;
-
-    public String tonEncryptedData;
-    public String tonPublicKey;
-    public int tonPasscodeType = -1;
-    public byte[] tonPasscodeSalt;
-    public long tonPasscodeRetryInMs;
-    public long tonLastUptimeMillis;
-    public int tonBadPasscodeTries;
-    public String tonKeyName;
-    public boolean tonCreationFinished;
 
     private static SparseArray<UserConfig> Instance = new SparseArray<>();
 
@@ -117,10 +106,6 @@ public class UserConfig extends BaseController {
     }
 
     public void saveConfig(boolean withFile) {
-        saveConfig(withFile, null);
-    }
-
-    public void saveConfig(boolean withFile, File oldFile) {
         NotificationCenter.getInstance(currentAccount).doOnIdle(() -> {
             synchronized (sync) {
                 try {
@@ -154,13 +139,12 @@ public class UserConfig extends BaseController {
 
                     editor.putBoolean("filtersLoaded", filtersLoaded);
 
-
                     editor.putInt("6migrateOffsetId", migrateOffsetId);
                     if (migrateOffsetId != -1) {
                         editor.putInt("6migrateOffsetDate", migrateOffsetDate);
-                        editor.putInt("6migrateOffsetUserId", migrateOffsetUserId);
-                        editor.putInt("6migrateOffsetChatId", migrateOffsetChatId);
-                        editor.putInt("6migrateOffsetChannelId", migrateOffsetChannelId);
+                        editor.putLong("6migrateOffsetUserId", migrateOffsetUserId);
+                        editor.putLong("6migrateOffsetChatId", migrateOffsetChatId);
+                        editor.putLong("6migrateOffsetChannelId", migrateOffsetChannelId);
                         editor.putLong("6migrateOffsetAccess", migrateOffsetAccess);
                     }
 
@@ -202,9 +186,6 @@ public class UserConfig extends BaseController {
                     }
 
                     editor.commit();
-                    if (oldFile != null) {
-                        oldFile.delete();
-                    }
                 } catch (Exception e) {
                     FileLog.e(e);
                 }
@@ -222,7 +203,7 @@ public class UserConfig extends BaseController {
         }
     }
 
-    public int getClientUserId() {
+    public long getClientUserId() {
         synchronized (sync) {
             return currentUser != null ? currentUser.id : 0;
         }
@@ -278,25 +259,9 @@ public class UserConfig extends BaseController {
             official = preferences.getBoolean("official", false);
             deviceInfo = preferences.getBoolean("deviceInfo", true);
 
-            tonEncryptedData = preferences.getString("tonEncryptedData", null);
-            tonPublicKey = preferences.getString("tonPublicKey", null);
-            tonKeyName = preferences.getString("tonKeyName", "walletKey" + currentAccount);
-            tonCreationFinished = preferences.getBoolean("tonCreationFinished", true);
             sharingMyLocationUntil = preferences.getInt("sharingMyLocationUntil", 0);
             lastMyLocationShareTime = preferences.getInt("lastMyLocationShareTime", 0);
             filtersLoaded = preferences.getBoolean("filtersLoaded", false);
-            String salt = preferences.getString("tonPasscodeSalt", null);
-            if (salt != null) {
-                try {
-                    tonPasscodeSalt = Base64.decode(salt, Base64.DEFAULT);
-                    tonPasscodeType = preferences.getInt("tonPasscodeType", -1);
-                    tonPasscodeRetryInMs = preferences.getLong("tonPasscodeRetryInMs", 0);
-                    tonLastUptimeMillis = preferences.getLong("tonLastUptimeMillis", 0);
-                    tonBadPasscodeTries = preferences.getInt("tonBadPasscodeTries", 0);
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
-            }
 
             try {
                 String terms = preferences.getString("terms", null);
@@ -315,9 +280,9 @@ public class UserConfig extends BaseController {
             migrateOffsetId = preferences.getInt("6migrateOffsetId", 0);
             if (migrateOffsetId != -1) {
                 migrateOffsetDate = preferences.getInt("6migrateOffsetDate", 0);
-                migrateOffsetUserId = preferences.getInt("6migrateOffsetUserId", 0);
-                migrateOffsetChatId = preferences.getInt("6migrateOffsetChatId", 0);
-                migrateOffsetChannelId = preferences.getInt("6migrateOffsetChannelId", 0);
+                migrateOffsetUserId = AndroidUtilities.getPrefIntOrLong(preferences, "6migrateOffsetUserId", 0);
+                migrateOffsetChatId = AndroidUtilities.getPrefIntOrLong(preferences, "6migrateOffsetChatId", 0);
+                migrateOffsetChannelId = AndroidUtilities.getPrefIntOrLong(preferences, "6migrateOffsetChannelId", 0);
                 migrateOffsetAccess = preferences.getLong("6migrateOffsetAccess", 0);
             }
 
@@ -384,21 +349,8 @@ public class UserConfig extends BaseController {
         }
     }
 
-    public void clearTonConfig() {
-        tonEncryptedData = null;
-        tonKeyName = null;
-        tonPublicKey = null;
-        tonPasscodeType = -1;
-        tonPasscodeSalt = null;
-        tonCreationFinished = false;
-        tonPasscodeRetryInMs = 0;
-        tonLastUptimeMillis = 0;
-        tonBadPasscodeTries = 0;
-    }
-
     public void clearConfig() {
         getPreferences().edit().clear().apply();
-        clearTonConfig();
 
         sharingMyLocationUntil = 0;
         lastMyLocationShareTime = 0;
@@ -457,8 +409,7 @@ public class UserConfig extends BaseController {
     public static final int i_dialogsLoadOffsetUserId = 2;
     public static final int i_dialogsLoadOffsetChatId = 3;
     public static final int i_dialogsLoadOffsetChannelId = 4;
-    public static final int i_dialogsLoadOffsetAccess_1 = 5;
-    public static final int i_dialogsLoadOffsetAccess_2 = 6;
+    public static final int i_dialogsLoadOffsetAccess = 5;
 
     public int getTotalDialogsCount(int folderId) {
         return getPreferences().getInt("2totalDialogsLoadCount" + (folderId == 0 ? "" : folderId), 0);
@@ -468,24 +419,24 @@ public class UserConfig extends BaseController {
         getPreferences().edit().putInt("2totalDialogsLoadCount" + (folderId == 0 ? "" : folderId), totalDialogsLoadCount).commit();
     }
 
-    public int[] getDialogLoadOffsets(int folderId) {
+    public long[] getDialogLoadOffsets(int folderId) {
         SharedPreferences preferences = getPreferences();
         int dialogsLoadOffsetId = preferences.getInt("2dialogsLoadOffsetId" + (folderId == 0 ? "" : folderId), hasValidDialogLoadIds ? 0 : -1);
         int dialogsLoadOffsetDate = preferences.getInt("2dialogsLoadOffsetDate" + (folderId == 0 ? "" : folderId), hasValidDialogLoadIds ? 0 : -1);
-        int dialogsLoadOffsetUserId = preferences.getInt("2dialogsLoadOffsetUserId" + (folderId == 0 ? "" : folderId), hasValidDialogLoadIds ? 0 : -1);
-        int dialogsLoadOffsetChatId = preferences.getInt("2dialogsLoadOffsetChatId" + (folderId == 0 ? "" : folderId), hasValidDialogLoadIds ? 0 : -1);
-        int dialogsLoadOffsetChannelId = preferences.getInt("2dialogsLoadOffsetChannelId" + (folderId == 0 ? "" : folderId), hasValidDialogLoadIds ? 0 : -1);
+        long dialogsLoadOffsetUserId = AndroidUtilities.getPrefIntOrLong(preferences, "2dialogsLoadOffsetUserId" + (folderId == 0 ? "" : folderId), hasValidDialogLoadIds ? 0 : -1);
+        long dialogsLoadOffsetChatId = AndroidUtilities.getPrefIntOrLong(preferences, "2dialogsLoadOffsetChatId" + (folderId == 0 ? "" : folderId), hasValidDialogLoadIds ? 0 : -1);
+        long dialogsLoadOffsetChannelId = AndroidUtilities.getPrefIntOrLong(preferences, "2dialogsLoadOffsetChannelId" + (folderId == 0 ? "" : folderId), hasValidDialogLoadIds ? 0 : -1);
         long dialogsLoadOffsetAccess = preferences.getLong("2dialogsLoadOffsetAccess" + (folderId == 0 ? "" : folderId), hasValidDialogLoadIds ? 0 : -1);
-        return new int[]{dialogsLoadOffsetId, dialogsLoadOffsetDate, dialogsLoadOffsetUserId, dialogsLoadOffsetChatId, dialogsLoadOffsetChannelId, (int) dialogsLoadOffsetAccess, (int) (dialogsLoadOffsetAccess >> 32)};
+        return new long[]{dialogsLoadOffsetId, dialogsLoadOffsetDate, dialogsLoadOffsetUserId, dialogsLoadOffsetChatId, dialogsLoadOffsetChannelId, dialogsLoadOffsetAccess};
     }
 
-    public void setDialogsLoadOffset(int folderId, int dialogsLoadOffsetId, int dialogsLoadOffsetDate, int dialogsLoadOffsetUserId, int dialogsLoadOffsetChatId, int dialogsLoadOffsetChannelId, long dialogsLoadOffsetAccess) {
+    public void setDialogsLoadOffset(int folderId, int dialogsLoadOffsetId, int dialogsLoadOffsetDate, long dialogsLoadOffsetUserId, long dialogsLoadOffsetChatId, long dialogsLoadOffsetChannelId, long dialogsLoadOffsetAccess) {
         SharedPreferences.Editor editor = getPreferences().edit();
         editor.putInt("2dialogsLoadOffsetId" + (folderId == 0 ? "" : folderId), dialogsLoadOffsetId);
         editor.putInt("2dialogsLoadOffsetDate" + (folderId == 0 ? "" : folderId), dialogsLoadOffsetDate);
-        editor.putInt("2dialogsLoadOffsetUserId" + (folderId == 0 ? "" : folderId), dialogsLoadOffsetUserId);
-        editor.putInt("2dialogsLoadOffsetChatId" + (folderId == 0 ? "" : folderId), dialogsLoadOffsetChatId);
-        editor.putInt("2dialogsLoadOffsetChannelId" + (folderId == 0 ? "" : folderId), dialogsLoadOffsetChannelId);
+        editor.putLong("2dialogsLoadOffsetUserId" + (folderId == 0 ? "" : folderId), dialogsLoadOffsetUserId);
+        editor.putLong("2dialogsLoadOffsetChatId" + (folderId == 0 ? "" : folderId), dialogsLoadOffsetChatId);
+        editor.putLong("2dialogsLoadOffsetChannelId" + (folderId == 0 ? "" : folderId), dialogsLoadOffsetChannelId);
         editor.putLong("2dialogsLoadOffsetAccess" + (folderId == 0 ? "" : folderId), dialogsLoadOffsetAccess);
         editor.putBoolean("hasValidDialogLoadIds", true);
         editor.commit();

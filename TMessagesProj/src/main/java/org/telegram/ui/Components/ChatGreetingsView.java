@@ -14,7 +14,6 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
-import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.TLRPC;
@@ -34,12 +33,13 @@ public class ChatGreetingsView extends LinearLayout {
     private final int currentAccount;
 
     public BackupImageView stickerToSendView;
+    private final Theme.ResourcesProvider resourcesProvider;
 
-
-    public ChatGreetingsView(Context context, TLRPC.User user, int distance, int currentAccount, TLRPC.Document sticker) {
+    public ChatGreetingsView(Context context, TLRPC.User user, int distance, int currentAccount, TLRPC.Document sticker, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         setOrientation(VERTICAL);
         this.currentAccount = currentAccount;
+        this.resourcesProvider = resourcesProvider;
 
         titleView = new TextView(context);
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -86,7 +86,7 @@ public class ChatGreetingsView extends LinearLayout {
             stickerToSendView.setImage(ImageLocation.getForDocument(sticker), createFilter(sticker), ImageLocation.getForDocument(thumb, sticker), null, 0, sticker);
         }
         stickerToSendView.setOnClickListener(v -> {
-            if (NekoConfig.dontSendGreetingSticker)
+            if (NekoConfig.dontSendGreetingSticker.Bool())
                 return;
             if (listener != null) {
                 listener.onGreetings(sticker);
@@ -133,8 +133,8 @@ public class ChatGreetingsView extends LinearLayout {
     }
 
     private void updateColors() {
-        titleView.setTextColor(Theme.getColor(Theme.key_chat_serviceText));
-        descriptionView.setTextColor(Theme.getColor(Theme.key_chat_serviceText));
+        titleView.setTextColor(getThemedColor(Theme.key_chat_serviceText));
+        descriptionView.setTextColor(getThemedColor(Theme.key_chat_serviceText));
     }
 
     public void setListener(Listener listener) {
@@ -188,5 +188,10 @@ public class ChatGreetingsView extends LinearLayout {
             preloadedGreetingsSticker = MediaDataController.getInstance(currentAccount).getGreetingsSticker();
             setSticker(preloadedGreetingsSticker);
         }
+    }
+
+    private int getThemedColor(String key) {
+        Integer color = resourcesProvider != null ? resourcesProvider.getColor(key) : null;
+        return color != null ? color : Theme.getColor(key);
     }
 }

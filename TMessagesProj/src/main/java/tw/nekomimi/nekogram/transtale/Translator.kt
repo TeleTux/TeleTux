@@ -3,11 +3,13 @@ package tw.nekomimi.nekogram.transtale
 import android.view.View
 import cn.hutool.core.util.ArrayUtil
 import cn.hutool.core.util.StrUtil
+import cn.hutool.http.HttpRequest
 import org.apache.commons.lang3.LocaleUtils
 import org.telegram.messenger.LocaleController
 import org.telegram.messenger.R
+import org.telegram.messenger.SharedConfig
 import tw.nekomimi.nekogram.NekoConfig
-import tw.nekomimi.nekogram.PopupBuilder
+import tw.nekomimi.nekogram.ui.PopupBuilder
 import tw.nekomimi.nekogram.cc.CCConverter
 import tw.nekomimi.nekogram.cc.CCTarget
 import tw.nekomimi.nekogram.transtale.source.*
@@ -16,12 +18,25 @@ import tw.nekomimi.nekogram.utils.receive
 import tw.nekomimi.nekogram.utils.receiveLazy
 import java.util.*
 
+fun <T : HttpRequest> T.applyProxy(): T {
+    SharedConfig.getActiveSocks5Proxy()?.let { setProxy(it) }
+    return this
+}
+
 val String.code2Locale: Locale by receiveLazy<String, Locale> {
+    var ret: Locale
+    if (this == null || this.isBlank()) {
+        ret = LocaleController.getInstance().currentLocale
+    } else {
+        val args = replace('-', '_').split('_')
 
-    val args = replace('-', '_').split('_')
-
-    if (args.size == 1) Locale(args[0]) else Locale(args[0], args[1])
-
+        if (args.size == 1) {
+            ret = Locale(args[0])
+        } else {
+            ret = Locale(args[0], args[1])
+        }
+    }
+    ret
 }
 
 val Locale.locale2code by receiveLazy<Locale, String> {
@@ -55,7 +70,8 @@ interface Translator {
     companion object {
 
         @Throws(Exception::class)
-        suspend fun translate(query: String) = translate(NekoConfig.translateToLang?.code2Locale
+        suspend fun translate(query: String) = translate(
+            NekoConfig.translateToLang.String()?.code2Locale
                 ?: LocaleController.getInstance().currentLocale, query)
 
         const val providerGoogle = 1
@@ -75,7 +91,7 @@ interface Translator {
             if (language == "in") language = "id"
             if (country.lowercase() == "duang") country = "CN"
 
-            val provider = NekoConfig.translationProvider
+            val provider = NekoConfig.translationProvider.Int()
             when (provider) {
                 providerYouDao -> if (language == "zh") {
                     language = "zh-CHS"
@@ -228,7 +244,7 @@ interface Translator {
 
         @JvmStatic
         @JvmOverloads
-        fun translate(to: Locale = NekoConfig.translateToLang?.code2Locale
+        fun translate(to: Locale = NekoConfig.translateToLang.String()?.code2Locale
                 ?: LocaleController.getInstance().currentLocale, query: String, translateCallBack: TranslateCallBack) {
 
             UIUtil.runOnIoDispatcher {

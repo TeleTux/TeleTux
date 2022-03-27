@@ -59,7 +59,7 @@ public class EntityView extends FrameLayout {
 
                 recognizedLongPress = true;
                 if (delegate != null) {
-                    if (!NekoConfig.disableVibration) {
+                    if (!NekoConfig.disableVibration.Bool()) {
                         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                     }
                     delegate.onEntityLongClicked(EntityView.this);

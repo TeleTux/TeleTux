@@ -57,6 +57,9 @@ public:
 };
 
 struct BroadcastPart {
+    struct VideoParams {
+    };
+
     enum class Status {
         Success,
         NotReady,
@@ -66,7 +69,7 @@ struct BroadcastPart {
     int64_t timestampMilliseconds = 0;
     double responseTimestamp = 0;
     Status status = Status::NotReady;
-    std::vector<uint8_t> oggData;
+    std::vector<uint8_t> data;
 };
 
 enum class GroupConnectionMode {
@@ -150,9 +153,12 @@ struct GroupInstanceDescriptor {
     std::function<rtc::scoped_refptr<webrtc::AudioDeviceModule>(webrtc::TaskQueueFactory*)> createAudioDeviceModule;
     std::shared_ptr<VideoCaptureInterface> videoCapture; // deprecated
     std::function<webrtc::VideoTrackSourceInterface*()> getVideoSource;
-    std::function<std::shared_ptr<BroadcastPartTask>(std::shared_ptr<PlatformContext>, int64_t, int64_t, std::function<void(BroadcastPart &&)>)> requestBroadcastPart;
+    std::function<std::shared_ptr<BroadcastPartTask>(std::function<void(int64_t)>)> requestCurrentTime;
+    std::function<std::shared_ptr<BroadcastPartTask>(std::shared_ptr<PlatformContext>, int64_t, int64_t, std::function<void(BroadcastPart &&)>)> requestAudioBroadcastPart;
+    std::function<std::shared_ptr<BroadcastPartTask>(std::shared_ptr<PlatformContext>, int64_t, int64_t, int32_t, VideoChannelDescription::Quality, std::function<void(BroadcastPart &&)>)> requestVideoBroadcastPart;
     int outgoingAudioBitrateKbit{32};
     bool disableOutgoingAudioProcessing{false};
+    bool disableAudioInput{false};
     VideoContentType videoContentType{VideoContentType::None};
     bool initialEnableNoiseSuppression{false};
     std::vector<VideoCodecName> videoCodecPreferences;
@@ -174,7 +180,7 @@ public:
 
     virtual void stop() = 0;
 
-    virtual void setConnectionMode(GroupConnectionMode connectionMode, bool keepBroadcastIfWasEnabled) = 0;
+    virtual void setConnectionMode(GroupConnectionMode connectionMode, bool keepBroadcastIfWasEnabled, bool isUnifiedBroadcast) = 0;
 
     virtual void emitJoinPayload(std::function<void(GroupJoinPayload const &)> completion) = 0;
     virtual void setJoinResponsePayload(std::string const &payload) = 0;
@@ -189,6 +195,7 @@ public:
     virtual void setAudioInputDevice(std::string id) = 0;
     virtual void addExternalAudioSamples(std::vector<uint8_t> &&samples) = 0;
 
+    virtual void addOutgoingVideoOutput(std::weak_ptr<rtc::VideoSinkInterface<webrtc::VideoFrame>> sink) = 0;
     virtual void addIncomingVideoOutput(std::string const &endpointId, std::weak_ptr<rtc::VideoSinkInterface<webrtc::VideoFrame>> sink) = 0;
 
     virtual void setVolume(uint32_t ssrc, double volume) = 0;

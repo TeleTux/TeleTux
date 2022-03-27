@@ -13,16 +13,17 @@ TeleTux is fork of NekoX with jalali calendar
 - Most of Nekogram's features
 - Unlimited login accounts
 - OpenCC Chinese Convert
-- Built-in VMess, Shadowsocks, SSR, Trojan-GFW proxies support
-- Built-in public proxy list / Proxy subscription support
+- Built-in VMess, Shadowsocks, SSR, Trojan-GFW proxies support (No longer maintained)
+- Built-in public proxy (WebSocket relay via Cloudflare CDN), [documentation and for PC](https://github.com/arm64v8a/NekoXProxy)
+- Proxy subscription support
 - Ipv6 MTProxy support
 - Able to parse all proxy subscription format: SIP008, ssr, v2rayN, vmess1, shit ios app formats, clash config and more
 - Proxies import and export, remarks, speed measurement, sorting, delete unusable nodes, etc
 - Scan the QR code (any link, can add a proxy)
 - The ( vmess / vmess1 / ss / ssr / trojan ) proxy link in the message can be clicked
-- Built-in WebSocket relay support (Connect via Cloudflare CDN)
 - Allow auto-disabling proxy when VPN is enabled
 - Proxy automatic switcher
+- Custom [Emoji packs](https://github.com/TeleTux/TeleTux/wiki/emoji)
 - Add stickers without sticker pack
 - Allow disabling vibration
 - Allow clicking on links in self profile
@@ -43,7 +44,6 @@ TeleTux is fork of NekoX with jalali calendar
 - OpenKeychain client (sign / verify / decrypt / import)
 - Google Cloud Translate / Yandex.Translate support
 - Custom cache directory (supports external storage)
-- Custom app ID and Hash (optional TeleTux / Android / Android X or Manual input)
 - Custom server (official, test DC)
 - Keep the original file name when downloading files
 - View the data center you belong to when you don't have an avatar
@@ -78,14 +78,18 @@ Consider using a Linux VM or dual booting.**
 
 **Important:**
 
+0. Checkout all submodules
+```
+git submodule update --init --recursive
+```
+
 1. Install Android SDK and NDK (default location is $HOME/Android/SDK, otherwise you need to specify $ANDROID_HOME for it)
 
 It is recommended to use [AndroidStudio](https://developer.android.com/studio) to install.
 
-2. Install golang ( 1.16 ).
+2. Install golang and yasm
 ```shell
-# debian sid
-apt install -y golang-1.16
+apt install -y golang-1.16 yasm
 ```
 
 3. Install Rust and its stdlib for Android ABIs, and add environment variables for it.

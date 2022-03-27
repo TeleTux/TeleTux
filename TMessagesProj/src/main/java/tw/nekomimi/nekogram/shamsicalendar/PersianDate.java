@@ -70,6 +70,8 @@ public class PersianDate {
     this.changeTime();
   }
 
+  public static boolean displayPersianCalendarByLatin = NekoConfig.displayPersianCalendarByLatin.Bool();
+  
   /**
    * ---- Don not change---
    */
@@ -197,7 +199,7 @@ public class PersianDate {
   }
 
   public String getPersianShortDate() {
-    if (NekoConfig.displayPersianCalendarByLatin) {
+    if (displayPersianCalendarByLatin) {
         return "" + formatToMilitary(this.getShYear()) + this.delimiter + formatToMilitary(getShMonth() + 1) + this.delimiter + formatToMilitary(this.getShDay());
     } else {
         return LanguageUtils.getPersianNumbers("" + formatToMilitary(this.getShYear()) + this.delimiter + formatToMilitary(this.getShMonth() + 1) + this.delimiter + formatToMilitary(this.getShDay()));
@@ -205,7 +207,7 @@ public class PersianDate {
   }
 
   public String getPersianNormalDate() {
-    if (NekoConfig.displayPersianCalendarByLatin) {
+    if (displayPersianCalendarByLatin) {
       return this.getShDay() + " " + this.monthNamesLatin() + " " + this.getShYear();
     } else {
       return LanguageUtils.getPersianNumbers(String.valueOf(this.getShDay())) + " " +  this.monthName() + " " + LanguageUtils.getPersianNumbers(String.valueOf(this.getShYear()));
@@ -214,7 +216,7 @@ public class PersianDate {
 
   //like 9 شهریور
   public String getPersianMonthDay() {
-    if (NekoConfig.displayPersianCalendarByLatin) {
+    if (displayPersianCalendarByLatin) {
       return this.getShDay() + " " + this.monthNamesLatin();
     } else {
       return LanguageUtils.getPersianNumbers(String.valueOf(this.getShDay())) + " " + this.monthName();

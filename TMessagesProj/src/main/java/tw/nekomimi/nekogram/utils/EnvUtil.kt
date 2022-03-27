@@ -40,31 +40,30 @@ object EnvUtil {
 
             }
 
-            add(Environment.getExternalStoragePublicDirectory("TeleTux"))
+            if (Build.VERSION.SDK_INT < 30) {
+                add(Environment.getExternalStoragePublicDirectory("TeleTux"))
+            }
 
         }.map { it.path }.toTypedArray()
 
+    // This is the only media path of NekoX, don't use other!
     @JvmStatic
     fun getTelegramPath(): File {
 
-        if (NekoConfig.cachePath == null) {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                // https://github.com/NekoX-Dev/NekoX/issues/284
-                NekoConfig.setCachePath(File(ApplicationLoader.getDataDirFixed(), "cache/media").path)
-            } else {
-                NekoConfig.setCachePath(ApplicationLoader.applicationContext.getExternalFilesDir("files")?.parent ?: File(ApplicationLoader.getDataDirFixed(), "cache/media").path)
-            }
-
+        if (NekoConfig.cachePath.String() == "") {
+            // https://github.com/NekoX-Dev/NekoX/issues/284
+            NekoConfig.cachePath.setConfigString(availableDirectories[2]);
         }
 
-        var telegramPath = File(NekoConfig.cachePath)
+        var telegramPath = File(NekoConfig.cachePath.String())
 
         if (telegramPath.isDirectory || telegramPath.mkdirs()) {
 
             return telegramPath
 
         }
+
+        // fallback
 
         telegramPath = ApplicationLoader.applicationContext.getExternalFilesDir(null) ?: File(ApplicationLoader.getDataDirFixed(), "cache/files")
 

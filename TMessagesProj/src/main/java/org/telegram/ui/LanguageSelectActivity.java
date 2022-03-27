@@ -10,31 +10,30 @@ package org.telegram.ui;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
+import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.ActionBar.ThemeDescription;
+import org.telegram.ui.Cells.LanguageCell;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
-import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
-import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.ActionBar.ThemeDescription;
-import org.telegram.ui.Cells.LanguageCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.EmptyTextProgressView;
@@ -44,16 +43,13 @@ import org.telegram.ui.Components.RecyclerListView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Locale;
+import java.util.HashSet;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import kotlin.Unit;
-import tw.nekomimi.nekogram.BottomBuilder;
-import tw.nekomimi.nekogram.transtale.TranslateDb;
+import tw.nekomimi.nekogram.ui.BottomBuilder;
 import tw.nekomimi.nekogram.utils.AlertUtil;
 import tw.nekomimi.nekogram.utils.ShareUtil;
-import tw.nekomimi.nekogram.utils.UIUtil;
 
 public class LanguageSelectActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -129,6 +125,13 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     if (listView != null) {
                         listView.setAdapter(searchListViewAdapter);
                     }
+                } else {
+                    searching = false;
+                    searchWas = false;
+                    if (listView != null) {
+                        emptyView.setVisibility(View.GONE);
+                        listView.setAdapter(listAdapter);
+                    }
                 }
             }
         });
@@ -173,6 +176,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             finishFragment();
         });
 
+        // NekoX: Merge 8.4.1, Remove offcial changes
         listView.setOnItemLongClickListener((view, position) -> {
             if (getParentActivity() == null || parentLayout == null || !(view instanceof LanguageCell)) {
                 return false;
@@ -246,7 +250,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         if (id == NotificationCenter.suggestedLangpack) {
             if (listAdapter != null) {
                 fillLanguages();
-                listAdapter.notifyDataSetChanged();
+                AndroidUtilities.runOnUIThread(() -> { listAdapter.notifyDataSetChanged(); });
             }
         }
     }
@@ -295,28 +299,33 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
 
     public void search(final String query) {
         if (query == null) {
+            searching = false;
             searchResult = null;
-        } else {
-            try {
-                if (searchTimer != null) {
-                    searchTimer.cancel();
-                }
-            } catch (Exception e) {
-                FileLog.e(e);
+            if (listView != null) {
+                emptyView.setVisibility(View.GONE);
+                listView.setAdapter(listAdapter);
             }
-            searchTimer = new Timer();
-            searchTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    try {
-                        searchTimer.cancel();
-                        searchTimer = null;
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
-                    processSearch(query);
-                }
-            }, 100, 300);
+        } else {
+//            try {
+//                if (searchTimer != null) {
+//                    searchTimer.cancel();
+//                }
+//            } catch (Exception e) {
+//                FileLog.e(e);
+//            }
+//            searchTimer = new Timer();
+//            searchTimer.schedule(new TimerTask() {
+//                @Override
+//                public void run() {
+//                try {
+//                    searchTimer.cancel();
+//                    searchTimer = null;
+//                } catch (Exception e) {
+//                    FileLog.e(e);
+//                }
+                processSearch(query);
+//                }
+//            }, 100, 300);
         }
     }
 
@@ -399,6 +408,8 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         });
     }
 
+    // NekoX: Merge 8.4.1, remove TranslateSettings
+
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
 
         private Context mContext;
@@ -438,10 +449,21 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             View view;
             switch (viewType) {
                 case 0: {
-                    view = new LanguageCell(mContext, false);
+                    view = new LanguageCell(mContext);
+//                    view = new TextRadioCell(mContext);
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
                 }
+//                case 2:
+//                    TranslateSettings translateSettings = new TranslateSettings(mContext);
+//                    view = translateSettings;
+//                    break;
+//                case 3:
+//                    HeaderCell header = new HeaderCell(mContext);
+//                    header.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+//                    header.setText(LocaleController.getString("Language", R.string.Language));
+//                    view = header;
+//                    break;
                 case 1:
                 default: {
                     view = new ShadowSectionCell(mContext);
@@ -456,6 +478,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             switch (holder.getItemViewType()) {
                 case 0: {
                     LanguageCell textSettingsCell = (LanguageCell) holder.itemView;
+//                    TextRadioCell textSettingsCell = (TextRadioCell) holder.itemView;
                     LocaleController.LocaleInfo localeInfo;
                     boolean last;
                     if (search) {
@@ -476,7 +499,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     } else {
                         textSettingsCell.setLanguage(LanguageSelectActivity.this, localeInfo, null, !last);
                     }
-                    textSettingsCell.setLanguageSelected(localeInfo == LocaleController.getInstance().getCurrentLocaleInfo());
+                    textSettingsCell.setLanguageSelected(localeInfo == LocaleController.getInstance().getCurrentLocaleInfo(), true);
                     break;
                 }
                 case 1: {

@@ -23,6 +23,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 
 public class TextCell extends FrameLayout {
@@ -34,7 +35,7 @@ public class TextCell extends FrameLayout {
     private int leftPadding;
     private boolean needDivider;
     private int offsetFromImage = 71;
-    private int imageLeft = 21;
+    public int imageLeft = 21;
     private boolean inDialogs;
 
     public TextCell(Context context) {
@@ -82,7 +83,7 @@ public class TextCell extends FrameLayout {
         return textView;
     }
 
-    public ImageView getImageView() {
+    public RLottieImageView getImageView() {
         return imageView;
     }
 
@@ -154,6 +155,7 @@ public class TextCell extends FrameLayout {
     }
 
     public void setText(String text, boolean divider) {
+        imageLeft = 21;
         textView.setText(text);
         valueTextView.setText(null);
         imageView.setVisibility(GONE);
@@ -164,6 +166,8 @@ public class TextCell extends FrameLayout {
     }
 
     public void setTextAndIcon(String text, int resId, boolean divider) {
+        imageLeft = 21;
+        offsetFromImage = 71;
         textView.setText(text);
         valueTextView.setText(null);
         if (resId != 0) {
@@ -183,7 +187,11 @@ public class TextCell extends FrameLayout {
         textView.setText(text);
         valueTextView.setText(null);
         imageView.setColorFilter(null);
-        imageView.setImageDrawable(drawable);
+        if (drawable instanceof RLottieDrawable) {
+            imageView.setAnimation((RLottieDrawable) drawable);
+        } else {
+            imageView.setImageDrawable(drawable);
+        }
         imageView.setVisibility(VISIBLE);
         valueTextView.setVisibility(GONE);
         valueImageView.setVisibility(GONE);
@@ -196,7 +204,13 @@ public class TextCell extends FrameLayout {
         offsetFromImage = value;
     }
 
+    public void setImageLeft(int imageLeft) {
+        this.imageLeft = imageLeft;
+    }
+
     public void setTextAndValue(String text, String value, boolean divider) {
+        imageLeft = 21;
+        offsetFromImage = 71;
         textView.setText(text);
         valueTextView.setText(value);
         valueTextView.setVisibility(VISIBLE);
@@ -207,6 +221,8 @@ public class TextCell extends FrameLayout {
     }
 
     public void setTextAndValueAndIcon(String text, String value, int resId, boolean divider) {
+        imageLeft = 21;
+        offsetFromImage = 71;
         textView.setText(text);
         valueTextView.setText(value);
         valueTextView.setVisibility(VISIBLE);
@@ -219,6 +235,8 @@ public class TextCell extends FrameLayout {
     }
 
     public void setTextAndValueDrawable(String text, Drawable drawable, boolean divider) {
+        imageLeft = 21;
+        offsetFromImage = 71;
         textView.setText(text);
         valueTextView.setText(null);
         valueImageView.setVisibility(VISIBLE);
@@ -248,6 +266,15 @@ public class TextCell extends FrameLayout {
             } else {
                 info.setText(text);
             }
+        }
+        info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
+    }
+
+    public void setNeedDivider(boolean needDivider) {
+        if (this.needDivider != needDivider) {
+            this.needDivider = needDivider;
+            setWillNotDraw(!needDivider);
+            invalidate();
         }
     }
 }

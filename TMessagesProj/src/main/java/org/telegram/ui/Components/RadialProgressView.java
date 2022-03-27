@@ -13,10 +13,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.Keep;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+
+import androidx.annotation.Keep;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
@@ -49,13 +50,19 @@ public class RadialProgressView extends View {
     private float toCircleProgress;
 
     private boolean noProgress = true;
+    private final Theme.ResourcesProvider resourcesProvider;
 
     public RadialProgressView(Context context) {
+        this(context, null);
+    }
+
+    public RadialProgressView(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.resourcesProvider = resourcesProvider;
 
         size = AndroidUtilities.dp(40);
 
-        progressColor = Theme.getColor(Theme.key_progressCircle);
+        progressColor = getThemedColor(Theme.key_progressCircle);
         decelerateInterpolator = new DecelerateInterpolator();
         accelerateInterpolator = new AccelerateInterpolator();
         progressPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -96,6 +103,23 @@ public class RadialProgressView extends View {
         progressTime = 0;
     }
 
+    public void sync(RadialProgressView from) {
+        lastUpdateTime = from.lastUpdateTime;
+        radOffset = from.radOffset;
+        toCircle = from.toCircle;
+        toCircleProgress = from.toCircleProgress;
+        noProgress = from.noProgress;
+        currentCircleLength = from.currentCircleLength;
+        drawingCircleLenght = from.drawingCircleLenght;
+        currentProgressTime = from.currentProgressTime;
+        currentProgress = from.currentProgress;
+        progressTime = from.progressTime;
+        animatedProgress = from.animatedProgress;
+        risingCircleLength = from.risingCircleLength;
+        progressAnimationStart = from.progressAnimationStart;
+        updateAnimation(17 * 5);
+    }
+
     private void updateAnimation() {
         long newTime = System.currentTimeMillis();
         long dt = newTime - lastUpdateTime;
@@ -103,7 +127,10 @@ public class RadialProgressView extends View {
             dt = 17;
         }
         lastUpdateTime = newTime;
+        updateAnimation(dt);
+    }
 
+    private void updateAnimation(long dt) {
         radOffset += 360 * dt / rotationTime;
         int count = (int) (radOffset / 360);
         radOffset -= count * 360;
@@ -213,5 +240,10 @@ public class RadialProgressView extends View {
 
     public boolean isCircle() {
         return Math.abs(drawingCircleLenght) >= 360;
+    }
+
+    private int getThemedColor(String key) {
+        Integer color = resourcesProvider != null ? resourcesProvider.getColor(key) : null;
+        return color != null ? color : Theme.getColor(key);
     }
 }

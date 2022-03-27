@@ -508,7 +508,7 @@ public class FileLoader extends BaseController {
         } else {
             fileName = name;
         }
-        loadOperationPathsUI.remove(fileName);
+        boolean removed = loadOperationPathsUI.remove(fileName) != null;
         fileLoaderQueue.postRunnable(() -> {
             FileLoadOperation operation = loadOperationPaths.remove(fileName);
             if (operation != null) {
@@ -525,6 +525,11 @@ public class FileLoader extends BaseController {
                 operation.cancel(deleteFile);
             }
         });
+        if (removed && document != null) {
+            AndroidUtilities.runOnUIThread(() -> {
+                getNotificationCenter().postNotificationName(NotificationCenter.onDownloadingFilesChanged);
+            });
+        }
     }
 
     public boolean isLoadingFile(final String fileName) {
@@ -612,6 +617,10 @@ public class FileLoader extends BaseController {
         }
         if (cacheType != 10 && !TextUtils.isEmpty(fileName) && !fileName.contains("" + Integer.MIN_VALUE)) {
             loadOperationPathsUI.put(fileName, true);
+        }
+
+        if (document != null && parentObject instanceof MessageObject && ((MessageObject) parentObject).putInDownloadsStore) {
+            getDownloadController().startDownloadFile(document, (MessageObject) parentObject);
         }
 
         FileLoadOperation operation = loadOperationPaths.get(fileName);
@@ -710,18 +719,24 @@ public class FileLoader extends BaseController {
         }
 
         final int finalType = type;
+
         FileLoadOperation.FileLoadOperationDelegate fileLoadOperationDelegate = new FileLoadOperation.FileLoadOperationDelegate() {
             @Override
             public void didFinishLoadingFile(FileLoadOperation operation, File finalFile) {
                 if (!operation.isPreloadVideoOperation() && operation.isPreloadFinished()) {
                     return;
                 }
+                if (document != null && parentObject instanceof MessageObject) {
+                    getDownloadController().onDownloadComplete((MessageObject) parentObject);
+                }
+
                 if (!operation.isPreloadVideoOperation()) {
                     loadOperationPathsUI.remove(fileName);
                     if (getDelegate() != null) {
                         delegate.fileDidLoaded(fileName, finalFile, finalType);
                     }
                 }
+
                 checkDownloadQueue(operation.getDatacenterId(), queueType, fileName);
             }
 
@@ -731,6 +746,10 @@ public class FileLoader extends BaseController {
                 checkDownloadQueue(operation.getDatacenterId(), queueType, fileName);
                 if (getDelegate() != null) {
                     delegate.fileDidFailedLoad(fileName, reason);
+                }
+
+                if (document != null && parentObject instanceof MessageObject && reason == 0) {
+                    getDownloadController().onDownloadFail((MessageObject) parentObject, reason);
                 }
             }
 
@@ -1124,6 +1143,12 @@ public class FileLoader extends BaseController {
     }
 
     public static String getDocumentFileName(TLRPC.Document document) {
+        if (document == null) {
+            return null;
+        }
+        if (document.file_name_fixed != null) {
+            return document.file_name_fixed;
+        }
         String fileName = null;
         if (document != null) {
             if (document.file_name != null) {
@@ -1397,5 +1422,43 @@ public class FileLoader extends BaseController {
             return ((TLRPC.UserProfilePhoto) object).photo_id;
         }
         return 0;
+    }
+
+    public void getCurrentLoadingFiles(ArrayList<MessageObject> currentLoadingFiles) {
+        currentLoadingFiles.clear();
+        currentLoadingFiles.addAll(getDownloadController().downloadingFiles);
+        for (int i = 0; i < currentLoadingFiles.size(); i++) {
+            currentLoadingFiles.get(i).isDownloadingFile = true;
+        }
+    }
+
+    public void getRecentLoadingFiles(ArrayList<MessageObject> recentLoadingFiles) {
+        recentLoadingFiles.clear();
+        recentLoadingFiles.addAll(getDownloadController().recentDownloadingFiles);
+        for (int i = 0; i < recentLoadingFiles.size(); i++) {
+            recentLoadingFiles.get(i).isDownloadingFile = true;
+        }
+    }
+
+    public void checkCurrentDownloadsFiles() {
+        ArrayList<MessageObject> messagesToRemove = new ArrayList<>();
+        ArrayList<MessageObject> messageObjects = new ArrayList<>(getDownloadController().recentDownloadingFiles);
+        for (int i = 0 ; i < messageObjects.size(); i++) {
+            messageObjects.get(i).checkMediaExistance();
+            if (messageObjects.get(i).mediaExists) {
+                messagesToRemove.add(messageObjects.get(i));
+            }
+        }
+        if (!messagesToRemove.isEmpty()) {
+            AndroidUtilities.runOnUIThread(() -> {
+                getDownloadController().recentDownloadingFiles.removeAll(messagesToRemove);
+                getNotificationCenter().postNotificationName(NotificationCenter.onDownloadingFilesChanged);
+            });
+        }
+
+    }
+
+    public void clearRecentDownloadedFiles() {
+        getDownloadController().clearRecentDownloadedFiles();
     }
 }

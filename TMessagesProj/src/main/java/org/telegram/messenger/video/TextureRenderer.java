@@ -131,7 +131,7 @@ public class TextureRenderer {
 
     private boolean firstFrame = true;
 
-    public TextureRenderer(MediaController.SavedFilterState savedFilterState, String image, String paint, ArrayList<VideoEditedInfo.MediaEntity> entities, MediaController.CropState cropState, int w, int h, int rotation, float fps, boolean photo) {
+    public TextureRenderer(MediaController.SavedFilterState savedFilterState, String image, String paint, ArrayList<VideoEditedInfo.MediaEntity> entities, MediaController.CropState cropState, int w, int h, int originalWidth, int originalHeight, int rotation, float fps, boolean photo) {
         isPhoto = photo;
 
         float[] texData = {
@@ -164,8 +164,10 @@ public class TextureRenderer {
             filterShaders = new FilterShaders(true);
             filterShaders.setDelegate(FilterShaders.getFilterShadersDelegate(savedFilterState));
         }
-        transformedWidth = originalWidth = w;
-        transformedHeight = originalHeight = h;
+        transformedWidth = w;
+        transformedHeight = h;
+        this.originalWidth = originalWidth;
+        this.originalHeight = originalHeight;
         imagePath = image;
         paintPath = paint;
         mediaEntities = entities;
@@ -604,7 +606,7 @@ public class TextureRenderer {
                     if (entity.type == 0) {
                         if ((entity.subType & 1) != 0) {
                             entity.metadata = new int[3];
-                            entity.ptr = RLottieDrawable.create(entity.text, null, 512, 512, entity.metadata, false, null, false);
+                            entity.ptr = RLottieDrawable.create(entity.text, null, 512, 512, entity.metadata, false, null, false, 0);
                             entity.framesPerDraw = entity.metadata[1] / videoFps;
                         } else {
                             if (Build.VERSION.SDK_INT >= 19) {
@@ -713,5 +715,14 @@ public class TextureRenderer {
                 }
             }
         }
+    }
+
+    public void changeFragmentShader(String fragmentExternalShader, String fragmentShader) {
+        GLES20.glDeleteProgram(mProgram[0]);
+        mProgram[0] = createProgram(VERTEX_SHADER, fragmentExternalShader);
+        if (mProgram.length > 1) {
+            mProgram[1] = createProgram(VERTEX_SHADER, fragmentShader);
+        }
+
     }
 }

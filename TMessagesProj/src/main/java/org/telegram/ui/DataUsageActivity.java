@@ -462,7 +462,7 @@ public class DataUsageActivity extends BaseFragment {
             viewPages[a].listView.setScrollingTouchSlop(RecyclerView.TOUCH_SLOP_PAGING);
             viewPages[a].listView.setItemAnimator(null);
             viewPages[a].listView.setClipToPadding(false);
-            viewPages[a].listView.setSectionsType(2);
+            viewPages[a].listView.setSectionsType(RecyclerListView.SECTIONS_TYPE_DATE);
             viewPages[a].listView.setLayoutManager(layoutManager);
             viewPages[a].addView(viewPages[a].listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
             viewPages[a].listView.setOnItemClickListener((view, position) -> {
@@ -822,7 +822,7 @@ public class DataUsageActivity extends BaseFragment {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = null;
+            View view;
             switch (viewType) {
                 case 0:
                     view = new ShadowSectionCell(mContext);
@@ -836,6 +836,7 @@ public class DataUsageActivity extends BaseFragment {
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 3:
+                default:
                     view = new TextInfoPrivacyCell(mContext);
                     break;
             }

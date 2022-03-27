@@ -387,7 +387,7 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
             pieLegendView.setTranslationX(xl);
             pieLegendView.setTranslationY(yl);
 
-            if (!NekoConfig.disableVibration) {
+            if (!NekoConfig.disableVibration.Bool()) {
                 boolean v = false;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
                     v = performHapticFeedback(HapticFeedbackConstants.TEXT_HANDLE_MOVE, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);

@@ -27,7 +27,7 @@ object PGPUtil {
 
         serviceConnection = OpenPgpServiceConnection(
                 ApplicationLoader.applicationContext,
-                NekoConfig.openPGPApp
+                NekoConfig.openPGPApp.String()
         )
 
 

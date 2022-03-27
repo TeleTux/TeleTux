@@ -1081,6 +1081,9 @@ JNIEXPORT jint Java_org_telegram_messenger_Utilities_saveProgressiveJpeg(JNIEnv 
         return 0;
     }
     const char *pathStr = env->GetStringUTFChars(path, 0);
+    if (pathStr == NULL) {
+        return 0;
+    }
     std::string filePath = std::string(pathStr);
     if (pathStr != 0) {
         env->ReleaseStringUTFChars(path, pathStr);
@@ -1224,7 +1227,7 @@ JNIEXPORT void Java_org_telegram_messenger_Utilities_generateGradient(JNIEnv *en
     float directPixelY;
     float centerDistanceY;
     float centerDistanceY2;
-    int32_t colorsCount = colorsArray[12] == 0 ? 3 : 4;
+    int32_t colorsCount = colorsArray[12] == 0 && colorsArray[13] == 0 && colorsArray[14] == 0 && colorsArray[15] == 0 ? 3 : 4;
 
     for (int y = 0; y < height; y++) {
         if (pixelCache == nullptr) {

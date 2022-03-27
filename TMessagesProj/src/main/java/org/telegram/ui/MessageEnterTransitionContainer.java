@@ -1,11 +1,9 @@
 package org.telegram.ui;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Canvas;
 import android.view.View;
-
-import com.google.android.exoplayer2.util.Log;
+import android.view.ViewGroup;
 
 import org.telegram.messenger.NotificationCenter;
 
@@ -16,11 +14,13 @@ public class MessageEnterTransitionContainer extends View {
 
     private ArrayList<Transition> transitions = new ArrayList<>();
     private final int currentAccount;
+    private final ViewGroup parent;
 
     Runnable hideRunnable = () -> setVisibility(View.GONE);
 
-    public MessageEnterTransitionContainer(Context context, int currentAccount) {
-        super(context);
+    public MessageEnterTransitionContainer(ViewGroup parent, int currentAccount) {
+        super(parent.getContext());
+        this.parent = parent;
         this.currentAccount = currentAccount;
     }
 
@@ -31,21 +31,20 @@ public class MessageEnterTransitionContainer extends View {
     void addTransition(Transition transition) {
         transitions.add(transition);
         checkVisibility();
+        parent.invalidate();
     }
 
     void removeTransition(Transition transition) {
         transitions.remove(transition);
         checkVisibility();
+        parent.invalidate();
     }
 
-    long time;
     @Override
     protected void onDraw(Canvas canvas) {
         if (transitions.isEmpty()) {
             return;
         }
-        long currentTime = System.currentTimeMillis();
-        time = currentTime;
         for (int i = 0; i < transitions.size(); i++) {
             transitions.get(i).onDraw(canvas);
         }
@@ -59,5 +58,9 @@ public class MessageEnterTransitionContainer extends View {
             NotificationCenter.getInstance(currentAccount).removeDelayed(hideRunnable);
             setVisibility(View.VISIBLE);
         }
+    }
+
+    public boolean isRunning() {
+        return transitions.size() > 0;
     }
 }

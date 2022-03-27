@@ -18,7 +18,7 @@ object VibrateUtil {
     @JvmOverloads
     fun vibrate(time: Long = 200L) {
 
-        if (NekoConfig.disableVibration) return
+        if (NekoConfig.disableVibration.Bool()) return
 
         if (!::vibrator.isInitialized) {
 

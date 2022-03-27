@@ -31,15 +31,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
@@ -54,10 +56,6 @@ import org.telegram.ui.ContentPreviewViewer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
-import androidx.recyclerview.widget.RecyclerView;
 
 @SuppressWarnings("unchecked")
 public class StickerMasksAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
@@ -180,12 +178,16 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
 
             clearSearchImageView = new ImageView(context);
             clearSearchImageView.setScaleType(ImageView.ScaleType.CENTER);
-            clearSearchImageView.setImageDrawable(progressDrawable = new CloseProgressDrawable2());
+            clearSearchImageView.setImageDrawable(progressDrawable = new CloseProgressDrawable2() {
+                @Override
+                public int getCurrentColor() {
+                    return 0xff777777;
+                }
+            });
             progressDrawable.setSide(AndroidUtilities.dp(7));
             clearSearchImageView.setScaleX(0.1f);
             clearSearchImageView.setScaleY(0.1f);
             clearSearchImageView.setAlpha(0.0f);
-            clearSearchImageView.setColorFilter(new PorterDuffColorFilter(0xff777777, PorterDuff.Mode.SRC_IN));
             addView(clearSearchImageView, LayoutHelper.createFrame(36, 36, Gravity.RIGHT | Gravity.TOP, 14, 14, 14, 0));
             clearSearchImageView.setOnClickListener(v -> {
                 searchEditText.setText("");
@@ -281,8 +283,8 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         }
     }
 
-    public StickerMasksAlert(Context context, boolean isVideo) {
-        super(context, true);
+    public StickerMasksAlert(Context context, boolean isVideo, Theme.ResourcesProvider resourcesProvider) {
+        super(context, true, resourcesProvider);
         behindKeyboardColorKey = null;
         behindKeyboardColor = 0xff252525;
         useLightStatusBar = false;
@@ -460,7 +462,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
 
             @Override
             public boolean onInterceptTouchEvent(MotionEvent event) {
-                boolean result = ContentPreviewViewer.getInstance().onInterceptTouchEvent(event, gridView, containerView.getMeasuredHeight(), contentPreviewViewerDelegate);
+                boolean result = ContentPreviewViewer.getInstance().onInterceptTouchEvent(event, gridView, containerView.getMeasuredHeight(), contentPreviewViewerDelegate, resourcesProvider);
                 return super.onInterceptTouchEvent(event) || result;
             }
         };
@@ -517,7 +519,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         gridView.setGlowColor(0xff252525);
         stickersSearchGridAdapter = new StickersSearchGridAdapter(context);
         gridView.setAdapter(stickersGridAdapter = new StickersGridAdapter(context));
-        gridView.setOnTouchListener((v, event) -> ContentPreviewViewer.getInstance().onTouch(event, gridView, containerView.getMeasuredHeight(), stickersOnItemClickListener, contentPreviewViewerDelegate));
+        gridView.setOnTouchListener((v, event) -> ContentPreviewViewer.getInstance().onTouch(event, gridView, containerView.getMeasuredHeight(), stickersOnItemClickListener, contentPreviewViewerDelegate, resourcesProvider));
         stickersOnItemClickListener = (view, position) -> {
             if (!(view instanceof StickerEmojiCell)) {
                 return;
@@ -530,7 +532,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         gridView.setOnItemClickListener(stickersOnItemClickListener);
         containerView.addView(gridView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
-        stickersTab = new ScrollSlidingTabStrip(context) {
+        stickersTab = new ScrollSlidingTabStrip(context, resourcesProvider) {
             @Override
             public boolean onInterceptTouchEvent(MotionEvent ev) {
                 if (getParent() != null) {
@@ -826,11 +828,10 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
             TLRPC.TL_messages_stickerSet stickerSet = stickerSets[currentType].get(a);
             TLRPC.Document document = stickerSet.documents.get(0);
             TLObject thumb = FileLoader.getClosestPhotoSizeWithSize(stickerSet.set.thumbs, 90);
-            SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(stickerSet.set.thumbs, Theme.key_windowBackgroundGray, 1.0f);
             if (thumb == null) {
                 thumb = document;
             }
-            stickersTab.addStickerTab(thumb, svgThumb, document, stickerSet).setContentDescription(stickerSet.set.title + ", " + LocaleController.getString("AccDescrStickerSet", R.string.AccDescrStickerSet));
+            stickersTab.addStickerTab(thumb, document, stickerSet).setContentDescription(stickerSet.set.title + ", " + LocaleController.getString("AccDescrStickerSet", R.string.AccDescrStickerSet));
         }
         stickersTab.commitUpdate();
         stickersTab.updateTabStyles();
@@ -1058,7 +1059,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                     view = new EmptyCell(context);
                     break;
                 case 2:
-                    StickerSetNameCell cell = new StickerSetNameCell(context, false);
+                    StickerSetNameCell cell = new StickerSetNameCell(context, false, resourcesProvider);
                     cell.setTitleColor(0xff888888);
                     view = cell;
                     break;
@@ -1465,7 +1466,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                     view = new EmptyCell(context);
                     break;
                 case 2:
-                    view = new StickerSetNameCell(context, false);
+                    view = new StickerSetNameCell(context, false, resourcesProvider);
                     break;
                 case 4:
                     view = new View(context);

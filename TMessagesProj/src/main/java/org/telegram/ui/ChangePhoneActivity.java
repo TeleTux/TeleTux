@@ -68,7 +68,6 @@ import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
-import org.telegram.ui.Cells.SettingsSuggestionCell;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.HintEditText;
@@ -152,7 +151,7 @@ public class ChangePhoneActivity extends BaseFragment {
             @Override
             public void onItemClick(int id) {
                 if (id == done_button) {
-                    views[currentViewNum].onNextPressed();
+                    views[currentViewNum].onNextPressed(null);
                 } else if (id == -1) {
                     finishFragment();
                 }
@@ -210,7 +209,7 @@ public class ChangePhoneActivity extends BaseFragment {
         if (requestCode == 6) {
             checkPermissions = false;
             if (currentViewNum == 0) {
-                views[currentViewNum].onNextPressed();
+                views[currentViewNum].onNextPressed(null);
             }
         }
     }
@@ -251,7 +250,7 @@ public class ChangePhoneActivity extends BaseFragment {
             return;
         }
         progressDialog = new AlertDialog(getParentActivity(), 3);
-        progressDialog.setCanCacnel(false);
+        progressDialog.setCanCancel(false);
         progressDialog.show();
     }
 
@@ -378,8 +377,8 @@ public class ChangePhoneActivity extends BaseFragment {
             addView(countryButton, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 36, 0, 0, 0, 14));
             countryButton.setOnClickListener(view -> {
                 CountrySelectActivity fragment = new CountrySelectActivity(true);
-                fragment.setCountrySelectActivityDelegate((name, shortName) -> {
-                    selectCountry(name);
+                fragment.setCountrySelectActivityDelegate((country) -> {
+                    selectCountry(country.name);
                     AndroidUtilities.runOnUIThread(() -> AndroidUtilities.showKeyboard(phoneField), 300);
                     phoneField.requestFocus();
                     phoneField.setSelection(phoneField.length());
@@ -408,7 +407,8 @@ public class ChangePhoneActivity extends BaseFragment {
             codeField.setCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             codeField.setCursorSize(AndroidUtilities.dp(20));
             codeField.setCursorWidth(1.5f);
-            codeField.setBackgroundDrawable(Theme.createEditTextDrawable(context, false));
+            codeField.setBackgroundDrawable(null);
+            codeField.setLineColors(getThemedColor(Theme.key_windowBackgroundWhiteInputField), getThemedColor(Theme.key_windowBackgroundWhiteInputFieldActivated), getThemedColor(Theme.key_windowBackgroundWhiteRedText3));
             codeField.setPadding(AndroidUtilities.dp(10), 0, 0, 0);
             codeField.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
             codeField.setMaxLines(1);
@@ -507,7 +507,8 @@ public class ChangePhoneActivity extends BaseFragment {
             phoneField.setInputType(InputType.TYPE_CLASS_PHONE);
             phoneField.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             phoneField.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
-            phoneField.setBackgroundDrawable(Theme.createEditTextDrawable(context, false));
+            phoneField.setBackgroundDrawable(null);
+            phoneField.setLineColors(getThemedColor(Theme.key_windowBackgroundWhiteInputField), getThemedColor(Theme.key_windowBackgroundWhiteInputFieldActivated), getThemedColor(Theme.key_windowBackgroundWhiteRedText3));
             phoneField.setPadding(0, 0, 0, 0);
             phoneField.setCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             phoneField.setCursorSize(AndroidUtilities.dp(20));
@@ -593,7 +594,7 @@ public class ChangePhoneActivity extends BaseFragment {
             });
             phoneField.setOnEditorActionListener((textView, i, keyEvent) -> {
                 if (i == EditorInfo.IME_ACTION_NEXT) {
-                    onNextPressed();
+                    onNextPressed(null);
                     return true;
                 }
                 return false;
@@ -711,7 +712,7 @@ public class ChangePhoneActivity extends BaseFragment {
         }
 
         @Override
-        public void onNextPressed() {
+        public void onNextPressed(String code) {
             if (getParentActivity() == null || nextPressed) {
                 return;
             }
@@ -979,7 +980,7 @@ public class ChangePhoneActivity extends BaseFragment {
 
                         Intent mailer = new Intent(Intent.ACTION_SENDTO);
                         mailer.setData(Uri.parse("mailto:"));
-                        mailer.putExtra(Intent.EXTRA_EMAIL, new String[]{"sms@stel.com"});
+                        mailer.putExtra(Intent.EXTRA_EMAIL, new String[]{"sms@telegram.org"});
                         mailer.putExtra(Intent.EXTRA_SUBJECT, "Android registration/login issue " + version + " " + emailPhone);
                         mailer.putExtra(Intent.EXTRA_TEXT, "Phone: " + requestPhone + "\nApp version: " + version + "\nOS version: SDK " + Build.VERSION.SDK_INT + "\nDevice Name: " + Build.MANUFACTURER + Build.MODEL + "\nLocale: " + Locale.getDefault() + "\nError: " + lastError);
                         getContext().startActivity(Intent.createChooser(mailer, "Send email..."));
@@ -1172,7 +1173,7 @@ public class ChangePhoneActivity extends BaseFragment {
                                     codeField[num + 1].requestFocus();
                                 }
                                 if ((num == length - 1 || num == length - 2 && len >= 2) && getCode().length() == length) {
-                                    onNextPressed();
+                                    onNextPressed(null);
                                 }
                             }
                         }
@@ -1188,7 +1189,7 @@ public class ChangePhoneActivity extends BaseFragment {
                     });
                     codeField[a].setOnEditorActionListener((textView, i, keyEvent) -> {
                         if (i == EditorInfo.IME_ACTION_NEXT) {
-                            onNextPressed();
+                            onNextPressed(null);
                             return true;
                         }
                         return false;
@@ -1392,11 +1393,11 @@ public class ChangePhoneActivity extends BaseFragment {
         }
 
         @Override
-        public void onNextPressed() {
+        public void onNextPressed(String code) {
             if (nextPressed) {
                 return;
             }
-            String code = getCode();
+            code = getCode();
             if (TextUtils.isEmpty(code)) {
                 AndroidUtilities.shakeView(codeFieldContainer, 2, 0);
                 return;
@@ -1544,7 +1545,7 @@ public class ChangePhoneActivity extends BaseFragment {
             }
             if (id == NotificationCenter.didReceiveSmsCode) {
                 codeField[0].setText("" + args[0]);
-                onNextPressed();
+                onNextPressed(null);
             } else if (id == NotificationCenter.didReceiveCall) {
                 String num = "" + args[0];
                 if (!AndroidUtilities.checkPhonePattern(pattern, num)) {
@@ -1553,7 +1554,7 @@ public class ChangePhoneActivity extends BaseFragment {
                 ignoreOnTextChange = true;
                 codeField[0].setText(num);
                 ignoreOnTextChange = false;
-                onNextPressed();
+                onNextPressed(null);
             }
         }
     }

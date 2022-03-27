@@ -18,13 +18,13 @@ object GoogleCloudTranslator : Translator {
 
         }
 
-        if (StrUtil.isBlank(NekoConfig.googleCloudTranslateKey)) error("Missing Cloud Translate Key")
+        if (StrUtil.isBlank(NekoConfig.googleCloudTranslateKey.String())) error("Missing Cloud Translate Key")
 
         val response = HttpUtil.createPost("https://translation.googleapis.com/language/translate/v2")
                 .form("q", query)
                 .form("target", to)
                 .form("format", "text")
-                .form("key", NekoConfig.googleCloudTranslateKey)
+                .form("key", NekoConfig.googleCloudTranslateKey.String())
                 .apply {
                     if (from != "auto") form("source", from)
                 }.execute()

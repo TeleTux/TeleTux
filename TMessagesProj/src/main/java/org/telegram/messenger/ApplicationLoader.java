@@ -21,6 +21,8 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
@@ -29,7 +31,9 @@ import android.os.SystemClock;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-import androidx.core.app.NotificationManagerCompat;
+import androidx.annotation.NonNull;
+import androidx.multidex.MultiDex;
+
 import androidx.multidex.MultiDex;
 
 import org.telegram.messenger.voip.VideoCapturerDevice;
@@ -42,17 +46,15 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Set;
 
 import tw.nekomimi.nekogram.ExternalGcm;
-import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.NekoXConfig;
 import tw.nekomimi.nekogram.utils.FileUtil;
-import tw.nekomimi.nekogram.utils.UIUtil;
 
 import static android.os.Build.VERSION.SDK_INT;
 
 public class ApplicationLoader extends Application {
+    private static PendingIntent pendingIntent;
 
     @SuppressLint("StaticFieldLeak")
     public static volatile Context applicationContext;
@@ -62,6 +64,9 @@ public class ApplicationLoader extends Application {
 
     private static ConnectivityManager connectivityManager;
     private static volatile boolean applicationInited = false;
+    private static volatile  ConnectivityManager.NetworkCallback networkCallback;
+    private static long lastNetworkCheckTypeTime;
+    private static int lastKnownNetworkType = -1;
 
     public static long startTime;
 
@@ -218,7 +223,7 @@ public class ApplicationLoader extends Application {
     }
 
     public static void postInitApplication() {
-        if (applicationInited) {
+        if (applicationInited || applicationContext == null) {
             return;
         }
         applicationInited = true;
@@ -320,6 +325,8 @@ public class ApplicationLoader extends Application {
             ContactsController.getInstance(account).checkAppAccount();
             DownloadController.getInstance(account);
         });
+
+        ChatThemeController.init();
     }
 
     public ApplicationLoader() {
@@ -349,9 +356,6 @@ public class ApplicationLoader extends Application {
 
         // Since static init is thread-safe, no lock is needed there.
         Utilities.stageQueue.postRunnable(() -> {
-            NekoConfig.preferences.contains("qwq");
-            NekoXConfig.preferences.contains("qwq");
-
             //SignturesKt.checkMT(this);
         });
 
@@ -391,56 +395,54 @@ public class ApplicationLoader extends Application {
     }
 
     private static void startPushServiceInternal() {
-        if (ExternalGcm.checkPlayServices() || (SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && isNotificationListenerEnabled())) {
+        if (ExternalGcm.checkPlayServices()) {
             return;
         }
-        SharedPreferences preferences = MessagesController.getGlobalNotificationsSettings();
+        SharedPreferences preferences = MessagesController.getNotificationsSettings(UserConfig.selectedAccount);
         boolean enabled;
         if (preferences.contains("pushService")) {
-            enabled = preferences.getBoolean("pushService", true);
-            if (SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                if (!preferences.getBoolean("pushConnection", true)) return;
-            }
+            enabled = preferences.getBoolean("pushService", false);
         } else {
-            enabled = MessagesController.getMainSettings(UserConfig.selectedAccount).getBoolean("keepAliveService", true);
+            enabled = MessagesController.getMainSettings(UserConfig.selectedAccount).getBoolean("keepAliveService", false);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean("pushService", enabled);
             editor.putBoolean("pushConnection", enabled);
             editor.apply();
-            SharedPreferences preferencesCA = MessagesController.getNotificationsSettings(UserConfig.selectedAccount);
-            SharedPreferences.Editor editorCA = preferencesCA.edit();
-            editorCA.putBoolean("pushConnection", enabled);
-            editorCA.putBoolean("pushService", enabled);
-            editorCA.apply();
-            ConnectionsManager.getInstance(UserConfig.selectedAccount).setPushConnectionEnabled(true);
+            ConnectionsManager.getInstance(UserConfig.selectedAccount).setPushConnectionEnabled(enabled);
         }
         if (enabled) {
-            try {
-                UIUtil.runOnUIThread(() -> {
+            AndroidUtilities.runOnUIThread(() -> {
+                try {
+                    Log.d("TFOSS", "Trying to start push service every 10 minutes");
+                    // Telegram-FOSS: unconditionally enable push service
+                    AlarmManager am = (AlarmManager) applicationContext.getSystemService(Context.ALARM_SERVICE);
+                    Intent i = new Intent(applicationContext, NotificationsService.class);
+                    pendingIntent = PendingIntent.getBroadcast(applicationContext, 0, i, 0);
+
+                    am.cancel(pendingIntent);
+                    am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 10 * 60 * 1000, pendingIntent);
+
                     Log.d("TFOSS", "Starting push service...");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         applicationContext.startForegroundService(new Intent(applicationContext, NotificationsService.class));
                     } else {
                         applicationContext.startService(new Intent(applicationContext, NotificationsService.class));
                     }
-                });
-            } catch (Throwable e) {
-                Log.d("TFOSS", "Failed to start push service");
-            }
-        } else UIUtil.runOnUIThread(() -> {
+                } catch (Throwable e) {
+                    Log.d("TFOSS", "Failed to start push service");
+                }
+            });
+
+        } else AndroidUtilities.runOnUIThread(() -> {
             applicationContext.stopService(new Intent(applicationContext, NotificationsService.class));
+
             PendingIntent pintent = PendingIntent.getService(applicationContext, 0, new Intent(applicationContext, NotificationsService.class), 0);
             AlarmManager alarm = (AlarmManager) applicationContext.getSystemService(Context.ALARM_SERVICE);
             alarm.cancel(pintent);
+            if (pendingIntent != null) {
+                alarm.cancel(pendingIntent);
+            }
         });
-    }
-
-    public static boolean isNotificationListenerEnabled() {
-        Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(applicationContext);
-        if (packageNames.contains(applicationContext.getPackageName())) {
-            return true;
-        }
-        return false;
     }
 
     @Override
@@ -462,6 +464,22 @@ public class ApplicationLoader extends Application {
                     connectivityManager = (ConnectivityManager) ApplicationLoader.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
                 }
                 currentNetworkInfo = connectivityManager.getActiveNetworkInfo();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    if (networkCallback == null) {
+                        networkCallback = new ConnectivityManager.NetworkCallback() {
+                            @Override
+                            public void onAvailable(@NonNull Network network) {
+                                lastKnownNetworkType = -1;
+                            }
+
+                            @Override
+                            public void onCapabilitiesChanged(@NonNull Network network, @NonNull NetworkCapabilities networkCapabilities) {
+                                lastKnownNetworkType = -1;
+                            }
+                        };
+                        connectivityManager.registerDefaultNetworkCallback(networkCallback);
+                    }
+                }
             } catch (Throwable ignore) {
 
             }
@@ -531,11 +549,16 @@ public class ApplicationLoader extends Application {
                 return StatsController.TYPE_MOBILE;
             }
             if (currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI || currentNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
-                if (connectivityManager.isActiveNetworkMetered()) {
-                    return StatsController.TYPE_MOBILE;
-                } else {
-                    return StatsController.TYPE_WIFI;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && (lastKnownNetworkType == StatsController.TYPE_MOBILE || lastKnownNetworkType == StatsController.TYPE_WIFI) && System.currentTimeMillis() - lastNetworkCheckTypeTime < 5000) {
+                    return lastKnownNetworkType;
                 }
+                if (connectivityManager.isActiveNetworkMetered()) {
+                    lastKnownNetworkType = StatsController.TYPE_MOBILE;
+                } else {
+                    lastKnownNetworkType = StatsController.TYPE_WIFI;
+                }
+                lastNetworkCheckTypeTime = System.currentTimeMillis();
+                return lastKnownNetworkType;
             }
             if (currentNetworkInfo.isRoaming()) {
                 return StatsController.TYPE_ROAMING;

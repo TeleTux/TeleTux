@@ -16,7 +16,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,7 +25,6 @@ import android.widget.FrameLayout;
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
-import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -34,6 +32,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.support.LongSparseIntArray;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
@@ -50,7 +49,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
 
     private FrameLayout frameLayout;
     private RecyclerListView listView;
-    private LinearLayoutManager layoutManager;
+    private FillLastLinearLayoutManager layoutManager;
     private ShareAdapter listAdapter;
     private ShareSearchAdapter searchAdapter;
     private EmptyTextProgressView emptyView;
@@ -68,6 +67,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
 
     public static class UserCell extends FrameLayout {
 
+        private final Theme.ResourcesProvider resourcesProvider;
         private BackupImageView avatarImageView;
         private SimpleTextView nameTextView;
         private SimpleTextView statusTextView;
@@ -78,6 +78,8 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
 
         private CharSequence currentName;
         private CharSequence currentStatus;
+        private TLRPC.User formattedPhoneNumberUser;
+        private CharSequence formattedPhoneNumber;
 
         private String lastName;
         private int lastStatus;
@@ -87,25 +89,26 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
 
         private boolean needDivider;
 
-        public UserCell(Context context) {
+        public UserCell(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context);
+            this.resourcesProvider = resourcesProvider;
 
-            avatarDrawable = new AvatarDrawable();
+            avatarDrawable = new AvatarDrawable(resourcesProvider);
 
             avatarImageView = new BackupImageView(context);
             avatarImageView.setRoundRadius(AndroidUtilities.dp(23));
             addView(avatarImageView, LayoutHelper.createFrame(46, 46, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 0 : 14, 9, LocaleController.isRTL ? 14 : 0, 0));
 
             nameTextView = new SimpleTextView(context);
-            nameTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
-            nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            nameTextView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
+            nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             nameTextView.setTextSize(16);
             nameTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
             addView(nameTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 20, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 28 : 72, 12, LocaleController.isRTL ? 72 : 28, 0));
 
             statusTextView = new SimpleTextView(context);
             statusTextView.setTextSize(13);
-            statusTextView.setTextColor(Theme.getColor(Theme.key_dialogTextGray2));
+            statusTextView.setTextColor(getThemedColor(Theme.key_dialogTextGray2));
             statusTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
             statusTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
             addView(statusTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 20, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 28 : 72, 36, LocaleController.isRTL ? 72 : 28, 0));
@@ -132,9 +135,48 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             update(0);
         }
 
+        public interface CharSequenceCallback {
+            CharSequence run();
+        }
+
+        public void setData(TLRPC.User user, CharSequence name, CharSequenceCallback status, boolean divider) {
+            setData(user, name, (CharSequence) null, divider);
+            Utilities.globalQueue.postRunnable(() -> {
+                final CharSequence newCurrentStatus = status.run();
+                AndroidUtilities.runOnUIThread(() -> {
+                    setStatus(newCurrentStatus);
+                });
+            });
+        }
+
+        public void setStatus(CharSequence status) {
+            currentStatus = status;
+            if (currentStatus != null) {
+                statusTextView.setText(currentStatus);
+            } else if (currentUser != null) {
+                if (TextUtils.isEmpty(currentUser.phone)) {
+                    statusTextView.setText(LocaleController.getString("NumberUnknown", R.string.NumberUnknown));
+                } else {
+                    if (formattedPhoneNumberUser != currentUser && formattedPhoneNumber != null) {
+                        statusTextView.setText(formattedPhoneNumber);
+                    } else {
+                        statusTextView.setText("");
+                        Utilities.globalQueue.postRunnable(() -> {
+                            formattedPhoneNumber = PhoneFormat.getInstance().format("+" + currentUser.phone);
+                            formattedPhoneNumberUser = currentUser;
+                            AndroidUtilities.runOnUIThread(() -> statusTextView.setText(formattedPhoneNumber));
+                        });
+                    }
+                }
+            }
+        }
+
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-            super.onMeasure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(64) + (needDivider ? 1 : 0), MeasureSpec.EXACTLY));
+            super.onMeasure(
+                MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(64) + (needDivider ? 1 : 0), MeasureSpec.EXACTLY)
+            );
         }
 
         public void update(int mask) {
@@ -197,15 +239,8 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 }
                 nameTextView.setText(lastName);
             }
-            if (currentStatus != null) {
-                statusTextView.setText(currentStatus);
-            } else if (currentUser != null) {
-                if (TextUtils.isEmpty(currentUser.phone)) {
-                    statusTextView.setText(LocaleController.getString("NumberUnknown", R.string.NumberUnknown));
-                } else {
-                    statusTextView.setText(PhoneFormat.getInstance().format("+" + currentUser.phone));
-                }
-            }
+
+            setStatus(currentStatus);
 
             lastAvatar = photo;
             if (currentUser != null) {
@@ -226,17 +261,22 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 canvas.drawLine(LocaleController.isRTL ? 0 : AndroidUtilities.dp(70), getMeasuredHeight() - 1, getMeasuredWidth() - (LocaleController.isRTL ? AndroidUtilities.dp(70) : 0), getMeasuredHeight() - 1, Theme.dividerPaint);
             }
         }
+
+        private int getThemedColor(String key) {
+            Integer color = resourcesProvider != null ? resourcesProvider.getColor(key) : null;
+            return color != null ? color : Theme.getColor(key);
+        }
     }
 
-    public ChatAttachAlertContactsLayout(ChatAttachAlert alert, Context context) {
-        super(alert, context);
+    public ChatAttachAlertContactsLayout(ChatAttachAlert alert, Context context, Theme.ResourcesProvider resourcesProvider) {
+        super(alert, context, resourcesProvider);
 
         searchAdapter = new ShareSearchAdapter(context);
 
         frameLayout = new FrameLayout(context);
-        frameLayout.setBackgroundColor(Theme.getColor(Theme.key_dialogBackground));
+        frameLayout.setBackgroundColor(getThemedColor(Theme.key_dialogBackground));
 
-        searchField = new SearchField(context) {
+        searchField = new SearchField(context, false, resourcesProvider) {
             @Override
             public void onTextChange(String text) {
                 if (text.length() != 0) {
@@ -282,12 +322,12 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         searchField.setHint(LocaleController.getString("SearchFriends", R.string.SearchFriends));
         frameLayout.addView(searchField, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
 
-        emptyView = new EmptyTextProgressView(context);
+        emptyView = new EmptyTextProgressView(context, null, resourcesProvider);
         emptyView.showTextView();
         emptyView.setText(LocaleController.getString("NoContacts", R.string.NoContacts));
         addView(emptyView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT, 0, 52, 0, 0));
 
-        listView = new RecyclerListView(context) {
+        listView = new RecyclerListView(context, resourcesProvider) {
             @Override
             protected boolean allowSelectChildAtPosition(float x, float y) {
                 return y >= parentAlert.scrollOffsetY[0] + AndroidUtilities.dp(30) + (Build.VERSION.SDK_INT >= 21 && !parentAlert.inBubbleMode ? AndroidUtilities.statusBarHeight : 0);
@@ -314,11 +354,12 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 startSmoothScroll(linearSmoothScroller);
             }
         });
+        layoutManager.setBind(false);
         listView.setHorizontalScrollBarEnabled(false);
         listView.setVerticalScrollBarEnabled(false);
         addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT, 0, 0, 0, 0));
         listView.setAdapter(listAdapter = new ShareAdapter(context));
-        listView.setGlowColor(Theme.getColor(Theme.key_dialogScrollGlow));
+        listView.setGlowColor(getThemedColor(Theme.key_dialogScrollGlow));
         listView.setOnItemClickListener((view, position) -> {
             Object object;
             if (listView.getAdapter() == searchAdapter) {
@@ -354,7 +395,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                     contact.user = user;
                 }
 
-                PhonebookShareAlert phonebookShareAlert = new PhonebookShareAlert(parentAlert.baseFragment, contact, null, null, null, firstName, lastName);
+                PhonebookShareAlert phonebookShareAlert = new PhonebookShareAlert(parentAlert.baseFragment, contact, null, null, null, firstName, lastName, resourcesProvider);
                 phonebookShareAlert.setDelegate((user, notify, scheduleDate) -> {
                     parentAlert.dismiss();
                     delegate.didSelectContact(user, notify, scheduleDate);
@@ -373,7 +414,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(LayoutHelper.MATCH_PARENT, AndroidUtilities.getShadowHeight(), Gravity.TOP | Gravity.LEFT);
         frameLayoutParams.topMargin = AndroidUtilities.dp(58);
         shadow = new View(context);
-        shadow.setBackgroundColor(Theme.getColor(Theme.key_dialogShadowLine));
+        shadow.setBackgroundColor(getThemedColor(Theme.key_dialogShadowLine));
         shadow.setAlpha(0.0f);
         shadow.setTag(1);
         addView(shadow, frameLayoutParams);
@@ -517,7 +558,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
     }
 
     @Override
-    void onShow() {
+    void onShow(ChatAttachAlert.AttachAlertLayout previousLayout) {
         layoutManager.scrollToPositionWithOffset(0, 0);
     }
 
@@ -610,7 +651,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             View view;
             switch (viewType) {
                 case 0: {
-                    view = new UserCell(mContext);
+                    view = new UserCell(mContext, resourcesProvider);
                     break;
                 }
                 case 1: {
@@ -640,13 +681,14 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                         user = contact.user;
                     } else {
                         userCell.setCurrentId(contact.contact_id);
-                        userCell.setData(null, ContactsController.formatName(contact.first_name, contact.last_name), contact.phones.isEmpty() ? "" : PhoneFormat.getInstance().format(contact.phones.get(0)), divider);
+                        userCell.setData(null, ContactsController.formatName(contact.first_name, contact.last_name), () -> contact.phones.isEmpty() ? "" : PhoneFormat.getInstance().format(contact.phones.get(0)), divider);
                     }
                 } else {
                     user = (TLRPC.User) object;
                 }
                 if (user != null) {
-                    userCell.setData(user, null, PhoneFormat.getInstance().format("+" + user.phone), divider);
+                    final TLRPC.User finalUser = user;
+                    userCell.setData(user, null, () -> PhoneFormat.getInstance().format("+" + finalUser.phone), divider);
                 }
             }
         }
@@ -667,8 +709,9 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         }
 
         @Override
-        public int getPositionForScrollProgress(float progress) {
-            return 0;
+        public void getPositionForScrollProgress(RecyclerListView listView, float progress, int[] position) {
+            position[0] = 0;
+            position[1] = 0;
         }
 
         @Override
@@ -729,7 +772,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
 
                     ArrayList<Object> resultArray = new ArrayList<>();
                     ArrayList<CharSequence> resultArrayNames = new ArrayList<>();
-                    SparseBooleanArray foundUids = new SparseBooleanArray();
+                    LongSparseIntArray foundUids = new LongSparseIntArray();
 
                     for (int a = 0; a < contactsCopy.size(); a++) {
                         ContactsController.Contact contact = contactsCopy.get(a);
@@ -766,7 +809,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                                     resultArrayNames.add(AndroidUtilities.generateSearchName("@" + contact.user.username, null, "@" + q));
                                 }
                                 if (contact.user != null) {
-                                    foundUids.put(contact.user.id, true);
+                                    foundUids.put(contact.user.id, 1);
                                 }
                                 resultArray.add(contact);
                                 break;
@@ -843,7 +886,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             View view;
             switch (viewType) {
                 case 0:
-                    view = new UserCell(mContext);
+                    view = new UserCell(mContext, resourcesProvider);
                     break;
                 case 1:
                     view = new View(mContext);
@@ -871,13 +914,14 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                         user = contact.user;
                     } else {
                         userCell.setCurrentId(contact.contact_id);
-                        userCell.setData(null, searchResultNames.get(position - 1), contact.phones.isEmpty() ? "" : PhoneFormat.getInstance().format(contact.phones.get(0)), divider);
+                        userCell.setData(null, searchResultNames.get(position - 1), () -> contact.phones.isEmpty() ? "" : PhoneFormat.getInstance().format(contact.phones.get(0)), divider);
                     }
                 } else {
                     user = (TLRPC.User) object;
                 }
                 if (user != null) {
-                    userCell.setData(user, searchResultNames.get(position - 1), PhoneFormat.getInstance().format("+" + user.phone), divider);
+                    final TLRPC.User finalUser = user;
+                    userCell.setData(user, searchResultNames.get(position - 1), () -> PhoneFormat.getInstance().format("+" + finalUser.phone), divider);
                 }
             }
         }

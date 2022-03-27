@@ -54,6 +54,7 @@ import org.jetbrains.annotations.NotNull;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ChatObject;
+import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
@@ -77,7 +78,6 @@ import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
-import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.DividerCell;
@@ -941,7 +941,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                     int visibleItemCount = firstVisibleItem == RecyclerView.NO_POSITION ? 0 : Math.abs(layoutManager.findLastVisibleItemPosition() - firstVisibleItem) + 1;
                     if (visibleItemCount > 0) {
                         int totalItemCount = layoutManager.getItemCount();
-                        if (visibleItemCount != 0 && firstVisibleItem + visibleItemCount > totalItemCount - 2 && !searching) {
+                        if (firstVisibleItem + visibleItemCount > totalItemCount - 2 && !searching) {
                             if (!imageSearchEndReached) {
                                 searchImages(type == 1, lastSearchString, nextImagesSearchOffset, true);
                             }
@@ -1102,12 +1102,12 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                                 itemCells[a].setTextAndIcon(LocaleController.getString("ScheduleMessage", R.string.ScheduleMessage), R.drawable.baseline_date_range_24);
                             }
                         } else if (num == 2) {
-                            itemCells[a].setTextAndIcon(LocaleController.getString("SendWithoutSound", R.string.SendWithoutSound), R.drawable.input_notify_off);
+                            itemCells[a].setTextAndIcon(LocaleController.getString("SendWithoutSound", R.string.SendWithoutSound), R.drawable.baseline_notifications_off_24);
                         }
                         itemCells[a].setMinimumWidth(AndroidUtilities.dp(196));
 
                         sendPopupLayout.addView(itemCells[a], LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
-                        int chatId;
+                        long chatId;
                         if (chat != null) {
                             chatId = chat.id;
                         } else if (user != null) {
@@ -1120,7 +1120,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                                 sendPopupWindow.dismiss();
                             }
                             if (num == 0) {
-                                translateComment(TranslateDb.getChatLanguage(chatId, TranslatorKt.getCode2Locale(NekoConfig.translateInputLang)));
+                                translateComment(TranslateDb.getChatLanguage(chatId, TranslatorKt.getCode2Locale(NekoConfig.translateInputLang.String())));
                             } else if (num == 1) {
                                 AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), chatActivity.getDialogId(), this::sendSelectedPhotos);
                             } else if (num == 2) {
@@ -1160,7 +1160,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 view.getLocationInWindow(location);
                 sendPopupWindow.showAtLocation(view, Gravity.LEFT | Gravity.TOP, location[0] + view.getMeasuredWidth() - sendPopupLayout.getMeasuredWidth() + AndroidUtilities.dp(8), location[1] - sendPopupLayout.getMeasuredHeight() - AndroidUtilities.dp(2));
                 sendPopupWindow.dimBehind();
-                if (!NekoConfig.disableVibration) {
+                if (!NekoConfig.disableVibration.Bool()) {
                     view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                 }
 
@@ -1306,7 +1306,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             Integer index = (Integer) view.getTag();
             MediaController.PhotoEntry photoEntry = selectedAlbum.photos.get(index);
             SharedDocumentCell cell = (SharedDocumentCell) view;
-            cell.setChecked(selectedPhotosOrder.indexOf(photoEntry.imageId) >= 0, true);
+            cell.setChecked(selectedPhotosOrder.contains(photoEntry.imageId), true);
         }
         updatePhotosButton(add ? 1 : 2);
         delegate.selectedPhotosChanged();
@@ -1688,12 +1688,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
 
         if (chatActivity != null) {
             long dialogId = chatActivity.getDialogId();
-            int lower_id = (int) dialogId;
-            int high_id = (int) (dialogId >> 32);
-            if (lower_id != 0) {
-                req.peer = MessagesController.getInstance(currentAccount).getInputPeer(lower_id);
-            } else {
+            if (DialogObject.isEncryptedDialog(dialogId)) {
                 req.peer = new TLRPC.TL_inputPeerEmpty();
+            } else {
+                req.peer = getMessagesController().getInputPeer(dialogId);
             }
         } else {
             req.peer = new TLRPC.TL_inputPeerEmpty();
@@ -1733,7 +1731,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                         }
                         image.document = result.document;
                         image.size = 0;
-                        if (result.photo != null && result.document != null) {
+                        if (result.photo != null) {
                             TLRPC.PhotoSize size = FileLoader.getClosestPhotoSizeWithSize(result.photo.sizes, itemSize, true);
                             if (size != null) {
                                 result.document.thumbs.add(size);
@@ -1869,7 +1867,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             View view;
             switch (viewType) {
                 case 0:
-                    PhotoAttachPhotoCell cell = new PhotoAttachPhotoCell(mContext);
+                    PhotoAttachPhotoCell cell = new PhotoAttachPhotoCell(mContext, null);
                     cell.setDelegate(new PhotoAttachPhotoCell.PhotoAttachPhotoCellDelegate() {
 
                         private void checkSlowMode() {

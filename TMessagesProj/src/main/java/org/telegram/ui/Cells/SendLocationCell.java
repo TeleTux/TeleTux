@@ -38,6 +38,8 @@ public class SendLocationCell extends FrameLayout {
     private ImageView imageView;
     private long dialogId;
     private RectF rect;
+    private boolean live;
+    private final Theme.ResourcesProvider resourcesProvider;
 
     private Runnable invalidateRunnable = new Runnable() {
         @Override
@@ -48,17 +50,19 @@ public class SendLocationCell extends FrameLayout {
         }
     };
 
-    public SendLocationCell(Context context, boolean live) {
+    public SendLocationCell(Context context, boolean live, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.resourcesProvider = resourcesProvider;
+        this.live = live;
 
         imageView = new ImageView(context);
 
         imageView.setTag(live ? Theme.key_location_sendLiveLocationBackground + Theme.key_location_sendLiveLocationIcon : Theme.key_location_sendLocationBackground + Theme.key_location_sendLocationIcon);
-        Drawable circle = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(42), Theme.getColor(live ? Theme.key_location_sendLiveLocationBackground : Theme.key_location_sendLocationBackground), Theme.getColor(live ? Theme.key_location_sendLiveLocationBackground : Theme.key_location_sendLocationBackground));
+        Drawable circle = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(42), getThemedColor(live ? Theme.key_location_sendLiveLocationBackground : Theme.key_location_sendLocationBackground), getThemedColor(live ? Theme.key_location_sendLiveLocationBackground : Theme.key_location_sendLocationBackground));
         if (live) {
             rect = new RectF();
             Drawable drawable = new ShareLocationDrawable(context, 4);
-            drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_location_sendLiveLocationIcon), PorterDuff.Mode.SRC_IN));
+            drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_location_sendLiveLocationIcon), PorterDuff.Mode.SRC_IN));
             CombinedDrawable combinedDrawable = new CombinedDrawable(circle, drawable);
             combinedDrawable.setCustomSize(AndroidUtilities.dp(42), AndroidUtilities.dp(42));
             imageView.setBackgroundDrawable(combinedDrawable);
@@ -66,7 +70,7 @@ public class SendLocationCell extends FrameLayout {
             setWillNotDraw(false);
         } else {
             Drawable drawable = getResources().getDrawable(R.drawable.pin);
-            drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_location_sendLocationIcon), PorterDuff.Mode.SRC_IN));
+            drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_location_sendLocationIcon), PorterDuff.Mode.SRC_IN));
             CombinedDrawable combinedDrawable = new CombinedDrawable(circle, drawable);
             combinedDrawable.setCustomSize(AndroidUtilities.dp(42), AndroidUtilities.dp(42));
             combinedDrawable.setIconSize(AndroidUtilities.dp(24), AndroidUtilities.dp(24));
@@ -77,14 +81,14 @@ public class SendLocationCell extends FrameLayout {
         titleTextView = new SimpleTextView(context);
         titleTextView.setTextSize(16);
         titleTextView.setTag(live ? Theme.key_location_sendLiveLocationText : Theme.key_location_sendLocationText);
-        titleTextView.setTextColor(Theme.getColor(live ? Theme.key_location_sendLiveLocationText : Theme.key_location_sendLocationText));
+        titleTextView.setTextColor(getThemedColor(live ? Theme.key_location_sendLiveLocationText : Theme.key_location_sendLocationText));
         titleTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
         titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         addView(titleTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 20, Gravity.TOP | (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT), LocaleController.isRTL ? 16 : 73, 12, LocaleController.isRTL ? 73 : 16, 0));
 
         accurateTextView = new SimpleTextView(context);
         accurateTextView.setTextSize(14);
-        accurateTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3));
+        accurateTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText3));
         accurateTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
         accurateTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         addView(accurateTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 20, Gravity.TOP | (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT), LocaleController.isRTL ? 16 : 73, 37, LocaleController.isRTL ? 73 : 16, 0));
@@ -101,7 +105,9 @@ public class SendLocationCell extends FrameLayout {
             accurateTextView.setAlpha(value ? 1.0f : 0.5f);
             imageView.setAlpha(value ? 1.0f : 0.5f);
         }
-        checkText();
+        if (live) {
+            checkText();
+        }
     }
 
     @Override
@@ -130,7 +136,9 @@ public class SendLocationCell extends FrameLayout {
 
     public void setDialogId(long did) {
         dialogId = did;
-        checkText();
+        if (live) {
+            checkText();
+        }
     }
 
     private void checkText() {
@@ -160,7 +168,7 @@ public class SendLocationCell extends FrameLayout {
             rect.set(getMeasuredWidth() - AndroidUtilities.dp(43), AndroidUtilities.dp(18), getMeasuredWidth() - AndroidUtilities.dp(13), AndroidUtilities.dp(48));
         }
 
-        int color = Theme.getColor(Theme.key_location_liveLocationProgress);
+        int color = getThemedColor(Theme.key_location_liveLocationProgress);
         Theme.chat_radialProgress2Paint.setColor(color);
         Theme.chat_livePaint.setColor(color);
 
@@ -171,5 +179,10 @@ public class SendLocationCell extends FrameLayout {
         float size = Theme.chat_livePaint.measureText(text);
 
         canvas.drawText(text, rect.centerX() - size / 2, AndroidUtilities.dp(37), Theme.chat_livePaint);
+    }
+
+    private int getThemedColor(String key) {
+        Integer color = resourcesProvider != null ? resourcesProvider.getColor(key) : null;
+        return color != null ? color : Theme.getColor(key);
     }
 }

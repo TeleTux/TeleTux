@@ -16,20 +16,32 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ClickableSpan;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ContactsController;
+import org.telegram.messenger.DialogObject;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.FileLog;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
@@ -47,6 +59,7 @@ import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
+import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.HintView;
 import org.telegram.ui.Components.LayoutHelper;
@@ -55,10 +68,7 @@ import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import java.util.Locale;
 
 public class PrivacyControlActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -69,12 +79,12 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
 
     private int initialRulesType;
     private int initialRulesSubType;
-    private ArrayList<Integer> initialPlus = new ArrayList<>();
-    private ArrayList<Integer> initialMinus = new ArrayList<>();
+    private ArrayList<Long> initialPlus = new ArrayList<>();
+    private ArrayList<Long> initialMinus = new ArrayList<>();
 
     private int rulesType;
-    private ArrayList<Integer> currentPlus;
-    private ArrayList<Integer> currentMinus;
+    private ArrayList<Long> currentPlus;
+    private ArrayList<Long> currentMinus;
 
     private int currentType;
     private int currentSubType;
@@ -348,12 +358,12 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener((view, position) -> {
             if (position == nobodyRow || position == everybodyRow || position == myContactsRow) {
-                int newType = currentType;
+                int newType;
                 if (position == nobodyRow) {
                     newType = TYPE_NOBODY;
                 } else if (position == everybodyRow) {
                     newType = TYPE_EVERYBODY;
-                } else if (position == myContactsRow) {
+                } else {
                     newType = TYPE_CONTACTS;
                 }
                 if (newType == currentType) {
@@ -363,10 +373,10 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 updateDoneButton();
                 updateRows(true);
             } else if (position == phoneContactsRow || position == phoneEverybodyRow) {
-                int newType = currentSubType;
+                int newType;
                 if (position == phoneEverybodyRow) {
                     newType = 0;
-                } else if (position == phoneContactsRow) {
+                } else {
                     newType = 1;
                 }
                 if (newType == currentSubType) {
@@ -376,7 +386,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 updateDoneButton();
                 updateRows(true);
             } else if (position == neverShareRow || position == alwaysShareRow) {
-                ArrayList<Integer> createFromArray;
+                ArrayList<Long> createFromArray;
                 if (position == neverShareRow) {
                     createFromArray = currentMinus;
                 } else {
@@ -491,8 +501,8 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             TLRPC.TL_inputPrivacyValueAllowUsers usersRule = new TLRPC.TL_inputPrivacyValueAllowUsers();
             TLRPC.TL_inputPrivacyValueAllowChatParticipants chatsRule = new TLRPC.TL_inputPrivacyValueAllowChatParticipants();
             for (int a = 0; a < currentPlus.size(); a++) {
-                int id = currentPlus.get(a);
-                if (id > 0) {
+                long id = currentPlus.get(a);
+                if (DialogObject.isUserDialog(id)) {
                     TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(id);
                     if (user != null) {
                         TLRPC.InputUser inputUser = MessagesController.getInstance(currentAccount).getInputUser(user);
@@ -511,8 +521,8 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             TLRPC.TL_inputPrivacyValueDisallowUsers usersRule = new TLRPC.TL_inputPrivacyValueDisallowUsers();
             TLRPC.TL_inputPrivacyValueDisallowChatParticipants chatsRule = new TLRPC.TL_inputPrivacyValueDisallowChatParticipants();
             for (int a = 0; a < currentMinus.size(); a++) {
-                int id = currentMinus.get(a);
-                if (id > 0) {
+                long id = currentMinus.get(a);
+                if (DialogObject.isUserDialog(id)) {
                     TLRPC.User user = getMessagesController().getUser(id);
                     if (user != null) {
                         TLRPC.InputUser inputUser = getMessagesController().getInputUser(user);
@@ -537,7 +547,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         AlertDialog progressDialog = null;
         if (getParentActivity() != null) {
             progressDialog = new AlertDialog(getParentActivity(), 3);
-            progressDialog.setCanCacnel(false);
+            progressDialog.setCanCancel(false);
             progressDialog.show();
         }
         final AlertDialog progressDialogFinal = progressDialog;
@@ -761,10 +771,10 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                         }
                         radioCell.setChecked(currentType == checkedType, true);
                     } else {
-                        int checkedType = 0;
+                        int checkedType;
                         if (position == phoneContactsRow) {
                             checkedType = 1;
-                        } else if (position == phoneEverybodyRow) {
+                        } else {
                             checkedType = 0;
                         }
                         radioCell.setChecked(currentSubType == checkedType, true);
@@ -937,10 +947,10 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             return new RecyclerListView.Holder(view);
         }
 
-        private int getUsersCount(ArrayList<Integer> arrayList) {
+        private int getUsersCount(ArrayList<Long> arrayList) {
             int count = 0;
             for (int a = 0; a < arrayList.size(); a++) {
-                int id = arrayList.get(a);
+                long id = arrayList.get(a);
                 if (id > 0) {
                     count++;
                 } else {
@@ -1001,7 +1011,28 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                             if (prevSubtypeContacts = (currentType == TYPE_NOBODY && currentSubType == 1)) {
                                 privacyCell.setText(LocaleController.getString("PrivacyPhoneInfo3", R.string.PrivacyPhoneInfo3));
                             } else {
-                                privacyCell.setText(LocaleController.getString("PrivacyPhoneInfo", R.string.PrivacyPhoneInfo));
+                                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+                                String phoneLinkStr = String.format(Locale.ENGLISH, "https://t.me/+%s", getUserConfig().getClientPhone());
+                                SpannableString phoneLink = new SpannableString(phoneLinkStr);
+                                phoneLink.setSpan(new ClickableSpan() {
+                                    @Override
+                                    public void onClick(@NonNull View view) {
+                                        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) ApplicationLoader.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                                        android.content.ClipData clip = android.content.ClipData.newPlainText("label", phoneLinkStr);
+                                        clipboard.setPrimaryClip(clip);
+                                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                                            BulletinFactory.of(PrivacyControlActivity.this).createCopyBulletin(LocaleController.getString("PhoneCopied", R.string.PhoneCopied)).show();
+                                        }
+                                    }
+                                }, 0, phoneLinkStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                                spannableStringBuilder.append(LocaleController.getString("PrivacyPhoneInfo", R.string.PrivacyPhoneInfo))
+                                        .append("\n\n")
+                                        .append(LocaleController.getString("PrivacyPhoneInfo4", R.string.PrivacyPhoneInfo4))
+                                        .append("\n")
+                                        .append(phoneLink);
+
+                                privacyCell.setText(spannableStringBuilder);
                             }
                         } else if (rulesType == PRIVACY_RULES_TYPE_FORWARDS) {
                             privacyCell.setText(LocaleController.getString("PrivacyForwardsInfo", R.string.PrivacyForwardsInfo));
@@ -1089,7 +1120,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                             } else {
                                 radioCell.setText(LocaleController.getString("LastSeenContacts", R.string.LastSeenContacts), currentType == TYPE_CONTACTS, nobodyRow != -1);
                             }
-                        } else if (position == nobodyRow) {
+                        } else {
                             if (rulesType == PRIVACY_RULES_TYPE_P2P) {
                                 radioCell.setText(LocaleController.getString("P2PNobody", R.string.P2PNobody), currentType == TYPE_NOBODY, false);
                             } else {
@@ -1164,7 +1195,9 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         themeDescriptions.add(new ThemeDescription(listView, 0, null, null, Theme.chat_msgInDrawable.getShadowDrawables(), null, Theme.key_chat_inBubbleShadow));
         themeDescriptions.add(new ThemeDescription(listView, 0, null, null, Theme.chat_msgInMediaDrawable.getShadowDrawables(), null, Theme.key_chat_inBubbleShadow));
         themeDescriptions.add(new ThemeDescription(listView, 0, null, null, new Drawable[]{Theme.chat_msgOutDrawable, Theme.chat_msgOutMediaDrawable}, null, Theme.key_chat_outBubble));
-        themeDescriptions.add(new ThemeDescription(listView, 0, null, null, new Drawable[]{Theme.chat_msgOutDrawable, Theme.chat_msgOutMediaDrawable}, null, Theme.key_chat_outBubbleGradient));
+        themeDescriptions.add(new ThemeDescription(listView, 0, null, null, new Drawable[]{Theme.chat_msgOutDrawable, Theme.chat_msgOutMediaDrawable}, null, Theme.key_chat_outBubbleGradient1));
+        themeDescriptions.add(new ThemeDescription(listView, 0, null, null, new Drawable[]{Theme.chat_msgOutDrawable, Theme.chat_msgOutMediaDrawable}, null, Theme.key_chat_outBubbleGradient2));
+        themeDescriptions.add(new ThemeDescription(listView, 0, null, null, new Drawable[]{Theme.chat_msgOutDrawable, Theme.chat_msgOutMediaDrawable}, null, Theme.key_chat_outBubbleGradient3));
         themeDescriptions.add(new ThemeDescription(listView, 0, null, null, new Drawable[]{Theme.chat_msgOutSelectedDrawable, Theme.chat_msgOutMediaSelectedDrawable}, null, Theme.key_chat_outBubbleSelected));
         themeDescriptions.add(new ThemeDescription(listView, 0, null, null, Theme.chat_msgOutDrawable.getShadowDrawables(), null, Theme.key_chat_outBubbleShadow));
         themeDescriptions.add(new ThemeDescription(listView, 0, null, null, Theme.chat_msgOutMediaDrawable.getShadowDrawables(), null, Theme.key_chat_outBubbleShadow));

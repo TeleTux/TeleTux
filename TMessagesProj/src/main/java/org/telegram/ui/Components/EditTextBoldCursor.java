@@ -32,16 +32,18 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.ActionMode;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.accessibility.AccessibilityNodeInfo;
-import android.widget.EditText;
 import android.widget.TextView;
 
+import org.lsposed.hiddenapibypass.HiddenApiBypass;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
@@ -49,11 +51,16 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.FloatingActionMode;
 import org.telegram.ui.ActionBar.FloatingToolbar;
+import org.telegram.ui.ActionBar.Theme;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
-public class EditTextBoldCursor extends EditText {
+import xyz.nextalone.nagram.NaConfig;
+
+public class EditTextBoldCursor extends EditTextEffects {
 
     private static Field mEditor;
     private static Field mShowCursorField;
@@ -80,6 +87,7 @@ public class EditTextBoldCursor extends EditText {
     };
 
     private Paint linePaint;
+    private Paint activeLinePaint;
     private TextPaint errorPaint;
 
     private int cursorSize;
@@ -96,17 +104,23 @@ public class EditTextBoldCursor extends EditText {
     private int headerHintColor;
     private boolean hintVisible = true;
     private float hintAlpha = 1.0f;
-    private long lastUpdateTime;
+    private long hintLastUpdateTime;
     private boolean allowDrawCursor = true;
     private float cursorWidth = 2.0f;
     private boolean supportRtlHint;
 
     private boolean cursorDrawn;
 
+    private boolean lineVisible = false;
     private int lineColor;
     private int activeLineColor;
     private int errorLineColor;
     private float lineY;
+    private boolean lineActive = false;
+    private float lineActiveness = 0;
+    private long lineLastUpdateTime;
+    private float lastLineActiveness = 0;
+    private float activeLineWidth = 0;
 
     private boolean nextSetTextAnimated;
     private boolean transformHintToHeader;
@@ -118,7 +132,7 @@ public class EditTextBoldCursor extends EditText {
     private ViewTreeObserver.OnPreDrawListener listenerFixer;
 
     private FloatingToolbar floatingToolbar;
-    private FloatingActionMode floatingActionMode;
+    public FloatingActionMode floatingActionMode;
     private ViewTreeObserver.OnPreDrawListener floatingToolbarPreDrawListener;
     private View windowView;
     private View attachedToWindow;
@@ -128,6 +142,63 @@ public class EditTextBoldCursor extends EditText {
 
     boolean drawInMaim;
     ShapeDrawable cursorDrawable;
+
+    private List<TextWatcher> registeredTextWatchers = new ArrayList<>();
+    private boolean isTextWatchersSuppressed = false;
+    private static Method canUndoMethod;
+    private static Method canRedoMethod;
+
+    static {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                canUndoMethod = HiddenApiBypass.getDeclaredMethod(TextView.class, "canUndo");
+                canRedoMethod = HiddenApiBypass.getDeclaredMethod(TextView.class, "canRedo");
+            } else {
+                canUndoMethod = TextView.class.getDeclaredMethod("canUndo");
+                canRedoMethod = TextView.class.getDeclaredMethod("canRedo");
+            }
+            canUndoMethod.setAccessible(true);
+            canRedoMethod.setAccessible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FileLog.e(e);
+            canUndoMethod = null;
+            canRedoMethod = null;
+        }
+    }
+
+    public final boolean canUndo() {
+        if (canUndoMethod == null) {
+            return false;
+        }
+        try {
+            return (boolean) canUndoMethod.invoke(this);
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return false;
+    }
+
+    public final boolean canRedo() {
+        if (canRedoMethod == null) {
+            return false;
+        }
+        try {
+            return (boolean) canRedoMethod.invoke(this);
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return false;
+    }
+
+    private void addUndoRedo(Menu menu) {
+        if (canUndo()) {
+            menu.add(R.id.menu_undoredo, android.R.id.undo, 2, LocaleController.getString("TextUndo", R.string.TextUndo));
+        }
+        if (canRedo()) {
+            menu.add(R.id.menu_undoredo, android.R.id.redo, 3, LocaleController.getString("TextRedo", R.string.TextRedo));
+        }
+    }
 
     @TargetApi(23)
     private class ActionModeCallback2Wrapper extends ActionMode.Callback2 {
@@ -173,6 +244,68 @@ public class EditTextBoldCursor extends EditText {
         init();
     }
 
+    @Override
+    public void addTextChangedListener(TextWatcher watcher) {
+        registeredTextWatchers.add(watcher);
+        if (isTextWatchersSuppressed) {
+            return;
+        }
+        super.addTextChangedListener(watcher);
+    }
+
+    @Override
+    public void removeTextChangedListener(TextWatcher watcher) {
+        registeredTextWatchers.remove(watcher);
+        if (isTextWatchersSuppressed) {
+            return;
+        }
+        super.removeTextChangedListener(watcher);
+    }
+
+    /**
+     * Dispatches text changed event to all text watchers
+     */
+    public void dispatchTextWatchersTextChanged() {
+        for (TextWatcher w : registeredTextWatchers) {
+            w.beforeTextChanged("", 0, length(), length());
+            w.onTextChanged(getText(), 0, length(), length());
+            w.afterTextChanged(getText());
+        }
+    }
+
+    /**
+     * Sets text watchers suppress state
+     *
+     * @param textWatchersSuppressed    Suppress flag
+     * @param dispatchChanged           If we should notify watchers about text changed. Works only if textWatchersSuppressed = false
+     */
+    public void setTextWatchersSuppressed(boolean textWatchersSuppressed, boolean dispatchChanged) {
+        if (isTextWatchersSuppressed == textWatchersSuppressed) return;
+        isTextWatchersSuppressed = textWatchersSuppressed;
+
+        if (textWatchersSuppressed) {
+            for (TextWatcher w : registeredTextWatchers) {
+                super.removeTextChangedListener(w);
+            }
+        } else {
+            for (TextWatcher w : registeredTextWatchers) {
+                super.addTextChangedListener(w);
+                if (dispatchChanged) {
+                    w.beforeTextChanged("", 0, length(), length());
+                    w.onTextChanged(getText(), 0, length(), length());
+                    w.afterTextChanged(getText());
+                }
+            }
+        }
+    }
+
+    /**
+     * @return  If text watchers are suppressed (Not listening to events)
+     */
+    public boolean isTextWatchersSuppressed() {
+        return isTextWatchersSuppressed;
+    }
+
     @Nullable
     @Override
     public Drawable getTextCursorDrawable() {
@@ -199,6 +332,7 @@ public class EditTextBoldCursor extends EditText {
     @SuppressLint("PrivateApi")
     private void init() {
         linePaint = new Paint();
+        activeLinePaint = new Paint();
         errorPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         errorPaint.setTextSize(AndroidUtilities.dp(11));
         if (Build.VERSION.SDK_INT >= 26) {
@@ -350,9 +484,14 @@ public class EditTextBoldCursor extends EditText {
         invalidate();
     }
 
+    private Rect padding = new Rect();
     public void setLineColors(int color, int active, int error) {
+        lineVisible = true;
+        getContext().getResources().getDrawable(R.drawable.search_dark).getPadding(padding);
+        setPadding(padding.left, padding.top, padding.right, padding.bottom);
         lineColor = color;
         activeLineColor = active;
+        activeLinePaint.setColor(activeLineColor);
         errorLineColor = error;
         errorPaint.setColor(errorLineColor);
         invalidate();
@@ -362,7 +501,7 @@ public class EditTextBoldCursor extends EditText {
         if (hintVisible == value) {
             return;
         }
-        lastUpdateTime = System.currentTimeMillis();
+        hintLastUpdateTime = System.currentTimeMillis();
         hintVisible = value;
         invalidate();
     }
@@ -433,6 +572,8 @@ public class EditTextBoldCursor extends EditText {
                 setHintText(hint);
             }
             lineY = (getMeasuredHeight() - hintLayout.getHeight()) / 2.0f + hintLayout.getHeight() + AndroidUtilities.dp(6);
+        } else {
+            lineY = getMeasuredHeight() - AndroidUtilities.dp(2);
         }
         lastSize = currentSize;
     }
@@ -538,16 +679,25 @@ public class EditTextBoldCursor extends EditText {
         return super.getExtendedPaddingBottom();
     }
 
+    private int lastTouchX = -1;
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            lastTouchX = (int) event.getX();
+        }
+        return super.onTouchEvent(event);
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         if ((length() == 0 || transformHintToHeader) && hintLayout != null && (hintVisible || hintAlpha != 0)) {
             if (hintVisible && hintAlpha != 1.0f || !hintVisible && hintAlpha != 0.0f) {
                 long newTime = System.currentTimeMillis();
-                long dt = newTime - lastUpdateTime;
+                long dt = newTime - hintLastUpdateTime;
                 if (dt < 0 || dt > 17) {
                     dt = 17;
                 }
-                lastUpdateTime = newTime;
+                hintLastUpdateTime = newTime;
                 if (hintVisible) {
                     hintAlpha += dt / 150.0f;
                     if (hintAlpha > 1.0f) {
@@ -572,21 +722,12 @@ public class EditTextBoldCursor extends EditText {
             }
             if (supportRtlHint && LocaleController.isRTL) {
                 float offset = getMeasuredWidth() - hintWidth;
-                canvas.translate(left + getScrollX() + offset, lineY - hintLayout.getHeight() - AndroidUtilities.dp(6));
+                canvas.translate(left + getScrollX() + offset, lineY - hintLayout.getHeight() - AndroidUtilities.dp(7));
             } else {
-                canvas.translate(left + getScrollX(), lineY - hintLayout.getHeight() - AndroidUtilities.dp(6));
+                canvas.translate(left + getScrollX(), lineY - hintLayout.getHeight() - AndroidUtilities.dp2(7));
             }
             if (transformHintToHeader) {
                 float scale = 1.0f - 0.3f * headerAnimationProgress;
-                float translation = -AndroidUtilities.dp(22) * headerAnimationProgress;
-                int rF = Color.red(headerHintColor);
-                int gF = Color.green(headerHintColor);
-                int bF = Color.blue(headerHintColor);
-                int aF = Color.alpha(headerHintColor);
-                int rS = Color.red(hintColor);
-                int gS = Color.green(hintColor);
-                int bS = Color.blue(hintColor);
-                int aS = Color.alpha(hintColor);
 
                 if (supportRtlHint && LocaleController.isRTL) {
                     canvas.translate((hintWidth + lineLeft) - (hintWidth + lineLeft) * scale, 0);
@@ -594,8 +735,8 @@ public class EditTextBoldCursor extends EditText {
                     canvas.translate(lineLeft * (1.0f - scale), 0);
                 }
                 canvas.scale(scale, scale);
-                canvas.translate(0, translation);
-                getPaint().setColor(Color.argb((int) (aS + (aF - aS) * headerAnimationProgress), (int) (rS + (rF - rS) * headerAnimationProgress), (int) (gS + (gF - gS) * headerAnimationProgress), (int) (bS + (bF - bS) * headerAnimationProgress)));
+                canvas.translate(0, -AndroidUtilities.dp(22) * headerAnimationProgress);
+                getPaint().setColor(AndroidUtilities.lerpColor(hintColor, headerHintColor, headerAnimationProgress));
             } else {
                 getPaint().setColor(hintColor);
                 getPaint().setAlpha((int) (255 * hintAlpha * (Color.alpha(hintColor) / 255.0f)));
@@ -735,19 +876,51 @@ public class EditTextBoldCursor extends EditText {
                 }
             }
         }
-        if (lineColor != 0 && hintLayout != null) {
-            int h;
+        if (lineVisible && lineColor != 0) {
+            int lineWidth = AndroidUtilities.dp(1);
+            boolean wasLineActive = lineActive;
             if (!TextUtils.isEmpty(errorText)) {
                 linePaint.setColor(errorLineColor);
-                h = AndroidUtilities.dp(2);
+                lineWidth = AndroidUtilities.dp(2);
+                lineActive = false;
             } else if (isFocused()) {
-                linePaint.setColor(activeLineColor);
-                h = AndroidUtilities.dp(2);
+                lineActive = true;
             } else {
                 linePaint.setColor(lineColor);
-                h = AndroidUtilities.dp(1);
+                lineActive = false;
             }
-            canvas.drawRect(getScrollX(), (int) lineY, getScrollX() + getMeasuredWidth(), lineY + h, linePaint);
+            if (lineActive != wasLineActive) {
+                lineLastUpdateTime = SystemClock.elapsedRealtime();
+                lastLineActiveness = lineActiveness;
+            }
+            float t = (SystemClock.elapsedRealtime() - lineLastUpdateTime) / 150.0f;
+            if (t < 1f || lineActive && lineActiveness != 1.0f || !lineActive && lineActiveness != 0.0f) {
+                lineActiveness = AndroidUtilities.lerp(lastLineActiveness, lineActive ? 1 : 0, Math.max(0, Math.min(1, t)));
+                if (t < 1f) {
+                    invalidate();
+                }
+            }
+
+            int bottom = (int) lineY;
+            int centerX = lastTouchX < 0 ? getMeasuredWidth() / 2 : lastTouchX,
+                maxWidth = Math.max(centerX, getMeasuredWidth() - centerX) * 2;
+            if (lineActiveness < 1f) {
+                canvas.drawRect(getScrollX(), bottom - lineWidth, getScrollX() + getMeasuredWidth(), bottom, linePaint);
+            }
+            if (lineActiveness > 0f) {
+                float lineActivenessT = CubicBezierInterpolator.EASE_BOTH.getInterpolation(lineActiveness);
+                if (lineActive) {
+                    activeLineWidth = maxWidth * lineActivenessT;
+                }
+                int lineThickness = (int) ((lineActive ? 1 : lineActivenessT) * AndroidUtilities.dp(2));
+                canvas.drawRect(
+                    getScrollX() + Math.max(0, centerX - activeLineWidth / 2),
+                    bottom - lineThickness,
+                    getScrollX() + Math.min(centerX + activeLineWidth / 2, getMeasuredWidth()),
+                    bottom,
+                    activeLinePaint
+                );
+            }
         }
         /*if (errorLayout != null) {
             canvas.save();
@@ -849,7 +1022,7 @@ public class EditTextBoldCursor extends EditText {
                 floatingActionMode.finish();
             }
             cleanupFloatingActionModeViews();
-            floatingToolbar = new FloatingToolbar(getContext(), windowView != null ? windowView : attachedToWindow, getActionModeStyle());
+            floatingToolbar = new FloatingToolbar(getContext(), windowView != null ? windowView : attachedToWindow, getActionModeStyle(), getResourcesProvider());
             floatingActionMode = new FloatingActionMode(getContext(), new ActionModeCallback2Wrapper(callback), this, floatingToolbar);
             floatingToolbarPreDrawListener = () -> {
                 if (floatingActionMode != null) {
@@ -859,6 +1032,9 @@ public class EditTextBoldCursor extends EditText {
             };
             callback.onCreateActionMode(floatingActionMode, floatingActionMode.getMenu());
             extendActionMode(floatingActionMode, floatingActionMode.getMenu());
+            if (NaConfig.INSTANCE.getShowTextUndoRedo().Bool()) {
+                addUndoRedo(floatingActionMode.getMenu());
+            }
             floatingActionMode.invalidate();
             getViewTreeObserver().addOnPreDrawListener(floatingToolbarPreDrawListener);
             invalidate();
@@ -914,5 +1090,9 @@ public class EditTextBoldCursor extends EditText {
         if (hintLayout != null) {
             AccessibilityNodeInfoCompat.wrap(info).setHintText(hintLayout.getText());
         }
+    }
+
+    protected Theme.ResourcesProvider getResourcesProvider() {
+        return null;
     }
 }

@@ -45,6 +45,7 @@ import java.util.Locale;
 import tw.nekomimi.nekogram.NekoConfig;
 import org.telegram.messenger.LocaleController;
 
+
 public class NumberPicker extends LinearLayout {
 
     private int SELECTOR_WHEEL_ITEM_COUNT = 3;
@@ -108,8 +109,10 @@ public class NumberPicker extends LinearLayout {
     private PressedStateHelper mPressedStateHelper;
     private int mLastHandledDownDpadKeyCode = -1;
     private SeekBarAccessibilityDelegate accessibilityDelegate;
+    private final Theme.ResourcesProvider resourcesProvider;
 
     private boolean drawDividers = true;
+    public static boolean usePersianCalendar = NekoConfig.usePersianCalendar.Bool();
 
     public interface OnValueChangeListener {
         void onValueChange(NumberPicker picker, int oldVal, int newVal);
@@ -140,7 +143,7 @@ public class NumberPicker extends LinearLayout {
     private void init() {
         mSolidColor = 0;
         mSelectionDivider = new Paint();
-        mSelectionDivider.setColor(Theme.getColor(Theme.key_dialogButton));
+        mSelectionDivider.setColor(getThemedColor(Theme.key_dialogButton));
 
         mSelectionDividerHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, UNSCALED_DEFAULT_SELECTION_DIVIDER_HEIGHT, getResources().getDisplayMetrics());
         mSelectionDividersDistance = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, UNSCALED_DEFAULT_SELECTION_DIVIDERS_DISTANCE, getResources().getDisplayMetrics());
@@ -168,7 +171,7 @@ public class NumberPicker extends LinearLayout {
         mInputText = new TextView(getContext());
         mInputText.setGravity(Gravity.CENTER);
         mInputText.setSingleLine(true);
-        mInputText.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+        mInputText.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
         mInputText.setBackgroundResource(0);
         mInputText.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
         mInputText.setVisibility(INVISIBLE);
@@ -183,7 +186,7 @@ public class NumberPicker extends LinearLayout {
         paint.setAntiAlias(true);
         paint.setTextAlign(Align.CENTER);
         paint.setTextSize(mTextSize);
-        if (NekoConfig.usePersianCalendar == 2 || NekoConfig.usePersianCalendar == 0 && "fa".equals(LocaleController.getInstance().getCurrentLocaleInfo().pluralLangCode)) { 
+        if (usePersianCalendar && "fa".equals(LocaleController.getInstance().getCurrentLocaleInfo().pluralLangCode)) { 
             paint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         } else {
             paint.setTypeface(mInputText.getTypeface());
@@ -236,11 +239,20 @@ public class NumberPicker extends LinearLayout {
     }
 
     public NumberPicker(Context context) {
-        this(context, 18);
+        this(context, null);
+    }
+
+    public NumberPicker(Context context, Theme.ResourcesProvider resourcesProvider) {
+        this(context, 18, resourcesProvider);
     }
 
     public NumberPicker(Context context, int textSize) {
+        this(context, textSize, null);
+    }
+
+    public NumberPicker(Context context, int textSize, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.resourcesProvider = resourcesProvider;
         mTextSize = AndroidUtilities.dp(textSize);
         init();
     }
@@ -1138,5 +1150,10 @@ public class NumberPicker extends LinearLayout {
     public void setDrawDividers(boolean drawDividers) {
         this.drawDividers = drawDividers;
         invalidate();
+    }
+
+    private int getThemedColor(String key) {
+        Integer color = resourcesProvider != null ? resourcesProvider.getColor(key) : null;
+        return color != null ? color : Theme.getColor(key);
     }
 }
