@@ -12140,7 +12140,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
             hideHints(false);
             if (searchItem != null && actionBar.isSearchFieldVisible()) {
-                actionBar.closeSearchField(false);notify
+                actionBar.closeSearchField(false);
                 chatActivityEnterView.setFieldFocused();
                 AndroidUtilities.runOnUIThread(() -> {
                     if (chatActivityEnterView != null) {
