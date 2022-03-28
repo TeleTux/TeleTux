@@ -15,6 +15,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.View;
 
 import androidx.annotation.Keep;
@@ -388,8 +389,8 @@ public class CheckBoxBase {
             if (checkProgress != 0) {
                 if (checkedText != null) {
                     if (textPaint == null) {
-                        textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-                        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                        textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+                        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                     }
                     final float textSize, y;
                     switch (checkedText.length()) {

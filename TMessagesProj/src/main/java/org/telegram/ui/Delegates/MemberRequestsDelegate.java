@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
@@ -651,8 +652,8 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         private final int shadowPaddingTop;
         private final int shadowPaddingLeft;
         private final Drawable pagerShadowDrawable = getContext().getResources().getDrawable(R.drawable.popup_fixed_alert2).mutate();
-        private final TextView nameText = new TextView(getContext());
-        private final TextView bioText = new TextView(getContext());
+        private final TextView nameText = new SuperTextView(getContext());
+        private final TextView bioText = new SuperTextView(getContext());
         private final ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout;
         private final ProfileGalleryView viewPager;
         private final AvatarPreviewPagerIndicator pagerIndicator;

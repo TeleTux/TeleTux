@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AndroidUtilities;
@@ -39,7 +40,7 @@ public class SettingsSuggestionCell extends LinearLayout {
         super(context);
         setOrientation(VERTICAL);
 
-        textView = new TextView(context);
+        textView = new SuperTextView(context);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -47,7 +48,7 @@ public class SettingsSuggestionCell extends LinearLayout {
         textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader));
         addView(textView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 21, 15, 21, 0));
 
-        detailTextView = new TextView(context);
+        detailTextView = new SuperTextView(context);
         detailTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2));
         detailTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         detailTextView.setLinkTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText));
@@ -61,7 +62,7 @@ public class SettingsSuggestionCell extends LinearLayout {
         addView(linearLayout, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 40, 21, 17, 21, 20));
 
         for (int a = 0; a < 2; a++) {
-            TextView textView = new TextView(context);
+            TextView textView = new SuperTextView(context);
             textView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4), Theme.getColor(Theme.key_featuredStickers_addButton), Theme.getColor(Theme.key_featuredStickers_addButtonPressed)));
             textView.setLines(1);
             textView.setSingleLine(true);

@@ -27,6 +27,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.IntDef;
@@ -923,7 +924,7 @@ public class Bulletin {
             imageView.setColorFilter(new PorterDuffColorFilter(undoInfoColor, PorterDuff.Mode.SRC_IN));
             addView(imageView, LayoutHelper.createFrameRelatively(24, 24, Gravity.START | Gravity.CENTER_VERTICAL, 16, 12, 16, 12));
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setSingleLine();
             textView.setTextColor(undoInfoColor);
             textView.setTypeface(Typeface.SANS_SERIF);
@@ -942,7 +943,7 @@ public class Bulletin {
     public static class MultiLineLayout extends ButtonLayout {
 
         public final BackupImageView imageView = new BackupImageView(getContext());
-        public final TextView textView = new TextView(getContext());
+        public final TextView textView = new SuperTextView(getContext());
 
         public MultiLineLayout(@NonNull Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context, resourcesProvider);
@@ -981,14 +982,14 @@ public class Bulletin {
             linearLayout.setOrientation(LinearLayout.VERTICAL);
             addView(linearLayout, LayoutHelper.createFrameRelatively(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 54, 8, 12, 8));
 
-            titleTextView = new TextView(context);
+            titleTextView = new SuperTextView(context);
             titleTextView.setSingleLine();
             titleTextView.setTextColor(undoInfoColor);
             titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             linearLayout.addView(titleTextView);
 
-            subtitleTextView = new TextView(context);
+            subtitleTextView = new SuperTextView(context);
             subtitleTextView.setMaxLines(2);
             subtitleTextView.setTextColor(undoInfoColor);
             subtitleTextView.setTypeface(Typeface.SANS_SERIF);
@@ -1026,14 +1027,14 @@ public class Bulletin {
             linearLayout.setOrientation(LinearLayout.VERTICAL);
             addView(linearLayout, LayoutHelper.createFrameRelatively(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 56, 8, 12, 8));
 
-            titleTextView = new TextView(context);
+            titleTextView = new SuperTextView(context);
             titleTextView.setSingleLine();
             titleTextView.setTextColor(undoInfoColor);
             titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             linearLayout.addView(titleTextView);
 
-            subtitleTextView = new TextView(context);
+            subtitleTextView = new SuperTextView(context);
             subtitleTextView.setTextColor(undoInfoColor);
             subtitleTextView.setTypeface(Typeface.SANS_SERIF);
             subtitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
@@ -1073,7 +1074,7 @@ public class Bulletin {
             imageView.setScaleType(ImageView.ScaleType.CENTER);
             addView(imageView, LayoutHelper.createFrameRelatively(56, 48, Gravity.START | Gravity.CENTER_VERTICAL));
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setSingleLine();
             textView.setTypeface(Typeface.SANS_SERIF);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
@@ -1182,13 +1183,13 @@ public class Bulletin {
             final int undoCancelColor = getThemedColor(Theme.key_undo_cancelColor);
 
             if (text) {
-                TextView undoTextView = new TextView(context);
+                TextView undoTextView = new SuperTextView(context);
                 undoTextView.setOnClickListener(v -> undo());
                 final int leftInset = LocaleController.isRTL ? AndroidUtilities.dp(16) : 0;
                 final int rightInset = LocaleController.isRTL ? 0 : AndroidUtilities.dp(16);
                 undoTextView.setBackground(Theme.createCircleSelectorDrawable((undoCancelColor & 0x00ffffff) | 0x19000000, leftInset, rightInset));
                 undoTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-                undoTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                undoTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 undoTextView.setTextColor(undoCancelColor);
                 undoTextView.setText(LocaleController.getString("Undo", R.string.Undo));
                 undoTextView.setGravity(Gravity.CENTER_VERTICAL);

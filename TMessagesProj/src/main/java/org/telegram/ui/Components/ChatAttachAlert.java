@@ -32,6 +32,7 @@ import android.os.Build;
 import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
@@ -53,6 +54,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.Keep;
 import androidx.core.graphics.ColorUtils;
@@ -371,7 +373,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     private ImageView writeButton;
     private Drawable writeButtonDrawable;
     private View selectedCountView;
-    private TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    private TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
     private RectF rect = new RectF();
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private AnimatorSet commentsAnimator;
@@ -476,7 +478,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             imageView.setScaleType(ImageView.ScaleType.CENTER);
             addView(imageView, LayoutHelper.createFrame(32, 32, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 18, 0, 0));
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setMaxLines(2);
             textView.setGravity(Gravity.CENTER_HORIZONTAL);
             textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -590,7 +592,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 addView(selector, LayoutHelper.createFrame(46, 46, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 9, 0, 0));
             }
 
-            nameTextView = new TextView(context);
+            nameTextView = new SuperTextView(context);
             nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
             nameTextView.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
             nameTextView.setLines(1);
@@ -1383,7 +1385,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         selectedView.setOrientation(LinearLayout.HORIZONTAL);
         selectedView.setGravity(Gravity.CENTER_VERTICAL);
 
-        selectedTextView = new TextView(context);
+        selectedTextView = new SuperTextView(context);
         selectedTextView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
         selectedTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         selectedTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -1417,7 +1419,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
 
         mediaPreviewView.addView(arrowView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 0, 1, 4, 0));
 
-        mediaPreviewTextView = new TextView(context);
+        mediaPreviewTextView = new SuperTextView(context);
         mediaPreviewTextView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
         mediaPreviewTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         mediaPreviewTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -1971,7 +1973,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         });
 
         textPaint.setTextSize(AndroidUtilities.dp(12));
-        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
         selectedCountView = new View(context) {
             @Override

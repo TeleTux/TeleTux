@@ -31,6 +31,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -42,6 +43,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -809,7 +811,7 @@ public class QrActivity extends BaseFragment {
 
             int qrColor = 0xff000000;
             int backgroundColor = 0x00ffffff;
-            TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG | Paint.LINEAR_TEXT_FLAG);
+            TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG | Paint.LINEAR_TEXT_FLAG);
             textPaint.setColor(qrColor);
             textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rcondensedbold.ttf"));
             StaticLayout staticLayout = null;
@@ -1027,7 +1029,7 @@ public class QrActivity extends BaseFragment {
                 }
             };
 
-            titleView = new TextView(context);
+            titleView = new SuperTextView(context);
             titleView.setEllipsize(TextUtils.TruncateAt.MIDDLE);
             titleView.setLines(1);
             titleView.setSingleLine(true);
@@ -1093,7 +1095,7 @@ public class QrActivity extends BaseFragment {
             bottomShadow.setBackground(ContextCompat.getDrawable(context, R.drawable.shadowdown));
             rootLayout.addView(bottomShadow);
 
-            shareButton = new TextView(context);
+            shareButton = new SuperTextView(context);
             shareButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6), fragment.getThemedColor(Theme.key_featuredStickers_addButton), fragment.getThemedColor(Theme.key_featuredStickers_addButtonPressed)));
             shareButton.setEllipsize(TextUtils.TruncateAt.END);
             shareButton.setGravity(Gravity.CENTER);

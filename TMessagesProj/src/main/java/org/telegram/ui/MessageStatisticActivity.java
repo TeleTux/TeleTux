@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -254,15 +255,15 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         imageView.setAnimation(R.raw.statistic_preload, 120, 120);
         imageView.playAnimation();
 
-        TextView loadingTitle = new TextView(context);
+        TextView loadingTitle = new SuperTextView(context);
         loadingTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-        loadingTitle.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        loadingTitle.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         loadingTitle.setTextColor(Theme.getColor(Theme.key_player_actionBarTitle));
         loadingTitle.setTag(Theme.key_player_actionBarTitle);
         loadingTitle.setText(LocaleController.getString("LoadingStats", R.string.LoadingStats));
         loadingTitle.setGravity(Gravity.CENTER_HORIZONTAL);
 
-        TextView loadingSubtitle = new TextView(context);
+        TextView loadingSubtitle = new SuperTextView(context);
         loadingSubtitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         loadingSubtitle.setTextColor(Theme.getColor(Theme.key_player_actionBarSubtitle));
         loadingSubtitle.setTag(Theme.key_player_actionBarSubtitle);
@@ -849,10 +850,10 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 cell[j] = contentCell;
                 contentCell.setOrientation(VERTICAL);
 
-                primary[j] = new TextView(context);
-                title[j] = new TextView(context);
+                primary[j] = new SuperTextView(context);
+                title[j] = new SuperTextView(context);
 
-                primary[j].setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                primary[j].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 primary[j].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
                 title[j].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
 

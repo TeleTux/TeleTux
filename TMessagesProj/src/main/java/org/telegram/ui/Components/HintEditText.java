@@ -13,12 +13,13 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.util.TypedValue;
 
 import org.telegram.ui.ActionBar.Theme;
 
 public class HintEditText extends EditTextBoldCursor {
-    protected TextPaint hintPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    protected TextPaint hintPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
     private String hintText;
     private Rect rect = new Rect();

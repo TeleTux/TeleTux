@@ -5,6 +5,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.core.graphics.ColorUtils;
 import androidx.core.widget.NestedScrollView;
@@ -57,19 +58,19 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         linkActionView.hideRevokeOption(true);
         linkActionView.setDelegate(() -> generateLink(true));
 
-        titleView = new TextView(context);
+        titleView = new SuperTextView(context);
         titleView.setText(LocaleController.getString("InviteLink", R.string.InviteLink));
         titleView.setTextSize(24);
         titleView.setGravity(Gravity.CENTER_HORIZONTAL);
         titleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
 
-        subtitle = new TextView(context);
+        subtitle = new SuperTextView(context);
         subtitle.setText(isChannel ? LocaleController.getString("LinkInfoChannel", R.string.LinkInfoChannel) : LocaleController.getString("LinkInfo", R.string.LinkInfo));
         subtitle.setTextSize(14);
         subtitle.setGravity(Gravity.CENTER_HORIZONTAL);
         subtitle.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
 
-        manage = new TextView(context);
+        manage = new SuperTextView(context);
         manage.setText(LocaleController.getString("ManageInviteLinks", R.string.ManageInviteLinks));
         manage.setTextSize(14);
         manage.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText));

@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.core.content.FileProvider;
 
@@ -103,18 +104,18 @@ public class QRCodeBottomSheet extends BottomSheet {
         frameLayout.addView(iconImage, LayoutHelper.createFrame(60, 60, Gravity.CENTER));
         linearLayout.addView(frameLayout, LayoutHelper.createLinear(220, 220, Gravity.CENTER_HORIZONTAL, 30, 0, 30, 0));
 
-        help = new TextView(context);
+        help = new SuperTextView(context);
         help.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         help.setText(helpMessage);
         help.setGravity(Gravity.CENTER_HORIZONTAL);
         linearLayout.addView(help, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 40, 8, 40, 8));
 
-        buttonTextView = new TextView(context);
+        buttonTextView = new SuperTextView(context);
 
         buttonTextView.setPadding(AndroidUtilities.dp(34), 0, AndroidUtilities.dp(34), 0);
         buttonTextView.setGravity(Gravity.CENTER);
         buttonTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        buttonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        buttonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         buttonTextView.setText(LocaleController.getString("ShareQrCode", R.string.ShareQrCode));
         buttonTextView.setOnClickListener(view -> {
 

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLoader;
@@ -44,33 +45,33 @@ public class StatisticPostInfoCell extends FrameLayout {
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-        message = new TextView(context);
-        message.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        message = new SuperTextView(context);
+        message.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         message.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         message.setTextColor(Color.BLACK);
         message.setLines(1);
         message.setEllipsize(TextUtils.TruncateAt.END);
 
-        views = new TextView(context);
+        views = new SuperTextView(context);
         views.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         views.setTextColor(Color.BLACK);
-        views.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        views.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
         linearLayout.addView(message, LayoutHelper.createLinear(0, LayoutHelper.WRAP_CONTENT, 1f, Gravity.NO_GRAVITY, 0, 0, 16, 0));
         linearLayout.addView(views, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
         contentLayout.addView(linearLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 0, 8, 0, 0));
 
-        date = new TextView(context);
+        date = new SuperTextView(context);
         date.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         date.setTextColor(Color.BLACK);
         date.setLines(1);
         date.setEllipsize(TextUtils.TruncateAt.END);
-        date.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        date.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
-        shares = new TextView(context);
+        shares = new SuperTextView(context);
         shares.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         shares.setTextColor(Color.BLACK);
-        shares.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        shares.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
         linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);

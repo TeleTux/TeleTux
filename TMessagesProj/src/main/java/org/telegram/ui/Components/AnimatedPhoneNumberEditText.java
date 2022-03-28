@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.util.TypedValue;
 
@@ -31,7 +32,7 @@ public class AnimatedPhoneNumberEditText extends HintEditText {
 
     private ArrayList<StaticLayout> letters = new ArrayList<>();
     private ArrayList<StaticLayout> oldLetters = new ArrayList<>();
-    private TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    private TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
     private ObjectAnimator animator;
     private float progress;
     private String oldText = "";

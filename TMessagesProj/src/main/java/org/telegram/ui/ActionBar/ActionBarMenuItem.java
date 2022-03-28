@@ -49,6 +49,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
@@ -191,9 +192,9 @@ public class ActionBarMenuItem extends FrameLayout {
         parentMenu = menu;
 
         if (text) {
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             textView.setGravity(Gravity.CENTER);
             textView.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
             textView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
@@ -400,7 +401,7 @@ public class ActionBarMenuItem extends FrameLayout {
 
     public TextView addSubItem(int id, CharSequence text) {
         createPopupLayout();
-        TextView textView = new TextView(getContext());
+        TextView textView = new SuperTextView(getContext());
         textView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
         textView.setBackgroundDrawable(Theme.getSelectorDrawable(false));
         if (!LocaleController.isRTL) {
@@ -515,7 +516,7 @@ public class ActionBarMenuItem extends FrameLayout {
     public View addDivider(int color) {
         createPopupLayout();
 
-        TextView cell = new TextView(getContext());
+        TextView cell = new SuperTextView(getContext());
         cell.setBackgroundColor(color);
         cell.setMinimumWidth(AndroidUtilities.dp(196));
         popupLayout.addView(cell);
@@ -1160,7 +1161,7 @@ public class ActionBarMenuItem extends FrameLayout {
             }
             searchContainer.setVisibility(GONE);
 
-            searchFieldCaption = new TextView(getContext());
+            searchFieldCaption = new SuperTextView(getContext());
             searchFieldCaption.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
             searchFieldCaption.setTextColor(getThemedColor(Theme.key_actionBarDefaultSearch));
             searchFieldCaption.setSingleLine(true);
@@ -1765,7 +1766,7 @@ public class ActionBarMenuItem extends FrameLayout {
             closeIconView.setImageResource(R.drawable.ic_close_white);
             addView(closeIconView, LayoutHelper.createFrame(24, 24, Gravity.CENTER_VERTICAL, 8, 0, 0, 0));
 
-            titleView = new TextView(context);
+            titleView = new SuperTextView(context);
             titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             addView(titleView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 38, 0, 16, 0));
             shapeDrawable = (ShapeDrawable) Theme.createRoundRectDrawable(AndroidUtilities.dp(28), 0xFF446F94);

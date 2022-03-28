@@ -14,6 +14,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -51,7 +52,7 @@ public class ChecksHintView extends FrameLayout {
             imageView[a].setScaleType(ImageView.ScaleType.CENTER);
             backgroundView.addView(imageView[a], LayoutHelper.createFrame(24, 24, Gravity.LEFT | Gravity.TOP, 0, a == 0 ? 0 : 24, 0, 0));
 
-            textView[a] = new TextView(context);
+            textView[a] = new SuperTextView(context);
             textView[a].setTextColor(getThemedColor(Theme.key_chat_gifSaveHintText));
             textView[a].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             textView[a].setMaxLines(1);

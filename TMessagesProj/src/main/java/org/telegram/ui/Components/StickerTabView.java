@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.SvgHelper;
@@ -66,7 +67,7 @@ public class StickerTabView extends FrameLayout {
             visibleView = imageView;
         }
 
-        textView = new TextView(context);
+        textView = new SuperTextView(context);
         textView.setLines(1);
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11);

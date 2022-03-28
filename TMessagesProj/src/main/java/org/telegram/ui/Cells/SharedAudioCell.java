@@ -8,6 +8,7 @@ import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -109,14 +110,14 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
         addView(checkBox, LayoutHelper.createFrame(24, 24, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 0 : 38.1f, 32.1f, LocaleController.isRTL ? 6 : 0, 0));
 
         if (viewType == VIEW_TYPE_GLOBAL_SEARCH) {
-            description2TextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            description2TextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             description2TextPaint.setTextSize(AndroidUtilities.dp(13));
 
             dotSpan = new SpannableStringBuilder(".");
             dotSpan.setSpan(new DotDividerSpan(), 0, 1, 0);
         }
 
-        captionTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        captionTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         captionTextPaint.setTextSize(AndroidUtilities.dp(13));
     }
 

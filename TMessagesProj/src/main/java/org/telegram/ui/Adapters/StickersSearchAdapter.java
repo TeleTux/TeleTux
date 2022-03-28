@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -384,7 +385,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
 
                 layout.addView(new Space(context), LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 15));
 
-                emptyTextView = new TextView(context);
+                emptyTextView = new SuperTextView(context);
                 emptyTextView.setText(LocaleController.getString("NoStickersFound", R.string.NoStickersFound));
                 emptyTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                 emptyTextView.setTextColor(getThemedColor(Theme.key_chat_emojiPanelEmptyText));

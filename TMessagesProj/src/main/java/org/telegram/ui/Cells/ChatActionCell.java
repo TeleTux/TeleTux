@@ -18,6 +18,7 @@ import android.text.Layout;
 import android.text.Spannable;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.text.style.URLSpan;
 import android.view.MotionEvent;
@@ -551,7 +552,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             if (overrideBackgroundPaint == null) {
                 overrideBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 overrideBackgroundPaint.setColor(color);
-                overrideTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                overrideTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
                 overrideTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 overrideTextPaint.setTextSize(AndroidUtilities.dp(Math.max(16, SharedConfig.fontSize) - 2));
                 overrideTextPaint.setColor(getThemedColor(overrideText));

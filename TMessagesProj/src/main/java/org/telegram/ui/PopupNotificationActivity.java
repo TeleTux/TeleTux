@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
@@ -447,7 +448,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
 
         ActionBarMenu menu = actionBar.createMenu();
         ActionBarMenuItem view = menu.addItemWithWidth(2, 0, AndroidUtilities.dp(56));
-        countText = new TextView(this);
+        countText = new SuperTextView(this);
         countText.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubtitle));
         countText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         countText.setGravity(Gravity.CENTER);
@@ -473,7 +474,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         layoutParams2.topMargin = AndroidUtilities.dp(3);
         avatarImageView.setLayoutParams(layoutParams2);
 
-        nameTextView = new TextView(this);
+        nameTextView = new SuperTextView(this);
         nameTextView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultTitle));
         nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
         nameTextView.setLines(1);
@@ -481,7 +482,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         nameTextView.setSingleLine(true);
         nameTextView.setEllipsize(TextUtils.TruncateAt.END);
         nameTextView.setGravity(Gravity.LEFT);
-        nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         avatarContainer.addView(nameTextView);
         layoutParams2 = (FrameLayout.LayoutParams) nameTextView.getLayoutParams();
         layoutParams2.width = LayoutHelper.WRAP_CONTENT;
@@ -491,7 +492,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         layoutParams2.gravity = Gravity.BOTTOM;
         nameTextView.setLayoutParams(layoutParams2);
 
-        onlineTextView = new TextView(this);
+        onlineTextView = new SuperTextView(this);
         onlineTextView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubtitle));
         onlineTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         onlineTextView.setLines(1);
@@ -808,10 +809,10 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                             view.setOnTouchListener((v, event) -> true);
                         }
 
-                        TextView textView = new TextView(this);
+                        TextView textView = new SuperTextView(this);
                         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                         textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText));
-                        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                         textView.setText(button.text.toUpperCase());
                         textView.setTag(button);
                         textView.setGravity(Gravity.CENTER);
@@ -875,7 +876,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 backupImageView.setTag(311);
                 frameLayout.addView(backupImageView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
-                TextView textView = new TextView(this);
+                TextView textView = new SuperTextView(this);
                 textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                 textView.setGravity(Gravity.CENTER);
@@ -986,7 +987,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 linearLayout.setPadding(AndroidUtilities.dp(10), AndroidUtilities.dp(10), AndroidUtilities.dp(10), AndroidUtilities.dp(10));
                 linearLayout.setOnClickListener(v -> openCurrentMessage());
 
-                TextView textView = new TextView(this);
+                TextView textView = new SuperTextView(this);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                 textView.setTag(301);
                 textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));

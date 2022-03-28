@@ -12,6 +12,7 @@ import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
@@ -77,7 +78,7 @@ public class CounterView extends View {
         int animationType = -1;
 
         public Paint circlePaint;
-        public TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        public TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         public RectF rectF = new RectF();
         public boolean addServiceGradient;
 

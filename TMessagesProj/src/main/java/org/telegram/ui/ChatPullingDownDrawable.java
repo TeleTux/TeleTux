@@ -13,6 +13,7 @@ import android.graphics.RectF;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
@@ -43,8 +44,8 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
     float circleRadius;
 
     Paint arrowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-    TextPaint textPaint2 = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+    TextPaint textPaint2 = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
     private Paint xRefPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Path path = new Path();
 

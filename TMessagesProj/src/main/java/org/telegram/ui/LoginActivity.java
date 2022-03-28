@@ -47,6 +47,7 @@ import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
@@ -74,6 +75,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Space;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.ViewSwitcher;
 
 import androidx.annotation.IntDef;
@@ -1648,7 +1650,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             setOrientation(VERTICAL);
             setGravity(Gravity.CENTER);
 
-            titleView = new TextView(context);
+            titleView = new SuperTextView(context);
             titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
             titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             titleView.setText(LocaleController.getString(R.string.YourNumber));
@@ -1656,7 +1658,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             titleView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
             addView(titleView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 32, 0, 32, 0));
 
-            subtitleView = new TextView(context);
+            subtitleView = new SuperTextView(context);
             subtitleView.setText(LocaleController.getString("StartText", R.string.StartText));
             subtitleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             subtitleView.setGravity(Gravity.CENTER);
@@ -1665,7 +1667,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
             countryButton = new TextViewSwitcher(context);
             countryButton.setFactory(() -> {
-                TextView tv = new TextView(context);
+                TextView tv = new SuperTextView(context);
                 tv.setPadding(AndroidUtilities.dp(16), AndroidUtilities.dp(12), AndroidUtilities.dp(16), AndroidUtilities.dp(12));
                 tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                 tv.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
@@ -1717,7 +1719,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             phoneOutlineView.setText(LocaleController.getString(R.string.PhoneNumber));
             addView(phoneOutlineView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 58, 16, 8, 16, 8));
 
-            plusTextView = new TextView(context);
+            plusTextView = new SuperTextView(context);
             plusTextView.setText("+");
             plusTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             plusTextView.setFocusable(false);
@@ -2917,13 +2919,13 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             currentType = type;
             setOrientation(VERTICAL);
 
-            confirmTextView = new TextView(context);
+            confirmTextView = new SuperTextView(context);
             confirmTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             confirmTextView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
 
-            titleTextView = new TextView(context);
+            titleTextView = new SuperTextView(context);
             titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
-            titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             titleTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
             titleTextView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
             titleTextView.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
@@ -2945,7 +2947,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 addView(frameLayout, LayoutHelper.createLinear(64, 64, Gravity.CENTER_HORIZONTAL, 0, 16, 0, 0));
                 addView(titleTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 8, 0, 0));
 
-                missedCallDescriptionSubtitle = new TextView(context);
+                missedCallDescriptionSubtitle = new SuperTextView(context);
                 missedCallDescriptionSubtitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 missedCallDescriptionSubtitle.setGravity(Gravity.CENTER_HORIZONTAL);
                 missedCallDescriptionSubtitle.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
@@ -2962,7 +2964,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
                 LinearLayout linearLayout = new LinearLayout(context);
                 linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-                prefixTextView = new TextView(context);
+                prefixTextView = new SuperTextView(context);
                 prefixTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
                 prefixTextView.setMaxLines(1);
                 prefixTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -2974,7 +2976,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
                 addView(linearLayout, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 34, Gravity.CENTER_HORIZONTAL, 0, 28, 0, 0));
 
-                missedCallDescriptionSubtitle = new TextView(context);
+                missedCallDescriptionSubtitle = new SuperTextView(context);
                 missedCallDescriptionSubtitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 missedCallDescriptionSubtitle.setGravity(Gravity.CENTER_HORIZONTAL);
                 missedCallDescriptionSubtitle.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
@@ -3046,7 +3048,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
             problemFrame = new FrameLayout(context);
 
-            timeText = new TextView(context);
+            timeText = new SuperTextView(context);
             timeText.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
             timeText.setPadding(0, AndroidUtilities.dp(2), 0, AndroidUtilities.dp(10));
             timeText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
@@ -3092,7 +3094,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             anim.setInterpolator(Easings.easeInOutQuad);
             errorViewSwitcher.setOutAnimation(anim);
 
-            problemText = new TextView(context);
+            problemText = new SuperTextView(context);
             problemText.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
             problemText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             problemText.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
@@ -3100,7 +3102,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             problemFrame.addView(problemText, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
             errorViewSwitcher.addView(problemFrame);
 
-            wrongCode = new TextView(context);
+            wrongCode = new SuperTextView(context);
             wrongCode.setText(LocaleController.getString("WrongCode", R.string.WrongCode));
             wrongCode.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
             wrongCode.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
@@ -4033,7 +4035,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             lockFrameLayout.setVisibility(AndroidUtilities.isSmallScreen() || (AndroidUtilities.displaySize.x > AndroidUtilities.displaySize.y && !AndroidUtilities.isTablet()) ? GONE : VISIBLE);
             addView(lockFrameLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL));
 
-            titleView = new TextView(context);
+            titleView = new SuperTextView(context);
             titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
             titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             titleView.setText(LocaleController.getString(R.string.YourPasswordHeader));
@@ -4041,7 +4043,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             titleView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
             addView(titleView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 32, 16, 32, 0));
 
-            confirmTextView = new TextView(context);
+            confirmTextView = new SuperTextView(context);
             confirmTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             confirmTextView.setGravity(Gravity.CENTER_HORIZONTAL);
             confirmTextView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
@@ -4075,7 +4077,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             });
             addView(outlineCodeField, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 16, 32, 16, 0));
 
-            cancelButton = new TextView(context);
+            cancelButton = new SuperTextView(context);
             cancelButton.setGravity(Gravity.CENTER | Gravity.LEFT);
             cancelButton.setText(LocaleController.getString("ForgotPassword", R.string.ForgotPassword));
             cancelButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
@@ -4380,7 +4382,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             waitFrameLayout.setVisibility(AndroidUtilities.displaySize.x > AndroidUtilities.displaySize.y && !AndroidUtilities.isTablet() ? GONE : VISIBLE);
             innerLinearLayout.addView(waitFrameLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL));
 
-            titleView = new TextView(context);
+            titleView = new SuperTextView(context);
             titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
             titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             titleView.setText(LocaleController.getString(R.string.ResetAccount));
@@ -4388,7 +4390,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             titleView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
             innerLinearLayout.addView(titleView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 32, 16, 32, 0));
 
-            confirmTextView = new TextView(context);
+            confirmTextView = new SuperTextView(context);
             confirmTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             confirmTextView.setGravity(Gravity.CENTER_HORIZONTAL);
             confirmTextView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
@@ -4396,21 +4398,21 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
             addView(innerLinearLayout, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 0, 1f));
 
-            resetAccountText = new TextView(context);
+            resetAccountText = new SuperTextView(context);
             resetAccountText.setGravity(Gravity.CENTER_HORIZONTAL);
             resetAccountText.setText(LocaleController.getString("ResetAccountStatus", R.string.ResetAccountStatus));
             resetAccountText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             resetAccountText.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
             addView(resetAccountText, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 24, 0, 0));
 
-            resetAccountTime = new TextView(context);
+            resetAccountTime = new SuperTextView(context);
             resetAccountTime.setGravity(Gravity.CENTER_HORIZONTAL);
             resetAccountTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
             resetAccountTime.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             resetAccountTime.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
             addView(resetAccountTime, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 8, 0, 0));
 
-            resetAccountButton = new TextView(context);
+            resetAccountButton = new SuperTextView(context);
             resetAccountButton.setGravity(Gravity.CENTER);
             resetAccountButton.setText(LocaleController.getString(R.string.ResetAccount));
             resetAccountButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -4593,7 +4595,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             inboxFrameLayout.setVisibility(AndroidUtilities.isSmallScreen() || (AndroidUtilities.displaySize.x > AndroidUtilities.displaySize.y && !AndroidUtilities.isTablet()) ? GONE : VISIBLE);
             addView(inboxFrameLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL));
 
-            titleView = new TextView(context);
+            titleView = new SuperTextView(context);
             titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
             titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             titleView.setText(LocaleController.getString(R.string.EnterCode));
@@ -4601,7 +4603,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             titleView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
             addView(titleView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 32, 16, 32, 0));
 
-            confirmTextView = new TextView(context);
+            confirmTextView = new SuperTextView(context);
             confirmTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             confirmTextView.setGravity(Gravity.CENTER);
             confirmTextView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
@@ -4882,7 +4884,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             codeField = new EditTextBoldCursor[stage == 1 ? 1 : 2];
             outlineFields = new OutlineTextContainerView[codeField.length];
 
-            titleTextView = new TextView(context);
+            titleTextView = new SuperTextView(context);
             titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
             titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             titleTextView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
@@ -4890,7 +4892,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             titleTextView.setText(LocaleController.getString(R.string.SetNewPassword));
             addView(titleTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 8, AndroidUtilities.isSmallScreen() ? 16 : 72, 8, 0));
 
-            confirmTextView = new TextView(context);
+            confirmTextView = new SuperTextView(context);
             confirmTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             confirmTextView.setGravity(Gravity.CENTER_HORIZONTAL);
             confirmTextView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
@@ -4991,7 +4993,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 confirmTextView.setText(LocaleController.getString("PasswordHintTextLogin", R.string.PasswordHintTextLogin));
             }
 
-            cancelButton = new TextView(context);
+            cancelButton = new SuperTextView(context);
             cancelButton.setGravity(Gravity.CENTER | Gravity.LEFT);
             cancelButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             cancelButton.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
@@ -5454,7 +5456,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
             showAvatarProgress(false, false);
 
-            titleTextView = new TextView(context);
+            titleTextView = new SuperTextView(context);
             titleTextView.setText(LocaleController.getString(R.string.RegistrationProfileInfo));
             titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
             titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -5462,7 +5464,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             titleTextView.setGravity(Gravity.CENTER_HORIZONTAL);
             addView(titleTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 8, 12, 8, 0));
 
-            descriptionTextView = new TextView(context);
+            descriptionTextView = new SuperTextView(context);
             descriptionTextView.setText(LocaleController.getString("RegisterText2", R.string.RegisterText2));
             descriptionTextView.setGravity(Gravity.CENTER_HORIZONTAL);
             descriptionTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -5523,7 +5525,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             });
             buildEditTextLayout(AndroidUtilities.isSmallScreen());
 
-            wrongNumber = new TextView(context);
+            wrongNumber = new SuperTextView(context);
             wrongNumber.setText(LocaleController.getString("CancelRegistration", R.string.CancelRegistration));
             wrongNumber.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_HORIZONTAL);
             wrongNumber.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -5541,7 +5543,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             FrameLayout privacyLayout = new FrameLayout(context);
             addView(privacyLayout, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.BOTTOM));
 
-            privacyView = new TextView(context);
+            privacyView = new SuperTextView(context);
             privacyView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
             privacyView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, AndroidUtilities.isSmallScreen() ? 13 : 14);
             privacyView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
@@ -6113,13 +6115,13 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
             addView(popupLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 140, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 24, 0, 24, 0));
 
-            confirmMessageView = new TextView(context);
+            confirmMessageView = new SuperTextView(context);
             confirmMessageView.setText(LocaleController.getString(R.string.ConfirmCorrectNumber));
             confirmMessageView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             confirmMessageView.setSingleLine();
             popupLayout.addView(confirmMessageView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT, 24, 20, 24, 0));
 
-            numberView = new TextView(context);
+            numberView = new SuperTextView(context);
             numberView.setText(numberText);
             numberView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
             numberView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -6129,7 +6131,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             int buttonPadding = AndroidUtilities.dp(16);
             int buttonMargin = 8;
 
-            editTextView = new TextView(context);
+            editTextView = new SuperTextView(context);
             editTextView.setText(LocaleController.getString(R.string.Edit));
             editTextView.setSingleLine();
             editTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
@@ -6139,7 +6141,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             editTextView.setPadding(buttonPadding, buttonPadding / 2, buttonPadding, buttonPadding / 2);
             popupLayout.addView(editTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM | (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT), buttonMargin, buttonMargin, buttonMargin, buttonMargin));
 
-            confirmTextView = new TextView(context);
+            confirmTextView = new SuperTextView(context);
             confirmTextView.setText(LocaleController.getString(R.string.CheckPhoneNumberYes));
             confirmTextView.setSingleLine();
             confirmTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);

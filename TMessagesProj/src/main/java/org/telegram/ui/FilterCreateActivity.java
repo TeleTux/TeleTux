@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.Editable;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -15,6 +16,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
@@ -283,7 +285,7 @@ public class FilterCreateActivity extends BaseFragment {
         if (creatingNew) {
             actionBar.setTitle(LocaleController.getString("FilterNew", R.string.FilterNew));
         } else {
-            TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            TextPaint paint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             paint.setTextSize(AndroidUtilities.dp(20));
             actionBar.setTitle(filter.name);
         }

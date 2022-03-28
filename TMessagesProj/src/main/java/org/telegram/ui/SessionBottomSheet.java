@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
@@ -64,14 +65,14 @@ public class SessionBottomSheet extends BottomSheet {
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         linearLayout.addView(imageView, LayoutHelper.createLinear(70, 70, Gravity.CENTER_HORIZONTAL, 0, 16, 0, 0));
 
-        TextView nameView = new TextView(context);
+        TextView nameView = new SuperTextView(context);
         nameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         nameView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         nameView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         nameView.setGravity(Gravity.CENTER);
         linearLayout.addView(nameView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 21, 12, 21, 0));
 
-        TextView timeView = new TextView(context);
+        TextView timeView = new SuperTextView(context);
         timeView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
         timeView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
         timeView.setGravity(Gravity.CENTER);
@@ -228,7 +229,7 @@ public class SessionBottomSheet extends BottomSheet {
         linearLayout.addView(acceptCalls);
 
         if (!isCurrentSession) {
-            TextView buttonTextView = new TextView(context);
+            TextView buttonTextView = new SuperTextView(context);
             buttonTextView.setPadding(AndroidUtilities.dp(34), 0, AndroidUtilities.dp(34), 0);
             buttonTextView.setGravity(Gravity.CENTER);
             buttonTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -381,13 +382,13 @@ public class SessionBottomSheet extends BottomSheet {
             linearLayout.setOrientation(LinearLayout.VERTICAL);
             addView(linearLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 64, 4, 0, 4));
 
-            valueText = new TextView(context);
+            valueText = new SuperTextView(context);
             valueText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
             valueText.setGravity(Gravity.LEFT);
             valueText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             linearLayout.addView(valueText, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, needSwitch ? 46 : 0, 0));
 
-            descriptionText = new TextView(context);
+            descriptionText = new SuperTextView(context);
             descriptionText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
             descriptionText.setGravity(Gravity.LEFT);
             descriptionText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));

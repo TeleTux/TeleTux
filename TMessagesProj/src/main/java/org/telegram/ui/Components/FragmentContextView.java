@@ -34,6 +34,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -46,6 +47,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.Keep;
@@ -341,7 +343,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         titleTextView = new AudioPlayerAlert.ClippingTextViewSwitcher(context) {
             @Override
             protected TextView createTextView() {
-                TextView textView = new TextView(context);
+                TextView textView = new SuperTextView(context);
                 textView.setMaxLines(1);
                 textView.setLines(1);
                 textView.setSingleLine(true);
@@ -371,7 +373,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         subtitleTextView = new AudioPlayerAlert.ClippingTextViewSwitcher(context) {
             @Override
             protected TextView createTextView() {
-                TextView textView = new TextView(context);
+                TextView textView = new SuperTextView(context);
                 textView.setMaxLines(1);
                 textView.setLines(1);
                 textView.setSingleLine(true);
@@ -387,7 +389,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         joinButtonFlicker = new CellFlickerDrawable();
         joinButtonFlicker.setProgress(2f);
         joinButtonFlicker.repeatEnabled = false;
-        joinButton = new TextView(context) {
+        joinButton = new SuperTextView(context) {
             @Override
             public void draw(Canvas canvas) {
                 super.draw(canvas);
@@ -408,7 +410,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         joinButton.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
         joinButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4), getThemedColor(Theme.key_featuredStickers_addButton), getThemedColor(Theme.key_featuredStickers_addButtonPressed)));
         joinButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        joinButton.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        joinButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         joinButton.setGravity(Gravity.CENTER);
         joinButton.setPadding(AndroidUtilities.dp(14), 0, AndroidUtilities.dp(14), 0);
         addView(joinButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 28, Gravity.TOP | Gravity.RIGHT, 0, 10, 14, 0));
@@ -1901,10 +1903,10 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 TLRPC.Chat chat = ((ChatActivity) fragment).getCurrentChat();
                 if (call.isScheduled()) {
                     if (gradientPaint == null) {
-                        gradientTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                        gradientTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
                         gradientTextPaint.setColor(0xffffffff);
                         gradientTextPaint.setTextSize(AndroidUtilities.dp(14));
-                        gradientTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                        gradientTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
                         gradientPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
                         gradientPaint.setColor(0xffffffff);

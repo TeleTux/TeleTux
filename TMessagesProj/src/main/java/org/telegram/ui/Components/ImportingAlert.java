@@ -22,6 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -75,7 +76,7 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
             imageView.setScaleY(0.8f);
             linearLayout.addView(imageView, LayoutHelper.createLinear(20, 20, Gravity.CENTER_VERTICAL));
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setLines(1);
             textView.setSingleLine(true);
             textView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -83,7 +84,7 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
             textView.setGravity(Gravity.CENTER);
             textView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             linearLayout.addView(textView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 10, 0, 0, 0));
         }
 
@@ -129,8 +130,8 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
         FrameLayout frameLayout = new FrameLayout(context);
         setCustomView(frameLayout);
 
-        TextView textView = new TextView(context);
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        TextView textView = new SuperTextView(context);
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
         textView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
         textView.setSingleLine(true);
@@ -147,8 +148,8 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
         frameLayout.addView(imageView, LayoutHelper.createFrame(160, 160, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 17, 79, 17, 0));
         imageView.getAnimatedDrawable().setOnFinishCallback(onFinishCallback, 178);
 
-        percentTextView = new TextView(context);
-        percentTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        percentTextView = new SuperTextView(context);
+        percentTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         percentTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
         percentTextView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
         frameLayout.addView(percentTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 17, 262, 17, 0));
@@ -168,13 +169,13 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
         frameLayout.addView(cell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 50, Gravity.LEFT | Gravity.TOP, 34, 247, 34, 0));
 
         for (int a = 0; a < 2; a++) {
-            importCountTextView[a] = new TextView(context);
+            importCountTextView[a] = new SuperTextView(context);
             importCountTextView[a].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             importCountTextView[a].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             importCountTextView[a].setTextColor(getThemedColor(Theme.key_dialogTextBlack));
             frameLayout.addView(importCountTextView[a], LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 17, 340, 17, 0));
 
-            infoTextView[a] = new TextView(context);
+            infoTextView[a] = new SuperTextView(context);
             infoTextView[a].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             infoTextView[a].setTextColor(getThemedColor(Theme.key_dialogTextGray3));
             infoTextView[a].setGravity(Gravity.CENTER_HORIZONTAL);

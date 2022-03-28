@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
@@ -102,9 +103,9 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
 
     Paint linePaint = new Paint();
     Paint selectedLinePaint = new Paint();
-    Paint signaturePaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
-    Paint signaturePaint2 = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
-    Paint bottomSignaturePaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+    Paint signaturePaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
+    Paint signaturePaint2 = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
+    Paint bottomSignaturePaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
     Paint pickerSelectorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Paint unactiveBottomChartPaint = new Paint();
     Paint selectionBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);

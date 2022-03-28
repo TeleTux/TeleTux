@@ -11,6 +11,7 @@ import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -40,7 +41,7 @@ public class VideoSeekPreviewImage extends View {
 
     private String frameTime;
     private int timeWidth;
-    private TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    private TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
     private BitmapShader bitmapShader;
     private RectF dstR = new RectF();

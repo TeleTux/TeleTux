@@ -25,6 +25,7 @@ import android.view.ViewConfiguration;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -261,13 +262,13 @@ public class GroupCallRenderersContainer extends FrameLayout {
         addView(pinButton, LayoutHelper.createFrame(56, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP));
 
 
-        pinTextView = new TextView(context);
+        pinTextView = new SuperTextView(context);
         pinTextView.setTextColor(Color.WHITE);
         pinTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         pinTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         pinTextView.setText(LocaleController.getString("CallVideoPin", R.string.CallVideoPin));
 
-        unpinTextView = new TextView(context);
+        unpinTextView = new SuperTextView(context);
         unpinTextView.setTextColor(Color.WHITE);
         unpinTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         unpinTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -333,7 +334,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         speakingMembersToast.addView(speakingMembersAvatars, LayoutHelper.createFrame(100, 32, Gravity.CENTER_VERTICAL, 0, 0, 0, 0));
 
 
-        speakingMembersText = new TextView(context);
+        speakingMembersText = new SuperTextView(context);
         speakingMembersText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         speakingMembersText.setTextColor(Color.WHITE);
         speakingMembersText.setLines(1);

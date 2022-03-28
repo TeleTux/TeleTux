@@ -36,6 +36,7 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -159,7 +160,7 @@ public class AboutLinkCell extends FrameLayout {
 
         addView(container, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.FILL_HORIZONTAL));
 
-        showMoreTextView = new TextView(context) {
+        showMoreTextView = new SuperTextView(context) {
             private boolean pressed = false;
             @Override
             public boolean onTouchEvent(MotionEvent event) {

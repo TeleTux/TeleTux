@@ -18,6 +18,7 @@ import android.os.Build;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.util.Log;
 import android.util.LruCache;
 import android.util.Pair;
@@ -76,8 +77,8 @@ public class AvatarDrawable extends Drawable {
     public AvatarDrawable(Theme.ResourcesProvider resourcesProvider) {
         super();
         this.resourcesProvider = resourcesProvider;
-        namePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        namePaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        namePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+        namePaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         namePaint.setTextSize(AndroidUtilities.dp(18));
     }
 

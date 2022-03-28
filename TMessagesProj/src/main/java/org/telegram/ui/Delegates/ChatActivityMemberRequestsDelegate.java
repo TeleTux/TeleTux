@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.Nullable;
 
@@ -85,7 +86,7 @@ public class ChatActivityMemberRequestsDelegate {
             avatarsView.reset();
             requestsDataLayout.addView(avatarsView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP, 8, 0, 10, 0));
 
-            requestsCountTextView = new TextView(fragment.getParentActivity());
+            requestsCountTextView = new SuperTextView(fragment.getParentActivity());
             requestsCountTextView.setEllipsize(TextUtils.TruncateAt.END);
             requestsCountTextView.setGravity(Gravity.CENTER_VERTICAL);
             requestsCountTextView.setSingleLine();

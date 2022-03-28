@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.core.view.ViewCompat;
 
@@ -34,7 +35,7 @@ public class FadingTextViewLayout extends FrameLayout {
     public FadingTextViewLayout(Context context, boolean hasStaticChars) {
         super(context);
         for (int i = 0; i < 2 + (hasStaticChars ? 1 : 0); i++) {
-            final TextView textView = new TextView(context);
+            final TextView textView = new SuperTextView(context);
             onTextViewCreated(textView);
             addView(textView);
             if (i == 0) {

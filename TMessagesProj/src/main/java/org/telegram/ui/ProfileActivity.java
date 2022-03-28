@@ -43,6 +43,7 @@ import android.os.SystemClock;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.Property;
@@ -64,6 +65,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.Toast;
 
 import androidx.annotation.Keep;
@@ -1158,7 +1160,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             super(context);
             setVisibility(GONE);
 
-            textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             textPaint.setColor(Color.WHITE);
             textPaint.setTypeface(Typeface.SANS_SERIF);
             textPaint.setTextAlign(Paint.Align.CENTER);
@@ -3418,11 +3420,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 presentFragment(fragment);
             });
 
-            TextView textView = new TextView(context);
+            TextView textView = new SuperTextView(context);
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             textView.setGravity(Gravity.CENTER);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             textView.setText(LocaleController.getString("BanFromTheGroup", R.string.BanFromTheGroup));
             frameLayout1.addView(textView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 0, 1, 0, 0));
 
@@ -3552,7 +3554,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
             nameTextView[a].setTextSize(18);
             nameTextView[a].setGravity(Gravity.LEFT);
-            nameTextView[a].setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            nameTextView[a].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             nameTextView[a].setLeftDrawableTopPadding(-AndroidUtilities.dp(1.3f));
             nameTextView[a].setPivotX(0);
             nameTextView[a].setPivotY(0);
@@ -3586,7 +3588,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             onlineTextView[a].setTextColor(Theme.getColor(Theme.key_avatar_subtitleInProfileBlue));
             onlineTextView[a].setTextSize(14);
             onlineTextView[a].setGravity(Gravity.LEFT);
-            onlineTextView[a].setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            onlineTextView[a].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
             onlineTextView[a].setAlpha(a == 0 || a == 2 ? 0.0f : 1.0f);
             if (a > 0) {
@@ -3599,7 +3601,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         idTextView.setTextColor(Theme.getColor(Theme.key_avatar_subtitleInProfileBlue));
         idTextView.setTextSize(14);
         idTextView.setGravity(Gravity.LEFT);
-        idTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        idTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         idTextView.setAlpha(1.0f);
 
         frameLayout.addView(idTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118, 0, 48, 0));
@@ -3607,7 +3609,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         mediaCounterTextView = new AudioPlayerAlert.ClippingTextViewSwitcher(context) {
             @Override
             protected TextView createTextView() {
-                TextView textView = new TextView(context);
+                TextView textView = new SuperTextView(context);
                 textView.setTextColor(Theme.getColor(Theme.key_player_actionBarSubtitle));
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 textView.setSingleLine(true);
@@ -8639,11 +8641,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     final Object onlineTextViewTag = onlineTextView[1].getTag();
                     if (onlineTextViewTag instanceof String) {
                         onlineTextView[1].setTextColor(Theme.getColor((String) onlineTextViewTag));
-                        onlineTextView[1].setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                        onlineTextView[1].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
                     } else {
                         onlineTextView[1].setTextColor(Theme.getColor(Theme.key_avatar_subtitleInProfileBlue));
-                        onlineTextView[1].setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                        onlineTextView[1].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                     }
                 }
                 if (lockIconDrawable != null) {

@@ -44,6 +44,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -440,7 +441,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                 lockImageView.setVisibility(!AndroidUtilities.isSmallScreen() && AndroidUtilities.displaySize.x < AndroidUtilities.displaySize.y ? View.VISIBLE : View.GONE);
                 innerLinearLayout.addView(lockImageView, LayoutHelper.createLinear(120, 120, Gravity.CENTER_HORIZONTAL));
 
-                titleTextView = new TextView(context);
+                titleTextView = new SuperTextView(context);
                 titleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                 titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 if (type == TYPE_SETUP_CODE) {
@@ -458,7 +459,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
 
                 descriptionTextSwitcher = new TextViewSwitcher(context);
                 descriptionTextSwitcher.setFactory(() -> {
-                    TextView tv = new TextView(context);
+                    TextView tv = new SuperTextView(context);
                     tv.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
                     tv.setGravity(Gravity.CENTER_HORIZONTAL);
                     tv.setLineSpacing(AndroidUtilities.dp(2), 1);
@@ -469,7 +470,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                 descriptionTextSwitcher.setOutAnimation(context, R.anim.alpha_out);
                 innerLinearLayout.addView(descriptionTextSwitcher, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 20, 8, 20, 0));
 
-                TextView forgotPasswordButton = new TextView(context);
+                TextView forgotPasswordButton = new SuperTextView(context);
                 forgotPasswordButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 forgotPasswordButton.setTextColor(Theme.getColor(Theme.key_featuredStickers_addButton));
                 forgotPasswordButton.setPadding(AndroidUtilities.dp(32), 0, AndroidUtilities.dp(32), 0);
@@ -481,7 +482,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                 frameLayout.addView(forgotPasswordButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 56 : 60, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0, 0, 16));
                 VerticalPositionAutoAnimator.attach(forgotPasswordButton);
 
-                passcodesDoNotMatchTextView = new TextView(context);
+                passcodesDoNotMatchTextView = new SuperTextView(context);
                 passcodesDoNotMatchTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 passcodesDoNotMatchTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
                 passcodesDoNotMatchTextView.setText(LocaleController.getString(R.string.PasscodesDoNotMatchTryAgain));

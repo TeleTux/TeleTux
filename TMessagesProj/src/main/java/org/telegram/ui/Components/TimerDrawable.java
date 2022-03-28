@@ -17,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
@@ -26,7 +27,7 @@ import org.telegram.ui.ActionBar.Theme;
 
 public class TimerDrawable extends Drawable {
 
-    private TextPaint timePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    private TextPaint timePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private StaticLayout timeLayout;
@@ -35,7 +36,7 @@ public class TimerDrawable extends Drawable {
     private int time = 0;
 
     public TimerDrawable(Context context) {
-        timePaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        timePaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         timePaint.setTextSize(AndroidUtilities.dp(11));
 
         linePaint.setStrokeWidth(AndroidUtilities.dp(1));

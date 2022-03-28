@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageLocation;
@@ -55,12 +56,12 @@ public class ContactsEmptyView extends LinearLayout implements NotificationCente
             addView(stickerView, LayoutHelper.createLinear(130, 130, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 2, 0, 0));
         }
 
-        titleTextView = new TextView(context);
+        titleTextView = new SuperTextView(context);
         titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
         titleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         titleTextView.setGravity(Gravity.CENTER_HORIZONTAL);
         titleTextView.setText(LocaleController.getString("NoContactsYet", R.string.NoContactsYet));
-        titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         titleTextView.setMaxWidth(AndroidUtilities.dp(260));
         addView(titleTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 18, 0, 14));
 
@@ -78,7 +79,7 @@ public class ContactsEmptyView extends LinearLayout implements NotificationCente
             imageView.setImageResource(R.drawable.list_circle);
             imageViews.add(imageView);
 
-            TextView textView = new TextView(context);
+            TextView textView = new SuperTextView(context);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
             textView.setMaxWidth(AndroidUtilities.dp(260));

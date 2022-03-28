@@ -21,12 +21,14 @@ import android.os.Build;
 import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.text.style.DynamicDrawableSpan;
 import android.text.style.ImageSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import java.io.File;
 import java.io.InputStream;
@@ -264,7 +266,7 @@ public class Emoji {
         private boolean fullSize = false;
         private static Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
         private static Rect rect = new Rect();
-        private static TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        private static TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
         public EmojiDrawable(DrawableInfo i) {
             info = i;

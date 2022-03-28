@@ -22,12 +22,14 @@ import android.os.Build;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.viewpager.widget.ViewPager;
 

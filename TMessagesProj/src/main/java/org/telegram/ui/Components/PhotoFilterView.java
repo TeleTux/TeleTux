@@ -27,6 +27,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -417,24 +418,24 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         frameLayout.setBackgroundColor(0xff000000);
         toolsView.addView(frameLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.BOTTOM | Gravity.LEFT));
 
-        cancelTextView = new TextView(context);
+        cancelTextView = new SuperTextView(context);
         cancelTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         cancelTextView.setTextColor(0xffffffff);
         cancelTextView.setGravity(Gravity.CENTER);
         cancelTextView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.ACTION_BAR_PICKER_SELECTOR_COLOR, 0));
         cancelTextView.setPadding(AndroidUtilities.dp(20), 0, AndroidUtilities.dp(20), 0);
         cancelTextView.setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
-        cancelTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        cancelTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         frameLayout.addView(cancelTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
 
-        doneTextView = new TextView(context);
+        doneTextView = new SuperTextView(context);
         doneTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         doneTextView.setTextColor(getThemedColor(Theme.key_dialogFloatingButton));
         doneTextView.setGravity(Gravity.CENTER);
         doneTextView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.ACTION_BAR_PICKER_SELECTOR_COLOR, 0));
         doneTextView.setPadding(AndroidUtilities.dp(20), 0, AndroidUtilities.dp(20), 0);
         doneTextView.setText(LocaleController.getString("Done", R.string.Done).toUpperCase());
-        doneTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        doneTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         frameLayout.addView(doneTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.RIGHT));
 
         LinearLayout linearLayout = new LinearLayout(context);
@@ -508,7 +509,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
             curveRadioButton[a].setSize(AndroidUtilities.dp(20));
             frameLayout1.addView(curveRadioButton[a], LayoutHelper.createFrame(30, 30, Gravity.TOP | Gravity.CENTER_HORIZONTAL));
 
-            TextView curveTextView = new TextView(context);
+            TextView curveTextView = new SuperTextView(context);
             curveTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
             curveTextView.setGravity(Gravity.CENTER_VERTICAL);
             if (a == 0) {
@@ -549,7 +550,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         blurLayout.setVisibility(INVISIBLE);
         toolsView.addView(blurLayout, LayoutHelper.createFrame(280, 60, Gravity.CENTER_HORIZONTAL, 0, 40, 0, 0));
 
-        blurOffButton = new TextView(context);
+        blurOffButton = new SuperTextView(context);
         blurOffButton.setCompoundDrawablePadding(AndroidUtilities.dp(2));
         blurOffButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         blurOffButton.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -564,7 +565,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
             }
         });
 
-        blurRadialButton = new TextView(context);
+        blurRadialButton = new SuperTextView(context);
         blurRadialButton.setCompoundDrawablePadding(AndroidUtilities.dp(2));
         blurRadialButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         blurRadialButton.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -580,7 +581,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
             }
         });
 
-        blurLinearButton = new TextView(context);
+        blurLinearButton = new SuperTextView(context);
         blurLinearButton.setCompoundDrawablePadding(AndroidUtilities.dp(2));
         blurLinearButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         blurLinearButton.setGravity(Gravity.CENTER_HORIZONTAL);

@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.core.view.ViewCompat;
 
@@ -65,10 +66,10 @@ public class HeaderCell extends LinearLayout {
         setOrientation(LinearLayout.VERTICAL);
         setPadding(AndroidUtilities.dp(padding), AndroidUtilities.dp(topMargin), AndroidUtilities.dp(padding), 0);
 
-        textView = new TextView(getContext());
+        textView = new SuperTextView(getContext());
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         if (bigTitle) {
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Bold.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/mw_bold.ttf"));
         }
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
@@ -76,11 +77,10 @@ public class HeaderCell extends LinearLayout {
         textView.setTag(textColorKey);
         addView(textView, LayoutHelper.createLinear(-1, -2));
 
-        textView2 = new TextView(getContext());
+        textView2 = new SuperTextView(getContext());
         textView2.setTextSize(13);
         textView2.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
         textView2.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
-        textView2.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Bold.ttf"));
         addView(textView2, LayoutHelper.createLinear(-2, -2, 0, 4, 0, 0));
 
         if (!text2) textView2.setVisibility(View.GONE);

@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import com.v2ray.ang.V2RayConfig;
 import com.v2ray.ang.dto.AngConfig;
@@ -96,7 +97,7 @@ public class VmessSettingsActivity extends BaseFragment {
 
             setWillNotDraw(false);
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             textView.setLines(1);

@@ -21,6 +21,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 
@@ -166,7 +167,7 @@ public class VoIPTextureView extends FrameLayout {
         screencastImage.setImageResource(R.drawable.screencast_big);
         screencastView.addView(screencastImage, LayoutHelper.createFrame(82, 82, Gravity.CENTER, 0, 0, 0, 60));
 
-        screencastText = new TextView(getContext());
+        screencastText = new SuperTextView(getContext());
         screencastText.setText(LocaleController.getString("VoipVideoScreenSharing", R.string.VoipVideoScreenSharing));
         screencastText.setGravity(Gravity.CENTER);
         screencastText.setLineSpacing(AndroidUtilities.dp(2), 1.0f);

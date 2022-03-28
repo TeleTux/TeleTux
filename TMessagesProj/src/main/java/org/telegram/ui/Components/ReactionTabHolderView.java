@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -55,7 +56,7 @@ public class ReactionTabHolderView extends FrameLayout {
 
         reactView = new BackupImageView(context);
         addView(reactView, LayoutHelper.createFrameRelatively(24, 24, Gravity.START | Gravity.CENTER_VERTICAL, 8, 0, 8, 0));
-        counterView = new TextView(context);
+        counterView = new SuperTextView(context);
         counterView.setTextColor(Theme.getColor(Theme.key_avatar_nameInMessageBlue));
         counterView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(counterView, LayoutHelper.createFrameRelatively(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 40, 0, 8, 0));

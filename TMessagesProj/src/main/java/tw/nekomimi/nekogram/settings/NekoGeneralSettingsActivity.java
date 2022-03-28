@@ -11,6 +11,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.Gravity;
@@ -796,7 +797,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
 
             setWillNotDraw(false);
 
-            textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             textPaint.setTextSize(AndroidUtilities.dp(16));
 
             sizeBar = new SeekBarView(context);

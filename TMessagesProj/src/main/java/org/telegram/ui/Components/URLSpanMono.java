@@ -11,6 +11,7 @@ package org.telegram.ui.Components;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.style.MetricAffectingSpan;
 
 import org.telegram.messenger.AndroidUtilities;

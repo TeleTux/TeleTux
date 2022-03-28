@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.core.widget.NestedScrollView;
 
@@ -85,7 +86,7 @@ public class ClearHistoryAlert extends BottomSheet {
             background.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4), getThemedColor(Theme.key_featuredStickers_addButton), getThemedColor(Theme.key_featuredStickers_addButtonPressed)));
             addView(background, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, 0, 16, 16, 16, 16));
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setLines(1);
             textView.setSingleLine(true);
             textView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -93,7 +94,7 @@ public class ClearHistoryAlert extends BottomSheet {
             textView.setGravity(Gravity.CENTER);
             textView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             addView(textView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         }
 
@@ -243,8 +244,8 @@ public class ClearHistoryAlert extends BottomSheet {
         boolean deleteChatForAll = false;
 
         if (!autoDeleteOnly) {
-            TextView textView = new TextView(context);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            TextView textView = new SuperTextView(context);
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
             textView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
             textView.setText(LocaleController.getString("ClearHistory", R.string.ClearHistory));
@@ -252,7 +253,7 @@ public class ClearHistoryAlert extends BottomSheet {
             textView.setEllipsize(TextUtils.TruncateAt.END);
             linearLayout.addView(textView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.LEFT, 23, 20, 23, 0));
 
-            TextView messageTextView = new TextView(getContext());
+            TextView messageTextView = new SuperTextView(getContext());
             messageTextView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
             messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             messageTextView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
@@ -314,14 +315,14 @@ public class ClearHistoryAlert extends BottomSheet {
             lottieImageView.playAnimation();
             linearLayout.addView(lottieImageView, LayoutHelper.createLinear(160, 160, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 17, 0, 17, 0));
 
-            TextView percentTextView = new TextView(context);
-            percentTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            TextView percentTextView = new SuperTextView(context);
+            percentTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             percentTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
             percentTextView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
             percentTextView.setText(LocaleController.getString("AutoDeleteAlertTitle", R.string.AutoDeleteAlertTitle));
             linearLayout.addView(percentTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 17, 18, 17, 0));
 
-            TextView infoTextView = new TextView(context);
+            TextView infoTextView = new SuperTextView(context);
             infoTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             infoTextView.setTextColor(getThemedColor(Theme.key_dialogTextGray3));
             infoTextView.setGravity(Gravity.CENTER_HORIZONTAL);

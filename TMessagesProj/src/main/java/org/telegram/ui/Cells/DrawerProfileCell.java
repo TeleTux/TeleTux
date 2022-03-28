@@ -31,6 +31,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.Toast;
 
 import androidx.palette.graphics.Palette;
@@ -149,7 +150,7 @@ public class DrawerProfileCell extends FrameLayout {
 
         nameTextView = new EmojiTextView(context);
         nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         nameTextView.setLines(1);
         nameTextView.setMaxLines(1);
         nameTextView.setSingleLine(true);
@@ -160,13 +161,13 @@ public class DrawerProfileCell extends FrameLayout {
         phoneTextView = new AudioPlayerAlert.ClippingTextViewSwitcher(context) {
             @Override
             protected TextView createTextView() {
-                TextView textView = new TextView(context);
+                TextView textView = new SuperTextView(context);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
                 textView.setLines(1);
                 textView.setMaxLines(1);
                 textView.setSingleLine(true);
                 textView.setGravity(Gravity.LEFT);
-                textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 return textView;
             }
         };

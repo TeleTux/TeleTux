@@ -9,6 +9,7 @@
 package org.telegram.ui.Components;
 
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 
 import org.telegram.ui.ActionBar.Theme;
 

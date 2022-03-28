@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
@@ -600,7 +601,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                 }
             });
 
-            helpTextView = new TextView(context);
+            helpTextView = new SuperTextView(context);
             helpTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             helpTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText8));
             helpTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
@@ -726,7 +727,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             permanentLinkView.setUsers(0, null);
             privateContainer.addView(permanentLinkView);
 
-            checkTextView = new TextView(context);
+            checkTextView = new SuperTextView(context);
             checkTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             checkTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
             checkTextView.setVisibility(View.GONE);

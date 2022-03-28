@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.IntDef;
 
@@ -476,14 +477,14 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         imageView = new RLottieImageView(context);
         viewGroup.addView(imageView);
 
-        titleTextView = new TextView(context);
+        titleTextView = new SuperTextView(context);
         titleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         titleTextView.setGravity(Gravity.CENTER_HORIZONTAL);
         titleTextView.setPadding(AndroidUtilities.dp(32), 0, AndroidUtilities.dp(32), 0);
         titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
         viewGroup.addView(titleTextView);
 
-        subtitleTextView = new TextView(context);
+        subtitleTextView = new SuperTextView(context);
         subtitleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         subtitleTextView.setGravity(Gravity.CENTER_HORIZONTAL);
         subtitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
@@ -497,7 +498,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         subtitleTextView.setVisibility(View.GONE);
         viewGroup.addView(subtitleTextView);
 
-        descriptionText = new TextView(context);
+        descriptionText = new SuperTextView(context);
         descriptionText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
         descriptionText.setGravity(Gravity.CENTER_HORIZONTAL);
         descriptionText.setLineSpacing(AndroidUtilities.dp(2), 1);
@@ -523,14 +524,14 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                 linearLayout.setOrientation(LinearLayout.HORIZONTAL);
                 descriptionLayout.addView(linearLayout, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, a != 2 ? 7 : 0));
 
-                desctiptionLines[a * 2] = new TextView(context);
+                desctiptionLines[a * 2] = new SuperTextView(context);
                 desctiptionLines[a * 2].setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                 desctiptionLines[a * 2].setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
                 desctiptionLines[a * 2].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
                 desctiptionLines[a * 2].setText(String.format(LocaleController.isRTL ? ".%d" : "%d.", a + 1));
-                desctiptionLines[a * 2].setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                desctiptionLines[a * 2].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
-                desctiptionLines[a * 2 + 1] = new TextView(context);
+                desctiptionLines[a * 2 + 1] = new SuperTextView(context);
                 desctiptionLines[a * 2 + 1].setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                 desctiptionLines[a * 2 + 1].setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
                 desctiptionLines[a * 2 + 1].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
@@ -566,7 +567,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
             descriptionText.setVisibility(View.GONE);
         }
 
-        descriptionText2 = new TextView(context);
+        descriptionText2 = new SuperTextView(context);
         descriptionText2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
         descriptionText2.setGravity(Gravity.CENTER_HORIZONTAL);
         descriptionText2.setLineSpacing(AndroidUtilities.dp(2), 1);
@@ -579,7 +580,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         }
         viewGroup.addView(descriptionText2);
 
-        buttonTextView = new TextView(context) {
+        buttonTextView = new SuperTextView(context) {
             CellFlickerDrawable cellFlickerDrawable;
 
             @Override

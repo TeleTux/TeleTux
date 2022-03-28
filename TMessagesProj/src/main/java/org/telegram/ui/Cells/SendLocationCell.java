@@ -83,14 +83,14 @@ public class SendLocationCell extends FrameLayout {
         titleTextView.setTag(live ? Theme.key_location_sendLiveLocationText : Theme.key_location_sendLocationText);
         titleTextView.setTextColor(getThemedColor(live ? Theme.key_location_sendLiveLocationText : Theme.key_location_sendLocationText));
         titleTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
-        titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(titleTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 20, Gravity.TOP | (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT), LocaleController.isRTL ? 16 : 73, 12, LocaleController.isRTL ? 73 : 16, 0));
 
         accurateTextView = new SimpleTextView(context);
         accurateTextView.setTextSize(14);
         accurateTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText3));
         accurateTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
-        accurateTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        accurateTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(accurateTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 20, Gravity.TOP | (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT), LocaleController.isRTL ? 16 : 73, 37, LocaleController.isRTL ? 73 : 16, 0));
     }
 

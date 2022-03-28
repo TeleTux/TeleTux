@@ -49,6 +49,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.Toast;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -339,7 +340,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         }
         floatingButtonContainer.setBackground(drawable);
 
-        bottomSkipButton = new TextView(context);
+        bottomSkipButton = new SuperTextView(context);
         bottomSkipButton.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText2));
         bottomSkipButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         bottomSkipButton.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
@@ -413,7 +414,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             imageView.setVisibility(isLandscape() ? View.GONE : View.VISIBLE);
         }
 
-        titleTextView = new TextView(context);
+        titleTextView = new SuperTextView(context);
         titleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         titleTextView.setGravity(Gravity.CENTER_HORIZONTAL);
         titleTextView.setPadding(AndroidUtilities.dp(32), 0, AndroidUtilities.dp(32), 0);
@@ -427,7 +428,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         descriptionText.setVisibility(View.GONE);
         descriptionText.setPadding(AndroidUtilities.dp(32), 0, AndroidUtilities.dp(32), 0);
 
-        descriptionText2 = new TextView(context);
+        descriptionText2 = new SuperTextView(context);
         descriptionText2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
         descriptionText2.setGravity(Gravity.CENTER_HORIZONTAL);
         descriptionText2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -444,7 +445,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             }
         });
 
-        buttonTextView = new TextView(context);
+        buttonTextView = new SuperTextView(context);
         buttonTextView.setMinWidth(AndroidUtilities.dp(220));
         buttonTextView.setPadding(AndroidUtilities.dp(34), 0, AndroidUtilities.dp(34), 0);
         buttonTextView.setGravity(Gravity.CENTER);
@@ -916,7 +917,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 frameLayout2.addView(descriptionText2, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP));
 
                 if (currentType == TYPE_EMAIL_RECOVERY) {
-                    descriptionText3 = new TextView(context);
+                    descriptionText3 = new SuperTextView(context);
                     descriptionText3.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText));
                     descriptionText3.setGravity(Gravity.CENTER_HORIZONTAL);
                     descriptionText3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);

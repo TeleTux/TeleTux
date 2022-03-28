@@ -63,6 +63,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -678,7 +679,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             speakerDrawable.setCustomEndFrame(currentProgress == 0 ? 17 : 34);
             speakerDrawable.setCurrentFrame(speakerDrawable.getCustomEndFrame() - 1, false, true);
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setLines(1);
             textView.setSingleLine(true);
             textView.setGravity(Gravity.LEFT);
@@ -1008,7 +1009,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             imageView.setScaleType(ImageView.ScaleType.CENTER);
             addView(imageView, LayoutHelper.createFrame(50, 50, Gravity.CENTER_HORIZONTAL | Gravity.TOP));
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setTextColor(Theme.getColor(Theme.key_voipgroup_actionBarItems));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
             textView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -3033,7 +3034,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             scheduleStartInTextView = new SimpleTextView(context);
             scheduleStartInTextView.setGravity(Gravity.CENTER);
             scheduleStartInTextView.setTextColor(0xffffffff);
-            scheduleStartInTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            scheduleStartInTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             scheduleStartInTextView.setTextSize(18);
             scheduleStartInTextView.setText(LocaleController.getString("VoipChatStartsIn", R.string.VoipChatStartsIn));
             containerView.addView(scheduleStartInTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 21, 0, 21, 231 + 80)); //-80
@@ -3113,14 +3114,14 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             };
             scheduleTimeTextView.setGravity(Gravity.CENTER);
             scheduleTimeTextView.setTextColor(0xffffffff);
-            scheduleTimeTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            scheduleTimeTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             scheduleTimeTextView.setTextSize(60);
             containerView.addView(scheduleTimeTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 21, 0, 21, 231));
 
             scheduleStartAtTextView = new SimpleTextView(context);
             scheduleStartAtTextView.setGravity(Gravity.CENTER);
             scheduleStartAtTextView.setTextColor(0xffffffff);
-            scheduleStartAtTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            scheduleStartAtTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             scheduleStartAtTextView.setTextSize(18);
             containerView.addView(scheduleStartAtTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 21, 0, 21, 231 - 30)); //+ 30
         }
@@ -4353,7 +4354,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         radialProgressView.setProgressColor(Theme.getColor(Theme.key_voipgroup_connectingProgress));
 
         for (int a = 0; a < 2; a++) {
-            muteLabel[a] = new TextView(context);
+            muteLabel[a] = new SuperTextView(context);
             muteLabel[a].setTextColor(Theme.getColor(Theme.key_voipgroup_actionBarItems));
             muteLabel[a].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
             muteLabel[a].setGravity(Gravity.CENTER_HORIZONTAL);
@@ -4465,10 +4466,10 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         titleTextView = new AudioPlayerAlert.ClippingTextViewSwitcher(context) {
             @Override
             protected TextView createTextView() {
-                TextView textView = new TextView(context);
+                TextView textView = new SuperTextView(context);
                 textView.setTextColor(Theme.getColor(Theme.key_voipgroup_actionBarItems));
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-                textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 textView.setGravity(Gravity.LEFT | Gravity.TOP);
                 textView.setSingleLine(true);
                 textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -4945,7 +4946,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         oldCount = listAdapter.getItemCount();
 
         if (schedulePeer != null) {
-            scheduleInfoTextView = new TextView(context);
+            scheduleInfoTextView = new SuperTextView(context);
             scheduleInfoTextView.setGravity(Gravity.CENTER);
             scheduleInfoTextView.setTextColor(0xff7B8389);
             scheduleInfoTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -4980,7 +4981,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             minutePicker.setSelectorColor(0xff6D89ED);
             minutePicker.setTextOffset(-AndroidUtilities.dp(34));
 
-            scheduleButtonTextView = new TextView(context);
+            scheduleButtonTextView = new SuperTextView(context);
             scheduleButtonTextView.setLines(1);
             scheduleButtonTextView.setSingleLine(true);
             scheduleButtonTextView.setEllipsize(TextUtils.TruncateAt.END);
@@ -6985,7 +6986,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setDialogButtonColorKey(Theme.key_voipgroup_listeningText);
 
-            TextView messageTextView = new TextView(getContext());
+            TextView messageTextView = new SuperTextView(getContext());
             messageTextView.setTextColor(Theme.getColor(Theme.key_voipgroup_actionBarItems));
             messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             messageTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
@@ -7012,10 +7013,10 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 name = chat.title;
             }
 
-            TextView textView = new TextView(getContext());
+            TextView textView = new SuperTextView(getContext());
             textView.setTextColor(Theme.getColor(Theme.key_voipgroup_actionBarItems));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             textView.setLines(1);
             textView.setMaxLines(1);
             textView.setSingleLine(true);
@@ -8130,7 +8131,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                     };
                     break;
                 case VIEW_TYPE_VIDEO_NOT_AVAILABLE:
-                    TextView textView = new TextView(mContext);
+                    TextView textView = new SuperTextView(mContext);
                     textView.setTextColor(0xff7B8389);
                     textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
                     textView.setGravity(Gravity.CENTER_HORIZONTAL);

@@ -37,6 +37,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Magnifier;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -491,12 +492,12 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                         });
                         popupLayout.setShownFromBotton(false);
 
-                        deleteView = new TextView(textSelectionOverlay.getContext());
+                        deleteView = new SuperTextView(textSelectionOverlay.getContext());
                         deleteView.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector), 2));
                         deleteView.setGravity(Gravity.CENTER_VERTICAL);
                         deleteView.setPadding(AndroidUtilities.dp(20), 0, AndroidUtilities.dp(20), 0);
                         deleteView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-                        deleteView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                        deleteView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                         deleteView.setText(textSelectionOverlay.getContext().getString(android.R.string.copy));
                         deleteView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
                         deleteView.setOnClickListener(v -> {

@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -429,7 +430,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
 
                             @Override
                             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                                TextView textView = new TextView(context1) {
+                                TextView textView = new SuperTextView(context1) {
                                     @Override
                                     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
                                         super.onMeasure(MeasureSpec.makeMeasureSpec(widthMeasureSpec, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48), MeasureSpec.EXACTLY));

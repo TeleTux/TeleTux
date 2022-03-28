@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -52,7 +53,7 @@ public class LocationCell extends FrameLayout {
         imageView.setSize(AndroidUtilities.dp(30), AndroidUtilities.dp(30));
         addView(imageView, LayoutHelper.createFrame(42, 42, Gravity.TOP | (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT), LocaleController.isRTL ? 0 : 15, 11, LocaleController.isRTL ? 15 : 0, 0));
 
-        nameTextView = new TextView(context);
+        nameTextView = new SuperTextView(context);
         nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         nameTextView.setMaxLines(1);
         nameTextView.setEllipsize(TextUtils.TruncateAt.END);
@@ -62,14 +63,14 @@ public class LocationCell extends FrameLayout {
         nameTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
         addView(nameTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT), (LocaleController.isRTL ? 16 : 73), 10, (LocaleController.isRTL ? 73 : 16), 0));
 
-        addressTextView = new TextView(context);
+        addressTextView = new SuperTextView(context);
         addressTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         addressTextView.setMaxLines(1);
         addressTextView.setEllipsize(TextUtils.TruncateAt.END);
         addressTextView.setSingleLine(true);
         addressTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText3));
         addressTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
-        addressTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        addressTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(addressTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT), (LocaleController.isRTL ? 16 : 73), 35, (LocaleController.isRTL ? 73 : 16), 0));
 
         imageView.setAlpha(enterAlpha);

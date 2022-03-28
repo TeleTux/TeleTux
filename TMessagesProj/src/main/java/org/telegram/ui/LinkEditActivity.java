@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
@@ -110,7 +111,7 @@ public class LinkEditActivity extends BaseFragment {
             }
         });
 
-        createTextView = new TextView(context);
+        createTextView = new SuperTextView(context);
         createTextView.setEllipsize(TextUtils.TruncateAt.END);
         createTextView.setGravity(Gravity.CENTER_VERTICAL);
         createTextView.setOnClickListener(this::onCreateClicked);
@@ -269,12 +270,12 @@ public class LinkEditActivity extends BaseFragment {
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         scrollView.addView(linearLayout);
 
-        buttonTextView = new TextView(context);
+        buttonTextView = new SuperTextView(context);
 
         buttonTextView.setPadding(AndroidUtilities.dp(34), 0, AndroidUtilities.dp(34), 0);
         buttonTextView.setGravity(Gravity.CENTER);
         buttonTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        buttonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        buttonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
         if (type == CREATE_TYPE) {
             buttonTextView.setText(LocaleController.getString("CreateLink", R.string.CreateLink));
@@ -318,7 +319,7 @@ public class LinkEditActivity extends BaseFragment {
         linearLayout.addView(timeHeaderCell);
         timeChooseView = new SlideChooseView(context);
         linearLayout.addView(timeChooseView);
-        timeEditText = new TextView(context);
+        timeEditText = new SuperTextView(context);
         timeEditText.setPadding(AndroidUtilities.dp(22), 0, AndroidUtilities.dp(22), 0);
         timeEditText.setGravity(Gravity.CENTER_VERTICAL);
         timeEditText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);

@@ -49,6 +49,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AndroidUtilities;
@@ -365,7 +366,7 @@ public class ChangePhoneActivity extends BaseFragment {
 
             setOrientation(VERTICAL);
 
-            countryButton = new TextView(context);
+            countryButton = new SuperTextView(context);
             countryButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
             countryButton.setPadding(AndroidUtilities.dp(4), AndroidUtilities.dp(4), AndroidUtilities.dp(4), AndroidUtilities.dp(4));
             countryButton.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
@@ -395,7 +396,7 @@ public class ChangePhoneActivity extends BaseFragment {
             linearLayout.setOrientation(HORIZONTAL);
             addView(linearLayout, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 20, 0, 0));
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setText("+");
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
@@ -609,7 +610,7 @@ public class ChangePhoneActivity extends BaseFragment {
                 return false;
             });
 
-            textView2 = new TextView(context);
+            textView2 = new SuperTextView(context);
             textView2.setText(LocaleController.getString("ChangePhoneHelp", R.string.ChangePhoneHelp));
             textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
             textView2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -860,15 +861,15 @@ public class ChangePhoneActivity extends BaseFragment {
             currentType = type;
             setOrientation(VERTICAL);
 
-            confirmTextView = new TextView(context);
+            confirmTextView = new SuperTextView(context);
             confirmTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
             confirmTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             confirmTextView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
 
-            titleTextView = new TextView(context);
+            titleTextView = new SuperTextView(context);
             titleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
-            titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             titleTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
             titleTextView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
             titleTextView.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
@@ -927,7 +928,7 @@ public class ChangePhoneActivity extends BaseFragment {
                 codeFieldContainer.setVisibility(GONE);
             }
 
-            timeText = new TextView(context) {
+            timeText = new SuperTextView(context) {
                 @Override
                 protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
                     super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(100), MeasureSpec.AT_MOST));
@@ -949,7 +950,7 @@ public class ChangePhoneActivity extends BaseFragment {
                 addView(timeText, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL));
             }
 
-            problemText = new TextView(context) {
+            problemText = new SuperTextView(context) {
                 @Override
                 protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
                     super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(100), MeasureSpec.AT_MOST));
@@ -1125,7 +1126,7 @@ public class ChangePhoneActivity extends BaseFragment {
                     codeField[a].setImeOptions(EditorInfo.IME_ACTION_NEXT | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
                     codeField[a].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
                     codeField[a].setMaxLines(1);
-                    codeField[a].setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                    codeField[a].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                     codeField[a].setPadding(0, 0, 0, 0);
                     codeField[a].setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
                     if (currentType == 3) {

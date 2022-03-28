@@ -13,6 +13,7 @@ import android.text.InputType;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.EditTextBoldCursor;
@@ -20,7 +21,7 @@ import org.telegram.ui.Components.EditTextBoldCursor;
 public class EditTextOutline extends EditTextBoldCursor {
 
     private Canvas mCanvas = new Canvas();
-    private TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    private TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Bitmap mCache;
     private boolean mUpdateCachedBitmap;

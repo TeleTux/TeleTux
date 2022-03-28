@@ -58,6 +58,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.Toast;
 
 import org.osmdroid.api.IGeoPoint;
@@ -341,17 +342,17 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 }
             });
 
-            TextView nameTextView = new TextView(context);
+            TextView nameTextView = new SuperTextView(context);
             nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             nameTextView.setMaxLines(1);
             nameTextView.setEllipsize(TextUtils.TruncateAt.END);
             nameTextView.setSingleLine(true);
             nameTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-            nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             nameTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
             lastPressedMarkerView.addView(nameTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT), 18, 10, 18, 0));
 
-            TextView addressTextView = new TextView(context);
+            TextView addressTextView = new SuperTextView(context);
             addressTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             addressTextView.setMaxLines(1);
             addressTextView.setEllipsize(TextUtils.TruncateAt.END);
@@ -720,7 +721,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             searchAreaButton.setBackgroundDrawable(drawable);
             searchAreaButton.setTextColor(Theme.getColor(Theme.key_location_actionActiveIcon));
             searchAreaButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            searchAreaButton.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            searchAreaButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             searchAreaButton.setText(LocaleController.getString("PlacesInThisArea", R.string.PlacesInThisArea));
             searchAreaButton.setGravity(Gravity.CENTER);
             searchAreaButton.setPadding(AndroidUtilities.dp(20), 0, AndroidUtilities.dp(20), 0);
@@ -966,15 +967,15 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         emptyImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_dialogEmptyImage), PorterDuff.Mode.MULTIPLY));
         emptyView.addView(emptyImageView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
 
-        emptyTitleTextView = new TextView(context);
+        emptyTitleTextView = new SuperTextView(context);
         emptyTitleTextView.setTextColor(Theme.getColor(Theme.key_dialogEmptyText));
         emptyTitleTextView.setGravity(Gravity.CENTER);
-        emptyTitleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        emptyTitleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         emptyTitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
         emptyTitleTextView.setText(LocaleController.getString("NoPlacesFound", R.string.NoPlacesFound));
         emptyView.addView(emptyTitleTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 0, 11, 0, 0));
 
-        emptySubtitleTextView = new TextView(context);
+        emptySubtitleTextView = new SuperTextView(context);
         emptySubtitleTextView.setTextColor(Theme.getColor(Theme.key_dialogEmptyText));
         emptySubtitleTextView.setGravity(Gravity.CENTER);
         emptySubtitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
@@ -1377,7 +1378,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
 
 
     private TextView getAttributionOverlay(Context context) {
-        attributionOverlay = new TextView(context);
+        attributionOverlay = new SuperTextView(context);
         attributionOverlay.setText(Html.fromHtml("© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"));
         attributionOverlay.setShadowLayer(1, -1, -1, Color.WHITE);
         attributionOverlay.setLinksClickable(true);

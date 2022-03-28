@@ -22,6 +22,7 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.Gravity;
@@ -190,11 +191,11 @@ public class SharedLinkCell extends FrameLayout {
         urlPath = new LinkPath();
         urlPath.setUseRoundRect(true);
 
-        titleTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        titleTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        titleTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+        titleTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         titleTextPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
 
-        descriptionTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        descriptionTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
         titleTextPaint.setTextSize(AndroidUtilities.dp(14));
         descriptionTextPaint.setTextSize(AndroidUtilities.dp(14));
@@ -212,11 +213,11 @@ public class SharedLinkCell extends FrameLayout {
         addView(checkBox, LayoutHelper.createFrame(24, 24, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 0 : 44, 44, LocaleController.isRTL ? 44 : 0, 0));
 
         if (viewType == VIEW_TYPE_GLOBAL_SEARCH) {
-            description2TextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            description2TextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             description2TextPaint.setTextSize(AndroidUtilities.dp(13));
         }
 
-        captionTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        captionTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         captionTextPaint.setTextSize(AndroidUtilities.dp(13));
     }
 

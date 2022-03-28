@@ -54,6 +54,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
@@ -83,6 +84,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.Toast;
 
 import androidx.annotation.Keep;
@@ -867,7 +869,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         private String tooltipMessage;
         private StaticLayout tooltipLayout;
         private float tooltipWidth;
-        private TextPaint tooltipPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        private TextPaint tooltipPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         private float tooltipAlpha;
         private boolean showTooltip;
         private long showTooltipStartTime;
@@ -2949,7 +2951,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             }
         });
 
-        recordedAudioTimeTextView = new TextView(context);
+        recordedAudioTimeTextView = new SuperTextView(context);
         recordedAudioTimeTextView.setTextColor(getThemedColor(Theme.key_chat_messagePanelVoiceDuration));
         recordedAudioTimeTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         waveFormTimerLayout.addView(recordedAudioSeekBar, LayoutHelper.createLinear(0, 32, 1f, Gravity.CENTER_VERTICAL, 0, 0, 4, 0));
@@ -9355,13 +9357,13 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         public SlideTextView(@NonNull Context context) {
             super(context);
             smallSize = AndroidUtilities.displaySize.x <= AndroidUtilities.dp(320);
-            grayPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            grayPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             grayPaint.setTextSize(AndroidUtilities.dp(smallSize ? 13 : 15));
 
-            bluePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            bluePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             bluePaint.setTextSize(AndroidUtilities.dp(15));
 
-            bluePaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            bluePaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
             arrowPaint.setColor(getThemedColor(Theme.key_chat_messagePanelIcons));
             arrowPaint.setStyle(Paint.Style.STROKE);
@@ -9559,7 +9561,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
         float replaceTransition;
 
-        final TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        final TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         final float replaceDistance = AndroidUtilities.dp(15);
         float left;
 
@@ -9567,7 +9569,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         public TimerView(Context context) {
             super(context);
             textPaint.setTextSize(AndroidUtilities.dp(15));
-            textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             updateColors();
         }
 

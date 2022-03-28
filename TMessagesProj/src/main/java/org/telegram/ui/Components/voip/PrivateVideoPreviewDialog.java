@@ -26,6 +26,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -150,7 +151,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
         });
         addView(actionBar);
 
-        positiveButton = new TextView(getContext()) {
+        positiveButton = new SuperTextView(getContext()) {
 
             private Paint[] gradientPaint = new Paint[titles.length];
             {
@@ -231,7 +232,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
         addView(titlesLayout, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 64, Gravity.BOTTOM));
 
         for (int a = 0; a < titles.length; a++) {
-            titles[a] = new TextView(context);
+            titles[a] = new SuperTextView(context);
             titles[a].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
             titles[a].setTextColor(0xffffffff);
             titles[a].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -518,7 +519,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
                 imageView.setImageResource(R.drawable.screencast_big);
                 frameLayout.addView(imageView, LayoutHelper.createFrame(82, 82, Gravity.CENTER, 0, 0, 0, 60));
 
-                TextView textView = new TextView(getContext());
+                TextView textView = new SuperTextView(getContext());
                 textView.setText(LocaleController.getString("VoipVideoPrivateScreenSharing", R.string.VoipVideoPrivateScreenSharing));
                 textView.setGravity(Gravity.CENTER);
                 textView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);

@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
@@ -20,9 +21,9 @@ public class PieLegendView extends LegendSignatureView {
         super(context);
         LinearLayout root = new LinearLayout(getContext());
         root.setPadding(AndroidUtilities.dp(4), AndroidUtilities.dp(2), AndroidUtilities.dp(4), AndroidUtilities.dp(2));
-        root.addView(signature = new TextView(getContext()));
+        root.addView(signature = new SuperTextView(getContext()));
         signature.getLayoutParams().width = AndroidUtilities.dp(96);
-        root.addView(value = new TextView(getContext()));
+        root.addView(value = new SuperTextView(getContext()));
         addView(root);
         value.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
 

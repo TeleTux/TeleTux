@@ -24,6 +24,7 @@ import android.os.Vibrator;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
@@ -726,7 +727,7 @@ public class ContentPreviewViewer {
                 return;
             }
             if (textPaint == null) {
-                textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
                 textPaint.setTextSize(AndroidUtilities.dp(24));
             }
 

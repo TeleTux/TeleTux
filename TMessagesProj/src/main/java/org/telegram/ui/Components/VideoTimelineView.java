@@ -23,6 +23,7 @@ import android.os.AsyncTask;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -489,7 +490,7 @@ public class VideoTimelineView extends View {
         private Drawable tooltipBackground;
         private Drawable tooltipBackgroundArrow;
         private StaticLayout tooltipLayout;
-        private TextPaint tooltipPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        private TextPaint tooltipPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         private long lastTime = -1;
 
         private float tooltipAlpha;

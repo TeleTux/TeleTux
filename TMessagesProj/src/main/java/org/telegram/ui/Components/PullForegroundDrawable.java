@@ -13,6 +13,7 @@ import android.graphics.PixelFormat;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.animation.LinearInterpolator;
@@ -44,7 +45,7 @@ public class PullForegroundDrawable {
     private final Paint paintBackgroundAccent = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint backgroundPaint = new Paint();
     private final RectF rectF = new RectF();
-    private final Paint tooltipTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint tooltipTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
     private final ArrowDrawable arrowDrawable = new ArrowDrawable();
     private final Path circleClipPath = new Path();
 
@@ -105,7 +106,7 @@ public class PullForegroundDrawable {
     };
 
     public PullForegroundDrawable(String pullText, String releaseText) {
-        tooltipTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        tooltipTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         tooltipTextPaint.setTextAlign(Paint.Align.CENTER);
         tooltipTextPaint.setTextSize(AndroidUtilities.dp(16));
 

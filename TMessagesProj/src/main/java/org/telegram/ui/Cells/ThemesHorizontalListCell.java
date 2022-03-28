@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.SystemClock;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
@@ -126,7 +127,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
         private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         private Drawable optionsDrawable;
 
-        private TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        private TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         private Drawable inDrawable;
         private Drawable outDrawable;
         private boolean isLast;

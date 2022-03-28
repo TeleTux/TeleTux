@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 
@@ -89,15 +90,15 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
         stickerView = new BackupImageView(context);
         stickerView.setOnClickListener(view -> stickerView.getImageReceiver().startAnimation());
 
-        title = new TextView(context);
+        title = new SuperTextView(context);
 
-        title.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        title.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         title.setTag(Theme.key_windowBackgroundWhiteBlackText);
         title.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
         title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
         title.setGravity(Gravity.CENTER);
 
-        subtitle = new TextView(context);
+        subtitle = new SuperTextView(context);
         subtitle.setTag(Theme.key_windowBackgroundWhiteGrayText);
         subtitle.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText));
         subtitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);

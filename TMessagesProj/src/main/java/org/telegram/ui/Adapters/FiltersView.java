@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -710,7 +711,7 @@ public class FiltersView extends RecyclerListView {
             avatarImageView = new BackupImageView(context);
             addView(avatarImageView, LayoutHelper.createFrame(32, 32));
 
-            titleView = new TextView(context);
+            titleView = new SuperTextView(context);
             titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             addView(titleView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 38, 0, 16, 0));
             updateColors();

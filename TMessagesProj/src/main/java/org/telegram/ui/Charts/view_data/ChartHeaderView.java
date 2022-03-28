@@ -5,12 +5,14 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.core.content.ContextCompat;
 
@@ -41,31 +43,31 @@ public class ChartHeaderView extends FrameLayout {
 
     public ChartHeaderView(Context context) {
         super(context);
-        TextPaint textPaint = new TextPaint();
+        TextPaint textPaint = new SuperTextPaint();
         textPaint.setTextSize(14);
-        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textMargin = (int) textPaint.measureText("00 MMM 0000 - 00 MMM 000");
 
-        title = new TextView(context);
+        title = new SuperTextView(context);
         title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        title.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        title.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(title, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 16, 0, textMargin, 0));
 
-        back = new TextView(context);
+        back = new SuperTextView(context);
         back.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         back.setTypeface(Typeface.DEFAULT_BOLD);
         back.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         addView(back, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 8, 0, 8, 0));
 
-        dates = new TextView(context);
+        dates = new SuperTextView(context);
         dates.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
-        dates.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        dates.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         dates.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
         addView(dates, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 16, 0, 16, 0));
 
-        datesTmp = new TextView(context);
+        datesTmp = new SuperTextView(context);
         datesTmp.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
-        datesTmp.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        datesTmp.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         datesTmp.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
         addView(datesTmp, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 16, 0, 16, 0));
         datesTmp.setVisibility(View.GONE);

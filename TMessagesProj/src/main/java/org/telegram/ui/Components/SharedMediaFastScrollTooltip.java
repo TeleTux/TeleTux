@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.core.graphics.ColorUtils;
 
@@ -28,7 +29,7 @@ public class SharedMediaFastScrollTooltip extends FrameLayout {
 
     public SharedMediaFastScrollTooltip(Context context) {
         super(context);
-        TextView textView = new TextView(context);
+        TextView textView = new SuperTextView(context);
         textView.setText(LocaleController.getString("SharedMediaFastScrollHint", R.string.SharedMediaFastScrollHint));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         textView.setMaxLines(3);

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.core.graphics.ColorUtils;
 
@@ -125,7 +126,7 @@ public class StroageUsageView extends FrameLayout {
         linearLayout.addView(legendLayout, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 21, 40, 21, 16));
 
 
-        calculatingTextView = new TextView(context);
+        calculatingTextView = new SuperTextView(context);
         calculatingTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
 
         String calculatingString = LocaleController.getString("CalculatingSize",R.string.CalculatingSize);
@@ -140,19 +141,19 @@ public class StroageUsageView extends FrameLayout {
         }
 
 
-        telegramCacheTextView = new TextView(context);
+        telegramCacheTextView = new SuperTextView(context);
         telegramCacheTextView.setCompoundDrawablePadding(AndroidUtilities.dp(6));
         telegramCacheTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
 
-        telegramDatabaseTextView = new TextView(context);
+        telegramDatabaseTextView = new SuperTextView(context);
         telegramDatabaseTextView.setCompoundDrawablePadding(AndroidUtilities.dp(6));
         telegramDatabaseTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
 
-        freeSizeTextView = new TextView(context);
+        freeSizeTextView = new SuperTextView(context);
         freeSizeTextView.setCompoundDrawablePadding(AndroidUtilities.dp(6));
         freeSizeTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
 
-        totlaSizeTextView = new TextView(context);
+        totlaSizeTextView = new SuperTextView(context);
         totlaSizeTextView.setCompoundDrawablePadding(AndroidUtilities.dp(6));
         totlaSizeTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
 
