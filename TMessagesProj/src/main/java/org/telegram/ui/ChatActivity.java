@@ -25160,8 +25160,19 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     MessageObject finalMessageObject = messageObject;
                     builder.addItems(
                             // TODO:                     builder.setItems(noforwards ? new CharSequence[] {LocaleController.getString("Open", R.string.Open)} : new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
-                            new String[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy), LocaleController.getString("ShareQRCode", R.string.ShareQRCode)},
-                            new int[]{R.drawable.baseline_open_in_browser_24, R.drawable.baseline_content_copy_24, R.drawable.wallet_qr}, (which, text, __) -> {
+                            new String[]{
+                                    LocaleController.getString("Open", R.string.Open),
+                                    LocaleController.getString("Copy", R.string.Copy),
+                                    LocaleController.getString("ShareQRCode", R.string.ShareQRCode),
+                                    LocaleController.getString("ShareMessages", R.string.ShareMessages)
+                            },
+                            new int[]{
+                                    R.drawable.baseline_open_in_browser_24,
+                                    R.drawable.baseline_content_copy_24,
+                                    R.drawable.wallet_qr,
+                                    R.drawable.baseline_share_24
+                            },
+                            (which, text, __) -> {
                                 if (which == 0) {
                                     if (str.startsWith("video?")) {
                                         didPressMessageUrl(url, false, finalMessageObject, finalCell);
@@ -25214,6 +25225,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     } else {
                                         undoView.showWithAction(0, UndoView.ACTION_LINK_COPIED, null);
                                     }
+                                } else if (which == 2) {
+                                    ProxyUtil.showQrDialog(getParentActivity(), str);
+                                } else if (which == 3) {
+                                    Intent intent = new Intent(Intent.ACTION_SEND);
+                                    intent.setType("text/plain");
+                                    intent.putExtra(Intent.EXTRA_TEXT, str);
+                                    try {
+                                        getParentActivity().startActivity(intent);
+                                    } catch (Exception e) {
+                                        AlertUtil.showToast(e);
+                                    }
                                 }
                                 return Unit.INSTANCE;
                             });
@@ -25229,8 +25251,19 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 builder.addTitle(urlFinal);
                 // TODO:                 builder.setItems(noforwards ? new CharSequence[] {LocaleController.getString("Open", R.string.Open)} : new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
                 builder.addItems(
-                        new String[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy), LocaleController.getString("ShareQRCode", R.string.ShareQRCode)},
-                        new int[]{R.drawable.baseline_open_in_browser_24, R.drawable.baseline_content_copy_24, R.drawable.wallet_qr}, (which, text, __) -> {
+                        new String[]{
+                                LocaleController.getString("Open", R.string.Open),
+                                LocaleController.getString("Copy", R.string.Copy),
+                                LocaleController.getString("ShareQRCode", R.string.ShareQRCode),
+                                LocaleController.getString("ShareMessages", R.string.ShareMessages)
+                        },
+                        new int[]{
+                                R.drawable.baseline_open_in_browser_24,
+                                R.drawable.baseline_content_copy_24,
+                                R.drawable.wallet_qr,
+                                R.drawable.baseline_share_24
+                        },
+                        (which, text, __) -> {
                             if (which == 0) {
                                 processExternalUrl(1, urlFinal, false);
                             } else if (which == 1) {
@@ -25252,8 +25285,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 } else {
                                     undoView.showWithAction(0, UndoView.ACTION_LINK_COPIED, null);
                                 }
-                            } else {
+                            } else if (which == 2) {
                                 ProxyUtil.showQrDialog(getParentActivity(), urlFinal);
+                            } else if (which == 3) {
+                                Intent intent = new Intent(Intent.ACTION_SEND);
+                                intent.setType("text/plain");
+                                intent.putExtra(Intent.EXTRA_TEXT, urlFinal);
+                                try {
+                                    getParentActivity().startActivity(intent);
+                                } catch (Exception e) {
+                                    AlertUtil.showToast(e);
+                                }
                             }
                             return Unit.INSTANCE;
                         });
