@@ -12129,7 +12129,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         showFieldPanel(show, messageObjectToReply, messageObjectToEdit, null, messageObjectsToForward, webPage, cancel, true);
     }
 
-    public void showFieldPanel(boolean show, MessageObject messageObjectToReply, MessageObject messageObjectToEdit, MessageObject messageObjectToForwardEdit, ArrayList<MessageObject> messageObjectsToForward, TLRPC.WebPage webPage, boolean notify, int scheduleDate, boolean cancel, boolean animated) {
+    public static void showFieldPanel(boolean show, MessageObject messageObjectToReply, MessageObject messageObjectToEdit, MessageObject messageObjectToForwardEdit, ArrayList<MessageObject> messageObjectsToForward, TLRPC.WebPage webPage, boolean notify, int scheduleDate, boolean cancel, boolean animated) {
         if (chatActivityEnterView == null) {
             return;
         }
