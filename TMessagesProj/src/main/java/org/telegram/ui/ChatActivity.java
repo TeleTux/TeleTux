@@ -12464,7 +12464,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
-    private void scrollToLastMessage(boolean skipSponsored) {
+    public void scrollToLastMessage(boolean skipSponsored) {
         if (chatListView.isFastScrollAnimationRunning()) {
             return;
         }
