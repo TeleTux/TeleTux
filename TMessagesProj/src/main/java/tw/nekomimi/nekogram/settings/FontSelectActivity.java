@@ -58,17 +58,17 @@ public class FontSelectActivity extends BaseFragment {
         //scrollView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         scrollView.addView(linearLayout);
         CreateFontRow(linearLayout, LocaleController.getString("DefaultFont" ,R.string.DefaultFont), "Vazirmatn-Regular.ttf", true);
-        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnLight" ,R.string.IranSansLight), "Vazirmatn-Light.ttf", true);
-        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnBold" ,R.string.IranSans), "Vazirmatn-Bold.ttf", true);
-        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnBlack" ,R.string.IranSansMedium), "Vazirmatn-Black.ttf", true);
-        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnExtraBold" ,R.string.IranSansBold), "Vazirmatn-ExtraBold.ttf", true);
-        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnExtraLight" ,R.string.Yekan), "Vazirmatn-ExtraLight.ttf", true);
-        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnMedium" ,R.string.Homa), "Vazirmatn-Medium.ttf", true);
-        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnSemiBold" ,R.string.Handwrite), "Vazirmatn-SemiBold.ttf", true);
-        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnThin" ,R.string.Morvarid), "Vazirmatn-Thin.ttf", true);
-        CreateFontRow(linearLayout, LocaleController.getString("Samim" ,R.string.Badkhat), "Samim.ttf", true);
-        CreateFontRow(linearLayout, LocaleController.getString("SamimMedium" ,R.string.Badkhat), "Samim-Medium.ttf", true);
-        CreateFontRow(linearLayout, LocaleController.getString("SamimBold" ,R.string.Badkhat), "Samim-Bold.ttf", true);
+        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnLight" ,R.string.VazirmatnLight), "Vazirmatn-Light.ttf", true);
+        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnBold" ,R.string.VazirmatnBold), "Vazirmatn-Bold.ttf", true);
+        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnBlack" ,R.string.VazirmatnBlack), "Vazirmatn-Black.ttf", true);
+        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnExtraBold" ,R.string.VazirmatnExtraBold), "Vazirmatn-ExtraBold.ttf", true);
+        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnExtraLight" ,R.string.VazirmatnExtraLight), "Vazirmatn-ExtraLight.ttf", true);
+        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnMedium" ,R.string.VazirmatnMedium), "Vazirmatn-Medium.ttf", true);
+        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnSemiBold" ,R.string.VazirmatnSemiBold), "Vazirmatn-SemiBold.ttf", true);
+        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnThin" ,R.string.VazirmatnThin), "Vazirmatn-Thin.ttf", true);
+        CreateFontRow(linearLayout, LocaleController.getString("Samim" ,R.string.Samim), "Samim.ttf", true);
+        CreateFontRow(linearLayout, LocaleController.getString("SamimMedium" ,R.string.SamimMedium), "Samim-Medium.ttf", true);
+        CreateFontRow(linearLayout, LocaleController.getString("SamimBold" ,R.string.SamimBold), "Samim-Bold.ttf", true);
         frameLayout.addView(scrollView);
         return fragmentView;
     }
