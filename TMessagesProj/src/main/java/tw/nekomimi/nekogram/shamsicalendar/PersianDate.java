@@ -206,6 +206,14 @@ public class PersianDate {
     }
   }
 
+  public String getPersianShortDateTime() {
+    if (displayPersianCalendarByLatin) {
+        return "" + formatToMilitary(this.getShYear()) + this.delimiter + formatToMilitary(getShMonth() + 1) + this.delimiter + formatToMilitary(this.getShDay()) + "" + formatToMilitary(this.getHour()) + ":" + formatToMilitary(this.getMinute());
+    } else {
+        return LanguageUtils.getPersianNumbers("" + formatToMilitary(this.getShYear()) + this.delimiter + formatToMilitary(this.getShMonth() + 1) + this.delimiter + formatToMilitary(this.getShDay()) + "" + formatToMilitary(this.getHour()) + ":" + formatToMilitary(this.getMinute());
+    }
+  }
+
   public String getPersianNormalDate() {
     if (displayPersianCalendarByLatin) {
       return this.getShDay() + " " + this.monthNamesLatin() + " " + this.getShYear();
