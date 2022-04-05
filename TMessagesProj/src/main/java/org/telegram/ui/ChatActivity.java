@@ -342,6 +342,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private final static int nkbtn_PGPImportPrivate = 2023;
     private final static int nkbtn_PGPImport = 2024;
 
+    //test
+    private SharedPreferences chatPreferences;
+    private boolean isGhost;
+    private boolean isHideType;
+    public static boolean isUserNotGhost = false;
+    public static boolean isUserNotTyping = false;
+    private final static int user_not_ghost = 1000;
+    private final static int user_not_typing = 1001;
+    private ActionBarMenuSubItem userNotGhostItem;
+    private ActionBarMenuSubItem userNotTypingItem;
+
     protected TLRPC.Chat currentChat;
     protected TLRPC.User currentUser;
     protected TLRPC.EncryptedChat currentEncryptedChat;
@@ -1668,6 +1679,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     @Override
     public boolean onFragmentCreate() {
+        chatPreferences = ApplicationLoader.applicationContext.getSharedPreferences("TuxChatActivity" + currentAccount, Activity.MODE_PRIVATE);
+        isGhost = ApplicationLoader.Tuxpreferences.getBoolean("GhostMode", false);
+        isHideType = ApplicationLoader.Tuxpreferences.getBoolean("HideTypeMode", false);
         final long chatId = arguments.getLong("chat_id", 0);
         final long userId = arguments.getLong("user_id", 0);
         final int encId = arguments.getInt("enc_id", 0);
@@ -2041,6 +2055,32 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), (dialogInterface, i) -> finishFragment());
                 showDialog(builder.create());
             }, timeout * 1000L);
+        }
+        if (currentUser != null && isGhost) {
+            ArrayList<Long> userNotGhostList = ApplicationLoader.superDatabaseManager.ghost.getChatsNotGhostList();
+            if (userNotGhostList.size() > 0) {
+                for (int i = 0; i < userNotGhostList.size(); i++) {
+                    if (currentUser.id == userNotGhostList.get(i)) {
+                        isUserNotGhost = true;
+                        break;
+                    } else {
+                        isUserNotGhost = false;
+                    }
+                }
+            }
+        }
+        if (currentUser != null && isHideType) {
+            ArrayList<Long> userNotTypingList = ApplicationLoader.superDatabaseManager.ghost.getChatsNotTypingList();
+            if (userNotTypingList.size() > 0) {
+                for (int i = 0; i < userNotTypingList.size(); i++) {
+                    if (currentUser.id == userNotTypingList.get(i)) {
+                        isUserNotTyping = true;
+                        break;
+                    } else {
+                        isUserNotTyping = false;
+                    }
+                }
+            }
         }
 
         return true;
@@ -3117,6 +3157,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 headerItem.addSubItem(bot_settings, R.drawable.baseline_settings_24, LocaleController.getString("BotSettings", R.string.BotSettings), themeDelegate);
                 headerItem.addSubItem(bot_help, R.drawable.baseline_help_24, LocaleController.getString("BotHelp", R.string.BotHelp), themeDelegate);
                 updateBotButtons();
+            }
+        }
+
+        if (isGhost) {
+            if (!ChatObject.isChannel(currentChat)) {
+                userNotGhostItem = headerItem.addSubItem(user_not_ghost, R.drawable.super_ghost, isUserNotGhost ? LocaleController.getString("ChatGhost", R.string.ChatGhost) : LocaleController.getString("ChatNotGhost", R.string.ChatNotGhost));
+            }
+        }
+        if (isHideType) {
+            if (!ChatObject.isChannel(currentChat)) {
+                userNotTypingItem = headerItem.addSubItem(user_not_typing, R.drawable.input_keyboard, isUserNotTyping ? LocaleController.getString("ChatTyping", R.string.ChatTyping) : LocaleController.getString("ChatNotTyping", R.string.ChatNotTyping));
             }
         }
 
@@ -20979,6 +21030,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     @Override
     public void onPause() {
         super.onPause();
+        if (isGhost || isHideType) {
+            ChatActivity.isUserNotGhost = false;
+            ChatActivity.isUserNotTyping = false;
+        }
+        
         if (scrimPopupWindow != null) {
             scrimPopupWindow.setPauseNotifications(false);
             closeMenu();

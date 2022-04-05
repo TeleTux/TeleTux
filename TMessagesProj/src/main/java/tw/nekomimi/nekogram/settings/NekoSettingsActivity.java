@@ -76,6 +76,8 @@ public class NekoSettingsActivity extends BaseFragment {
     private int generalRow;
     private int accountRow;
     private int chatRow;
+    private int fontRow;
+
     private int experimentRow;
     private int categories2Row;
 
@@ -194,7 +196,8 @@ public class NekoSettingsActivity extends BaseFragment {
                 Browser.openUrl(getParentActivity(), "https://github.com/TeleTux/TeleTux");
             } else if (position == passcodeRow) {
                 presentFragment(new ForkSettingsPasscodeActivity());
-            }
+            } else if (position == fontRow) {
+                presentFragment(new FontSelectActivity());
         });
 
         return fragmentView;
@@ -388,6 +391,8 @@ public class NekoSettingsActivity extends BaseFragment {
         generalRow = rowCount++;
         accountRow = rowCount++;
         chatRow = rowCount++;
+        fontRow = rowCount++;
+
         experimentRow = rowCount++;
         categories2Row = rowCount++;
 
@@ -494,7 +499,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndIcon(LocaleController.getString("Account", R.string.Account), R.drawable.baseline_person_24, true);
                     } else if (position == passcodeRow) {
                         textCell.setText(LocaleController.getString("ForkPasscodeSettingsTitle", R.string.ForkPasscodeSettingsTitle), false);
-                    }
+                    } else if (position == fontRow) {
+                        textCell.setTextAndValue(LocaleController.getString("FontChange", R.string.FontChange), getFontName(), true);
                     break;
                 }
                 case 3: {
@@ -575,7 +581,7 @@ public class NekoSettingsActivity extends BaseFragment {
         public int getItemViewType(int position) {
             if (position == categories2Row || position == about2Row) {
                 return 1;
-            } else if (position == chatRow|| position == passcodeRow || position == accountRow || position == generalRow || position == experimentRow) {
+            } else if (position == chatRow|| position == passcodeRow || position == fontRow ||position == accountRow || position == generalRow || position == experimentRow) {
                 return 2;
             } else if (position == categoriesRow || position == aboutRow || position == teletuxRow) {
                 return 4;

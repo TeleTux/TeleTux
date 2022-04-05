@@ -280,6 +280,55 @@ public class ConnectionsManager extends BaseController {
     }
 
     public int sendRequest(final TLObject object, final RequestDelegate onComplete, final RequestDelegateTimestamp onCompleteTimestamp, final QuickAckDelegate onQuickAck, final WriteToSocketDelegate onWriteToSocket, final int flags, final int datacenterId, final int connetionType, final boolean immediate) {
+        
+        //test
+        final boolean ghostMode = ApplicationLoader.TuxPreferences.getBoolean("GhostMode", false);
+        boolean hideTypeMode = ApplicationLoader.TuxPreferences.getBoolean("HideTypeMode", false);
+        boolean isGhost = false;
+        boolean isHideType = false;
+
+        if (ghostMode && !ChatActivity.isUserNotGhost) {
+            isGhost = true;
+        }
+        if (hideTypeMode && !ChatActivity.isUserNotTyping) {
+            isHideType = true;
+        }
+
+        if (isGhost) {
+            if (((object instanceof TLRPC.TL_messages_readMessageContents)
+                    || (object instanceof TLRPC.TL_channels_readHistory)
+                    || (object instanceof TLRPC.TL_messages_readHistory)
+                    || (object instanceof TLRPC.TL_messages_readEncryptedHistory))) {
+                MessagesController.getInstance(UserConfig.selectedAccount).changeStatusToOffline();
+                return 0;
+            }
+            if (((object instanceof TLRPC.TL_messages_setEncryptedTyping)
+                    || (object instanceof TLRPC.TL_messages_setTyping)) && !isHideType) {
+                MessagesController.getInstance(UserConfig.selectedAccount).changeStatusToOffline();
+                return 0;
+            }
+        }
+
+        if (isHideType) {
+            if (((object instanceof TLRPC.TL_messages_setEncryptedTyping)
+                    || (object instanceof TLRPC.TL_messages_setTyping))) {
+                if (isGhost) {
+                    MessagesController.getInstance(UserConfig.selectedAccount).changeStatusToOffline();
+                }
+                return 0;
+            }
+        }
+
+        if (ghostMode) {
+            if (object instanceof TLRPC.TL_account_updateStatus) {
+                ((TLRPC.TL_account_updateStatus) object).offline = true;
+            }
+        } else {
+            if (object instanceof TLRPC.TL_account_updateStatus) {
+                ((TLRPC.TL_account_updateStatus) object).offline = false;
+            }
+        }
+        //
         final int requestToken = lastRequestToken.getAndIncrement();
         Utilities.stageQueue.postRunnable(() -> {
             if (BuildVars.LOGS_ENABLED) {
@@ -326,6 +375,11 @@ public class ConnectionsManager extends BaseController {
                         });
                     } catch (Exception e) {
                         FileLog.e(e);
+                    }
+                    if (ghostMode) {
+                        MessagesController.getInstance(UserConfig.selectedAccount).changeStatusToOffline();
+                    } else {
+                        MessagesController.getInstance(UserConfig.selectedAccount).changeStatusToOnline();
                     }
                 }, onQuickAck, onWriteToSocket, flags, datacenterId, connetionType, immediate, requestToken);
             } catch (Exception e) {

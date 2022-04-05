@@ -4460,4 +4460,18 @@
   <string name="formatDateScheduleDay">EEE MMM d</string>
   <string name="login_with_telegram">ورود با حساب کاربری تلگرام</string>
   <string name="telegram_passport">پاسپورت تلگرام</string>
+      <!-- TeleTux -->
+  <string name="FontChange">تغییر فونت</string>
+  <string name="DefaultFont">فونت پیش‌فرض</string>
+  <string name="VazirmatnLight">وزیر‌متن سبک</string>
+  <string name="VazirmatnBold">وزیر‌متن ضخیم</string>
+  <string name="VazirmatnBlack">وزیر‌متن سیاه</string>
+  <string name="VazirmatnExtraBold">وزیر‌متن ضخیم‌تر</string>
+  <string name="VazirmatnExtraLight">وزیر‌متن سبک‌تر</string>
+  <string name="VazirmatnMedium">وزیر‌متن متوسط</string>
+  <string name="VazirmatnSemiBold">وزیر‌متن نیمه ضخیم</string>
+  <string name="VazirmatnThin">وزیر‌متن لاغر</string>
+  <string name="Samim">صمیم</string>
+  <string name="SamimMedium">صمیم متوسط</string>
+  <string name="SamimBold">صمیم ضخیم</string>
 </resources>
