@@ -10,6 +10,6 @@ public class SuperTextView extends TextView {
 
     public SuperTextView(Context context) {
         super(context);
-        setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        setTypeface(AndroidUtilities.getTypeface("fonts/Vazirmatn-Regular.ttf"));
     }
 }

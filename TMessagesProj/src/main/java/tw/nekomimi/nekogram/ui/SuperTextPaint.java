@@ -10,16 +10,16 @@ public class SuperTextPaint extends TextPaint {
 
     public SuperTextPaint() {
         super();
-        setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        setTypeface(AndroidUtilities.getTypeface("fonts/Vazirmatn-Regular.ttf"));
     }
 
     public SuperTextPaint(int flags) {
         super(flags);
-        setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        setTypeface(AndroidUtilities.getTypeface("fonts/Vazirmatn-Regular.ttf"));
     }
 
     public SuperTextPaint(Paint p) {
         super(p);
-        setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        setTypeface(AndroidUtilities.getTypeface("fonts/Vazirmatn-Regular.ttf"));
     }
 }
