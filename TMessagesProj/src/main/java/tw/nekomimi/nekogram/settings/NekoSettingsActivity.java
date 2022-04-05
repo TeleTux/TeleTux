@@ -198,7 +198,7 @@ public class NekoSettingsActivity extends BaseFragment {
                 presentFragment(new ForkSettingsPasscodeActivity());
             } else if (position == fontRow) {
                 presentFragment(new FontSelectActivity());
-        });
+        }
 
         return fragmentView;
     }
