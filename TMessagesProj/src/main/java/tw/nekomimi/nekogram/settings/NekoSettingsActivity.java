@@ -199,7 +199,7 @@ public class NekoSettingsActivity extends BaseFragment {
             } else if (position == fontRow) {
                 presentFragment(new FontSelectActivity());
             }
-        }
+        });
 
         return fragmentView;
     }
