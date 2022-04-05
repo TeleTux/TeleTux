@@ -501,6 +501,7 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setText(LocaleController.getString("ForkPasscodeSettingsTitle", R.string.ForkPasscodeSettingsTitle), false);
                     } else if (position == fontRow) {
                         textCell.setTextAndValue(LocaleController.getString("FontChange", R.string.FontChange), getFontName(), true);
+                    }
                     break;
                 }
                 case 3: {
