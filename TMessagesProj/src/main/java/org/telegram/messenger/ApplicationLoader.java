@@ -80,7 +80,7 @@ public class ApplicationLoader extends Application {
     public static volatile long mainInterfacePausedStageQueueTime;
 
     public static boolean hasPlayServices;
-
+    public static SharedPreferences TuxPreferences;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -389,6 +389,7 @@ public class ApplicationLoader extends Application {
 
         startPushService();
 
+        TuxPreferences = applicationContext.getSharedPreferences("nkmrcfg" , Context.MODE_PRIVATE);
         MeowTypefaceHelper.init(
                 Typeface.createFromAsset(getAssets(), "fonts/Vazirmatn-Regular.ttf"),
                 Typeface.createFromAsset(getAssets(), "fonts/Vazirmatn-Medium.ttf"),
