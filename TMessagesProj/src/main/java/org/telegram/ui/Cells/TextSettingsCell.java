@@ -92,7 +92,7 @@ public class TextSettingsCell extends FrameLayout {
         addView(valueImageView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.CENTER_VERTICAL, padding, 0, padding, 0));
     }
     public void setFont(String fontPath) {
-        if (fontPath.equals("fonts/Vazirmatn-Regular.ttf")) {
+        if (fontPath.equals("fonts/default.ttf")) {
             textView.setTypeface(null, Typeface.NORMAL);
             valueTextView.setTypeface(null, Typeface.NORMAL);
         } else {
