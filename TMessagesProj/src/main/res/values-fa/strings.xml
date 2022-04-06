@@ -4464,15 +4464,15 @@
   <string name="FontChange">تغییر فونت</string>
   <string name="DefaultFont">فونت پیش‌فرض</string>
   <string name="VazirmatnLight">وزیر‌متن سبک</string>
-  <string name="VazirmatnBold">وزیر‌متن ضخیم</string>
+  <string name="VazirBold">وزیر‌متن ضخیم</string>
   <string name="VazirmatnBlack">وزیر‌متن سیاه</string>
   <string name="VazirmatnExtraBold">وزیر‌متن ضخیم‌تر</string>
   <string name="VazirmatnExtraLight">وزیر‌متن سبک‌تر</string>
-  <string name="VazirmatnMedium">وزیر‌متن متوسط</string>
+  <string name="VazirMedium">وزیر‌ متوسط</string>
   <string name="VazirmatnSemiBold">وزیر‌متن نیمه ضخیم</string>
   <string name="VazirmatnThin">وزیر‌متن لاغر</string>
   <string name="Samim">صمیم</string>
   <string name="SamimMedium">صمیم متوسط</string>
   <string name="SamimBold">صمیم ضخیم</string>
-  <string name="VazirmatnRegular">وزیر‌متن</string>
+  <string name="VazirRegular">وزیر‌</string>
 </resources>

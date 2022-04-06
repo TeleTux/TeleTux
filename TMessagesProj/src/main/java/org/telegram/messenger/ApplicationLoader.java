@@ -391,11 +391,9 @@ public class ApplicationLoader extends Application {
 
         TuxPreferences = applicationContext.getSharedPreferences("nkmrcfg" , Context.MODE_PRIVATE);
         MeowTypefaceHelper.init(
-                Typeface.createFromAsset(getAssets(), "fonts/Vazirmatn-Regular.ttf"),
-                Typeface.createFromAsset(getAssets(), "fonts/Vazirmatn-Medium.ttf"),
-                Typeface.createFromAsset(getAssets(), "fonts/Vazirmatn-Bold.ttf"),
-                Typeface.createFromAsset(getAssets(), "fonts/Vazirmatn-Light.ttf"));
-    
+                Typeface.createFromAsset(getAssets(), "fonts/Vazir-Regular.ttf"),
+                Typeface.createFromAsset(getAssets(), "fonts/Vazir-Medium.ttf"),
+                Typeface.createFromAsset(getAssets(), "fonts/Vazir-Bold.ttf"));
 
     }
 

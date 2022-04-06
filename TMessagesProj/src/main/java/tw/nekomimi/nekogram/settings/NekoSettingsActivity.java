@@ -108,36 +108,19 @@ public class NekoSettingsActivity extends BaseFragment {
 
 
     private String getFontName() {
-        switch (ApplicationLoader.TuxPreferences.getString("Font", "Vazirmatn-Light.ttf")) {
+        switch (ApplicationLoader.TuxPreferences.getString("Font", "Vazir-Regular.ttf")) {
             case "default.ttf":
                 return LocaleController.getString("DefaultFont", R.string.DefaultFont);
 
-            case "Vazirmatn-Regular.ttf":
-                return LocaleController.getString("VazirmatnRegular", R.string.VazirmatnRegular);
+            case "Vazir-Regular.ttf":
+                return LocaleController.getString("VazirRegular", R.string.VazirRegular);
 
-            case "Vazirmatn-Light.ttf":
-                return LocaleController.getString("VazirmatnLight", R.string.VazirmatnLight);
+            case "Vazir-Bold.ttf":
+                return LocaleController.getString("VazirBold", R.string.VazirBold);
 
-            case "Vazirmatn-Bold.ttf":
-                return LocaleController.getString("VazirmatnBold", R.string.VazirmatnBold);
-
-            case "Vazirmatn-Black":
-                return LocaleController.getString("VazirmatnBlack", R.string.VazirmatnBlack);
-
-            case "Vazirmatn-ExtraBold.ttf":
-                return LocaleController.getString("VazirmatnExtraBold", R.string.VazirmatnExtraBold);
-
-            case "Vazirmatn-ExtraLight.ttf":
-                return LocaleController.getString("VazirmatnExtraLight", R.string.VazirmatnExtraLight);
-
-            case "Vazirmatn-Medium.ttf":
-                return LocaleController.getString("VazirmatnMedium", R.string.VazirmatnMedium);
-
-            case "Vazirmatn-SemiBold.ttf":
-                return LocaleController.getString("VazirmatnSemiBold", R.string.VazirmatnSemiBold);
-
-            case "Vazirmatn-Thin.ttf":
-                return LocaleController.getString("VazirmatnThin", R.string.VazirmatnThin);
+            case "Vazir-Medium.ttf":
+                return LocaleController.getString("VazirMedium", R.string.VazirMedium);
+                
             case "Samim.ttf":
                 return LocaleController.getString("Samim", R.string.Samim);
             case "Samim-Medium.ttf":
