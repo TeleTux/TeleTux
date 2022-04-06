@@ -108,7 +108,7 @@ public class NekoSettingsActivity extends BaseFragment {
 
 
     private String getFontName() {
-        switch (ApplicationLoader.TuxrPreferences.getString("Font", "Vazirmatn-Light.ttf")) {
+        switch (ApplicationLoader.TuxPreferences.getString("Font", "Vazirmatn-Light.ttf")) {
             case "default.ttf":
                 return LocaleController.getString("DefaultFont", R.string.DefaultFont);
 
