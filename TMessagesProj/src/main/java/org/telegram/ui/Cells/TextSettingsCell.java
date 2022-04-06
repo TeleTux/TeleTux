@@ -90,6 +90,15 @@ public class TextSettingsCell extends FrameLayout {
         valueImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.SRC_IN));
         addView(valueImageView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.CENTER_VERTICAL, padding, 0, padding, 0));
     }
+    public void setFont(String fontPath) {
+        if (fontPath.equals("fonts/Vazirmatn-Regular.ttf")) {
+            textView.setTypeface(null, Typeface.NORMAL);
+            valueTextView.setTypeface(null, Typeface.NORMAL);
+        } else {
+            textView.setTypeface(Typeface.createFromAsset(getContext().getAssets(), fontPath));
+            valueTextView.setTypeface(Typeface.createFromAsset(getContext().getAssets(), fontPath));
+        }
+    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

@@ -57,7 +57,8 @@ public class FontSelectActivity extends BaseFragment {
         scrollView.setLayoutParams(new ScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         //scrollView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         scrollView.addView(linearLayout);
-        CreateFontRow(linearLayout, LocaleController.getString("DefaultFont" ,R.string.DefaultFont), "Vazirmatn-Regular.ttf", true);
+        CreateFontRow(linearLayout, LocaleController.getString("DefaultFont" ,R.string.DefaultFont), "default.ttf", true);
+        CreateFontRow(linearLayout, LocaleController.getString("VazirmatnRegular" ,R.string.VazirmatnRegular), "Vazirmatn-Regular.ttf", true);
         CreateFontRow(linearLayout, LocaleController.getString("VazirmatnLight" ,R.string.VazirmatnLight), "Vazirmatn-Light.ttf", true);
         CreateFontRow(linearLayout, LocaleController.getString("VazirmatnBold" ,R.string.VazirmatnBold), "Vazirmatn-Bold.ttf", true);
         CreateFontRow(linearLayout, LocaleController.getString("VazirmatnBlack" ,R.string.VazirmatnBlack), "Vazirmatn-Black.ttf", true);
