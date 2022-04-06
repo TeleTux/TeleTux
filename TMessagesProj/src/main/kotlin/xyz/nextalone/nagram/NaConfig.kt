@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Base64
 import org.telegram.messenger.ApplicationLoader
+import org.telegram.messenger.LocaleController
+import org.telegram.messenger.R
 import tw.nekomimi.nekogram.config.ConfigItem
 import java.io.ByteArrayInputStream
 import java.io.ObjectInputStream
@@ -127,6 +129,23 @@ object NaConfig {
             ConfigItem.configTypeInt,
             0
         )
+    val showReactions =
+        addConfig(
+            "Reactions",
+            ConfigItem.configTypeBool,
+            false
+        )
+    val scrollableChatPreview =
+        addConfig(
+            "ScrollableChatPreview",
+            ConfigItem.configTypeBool,
+            false
+        )
+    val customTitle = addConfig(
+        "CustomTitle",
+        ConfigItem.configTypeString,
+        LocaleController.getString("TeleTux", R.string.TeleTux)
+    )
 
     fun addConfig(
         k: String,

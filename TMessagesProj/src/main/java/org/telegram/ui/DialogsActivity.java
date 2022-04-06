@@ -197,6 +197,7 @@ import tw.nekomimi.nekogram.utils.ProxyUtil;
 import tw.nekomimi.nekogram.utils.UIUtil;
 import tw.nekomimi.nekogram.utils.UpdateUtil;
 import tw.nekomimi.nekogram.utils.VibrateUtil;
+import xyz.nextalone.nagram.NaConfig;
 
 public class DialogsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -2231,7 +2232,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (folderId != 0) {
                 actionBar.setTitle(LocaleController.getString("ArchivedChats", R.string.ArchivedChats));
             } else {
-                actionBar.setTitle(LocaleController.getString("TeleTux", R.string.TeleTux));
+                actionBar.setTitle(NaConfig.INSTANCE.getCustomTitle().String());
                 actionBar.setOnLongClickListener(v -> {
                     if (NekoConfig.hideAllTab.Bool() && NekoConfig.pressTitleToOpenAllChats.Bool() && filterTabsView != null && filterTabsView.getCurrentTabId() != Integer.MAX_VALUE) {
                         filterTabsView.toggleAllTabs(true);
