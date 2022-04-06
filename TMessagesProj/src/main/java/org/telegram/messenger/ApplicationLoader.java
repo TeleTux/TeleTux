@@ -393,7 +393,9 @@ public class ApplicationLoader extends Application {
         MeowTypefaceHelper.init(
                 Typeface.createFromAsset(getAssets(), "fonts/Vazir-Regular.ttf"),
                 Typeface.createFromAsset(getAssets(), "fonts/Vazir-Medium.ttf"),
-                Typeface.createFromAsset(getAssets(), "fonts/Vazir-Bold.ttf"));
+                Typeface.createFromAsset(getAssets(), "fonts/Vazir-Bold.ttf"),
+                Typeface.createFromAsset(getAssets(), "fonts/Vazir-Light.ttf"));
+    
 
     }
 

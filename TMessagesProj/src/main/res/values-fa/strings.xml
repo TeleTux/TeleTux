@@ -4465,6 +4465,7 @@
   <string name="DefaultFont">فونت پیش‌فرض</string>
   <string name="VazirmatnLight">وزیر‌متن سبک</string>
   <string name="VazirBold">وزیر‌متن ضخیم</string>
+  <string name="VazirLight">وزیر‌ سبک</string>
   <string name="VazirmatnBlack">وزیر‌متن سیاه</string>
   <string name="VazirmatnExtraBold">وزیر‌متن ضخیم‌تر</string>
   <string name="VazirmatnExtraLight">وزیر‌متن سبک‌تر</string>
