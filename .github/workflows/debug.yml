@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+      - font
     paths-ignore:
       - '**.md'
       - '.github/**'

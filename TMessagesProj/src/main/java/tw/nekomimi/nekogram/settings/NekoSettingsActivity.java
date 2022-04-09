@@ -108,7 +108,7 @@ public class NekoSettingsActivity extends BaseFragment {
 
 
     private String getFontName() {
-        switch (ApplicationLoader.TuxPreferences.getString("Font", "Vazir-Regular.ttf")) {
+        switch (ApplicationLoader.TuxPreferences.getString("Font", "Vazir-Light.ttf")) {
             case "default.ttf":
                 return LocaleController.getString("DefaultFont", R.string.DefaultFont);
 
@@ -120,7 +120,7 @@ public class NekoSettingsActivity extends BaseFragment {
 
             case "Vazir-Medium.ttf":
                 return LocaleController.getString("VazirMedium", R.string.VazirMedium);
-                
+
             case "Samim.ttf":
                 return LocaleController.getString("Samim", R.string.Samim);
             case "Samim-Medium.ttf":
@@ -128,7 +128,7 @@ public class NekoSettingsActivity extends BaseFragment {
             case "Samim-Bold.ttf":
                 return LocaleController.getString("SamimBold", R.string.SamimBold);
             default:
-                return LocaleController.getString("VazirmatnLight", R.string.VazirmatnLight);
+                return LocaleController.getString("VazirLight", R.string.VazirLight);
         }
     }
 
