@@ -409,7 +409,7 @@ public class NekoSettingsActivity extends BaseFragment {
             //emptyRows.add(rowCount++);
             passcodeRow = rowCount++;
         } else {
-            emptyRows.add(rowCount++);
+            passcodeRow = -1;
         }
 
         if (listAdapter != null) {
