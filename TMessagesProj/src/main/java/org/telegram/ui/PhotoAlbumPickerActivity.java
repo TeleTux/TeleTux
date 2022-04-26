@@ -21,6 +21,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.InputFilter;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
@@ -37,6 +38,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -127,7 +129,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
     private SizeNotifierFrameLayout sizeNotifierFrameLayout;
     private View selectedCountView;
     private View shadow;
-    private TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    private TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
     private RectF rect = new RectF();
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
@@ -346,7 +348,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         listView.setAdapter(listAdapter = new ListAdapter(context));
         listView.setGlowColor(Theme.getColor(Theme.key_dialogBackground));
 
-        emptyView = new TextView(context);
+        emptyView = new SuperTextView(context);
         emptyView.setTextColor(0xff808080);
         emptyView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
         emptyView.setGravity(Gravity.CENTER);
@@ -565,7 +567,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         });
 
         textPaint.setTextSize(AndroidUtilities.dp(12));
-        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
         selectedCountView = new View(context) {
             @Override

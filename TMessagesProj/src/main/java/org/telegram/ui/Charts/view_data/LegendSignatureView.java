@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.R;
@@ -77,12 +78,12 @@ public class LegendSignatureView extends FrameLayout {
         content = new LinearLayout(getContext());
         content.setOrientation(LinearLayout.VERTICAL);
 
-        time = new TextView(context);
+        time = new SuperTextView(context);
         time.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        time.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
-        hourTime = new TextView(context);
+        time.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        hourTime = new SuperTextView(context);
         hourTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        hourTime.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        hourTime.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
         chevron = new ImageView(context);
         chevron.setImageResource(R.drawable.ic_chevron_right_black_18dp);
@@ -259,21 +260,21 @@ public class LegendSignatureView extends FrameLayout {
             root.setPadding(AndroidUtilities.dp(4), AndroidUtilities.dp(2), AndroidUtilities.dp(4), AndroidUtilities.dp(2));
 
             if (showPercentage) {
-                root.addView(percentage = new TextView(getContext()));
+                root.addView(percentage = new SuperTextView(getContext()));
                 percentage.getLayoutParams().width = AndroidUtilities.dp(36);
                 percentage.setVisibility(GONE);
-                percentage.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                percentage.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 percentage.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
             }
 
-            root.addView(signature = new TextView(getContext()));
+            root.addView(signature = new SuperTextView(getContext()));
             signature.getLayoutParams().width = showPercentage ? AndroidUtilities.dp(80) : AndroidUtilities.dp(96);
-            root.addView(value = new TextView(getContext()), LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+            root.addView(value = new SuperTextView(getContext()), LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
             signature.setGravity(Gravity.START);
             value.setGravity(Gravity.END);
 
-            value.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            value.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             value.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
             value.setMinEms(4);
             value.setMaxEms(4);

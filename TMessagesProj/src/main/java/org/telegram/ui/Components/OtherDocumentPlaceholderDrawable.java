@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -57,12 +58,12 @@ public class OtherDocumentPlaceholderDrawable extends RecyclableDrawable impleme
     static {
         paint = new Paint();
         progressPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        docPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        namePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        sizePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        buttonPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        percentPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        openPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        docPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+        namePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+        sizePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+        buttonPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+        percentPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+        openPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
         decelerateInterpolator = new DecelerateInterpolator();
 
@@ -76,11 +77,11 @@ public class OtherDocumentPlaceholderDrawable extends RecyclableDrawable impleme
         percentPaint.setColor(0xffffffff);
         openPaint.setColor(0xffffffff);
 
-        docPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
-        namePaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
-        buttonPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
-        percentPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
-        openPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        docPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        namePaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        buttonPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        percentPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        openPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
     }
 
     public OtherDocumentPlaceholderDrawable(Context context, View view, MessageObject messageObject) {

@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 
@@ -34,7 +35,7 @@ public class AvailableReactionCell extends FrameLayout {
     public AvailableReactionCell(@NonNull Context context, boolean checkbox) {
         super(context);
 
-        textView = new TextView(context);
+        textView = new SuperTextView(context);
         textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));

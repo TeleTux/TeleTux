@@ -29,6 +29,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -151,7 +152,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
 				}
 			});
 
-			emptyTextView1 = new TextView(context);
+			emptyTextView1 = new SuperTextView(context);
 			emptyTextView1.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
 			emptyTextView1.setText(LocaleController.getString("NoRecentCalls", R.string.NoRecentCalls));
 			emptyTextView1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
@@ -159,7 +160,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
 			emptyTextView1.setGravity(Gravity.CENTER);
 			addView(emptyTextView1, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 17, 40, 17, 0));
 
-			emptyTextView2 = new TextView(context);
+			emptyTextView2 = new SuperTextView(context);
 			String help = LocaleController.getString("NoRecentCallsInfo", R.string.NoRecentCallsInfo);
 			if (AndroidUtilities.isTablet() && !AndroidUtilities.isSmallTablet()) {
 				help = help.replace('\n', ' ');
@@ -690,7 +691,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
 
         selectedDialogsCountTextView = new NumberTextView(actionMode.getContext());
         selectedDialogsCountTextView.setTextSize(18);
-        selectedDialogsCountTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        selectedDialogsCountTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         selectedDialogsCountTextView.setTextColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
         actionMode.addView(selectedDialogsCountTextView, LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT, 1.0f, 72, 0, 0, 0));
         selectedDialogsCountTextView.setOnTouchListener((v, event) -> true);

@@ -23,6 +23,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -60,7 +61,7 @@ public class TextSettingsCell extends FrameLayout {
         super(context);
         this.padding = padding;
 
-        textView = new TextView(context);
+        textView = new SuperTextView(context);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         textView.setLines(1);
         textView.setMaxLines(1);
@@ -68,11 +69,11 @@ public class TextSettingsCell extends FrameLayout {
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
         textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, padding, 0, padding, 0));
     
 
-        valueTextView = new TextView(context);
+        valueTextView = new SuperTextView(context);
         valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         valueTextView.setLines(1);
         valueTextView.setMaxLines(1);
@@ -80,7 +81,7 @@ public class TextSettingsCell extends FrameLayout {
         valueTextView.setEllipsize(TextUtils.TruncateAt.END);
         valueTextView.setGravity((LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.CENTER_VERTICAL);
         valueTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteValueText));
-        valueTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        valueTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(valueTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.TOP, padding, 0, padding, 0));
 
         valueImageView = new ImageView(context);

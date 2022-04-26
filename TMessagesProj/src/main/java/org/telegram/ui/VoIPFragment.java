@@ -43,6 +43,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.ToggleButton;
 
 import androidx.annotation.RequiresApi;
@@ -799,7 +800,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             }
         });
 
-        emojiRationalTextView = new TextView(context);
+        emojiRationalTextView = new SuperTextView(context);
         emojiRationalTextView.setText(LocaleController.formatString("CallEmojiKeyTooltip", R.string.CallEmojiKeyTooltip, UserObject.getFirstName(callingUser)));
         emojiRationalTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         emojiRationalTextView.setTextColor(Color.WHITE);

@@ -23,6 +23,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -37,6 +38,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
@@ -160,7 +162,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogIcon), PorterDuff.Mode.SRC_IN));
             addView(imageView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 40, Gravity.CENTER_VERTICAL | (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT)));
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setLines(1);
             textView.setSingleLine(true);
             textView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -482,17 +484,17 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             titleContainer = new FrameLayout(getContext());
             containerView.addView(titleContainer, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 24, 0, 24, 0));
 
-            titleTextView = new TextView(getContext());
+            titleTextView = new SuperTextView(getContext());
             titleTextView.setText(title);
             titleTextView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
             titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-            titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             titleTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
             titleContainer.addView(titleTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 0, 19, 0, (subtitle != null ? 2 : (items != null ? 14 : 10))));
         }
 
         if (secondTitle != null && title != null) {
-            secondTitleTextView = new TextView(getContext());
+            secondTitleTextView = new SuperTextView(getContext());
             secondTitleTextView.setText(secondTitle);
             secondTitleTextView.setTextColor(getThemedColor(Theme.key_dialogTextGray3));
             secondTitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
@@ -501,7 +503,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
         }
 
         if (subtitle != null) {
-            subtitleTextView = new TextView(getContext());
+            subtitleTextView = new SuperTextView(getContext());
             subtitleTextView.setText(subtitle);
             subtitleTextView.setTextColor(getThemedColor(Theme.key_dialogIcon));
             subtitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -575,8 +577,8 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             lineProgressView.setBackColor(getThemedColor(Theme.key_dialogLineProgressBackground));
             containerView.addView(lineProgressView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 4, Gravity.LEFT | Gravity.CENTER_VERTICAL, 24, 0, 24, 0));
 
-            lineProgressViewPercent = new TextView(getContext());
-            lineProgressViewPercent.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            lineProgressViewPercent = new SuperTextView(getContext());
+            lineProgressViewPercent.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             lineProgressViewPercent.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
             lineProgressViewPercent.setTextColor(getThemedColor(Theme.key_dialogTextGray2));
             lineProgressViewPercent.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -633,7 +635,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
         if (hasButtons) {
             if (!verticalButtons) {
                 int buttonsWidth = 0;
-                TextPaint paint = new TextPaint();
+                TextPaint paint = new SuperTextPaint();
                 paint.setTextSize(AndroidUtilities.dp(14));
                 if (positiveButtonText != null) {
                     buttonsWidth += paint.measureText(positiveButtonText, 0, positiveButtonText.length()) + AndroidUtilities.dp(10);
@@ -738,7 +740,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             containerView.addView(buttonsLayout, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 52));
 
             if (positiveButtonText != null) {
-                TextView textView = new TextView(getContext()) {
+                TextView textView = new SuperTextView(getContext()) {
                     @Override
                     public void setEnabled(boolean enabled) {
                         super.setEnabled(enabled);
@@ -756,7 +758,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 textView.setTextColor(getThemedColor(dialogButtonColorKey));
                 textView.setGravity(Gravity.CENTER);
-                textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 //                textView.setLines(1);
 //                textView.setSingleLine(true); //TODO
                 textView.setText(positiveButtonText.toString().toUpperCase());
@@ -778,7 +780,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             }
 
             if (negativeButtonText != null) {
-                TextView textView = new TextView(getContext()) {
+                TextView textView = new SuperTextView(getContext()) {
                     @Override
                     public void setEnabled(boolean enabled) {
                         super.setEnabled(enabled);
@@ -796,7 +798,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 textView.setTextColor(getThemedColor(dialogButtonColorKey));
                 textView.setGravity(Gravity.CENTER);
-                textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 textView.setEllipsize(TextUtils.TruncateAt.END);
                 textView.setSingleLine(true);
                 textView.setText(negativeButtonText.toString().toUpperCase());
@@ -818,7 +820,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             }
 
             if (neutralButtonText != null) {
-                TextView textView = new TextView(getContext()) {
+                TextView textView = new SuperTextView(getContext()) {
                     @Override
                     public void setEnabled(boolean enabled) {
                         super.setEnabled(enabled);
@@ -836,7 +838,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 textView.setTextColor(getThemedColor(dialogButtonColorKey));
                 textView.setGravity(Gravity.CENTER);
-                textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 textView.setEllipsize(TextUtils.TruncateAt.END);
                 textView.setSingleLine(true);
                 textView.setText(neutralButtonText.toString().toUpperCase());

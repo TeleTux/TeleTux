@@ -35,6 +35,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.Toast;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -119,8 +120,8 @@ public class PhonebookShareAlert extends BottomSheet {
             avatarImageView.setForUserOrChat(currentUser, avatarDrawable);
             addView(avatarImageView, LayoutHelper.createLinear(80, 80, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 32, 0, 0));
 
-            TextView textView = new TextView(context);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            TextView textView = new SuperTextView(context);
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
             textView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
             textView.setSingleLine(true);
@@ -129,7 +130,7 @@ public class PhonebookShareAlert extends BottomSheet {
             addView(textView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 10, 10, 10, status != null ? 0 : 27));
 
             if (status != null) {
-                textView = new TextView(context);
+                textView = new SuperTextView(context);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 textView.setTextColor(getThemedColor(Theme.key_dialogTextGray3));
                 textView.setSingleLine(true);
@@ -151,7 +152,7 @@ public class PhonebookShareAlert extends BottomSheet {
         public TextCheckBoxCell(Context context) {
             super(context);
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             textView.setSingleLine(false);
@@ -159,7 +160,7 @@ public class PhonebookShareAlert extends BottomSheet {
             textView.setEllipsize(TextUtils.TruncateAt.END);
             addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? (isImport ? 17 : 64) : 72, 10, LocaleController.isRTL ? 72 : (isImport ? 17 : 64), 0));
 
-            valueTextView = new TextView(context);
+            valueTextView = new SuperTextView(context);
             valueTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText2));
             valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
             valueTextView.setLines(1);
@@ -613,7 +614,7 @@ public class PhonebookShareAlert extends BottomSheet {
         shadow.setAlpha(0.0f);
         containerView.addView(shadow, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 1, Gravity.BOTTOM | Gravity.LEFT, 0, 0, 0, 77));
 
-        buttonTextView = new TextView(context);
+        buttonTextView = new SuperTextView(context);
         buttonTextView.setPadding(AndroidUtilities.dp(34), 0, AndroidUtilities.dp(34), 0);
         buttonTextView.setGravity(Gravity.CENTER);
         buttonTextView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));

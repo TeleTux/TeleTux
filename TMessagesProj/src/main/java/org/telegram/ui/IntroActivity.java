@@ -40,6 +40,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
@@ -310,7 +311,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             }
         });
 
-        startMessagingButton = new TextView(context) {
+        startMessagingButton = new SuperTextView(context) {
             CellFlickerDrawable cellFlickerDrawable;
 
             @Override
@@ -356,7 +357,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         bottomPages = new BottomPagesView(context, viewPager, 6);
         frameContainerView.addView(bottomPages, LayoutHelper.createFrame(66, 5, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, ICON_HEIGHT_DP + 200, 0, 0));
 
-        switchLanguageTextView = new TextView(context);
+        switchLanguageTextView = new SuperTextView(context);
         switchLanguageTextView.setGravity(Gravity.CENTER);
         switchLanguageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         frameContainerView.addView(switchLanguageTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 30, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0, 0, 20));
@@ -541,9 +542,9 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         @NonNull
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            TextView headerTextView = new TextView(container.getContext());
+            TextView headerTextView = new SuperTextView(container.getContext());
             headerTextView.setTag(pagerHeaderTag);
-            TextView messageTextView = new TextView(container.getContext());
+            TextView messageTextView = new SuperTextView(container.getContext());
             messageTextView.setTag(pagerMessageTag);
 
             FrameLayout frameLayout = new FrameLayout(container.getContext()) {

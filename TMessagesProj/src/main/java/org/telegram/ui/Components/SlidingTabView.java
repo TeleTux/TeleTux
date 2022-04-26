@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
@@ -50,7 +51,7 @@ public class SlidingTabView extends LinearLayout {
     }
 
     public void addTextTab(final int position, String title) {
-        TextView tab = new TextView(getContext());
+        TextView tab = new SuperTextView(getContext());
         tab.setText(title);
         tab.setFocusable(true);
         tab.setGravity(Gravity.CENTER);

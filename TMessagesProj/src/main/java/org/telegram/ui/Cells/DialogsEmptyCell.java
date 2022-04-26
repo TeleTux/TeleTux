@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.RawRes;
@@ -96,7 +97,7 @@ public class DialogsEmptyCell extends LinearLayout {
             }
         });
 
-        titleView = new TextView(context);
+        titleView = new SuperTextView(context);
         titleView.setTextColor(Theme.getColor(Theme.key_chats_nameMessage_threeLines));
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
         titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -105,7 +106,7 @@ public class DialogsEmptyCell extends LinearLayout {
 
         subtitleView = new TextViewSwitcher(context);
         subtitleView.setFactory(() -> {
-            TextView tv = new TextView(context);
+            TextView tv = new SuperTextView(context);
             tv.setTextColor(Theme.getColor(Theme.key_chats_message));
             tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             tv.setGravity(Gravity.CENTER);

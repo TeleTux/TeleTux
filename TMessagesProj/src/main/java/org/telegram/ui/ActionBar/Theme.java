@@ -53,6 +53,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.SystemClock;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.LongSparseArray;
@@ -8242,7 +8243,7 @@ public class Theme {
 
     public static void createCommonDialogResources(Context context) {
         if (dialogs_countTextPaint == null) {
-            dialogs_countTextPaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            dialogs_countTextPaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
             dialogs_countTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             dialogs_countPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             dialogs_reactionsCountPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -8258,32 +8259,32 @@ public class Theme {
         if (dialogs_namePaint == null) {
             Resources resources = context.getResources();
 
-            dialogs_namePaint = new TextPaint[2];
-            dialogs_nameEncryptedPaint = new TextPaint[2];
-            dialogs_messagePaint = new TextPaint[2];
-            dialogs_messagePrintingPaint = new TextPaint[2];
+            dialogs_namePaint = new SuperTextPaint[2];
+            dialogs_nameEncryptedPaint = new SuperTextPaint[2];
+            dialogs_messagePaint = new SuperTextPaint[2];
+            dialogs_messagePrintingPaint = new SuperTextPaint[2];
             for (int a = 0; a < 2; a++) {
-                dialogs_namePaint[a] = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
-                dialogs_nameEncryptedPaint[a] = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
-                dialogs_messagePaint[a] = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
-                dialogs_messagePrintingPaint[a] = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+                dialogs_namePaint[a] = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
+                dialogs_nameEncryptedPaint[a] = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
+                dialogs_messagePaint[a] = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
+                dialogs_messagePrintingPaint[a] = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
             }
-            dialogs_searchNamePaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            dialogs_searchNamePaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
              
-            dialogs_searchNameEncryptedPaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
-            dialogs_messageNamePaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            dialogs_searchNameEncryptedPaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            dialogs_messageNamePaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
 
-            dialogs_timePaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            dialogs_timePaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
 
-            dialogs_countTextPaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            dialogs_countTextPaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
  
-            dialogs_archiveTextPaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            dialogs_archiveTextPaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
 
-            dialogs_archiveTextPaintSmall = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            dialogs_archiveTextPaintSmall = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
 
-            dialogs_onlinePaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            dialogs_onlinePaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
  
-            dialogs_offlinePaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            dialogs_offlinePaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
 
 
             dialogs_tabletSeletedPaint = new Paint();
@@ -8417,14 +8418,14 @@ public class Theme {
     public static void createCommonMessageResources() {
         synchronized (sync) {
             if (chat_msgTextPaint == null) {
-                chat_msgTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                chat_msgTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
                 
-                chat_msgGameTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                chat_msgGameTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
-                chat_msgTextPaintOneEmoji = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-                chat_msgTextPaintTwoEmoji = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-                chat_msgTextPaintThreeEmoji = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-                chat_msgBotButtonPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                chat_msgTextPaintOneEmoji = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+                chat_msgTextPaintTwoEmoji = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+                chat_msgTextPaintThreeEmoji = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+                chat_msgBotButtonPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
             }
 
@@ -8441,19 +8442,19 @@ public class Theme {
         createCommonMessageResources();
 
         if (chat_infoPaint == null) {
-            chat_infoPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-            chat_stickerCommentCountPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_infoPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_stickerCommentCountPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
-            chat_docNamePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_docNamePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
             chat_docBackPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             chat_deleteProgressPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             chat_botProgressPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             chat_botProgressPaint.setStrokeCap(Paint.Cap.ROUND);
             chat_botProgressPaint.setStyle(Paint.Style.STROKE);
-            chat_locationTitlePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_locationTitlePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
-            chat_locationAddressPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_locationAddressPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             chat_urlPaint = new Paint();
             chat_urlPaint.setPathEffect(LinkPath.roundedEffect);
             chat_textSearchSelectionPaint = new Paint();
@@ -8465,30 +8466,30 @@ public class Theme {
             chat_radialProgress2Paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             chat_radialProgress2Paint.setStrokeCap(Paint.Cap.ROUND);
             chat_radialProgress2Paint.setStyle(Paint.Style.STROKE);
-            chat_audioTimePaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
-            chat_livePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_audioTimePaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            chat_livePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
-            chat_audioTitlePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_audioTitlePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
-            chat_audioPerformerPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-            chat_botButtonPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_audioPerformerPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_botButtonPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
-            chat_contactNamePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_contactNamePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
-            chat_contactPhonePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-            chat_durationPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-            chat_gamePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_contactPhonePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_durationPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_gamePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
-            chat_shipmentPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-            chat_timePaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
-            chat_adminPaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
-            chat_namePaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            chat_shipmentPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_timePaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            chat_adminPaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            chat_namePaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
 
-            chat_forwardNamePaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
-            chat_replyNamePaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            chat_forwardNamePaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            chat_replyNamePaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
 
-            chat_replyTextPaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
-            chat_instantViewPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_replyTextPaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
+            chat_instantViewPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
             chat_instantViewRectPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             chat_instantViewRectPaint.setStyle(Paint.Style.STROKE);
@@ -8502,7 +8503,7 @@ public class Theme {
             chat_statusRecordPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             chat_statusRecordPaint.setStyle(Paint.Style.STROKE);
             chat_statusRecordPaint.setStrokeCap(Paint.Cap.ROUND);
-            chat_actionTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_actionTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
             chat_actionBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             chat_actionBackgroundSelectedPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -8511,9 +8512,9 @@ public class Theme {
             chat_actionBackgroundGradientDarkenPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             chat_actionBackgroundGradientDarkenPaint.setColor(0x2a000000);
             chat_timeBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            chat_contextResult_titleTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_contextResult_titleTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
-            chat_contextResult_descriptionTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_contextResult_descriptionTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             chat_composeBackgroundPaint = new Paint();
             chat_radialProgressPausedPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             chat_radialProgressPausedSeekbarPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -9271,7 +9272,7 @@ public class Theme {
 
     public static void createProfileResources(Context context) {
         if (profile_verifiedDrawable == null) {
-            profile_aboutTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            profile_aboutTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
             Resources resources = context.getResources();
 

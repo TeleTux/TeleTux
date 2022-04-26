@@ -54,6 +54,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.IdRes;
 import androidx.core.os.CancellationSignal;
@@ -113,7 +114,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
             stringBuilder = new StringBuilder(4);
 
             for (int a = 0; a < 4; a++) {
-                TextView textView = new TextView(context);
+                TextView textView = new SuperTextView(context);
                 textView.setTextColor(0xffffffff);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 36);
                 textView.setGravity(Gravity.CENTER);
@@ -123,7 +124,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                 addView(textView, LayoutHelper.createFrame(50, 50, Gravity.TOP | Gravity.LEFT));
                 characterTextViews.add(textView);
 
-                textView = new TextView(context);
+                textView = new SuperTextView(context);
                 textView.setTextColor(0xffffffff);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 36);
                 textView.setGravity(Gravity.CENTER);
@@ -529,13 +530,13 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         passwordFrameLayout = new FrameLayout(context);
         backgroundFrameLayout.addView(passwordFrameLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
-        passcodeTextView = new TextView(context);
+        passcodeTextView = new SuperTextView(context);
         passcodeTextView.setTextColor(0xffffffff);
         passcodeTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         passcodeTextView.setGravity(Gravity.CENTER_HORIZONTAL);
         passwordFrameLayout.addView(passcodeTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0, 0, 74));
 
-        retryTextView = new TextView(context);
+        retryTextView = new SuperTextView(context);
         retryTextView.setTextColor(0xffffffff);
         retryTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         retryTextView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -633,7 +634,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         numberTextViews = new ArrayList<>(10);
         numberFrameLayouts = new ArrayList<>(10);
         for (int a = 0; a < 10; a++) {
-            TextView textView = new TextView(context);
+            TextView textView = new SuperTextView(context);
             textView.setTextColor(0xffffffff);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 36);
             textView.setGravity(Gravity.CENTER);
@@ -642,7 +643,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
             textView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
             numberTextViews.add(textView);
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
             textView.setTextColor(0x7fffffff);
             textView.setGravity(Gravity.CENTER);
@@ -1071,7 +1072,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                     RelativeLayout relativeLayout = new RelativeLayout(getContext());
                     relativeLayout.setPadding(AndroidUtilities.dp(24), 0, AndroidUtilities.dp(24), 0);
 
-                    TextView fingerprintTextView = new TextView(getContext());
+                    TextView fingerprintTextView = new SuperTextView(getContext());
                     fingerprintTextView.setId(id_fingerprint_textview);
                     fingerprintTextView.setTextAppearance(android.R.style.TextAppearance_Material_Subhead);
                     fingerprintTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
@@ -1087,7 +1088,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                     fingerprintImageView.setId(id_fingerprint_imageview);
                     relativeLayout.addView(fingerprintImageView, LayoutHelper.createRelative(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 0, 20, 0, 0, RelativeLayout.ALIGN_PARENT_START, RelativeLayout.BELOW, id_fingerprint_textview));
 
-                    fingerprintStatusTextView = new TextView(getContext());
+                    fingerprintStatusTextView = new SuperTextView(getContext());
                     fingerprintStatusTextView.setGravity(Gravity.CENTER_VERTICAL);
                     fingerprintStatusTextView.setText(LocaleController.getString("FingerprintHelp", R.string.FingerprintHelp));
                     fingerprintStatusTextView.setTextAppearance(android.R.style.TextAppearance_Material_Body1);

@@ -18,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
@@ -39,7 +40,7 @@ public class LetterDrawable extends Drawable {
         super();
 
         if (namePaint == null) {
-            namePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            namePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         }
         namePaint.setTextSize(AndroidUtilities.dp(28));
         paint.setColor(Theme.getColor(Theme.key_sharedMedia_linkPlaceholder));

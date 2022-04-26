@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.GestureDetector;
 import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
@@ -238,8 +239,8 @@ public class CustomPhoneKeyboardView extends ViewGroup {
     }
 
     private final static class NumberButtonView extends View {
-        private TextPaint numberTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        private TextPaint symbolsTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        private TextPaint numberTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+        private TextPaint symbolsTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         private String mNumber, mSymbols;
         private Rect rect = new Rect();
 

@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -30,25 +31,25 @@ public class SponsoredMessageInfoView extends FrameLayout {
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
-        TextView textView = new TextView(context);
+        TextView textView = new SuperTextView(context);
         textView.setText(LocaleController.getString("SponsoredMessageInfo", R.string.SponsoredMessageInfo));
         textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
 
-        TextView description1 = new TextView(context);
+        TextView description1 = new SuperTextView(context);
         description1.setText(LocaleController.getString("SponsoredMessageInfoDescription1", R.string.SponsoredMessageInfoDescription1));
         description1.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
         description1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         description1.setLineSpacing(AndroidUtilities.dp(2), 1f);
 
-        TextView description2 = new TextView(context);
+        TextView description2 = new SuperTextView(context);
         description2.setText(LocaleController.getString("SponsoredMessageInfoDescription2", R.string.SponsoredMessageInfoDescription2));
         description2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
         description2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         description2.setLineSpacing(AndroidUtilities.dp(2), 1f);
 
-        TextView description3 = new TextView(context);
+        TextView description3 = new SuperTextView(context);
         description3.setText(LocaleController.getString("SponsoredMessageInfoDescription3", R.string.SponsoredMessageInfoDescription3));
         description3.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
         description3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -58,7 +59,7 @@ public class SponsoredMessageInfoView extends FrameLayout {
         buttonPaint.setStyle(Paint.Style.STROKE);
         buttonPaint.setColor(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider));
         buttonPaint.setStrokeWidth(AndroidUtilities.dp(1));
-        TextView button = new TextView(context) {
+        TextView button = new SuperTextView(context) {
 
             @Override
             protected void onDraw(Canvas canvas) {
@@ -82,7 +83,7 @@ public class SponsoredMessageInfoView extends FrameLayout {
         button.setGravity(Gravity.CENTER_VERTICAL);
 
 
-        TextView description4 = new TextView(context);
+        TextView description4 = new SuperTextView(context);
         description4.setText(LocaleController.getString("SponsoredMessageInfoDescription4", R.string.SponsoredMessageInfoDescription4));
         description4.setLineSpacing(AndroidUtilities.dp(2), 1f);
         description4.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));

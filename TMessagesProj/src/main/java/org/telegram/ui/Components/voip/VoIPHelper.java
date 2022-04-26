@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.Toast;
 
 import org.telegram.messenger.AccountInstance;
@@ -437,7 +438,7 @@ public class VoIPHelper {
         int pad = AndroidUtilities.dp(16);
         alertView.setPadding(pad, pad, pad, 0);
 
-        TextView text = new TextView(context);
+        TextView text = new SuperTextView(context);
         text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         text.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         text.setGravity(Gravity.CENTER);
@@ -524,7 +525,7 @@ public class VoIPHelper {
         checkbox.setOnClickListener(checkClickListener);
         alertView.addView(checkbox, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, -8, 0, -8, 0));
 
-        final TextView logsText = new TextView(context);
+        final TextView logsText = new SuperTextView(context);
         logsText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         logsText.setTextColor(Theme.getColor(Theme.key_dialogTextGray3));
         logsText.setText(LocaleController.getString("CallReportLogsExplain", R.string.CallReportLogsExplain));
@@ -647,7 +648,7 @@ public class VoIPHelper {
         LinearLayout ll = new LinearLayout(context);
         ll.setOrientation(LinearLayout.VERTICAL);
 
-        TextView warning = new TextView(context);
+        TextView warning = new SuperTextView(context);
         warning.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         warning.setText("Please only change these settings if you know exactly what they do.");
         warning.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));

@@ -27,6 +27,7 @@ import android.os.Build;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.Gravity;
@@ -1264,7 +1265,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             super(context);
             setWillNotDraw(false);
 
-            textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             textPaint.setColor(0xffffffff);
             textPaint.setTextSize(AndroidUtilities.dp(12));
 

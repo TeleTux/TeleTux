@@ -44,6 +44,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -705,7 +706,7 @@ public class BottomSheet extends Dialog {
             imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogIcon), PorterDuff.Mode.SRC_IN));
             addView(imageView, LayoutHelper.createLinear(56, 48));
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setLines(1);
             textView.setSingleLine(true);
             textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -718,7 +719,7 @@ public class BottomSheet extends Dialog {
             } else if (type == 1) {
                 textView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-                textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 textView.setGravity(Gravity.CENTER);
                 addView(textView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
             } else if (type == 2) {
@@ -908,7 +909,7 @@ public class BottomSheet extends Dialog {
         container.addView(containerView, 0, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM));
 
         if (title != null) {
-            titleView = new TextView(getContext());
+            titleView = new SuperTextView(getContext());
             titleView.setText(title);
             titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             titleView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);

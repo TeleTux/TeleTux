@@ -17,6 +17,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DocumentObject;
@@ -68,7 +69,7 @@ public class StickerEmojiCell extends FrameLayout {
 
         emojiTextView = new EmojiTextView(context);
         emojiTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-        emojiTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        emojiTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(emojiTextView, LayoutHelper.createFrame(28, 28, Gravity.BOTTOM | Gravity.RIGHT));
         setFocusable(true);
     }

@@ -48,6 +48,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -737,7 +738,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         gridView.setEmptyView(emptyView);
         emptyView.setOnTouchListener((v, event) -> true);
 
-        titleTextView = new TextView(context);
+        titleTextView = new SuperTextView(context);
         titleTextView.setLines(1);
         titleTextView.setSingleLine(true);
         titleTextView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
@@ -746,7 +747,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         titleTextView.setEllipsize(TextUtils.TruncateAt.END);
         titleTextView.setPadding(AndroidUtilities.dp(18), 0, AndroidUtilities.dp(18), 0);
         titleTextView.setGravity(Gravity.CENTER_VERTICAL);
-        titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         containerView.addView(titleTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 50, Gravity.LEFT | Gravity.TOP, 0, 0, 40, 0));
 
         optionsButton = new ActionBarMenuItem(context, null, 0, getThemedColor(Theme.key_sheet_other), resourcesProvider);
@@ -774,12 +775,12 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         shadow[1].setBackgroundColor(getThemedColor(Theme.key_dialogShadowLine));
         containerView.addView(shadow[1], frameLayoutParams);
 
-        pickerBottomLayout = new TextView(context);
+        pickerBottomLayout = new SuperTextView(context);
         pickerBottomLayout.setBackgroundDrawable(Theme.createSelectorWithBackgroundDrawable(getThemedColor(Theme.key_dialogBackground), getThemedColor(Theme.key_listSelector)));
         pickerBottomLayout.setTextColor(getThemedColor(buttonTextColorKey = Theme.key_dialogTextBlue2));
         pickerBottomLayout.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         pickerBottomLayout.setPadding(AndroidUtilities.dp(18), 0, AndroidUtilities.dp(18), 0);
-        pickerBottomLayout.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        pickerBottomLayout.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         pickerBottomLayout.setGravity(Gravity.CENTER);
         containerView.addView(pickerBottomLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.LEFT | Gravity.BOTTOM));
 
@@ -799,13 +800,13 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         stickerEmojiTextView.setGravity(Gravity.BOTTOM | Gravity.RIGHT);
         stickerPreviewLayout.addView(stickerEmojiTextView);
 
-        previewSendButton = new TextView(context);
+        previewSendButton = new SuperTextView(context);
         previewSendButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         previewSendButton.setTextColor(getThemedColor(Theme.key_dialogTextBlue2));
         previewSendButton.setBackground(Theme.createSelectorWithBackgroundDrawable(getThemedColor(Theme.key_dialogBackground), getThemedColor(Theme.key_listSelector)));
         previewSendButton.setGravity(Gravity.CENTER);
         previewSendButton.setPadding(AndroidUtilities.dp(29), 0, AndroidUtilities.dp(29), 0);
-        previewSendButton.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        previewSendButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         stickerPreviewLayout.addView(previewSendButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.BOTTOM | Gravity.LEFT));
         previewSendButton.setOnClickListener(v -> {
             if (importingStickersPaths != null) {
@@ -1053,9 +1054,9 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
 
         linearLayout.addView(fieldLayout, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 36, Gravity.TOP | Gravity.LEFT, 24, 6, 24, 0));
 
-        TextView message = new TextView(context);
+        TextView message = new SuperTextView(context);
 
-        TextView textView = new TextView(context);
+        TextView textView = new SuperTextView(context);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         textView.setTextColor(getThemedColor(Theme.key_dialogTextHint));
         textView.setMaxLines(1);

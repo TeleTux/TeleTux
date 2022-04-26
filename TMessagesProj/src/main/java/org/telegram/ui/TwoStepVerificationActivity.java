@@ -38,6 +38,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -247,14 +248,14 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         lockImageView.setVisibility(AndroidUtilities.isSmallScreen() || AndroidUtilities.displaySize.x > AndroidUtilities.displaySize.y ? View.GONE : View.VISIBLE);
         linearLayout.addView(lockImageView, LayoutHelper.createLinear(120, 120, Gravity.CENTER_HORIZONTAL));
 
-        titleTextView = new TextView(context);
+        titleTextView = new SuperTextView(context);
         titleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
         titleTextView.setGravity(Gravity.CENTER_HORIZONTAL);
         titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         linearLayout.addView(titleTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 24, 8, 24, 0));
 
-        subtitleTextView = new TextView(context);
+        subtitleTextView = new SuperTextView(context);
         subtitleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
         subtitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         subtitleTextView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -306,14 +307,14 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
             }
         });
 
-        bottomTextView = new TextView(context);
+        bottomTextView = new SuperTextView(context);
         bottomTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
         bottomTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         bottomTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
         bottomTextView.setText(LocaleController.getString("YourEmailInfo", R.string.YourEmailInfo));
         linearLayout.addView(bottomTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 40, 30, 40, 0));
 
-        resetWaitView = new TextView(context);
+        resetWaitView = new SuperTextView(context);
         resetWaitView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
         resetWaitView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
         resetWaitView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
@@ -333,7 +334,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         bottomButton.setOnClickListener(v -> onPasswordForgot());
         VerticalPositionAutoAnimator.attach(bottomButton);
 
-        cancelResetButton = new TextView(context);
+        cancelResetButton = new SuperTextView(context);
         cancelResetButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         cancelResetButton.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         cancelResetButton.setPadding(AndroidUtilities.dp(32), 0, AndroidUtilities.dp(32), 0);

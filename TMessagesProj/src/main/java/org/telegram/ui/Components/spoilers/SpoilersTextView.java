@@ -12,6 +12,7 @@ import android.text.Layout;
 import android.text.Spanned;
 import android.view.MotionEvent;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 

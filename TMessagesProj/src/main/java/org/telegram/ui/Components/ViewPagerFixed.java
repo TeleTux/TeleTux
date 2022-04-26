@@ -18,6 +18,7 @@ import android.os.SystemClock;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
@@ -30,6 +31,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
@@ -782,9 +784,9 @@ public class ViewPagerFixed extends FrameLayout {
             }
         }
 
-        private TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        private TextPaint textCounterPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        private Paint deletePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        private TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+        private TextPaint textCounterPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+        private Paint deletePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         private Paint counterPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         private ArrayList<Tab> tabs = new ArrayList<>();
@@ -882,9 +884,9 @@ public class ViewPagerFixed extends FrameLayout {
         public TabsView(Context context) {
             super(context);
             textCounterPaint.setTextSize(AndroidUtilities.dp(13));
-            textCounterPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textCounterPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             textPaint.setTextSize(AndroidUtilities.dp(15));
-            textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             deletePaint.setStyle(Paint.Style.STROKE);
             deletePaint.setStrokeCap(Paint.Cap.ROUND);
             deletePaint.setStrokeWidth(AndroidUtilities.dp(1.5f));

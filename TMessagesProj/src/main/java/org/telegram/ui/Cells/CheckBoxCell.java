@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -54,14 +55,14 @@ public class CheckBoxCell extends FrameLayout {
 
         currentType = type;
 
-        textView = new TextView(context);
+        textView = new SuperTextView(context);
         textView.setTag(getThemedColor(type == 1 || type == 5 ? Theme.key_dialogTextBlack : Theme.key_windowBackgroundWhiteBlackText));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         textView.setLines(1);
         textView.setMaxLines(1);
         textView.setSingleLine(true);
         textView.setEllipsize(TextUtils.TruncateAt.END);
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         if (type == 3) {
             textView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
             addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP, 29, 0, 0, 0));
@@ -76,7 +77,7 @@ public class CheckBoxCell extends FrameLayout {
             }
         }
 
-        valueTextView = new TextView(context);
+        valueTextView = new SuperTextView(context);
         valueTextView.setTag(type == 1 || type == 5 ? Theme.key_dialogTextBlue : Theme.key_windowBackgroundWhiteValueText);
         valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         valueTextView.setLines(1);
@@ -84,7 +85,7 @@ public class CheckBoxCell extends FrameLayout {
         valueTextView.setSingleLine(true);
         valueTextView.setEllipsize(TextUtils.TruncateAt.END);
         valueTextView.setGravity((LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.CENTER_VERTICAL);
-        valueTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        valueTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(valueTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.TOP, padding, 0, padding, 0));
 
         if (type == TYPE_CHECK_BOX_ROUND) {

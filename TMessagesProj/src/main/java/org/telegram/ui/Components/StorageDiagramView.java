@@ -11,6 +11,7 @@ import android.os.Build;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.View;
 
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
@@ -27,8 +28,8 @@ public class StorageDiagramView extends View {
     private float[] startFromPercentage;
 
     private float singleProgress = 0;
-    TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-    TextPaint textPaint2 = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+    TextPaint textPaint2 = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
     StaticLayout layout1;
     StaticLayout layout2;
@@ -50,7 +51,7 @@ public class StorageDiagramView extends View {
         rectF.set(AndroidUtilities.dp(3), AndroidUtilities.dp(3), getMeasuredWidth() - AndroidUtilities.dp(3), getMeasuredHeight() - AndroidUtilities.dp(3));
         updateDescription();
         textPaint.setTextSize(AndroidUtilities.dp(24));
-        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
         textPaint2.setTextSize(AndroidUtilities.dp(13));
     }

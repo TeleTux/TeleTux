@@ -15,6 +15,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -31,19 +32,18 @@ public class TextPriceCell extends FrameLayout {
 
         setWillNotDraw(false);
 
-        textView = new TextView(context);
+        textView = new SuperTextView(context);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         textView.setLines(1);
         textView.setMaxLines(1);
         textView.setSingleLine(true);
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
         addView(textView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 21, 0, 21, 0));
 
-        valueTextView = new TextView(context);
+        valueTextView = new SuperTextView(context);
         valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-        valueTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        valueTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         valueTextView.setLines(1);
         valueTextView.setMaxLines(1);
         valueTextView.setSingleLine(true);
@@ -85,8 +85,8 @@ public class TextPriceCell extends FrameLayout {
             setTag(Theme.key_windowBackgroundWhiteBlackText);
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             valueTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Bold.ttf"));
-            valueTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Bold.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            valueTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         } else {
             setTag(Theme.key_windowBackgroundWhiteGrayText2);
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2));

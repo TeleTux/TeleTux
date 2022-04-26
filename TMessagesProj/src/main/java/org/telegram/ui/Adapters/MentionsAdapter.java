@@ -19,6 +19,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -1458,7 +1459,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                 view = new BotSwitchCell(mContext);
                 break;
             case 3:
-                TextView textView = new TextView(mContext);
+                TextView textView = new SuperTextView(mContext);
                 textView.setPadding(AndroidUtilities.dp(8), AndroidUtilities.dp(8), AndroidUtilities.dp(8), AndroidUtilities.dp(8));
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 textView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText2));

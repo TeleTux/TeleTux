@@ -38,6 +38,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.core.graphics.ColorUtils;
 import androidx.dynamicanimation.animation.FloatValueHolder;
@@ -449,7 +450,7 @@ public class CameraScanActivity extends BaseFragment {
         Paint selectionPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         selectionPaint.setPathEffect(LinkPath.roundedEffect);
         selectionPaint.setColor(ColorUtils.setAlphaComponent(Color.WHITE, 50));
-        titleTextView = new TextView(context) {
+        titleTextView = new SuperTextView(context) {
             LinkPath textPath;
 
             @Override
@@ -487,13 +488,13 @@ public class CameraScanActivity extends BaseFragment {
 
         viewGroup.addView(titleTextView);
 
-        descriptionText = new TextView(context);
+        descriptionText = new SuperTextView(context);
         descriptionText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
         descriptionText.setGravity(Gravity.CENTER_HORIZONTAL);
         descriptionText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         viewGroup.addView(descriptionText);
 
-        recognizedMrzView = new TextView(context);
+        recognizedMrzView = new SuperTextView(context);
         recognizedMrzView.setTextColor(0xffffffff);
         recognizedMrzView.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
         recognizedMrzView.setAlpha(0);

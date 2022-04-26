@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -104,7 +105,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         FrameLayout rootLayout = new FrameLayout(getContext());
         setCustomView(rootLayout);
 
-        titleView = new TextView(getContext());
+        titleView = new SuperTextView(getContext());
         titleView.setEllipsize(TextUtils.TruncateAt.MIDDLE);
         titleView.setLines(1);
         titleView.setSingleLine(true);
@@ -207,7 +208,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         applyButton.setOnClickListener((view) -> applySelectedTheme());
         rootLayout.addView(applyButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.START, 16, 162, 16, 16));
 
-        resetTextView = new TextView(getContext());
+        resetTextView = new SuperTextView(getContext());
         resetTextView.setAlpha(0f);
         resetTextView.setEllipsize(TextUtils.TruncateAt.END);
         resetTextView.setGravity(Gravity.CENTER);
@@ -220,7 +221,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         resetTextView.setVisibility(View.INVISIBLE);
         rootLayout.addView(resetTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.START, 16, 162, 16, 16));
 
-        applyTextView = new TextView(getContext());
+        applyTextView = new SuperTextView(getContext());
         applyTextView.setEllipsize(TextUtils.TruncateAt.END);
         applyTextView.setGravity(Gravity.CENTER);
         applyTextView.setLines(1);

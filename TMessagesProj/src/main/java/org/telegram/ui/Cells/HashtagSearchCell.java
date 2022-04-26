@@ -13,6 +13,7 @@ import android.graphics.Canvas;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
@@ -26,7 +27,7 @@ public class HashtagSearchCell extends TextView {
         setGravity(Gravity.CENTER_VERTICAL);
         setPadding(AndroidUtilities.dp(16), 0, AndroidUtilities.dp(16), 0);
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
-        setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
     }
 

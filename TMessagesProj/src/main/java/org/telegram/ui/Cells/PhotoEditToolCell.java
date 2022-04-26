@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
@@ -59,22 +60,22 @@ public class PhotoEditToolCell extends FrameLayout {
         super(context);
         this.resourcesProvider = resourcesProvider;
 
-        nameTextView = new TextView(context);
+        nameTextView = new SuperTextView(context);
         nameTextView.setGravity(Gravity.RIGHT);
         nameTextView.setTextColor(0xffffffff);
         nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
         nameTextView.setMaxLines(1);
         nameTextView.setSingleLine(true);
         nameTextView.setEllipsize(TextUtils.TruncateAt.END);
-        nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(nameTextView, LayoutHelper.createFrame(80, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.CENTER_VERTICAL, 0, 0, 0, 0));
 
-        valueTextView = new TextView(context);
+        valueTextView = new SuperTextView(context);
         valueTextView.setTextColor(getThemedColor(Theme.key_dialogFloatingButton));
         valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
         valueTextView.setGravity(Gravity.RIGHT);
         valueTextView.setSingleLine(true);
-        valueTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        valueTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(valueTextView, LayoutHelper.createFrame(80, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.CENTER_VERTICAL, 0, 0, 0, 0));
 
         seekBar = new PhotoEditorSeekBar(context);

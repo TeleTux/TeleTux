@@ -37,6 +37,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DocumentObject;
@@ -290,8 +291,8 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
             tab.setOnClickListener(v -> delegate.onPageSelected((Integer) v.getTag(R.id.index_tag)));
             tab.addView(imageView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
-            textView = new TextView(getContext());
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textView = new SuperTextView(getContext());
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
             textView.setTextColor(getThemedColor(Theme.key_chat_emojiPanelBadgeText));
             textView.setGravity(Gravity.CENTER);

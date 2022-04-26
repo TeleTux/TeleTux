@@ -22,6 +22,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.CharacterStyle;
@@ -36,6 +37,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import com.jakewharton.processphoenix.ProcessPhoenix;
 
@@ -286,7 +288,7 @@ public class UndoView extends FrameLayout {
         undoImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_undo_cancelColor), PorterDuff.Mode.SRC_IN));
         undoButton.addView(undoImageView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL | Gravity.LEFT, 4, 4, 0, 4));
 
-        undoTextView = new TextView(context);
+        undoTextView = new SuperTextView(context);
         undoTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         undoTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         undoTextView.setTextColor(getThemedColor(Theme.key_undo_cancelColor));
@@ -301,7 +303,7 @@ public class UndoView extends FrameLayout {
         progressPaint.setStrokeCap(Paint.Cap.ROUND);
         progressPaint.setColor(getThemedColor(Theme.key_undo_infoColor));
 
-        textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setTextSize(AndroidUtilities.dp(12));
         textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textPaint.setColor(getThemedColor(Theme.key_undo_infoColor));
@@ -901,7 +903,7 @@ public class UndoView extends FrameLayout {
                 subinfoTextView.setText(subInfoText);
                 subinfoTextView.setVisibility(VISIBLE);
                 infoTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-                infoTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                infoTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             } else {
                 layoutParams.leftMargin = AndroidUtilities.dp(58);
                 layoutParams.topMargin = AndroidUtilities.dp(13);
@@ -1130,7 +1132,7 @@ public class UndoView extends FrameLayout {
             leftImageView.setVisibility(VISIBLE);
 
             if (radius != 0) {
-                infoTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                infoTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 infoTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 leftImageView.clearLayerColors();
                 leftImageView.setLayerColor("BODY.**", getThemedColor(Theme.key_undo_infoColor));
@@ -1186,7 +1188,7 @@ public class UndoView extends FrameLayout {
             subinfoTextView.setText(authorization.app_name);
             subinfoTextView.setVisibility(VISIBLE);
             infoTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            infoTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            infoTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
             undoTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteRedText2));
             undoImageView.setVisibility(GONE);

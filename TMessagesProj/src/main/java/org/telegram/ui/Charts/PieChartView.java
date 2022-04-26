@@ -9,6 +9,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.HapticFeedbackConstants;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -51,7 +52,7 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
             lookupTable[i] = i + "%";
         }
 
-        textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setColor(Color.WHITE);
         textPaint.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));

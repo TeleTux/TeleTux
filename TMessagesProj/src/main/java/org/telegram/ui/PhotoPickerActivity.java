@@ -28,6 +28,7 @@ import android.os.Build;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -46,6 +47,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -180,7 +182,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
     private Drawable writeButtonDrawable;
     private SizeNotifierFrameLayout sizeNotifierFrameLayout;
     private int itemsPerRow = 3;
-    private TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    private TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
     private RectF rect = new RectF();
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private AnimatorSet animatorSet;
@@ -1168,7 +1170,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             });
 
             textPaint.setTextSize(AndroidUtilities.dp(12));
-            textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
             selectedCountView = new View(context) {
                 @Override

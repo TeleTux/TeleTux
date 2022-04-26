@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.R;
@@ -37,11 +38,11 @@ public class LocationPoweredCell extends FrameLayout {
         LinearLayout linearLayout = new LinearLayout(context);
         addView(linearLayout, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
 
-        textView = new TextView(context);
+        textView = new SuperTextView(context);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         textView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText3));
         textView.setText("Powered by");
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         linearLayout.addView(textView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
 
         imageView = new ImageView(context);
@@ -50,11 +51,11 @@ public class LocationPoweredCell extends FrameLayout {
         imageView.setPadding(0, AndroidUtilities.dp(2), 0, 0);
         linearLayout.addView(imageView, LayoutHelper.createLinear(35, LayoutHelper.WRAP_CONTENT));
 
-        textView2 = new TextView(context);
+        textView2 = new SuperTextView(context);
         textView2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         textView2.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText3));
         textView2.setText("Foursquare");
-        textView2.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        textView2.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         linearLayout.addView(textView2, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
     }
 

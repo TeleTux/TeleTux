@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -29,16 +30,16 @@ public class ArchiveHintInnerCell extends FrameLayout {
         imageView = new ImageView(context);
         imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_nameMessage_threeLines), PorterDuff.Mode.SRC_IN));
 
-        headerTextView = new TextView(context);
+        headerTextView = new SuperTextView(context);
         headerTextView.setTextColor(Theme.getColor(Theme.key_chats_nameMessage_threeLines));
         headerTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-        headerTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        headerTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         headerTextView.setGravity(Gravity.CENTER);
         addView(headerTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.LEFT, 52, 75, 52, 0));
 
-        messageTextView = new TextView(context);
+        messageTextView = new SuperTextView(context);
         messageTextView.setTextColor(Theme.getColor(Theme.key_chats_message));
-        messageTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        messageTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         messageTextView.setGravity(Gravity.CENTER);
         addView(messageTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.LEFT, 52, 110, 52, 0));

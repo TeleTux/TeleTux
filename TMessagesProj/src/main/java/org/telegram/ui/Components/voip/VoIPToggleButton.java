@@ -19,6 +19,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -91,7 +92,7 @@ public class VoIPToggleButton extends FrameLayout {
         addView(textLayoutContainer);
 
         for (int i = 0; i < 2; i++) {
-            TextView textView = new TextView(context);
+            TextView textView = new SuperTextView(context);
             textView.setGravity(Gravity.CENTER_HORIZONTAL);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11);
             textView.setTextColor(Color.WHITE);

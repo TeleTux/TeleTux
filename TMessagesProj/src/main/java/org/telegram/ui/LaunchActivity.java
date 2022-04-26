@@ -57,6 +57,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -3847,7 +3848,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
         updateTextView.setGravity(Gravity.LEFT);
         updateLayout.addView(updateTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 74, 0, 0, 0));
 
-        updateSizeTextView = new TextView(this);
+        updateSizeTextView = new SuperTextView(this);
         updateSizeTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         updateSizeTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         updateSizeTextView.setGravity(Gravity.RIGHT);

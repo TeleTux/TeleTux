@@ -22,6 +22,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -30,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -177,12 +179,12 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
 
         castingScreenDrawable = parentContainer.getContext().getResources().getDrawable(R.drawable.screencast_big).mutate();
 
-        TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textPaint.setTextSize(AndroidUtilities.dp(13));
         textPaint.setColor(Color.WHITE);
 
-        TextPaint textPaint2 = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        TextPaint textPaint2 = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         textPaint2.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textPaint2.setTextSize(AndroidUtilities.dp(15));
         textPaint2.setColor(Color.WHITE);
@@ -534,7 +536,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         screencastIcon.setColorFilter(new PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY));
 
         final Drawable rippleDrawable = Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(19), Color.TRANSPARENT, ColorUtils.setAlphaComponent(Color.WHITE, 100));
-        stopSharingTextView = new TextView(parentContainer.getContext()) {
+        stopSharingTextView = new SuperTextView(parentContainer.getContext()) {
             @Override
             public boolean onTouchEvent(MotionEvent event) {
                 if (Math.abs(stopSharingTextView.getAlpha() - 1.0f) > 0.001f) {
@@ -558,7 +560,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         });
         addView(stopSharingTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 38, Gravity.LEFT | Gravity.TOP));
 
-        noRtmpStreamTextView = new TextView(parentContainer.getContext());
+        noRtmpStreamTextView = new SuperTextView(parentContainer.getContext());
         noRtmpStreamTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         noRtmpStreamTextView.setPadding(AndroidUtilities.dp(21), 0, AndroidUtilities.dp(21), 0);
         noRtmpStreamTextView.setTextColor(Theme.getColor(Theme.key_voipgroup_lastSeenText));

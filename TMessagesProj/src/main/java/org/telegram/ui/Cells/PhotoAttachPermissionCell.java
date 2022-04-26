@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -47,12 +48,10 @@ public class PhotoAttachPermissionCell extends FrameLayout {
         imageView2.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_attachPermissionMark), PorterDuff.Mode.SRC_IN));
         addView(imageView2, LayoutHelper.createFrame(44, 44, Gravity.CENTER, 5, 0, 0, 27));
 
-        textView = new TextView(context);
+        textView = new SuperTextView(context);
         textView.setTextColor(getThemedColor(Theme.key_chat_attachPermissionText));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
         textView.setGravity(Gravity.CENTER);
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Bold.ttf"));
-
         addView(textView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 5, 13, 5, 0));
 
         itemSize = AndroidUtilities.dp(80);

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -103,7 +104,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
             }
         };
         recyclerContainer.setOrientation(LinearLayout.VERTICAL);
-        headerText = new TextView(context);
+        headerText = new SuperTextView(context);
         headerText.setTextColor(Theme.getColor(Theme.key_dialogTextBlue));
         headerText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         headerText.setText(LocaleController.getString("SendMessageAsTitle", R.string.SendMessageAsTitle));
@@ -361,7 +362,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
             textRow.setOrientation(VERTICAL);
             addView(textRow, LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT, 1f, 12, 0, 0, 0));
 
-            title = new TextView(context);
+            title = new SuperTextView(context);
             title.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
             title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             title.setTag(this.title);
@@ -369,7 +370,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
             title.setEllipsize(TextUtils.TruncateAt.END);
             textRow.addView(title);
 
-            subtitle = new TextView(context);
+            subtitle = new SuperTextView(context);
             subtitle.setTextColor(ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem), 0x66));
             subtitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             subtitle.setTag(this.subtitle);

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.core.graphics.ColorUtils;
 
@@ -160,7 +161,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         mediaCounterTextView = new AudioPlayerAlert.ClippingTextViewSwitcher(context) {
             @Override
             protected TextView createTextView() {
-                TextView textView = new TextView(context);
+                TextView textView = new SuperTextView(context);
                 textView.setTextColor(Theme.getColor(Theme.key_player_actionBarSubtitle));
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 textView.setSingleLine(true);

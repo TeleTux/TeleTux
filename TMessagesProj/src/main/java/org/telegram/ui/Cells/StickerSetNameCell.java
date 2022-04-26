@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
@@ -64,7 +65,7 @@ public class StickerSetNameCell extends FrameLayout {
         textView = new EmojiTextView(context);
         textView.setTextColor(getThemedColor(Theme.key_chat_emojiPanelStickerSetName));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setSingleLine(true);
         if (supportRtl) {
@@ -74,13 +75,13 @@ public class StickerSetNameCell extends FrameLayout {
         }
         addView(textView, lp);
 
-        urlTextView = new TextView(context);
+        urlTextView = new SuperTextView(context);
         urlTextView.setTextColor(getThemedColor(Theme.key_chat_emojiPanelStickerSetName));
         urlTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
         urlTextView.setEllipsize(TextUtils.TruncateAt.END);
         urlTextView.setSingleLine(true);
         urlTextView.setVisibility(INVISIBLE);
-        urlTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        urlTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
         if (supportRtl) {
             lp = LayoutHelper.createFrameRelatively(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.END, 17, 6, 17, 0);

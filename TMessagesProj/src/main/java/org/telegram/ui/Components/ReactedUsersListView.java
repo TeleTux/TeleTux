@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -265,7 +266,7 @@ public class ReactedUsersListView extends FrameLayout {
             avatarView.setRoundRadius(AndroidUtilities.dp(32));
             addView(avatarView, LayoutHelper.createFrameRelatively(36, 36, Gravity.START | Gravity.CENTER_VERTICAL, 8, 0, 0, 0));
 
-            titleView = new TextView(context);
+            titleView = new SuperTextView(context);
             titleView.setLines(1);
             titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             titleView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));

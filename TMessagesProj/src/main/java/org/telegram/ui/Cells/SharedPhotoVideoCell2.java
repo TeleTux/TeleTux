@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.View;
@@ -434,7 +435,7 @@ public class SharedPhotoVideoCell2 extends View {
     }
 
     public static class SharedResources {
-        TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         private Paint backgroundPaint = new Paint();
         Drawable playDrawable;
         Paint highlightPaint = new Paint();

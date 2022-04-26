@@ -22,6 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -689,7 +690,7 @@ public class ManageLinksActivity extends BaseFragment {
             emptyView = new EmptyView(context);
             addView(emptyView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 10, 0, 0));
 
-            messageTextView = new TextView(context);
+            messageTextView = new SuperTextView(context);
             messageTextView.setTextColor(Theme.getColor(Theme.key_chats_message));
             messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             messageTextView.setGravity(Gravity.CENTER);
@@ -991,7 +992,7 @@ public class ManageLinksActivity extends BaseFragment {
             textView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText2));
             textView.setTag(Theme.key_windowBackgroundWhiteBlueText2);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
             addView(textView);
 
@@ -1082,13 +1083,13 @@ public class ManageLinksActivity extends BaseFragment {
 
             addView(linearLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 70, 0, 30, 0));
 
-            titleView = new TextView(context);
+            titleView = new SuperTextView(context);
             titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             titleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             titleView.setLines(1);
             titleView.setEllipsize(TextUtils.TruncateAt.END);
 
-            subtitleView = new TextView(context);
+            subtitleView = new SuperTextView(context);
             subtitleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
             subtitleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
 

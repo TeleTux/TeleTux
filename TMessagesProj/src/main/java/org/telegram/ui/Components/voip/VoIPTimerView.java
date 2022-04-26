@@ -8,6 +8,7 @@ import android.graphics.RectF;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.View;
 
 import androidx.core.graphics.ColorUtils;
@@ -22,7 +23,7 @@ public class VoIPTimerView extends View {
     Paint activePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Paint inactivePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     String currentTimeStr;
-    TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
     private int signalBarCount = 4;
 
     Runnable updater = () -> {

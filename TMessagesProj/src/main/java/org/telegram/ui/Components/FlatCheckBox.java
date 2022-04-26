@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.View;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -20,7 +21,7 @@ public class FlatCheckBox extends View {
     public boolean enabled = true;
 
     String text;
-    TextPaint textPaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+    TextPaint textPaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
     Paint fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Paint outLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Paint checkPaint = new Paint(Paint.ANTI_ALIAS_FLAG);

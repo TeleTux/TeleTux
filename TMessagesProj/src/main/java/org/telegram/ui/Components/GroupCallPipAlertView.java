@@ -18,6 +18,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.core.graphics.ColorUtils;
 
@@ -102,15 +103,15 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
-        titleView = new TextView(context);
+        titleView = new SuperTextView(context);
         titleView.setTextColor(Color.WHITE);
         titleView.setTextSize(15);
         titleView.setMaxLines(2);
         titleView.setEllipsize(TextUtils.TruncateAt.END);
-        titleView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         linearLayout.addView(titleView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
-        subtitleView = new TextView(context);
+        subtitleView = new SuperTextView(context);
         subtitleView.setTextSize(12);
         subtitleView.setTextColor(ColorUtils.setAlphaComponent(Color.WHITE, (int) (255 * 0.6f)));
 

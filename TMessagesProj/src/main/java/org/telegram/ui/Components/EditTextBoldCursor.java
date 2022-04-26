@@ -31,6 +31,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.ActionMode;
@@ -42,6 +43,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.lsposed.hiddenapibypass.HiddenApiBypass;
 import org.telegram.messenger.AndroidUtilities;
@@ -333,7 +335,7 @@ public class EditTextBoldCursor extends EditTextEffects {
     private void init() {
         linePaint = new Paint();
         activeLinePaint = new Paint();
-        errorPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        errorPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         errorPaint.setTextSize(AndroidUtilities.dp(11));
         if (Build.VERSION.SDK_INT >= 26) {
             setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);

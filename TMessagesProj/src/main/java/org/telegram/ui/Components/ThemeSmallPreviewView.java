@@ -18,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -452,7 +453,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         if (textLayout != null) {
             return textLayout;
         }
-        noThemeTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG + TextPaint.SUBPIXEL_TEXT_FLAG);
+        noThemeTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG + TextPaint.SUBPIXEL_TEXT_FLAG);
         noThemeTextPaint.setColor(getThemedColor(Theme.key_chat_emojiPanelTrendingDescription));
         noThemeTextPaint.setTextSize(AndroidUtilities.dp(14));
         noThemeTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));

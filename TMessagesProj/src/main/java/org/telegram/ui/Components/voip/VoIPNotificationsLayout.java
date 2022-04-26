@@ -21,6 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
@@ -196,7 +197,7 @@ public class VoIPNotificationsLayout extends LinearLayout {
             setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(16), ColorUtils.setAlphaComponent(Color.BLACK, (int) (255 * 0.4f))));
             addView(iconView, LayoutHelper.createFrame(24, 24, 0, 10, 4, 10, 4));
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setTextColor(Color.WHITE);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             addView(textView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 44, 4, 16, 4));

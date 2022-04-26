@@ -86,6 +86,8 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.widget.Toast;
 
 import androidx.annotation.Keep;
@@ -499,15 +501,15 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int lastWidth;
 
         private TextPaint textPaint;
+        private SuperTextPaint SuperTextPaint;
 
         public TextSizeCell(Context context) {
             super(context);
 
             setWillNotDraw(false);
 
-            textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             textPaint.setTextSize(AndroidUtilities.dp(16));
-            textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
 
             sizeBar = new SeekBarView(context);
             sizeBar.setReportChanges(true);
@@ -582,7 +584,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             radioButton.setColor(Theme.getColor(Theme.key_dialogRadioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
             addView(radioButton, LayoutHelper.createFrame(22, 22, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, (LocaleController.isRTL ? 0 : 22), 13, (LocaleController.isRTL ? 22 : 0), 0));
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             textView.setLines(1);
@@ -1284,12 +1286,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             });
             popupLayout.setShownFromBotton(false);
 
-            deleteView = new TextView(parentActivity);
+            deleteView = new SuperTextView(parentActivity);
             deleteView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 2));
             deleteView.setGravity(Gravity.CENTER_VERTICAL);
             deleteView.setPadding(AndroidUtilities.dp(20), 0, AndroidUtilities.dp(20), 0);
             deleteView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-            deleteView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            deleteView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             deleteView.setText(LocaleController.getString("Copy", R.string.Copy).toUpperCase());
             deleteView.setOnClickListener(v -> {
                 if (pressedLinkOwnerLayout != null) {
@@ -1684,7 +1686,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         }
                     }
                 });
-                TextView textView = new TextView(parentActivity) {
+                TextView textView = new SuperTextView(parentActivity) {
                     @Override
                     protected void onDraw(Canvas canvas) {
                         canvas.drawLine(0, getMeasuredHeight() - 1, getMeasuredWidth(), getMeasuredHeight() - 1, dividerPaint);
@@ -1692,7 +1694,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                 };
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-                textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 textView.setText(LocaleController.getString("InstantViewReference", R.string.InstantViewReference));
                 textView.setGravity((adapter[0].isRtl ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
                 textView.setTextColor(getTextColor());
@@ -1843,7 +1845,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     private static final int TEXT_FLAG_SUP = 256;
     private static final int TEXT_FLAG_WEBPAGE_URL = 512;
 
-    private static TextPaint audioTimePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    private static TextPaint audioTimePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
     private static TextPaint errorTextPaint;
     private static SparseArray<TextPaint> photoCaptionTextPaints = new SparseArray<>();
     private static SparseArray<TextPaint> photoCreditTextPaints = new SparseArray<>();
@@ -2361,7 +2363,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
         if (currentMap == null) {
             if (errorTextPaint == null) {
-                errorTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                errorTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
                 errorTextPaint.setColor(0xffff0000);
             }
             errorTextPaint.setTextSize(AndroidUtilities.dp(14));
@@ -2369,15 +2371,15 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
         TextPaint paint = currentMap.get(flags);
         if (paint == null) {
-            paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            paint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             if ((flags & TEXT_FLAG_MONO) != 0) {
-                paint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Code.ttf"));
+                paint.setTypeface(AndroidUtilities.getTypeface("fonts/rmono.ttf"));
             } else {
                 if (parentBlock instanceof TLRPC.TL_pageBlockRelatedArticles) {
-                    paint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                    paint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 } else if (selectedFont == 1 || parentBlock instanceof TLRPC.TL_pageBlockTitle || parentBlock instanceof TLRPC.TL_pageBlockKicker || parentBlock instanceof TLRPC.TL_pageBlockHeader || parentBlock instanceof TLRPC.TL_pageBlockSubtitle || parentBlock instanceof TLRPC.TL_pageBlockSubheader) {
                     if (parentBlock instanceof TLRPC.TL_pageBlockTitle || parentBlock instanceof TLRPC.TL_pageBlockHeader || parentBlock instanceof TLRPC.TL_pageBlockSubtitle || parentBlock instanceof TLRPC.TL_pageBlockSubheader) {
-                        paint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Bold.ttf"));
+                        paint.setTypeface(AndroidUtilities.getTypeface("fonts/mw_bold.ttf"));
                     } else {
                         if ((flags & TEXT_FLAG_MEDIUM) != 0 && (flags & TEXT_FLAG_ITALIC) != 0) {
                             paint.setTypeface(Typeface.create("serif", Typeface.BOLD_ITALIC));
@@ -2393,7 +2395,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     if ((flags & TEXT_FLAG_MEDIUM) != 0 && (flags & TEXT_FLAG_ITALIC) != 0) {
                         paint.setTypeface(AndroidUtilities.getTypeface("fonts/rmediumitalic.ttf"));
                     } else if ((flags & TEXT_FLAG_MEDIUM) != 0) {
-                        paint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                        paint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                     } else if ((flags & TEXT_FLAG_ITALIC) != 0) {
                         paint.setTypeface(AndroidUtilities.getTypeface("fonts/ritalic.ttf"));
                     }
@@ -2454,14 +2456,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             TLRPC.TL_pageBlockEmbedPost pageBlockEmbedPost = (TLRPC.TL_pageBlockEmbedPost) parentBlock;
             if (pageBlockEmbedPost.author == plainText) {
                 if (embedPostAuthorPaint == null) {
-                    embedPostAuthorPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                    embedPostAuthorPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
                     embedPostAuthorPaint.setColor(getTextColor());
                 }
                 embedPostAuthorPaint.setTextSize(AndroidUtilities.dp(15) + additionalSize);
                 paint = embedPostAuthorPaint;
             } else {
                 if (embedPostDatePaint == null) {
-                    embedPostDatePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                    embedPostDatePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
                     embedPostDatePaint.setColor(getGrayTextColor());
                 }
                 embedPostDatePaint.setTextSize(AndroidUtilities.dp(14) + additionalSize);
@@ -2469,11 +2471,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
         } else if (parentBlock instanceof TLRPC.TL_pageBlockChannel) {
             if (channelNamePaint == null) {
-                channelNamePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-                channelNamePaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                channelNamePaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+                channelNamePaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
-                channelNamePhotoPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-                channelNamePhotoPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                channelNamePhotoPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+                channelNamePhotoPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             }
             channelNamePaint.setColor(getTextColor());
             channelNamePaint.setTextSize(AndroidUtilities.dp(15));
@@ -2486,29 +2488,27 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             TL_pageBlockRelatedArticlesChild pageBlockRelatedArticlesChild = (TL_pageBlockRelatedArticlesChild) parentBlock;
             if (plainText == pageBlockRelatedArticlesChild.parent.articles.get(pageBlockRelatedArticlesChild.num).title) {
                 if (relatedArticleHeaderPaint == null) {
-                    relatedArticleHeaderPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-                    relatedArticleHeaderPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                    relatedArticleHeaderPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+                    relatedArticleHeaderPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 }
                 relatedArticleHeaderPaint.setColor(getTextColor());
                 relatedArticleHeaderPaint.setTextSize(AndroidUtilities.dp(15) + additionalSize);
                 paint = relatedArticleHeaderPaint;
-                paint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
             } else {
                 if (relatedArticleTextPaint == null) {
-                    relatedArticleTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                    relatedArticleTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
                 }
                 relatedArticleTextPaint.setColor(getGrayTextColor());
                 relatedArticleTextPaint.setTextSize(AndroidUtilities.dp(14) + additionalSize);
                 paint = relatedArticleTextPaint;
-                paint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
             }
         } else if (isListItemBlock(parentBlock) && plainText != null) {
             if (listTextPointerPaint == null) {
-                listTextPointerPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                listTextPointerPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
                 listTextPointerPaint.setColor(getTextColor());
             }
             if (listTextNumPaint == null) {
-                listTextNumPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                listTextNumPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
                 listTextNumPaint.setColor(getTextColor());
             }
             listTextPointerPaint.setTextSize(AndroidUtilities.dp(19) + additionalSize);
@@ -2887,7 +2887,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         ApplicationLoader.applicationContext.getSharedPreferences("articles", Activity.MODE_PRIVATE).edit().putInt("font_type", selectedFont).apply();
         Typeface typefaceNormal = selectedFont == 0 ? Typeface.DEFAULT : Typeface.SERIF;
         Typeface typefaceItalic = selectedFont == 0 ? AndroidUtilities.getTypeface("fonts/ritalic.ttf") : Typeface.create("serif", Typeface.ITALIC);
-        Typeface typefaceBold = selectedFont == 0 ? AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf") : Typeface.create("serif", Typeface.BOLD);
+        Typeface typefaceBold = selectedFont == 0 ? AndroidUtilities.getTypeface("fonts/rmedium.ttf") : Typeface.create("serif", Typeface.BOLD);
         Typeface typefaceBoldItalic = selectedFont == 0 ? AndroidUtilities.getTypeface("fonts/rmediumitalic.ttf") : Typeface.create("serif", Typeface.BOLD_ITALIC);
 
         for (int a = 0; a < quoteTextPaints.size(); a++) {
@@ -3343,7 +3343,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         titleTextView = new SimpleTextView(activity);
         titleTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         titleTextView.setTextSize(20);
-        titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         titleTextView.setTextColor(0xffb3b3b3);
         titleTextView.setPivotX(0.0f);
         titleTextView.setPivotY(AndroidUtilities.dp(28));
@@ -3695,7 +3695,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         searchCountText = new SimpleTextView(parentActivity);
         searchCountText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         searchCountText.setTextSize(15);
-        searchCountText.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        searchCountText.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         searchCountText.setGravity(Gravity.LEFT);
         searchPanel.addView(searchCountText, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.CENTER_VERTICAL, 18, 0, 108, 0));
 
@@ -5600,7 +5600,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
                 case 100:
                 default: {
-                    TextView textView = new TextView(context);
+                    TextView textView = new SuperTextView(context);
                     textView.setBackgroundColor(0xffff0000);
                     textView.setTextColor(0xff000000);
                     textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
@@ -6566,7 +6566,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         stringBuilder = new SpannableStringBuilder(author);
                     }
                     if (!TextUtils.isEmpty(author)) {
-                        TypefaceSpan span = new TypefaceSpan(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                        TypefaceSpan span = new TypefaceSpan(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                         stringBuilder.setSpan(span, 0, author.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                     }
                     CharSequence stringFinal = TextUtils.ellipsize(stringBuilder, Theme.chat_audioTitlePaint, w, TextUtils.TruncateAt.END);
@@ -10497,9 +10497,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             backgroundPaint = new Paint();
             currentType = type;
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             textView.setText(LocaleController.getString("ChannelJoin", R.string.ChannelJoin));
             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
             addView(textView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 39, Gravity.RIGHT | Gravity.TOP));
@@ -11220,14 +11220,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             super(context);
             setTag(90);
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setText(LocaleController.getString("PreviewFeedback2", R.string.PreviewFeedback2));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
             textView.setGravity(Gravity.CENTER);
             textView.setPadding(AndroidUtilities.dp(18), 0, AndroidUtilities.dp(18), 0);
             addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 34, Gravity.LEFT | Gravity.TOP, 0, 10, 0, 0));
 
-            viewsTextView = new TextView(context);
+            viewsTextView = new SuperTextView(context);
             viewsTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
             viewsTextView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
             viewsTextView.setPadding(AndroidUtilities.dp(18), 0, AndroidUtilities.dp(18), 0);

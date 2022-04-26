@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -294,7 +295,7 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
                         }
                     };
                     frameLayout.setWillNotDraw(false);
-                    textView = new TextView(context);
+                    textView = new SuperTextView(context);
                     textView.setTextColor(getThemedColor(Theme.key_dialogIcon));
                     textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                     textView.setGravity(Gravity.CENTER);

@@ -37,6 +37,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.SystemClock;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -50,6 +51,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.collection.LongSparseArray;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -794,7 +796,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 actionBar2.addView(dropDownContainer, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT, AndroidUtilities.isTablet() ? 64 : 56, 0, 40, 0));
                 dropDownContainer.setOnClickListener(view -> dropDownContainer.toggleSubMenu());
 
-                dropDown = new TextView(context);
+                dropDown = new SuperTextView(context);
                 dropDown.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
                 dropDown.setGravity(Gravity.LEFT);
                 dropDown.setSingleLine(true);
@@ -802,7 +804,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 dropDown.setMaxLines(1);
                 dropDown.setEllipsize(TextUtils.TruncateAt.END);
                 dropDown.setTextColor(Theme.getColor(Theme.key_actionBarDefaultTitle));
-                dropDown.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                dropDown.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 dropDown.setText(LocaleController.getString("ColorPickerMainColor", R.string.ColorPickerMainColor));
                 Drawable dropDownDrawable = context.getResources().getDrawable(R.drawable.ic_arrow_drop_down).mutate();
                 dropDownDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_actionBarDefaultTitle), PorterDuff.Mode.SRC_IN));
@@ -1273,9 +1275,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     finishFragment();
                 });
 
-                bottomOverlayChatText = new TextView(context);
+                bottomOverlayChatText = new SuperTextView(context);
                 bottomOverlayChatText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-                bottomOverlayChatText.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                bottomOverlayChatText.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 bottomOverlayChatText.setTextColor(Theme.getColor(Theme.key_chat_fieldOverlayText));
                 bottomOverlayChatText.setText(LocaleController.getString("SetBackground", R.string.SetBackground));
                 bottomOverlayChat.addView(bottomOverlayChatText, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
@@ -1286,7 +1288,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             sheetDrawable.getPadding(paddings);
             sheetDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhite), PorterDuff.Mode.SRC_IN));
 
-            TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             textPaint.setTextSize(AndroidUtilities.dp(14));
             textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             {
@@ -1630,9 +1632,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         patternsButtonsContainer[a].setClickable(true);
                         patternLayout[a].addView(patternsButtonsContainer[a], LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 51, Gravity.BOTTOM));
 
-                        patternsCancelButton[a] = new TextView(context);
+                        patternsCancelButton[a] = new SuperTextView(context);
                         patternsCancelButton[a].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-                        patternsCancelButton[a].setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                        patternsCancelButton[a].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                         patternsCancelButton[a].setTextColor(Theme.getColor(Theme.key_chat_fieldOverlayText));
                         patternsCancelButton[a].setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
                         patternsCancelButton[a].setGravity(Gravity.CENTER);
@@ -1679,9 +1681,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             }
                         });
 
-                        patternsSaveButton[a] = new TextView(context);
+                        patternsSaveButton[a] = new SuperTextView(context);
                         patternsSaveButton[a].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-                        patternsSaveButton[a].setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                        patternsSaveButton[a].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                         patternsSaveButton[a].setTextColor(Theme.getColor(Theme.key_chat_fieldOverlayText));
                         patternsSaveButton[a].setText(LocaleController.getString("ApplyTheme", R.string.ApplyTheme).toUpperCase());
                         patternsSaveButton[a].setGravity(Gravity.CENTER);
@@ -1701,14 +1703,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     if (a == 1) {
-                        TextView titleView = new TextView(context);
+                        TextView titleView = new SuperTextView(context);
                         titleView.setLines(1);
                         titleView.setSingleLine(true);
                         titleView.setText(LocaleController.getString("BackgroundChoosePattern", R.string.BackgroundChoosePattern));
 
                         titleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                         titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-                        titleView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                        titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                         titleView.setPadding(AndroidUtilities.dp(21), AndroidUtilities.dp(6), AndroidUtilities.dp(21), AndroidUtilities.dp(8));
 
                         titleView.setEllipsize(TextUtils.TruncateAt.MIDDLE);
@@ -2029,25 +2031,25 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             };
             saveButtonsContainer.addView(dotsContainer, LayoutHelper.createFrame(22, 8, Gravity.CENTER));
 
-            cancelButton = new TextView(context);
+            cancelButton = new SuperTextView(context);
             cancelButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             cancelButton.setTextColor(getButtonsColor(Theme.key_chat_fieldOverlayText));
             cancelButton.setGravity(Gravity.CENTER);
             cancelButton.setBackgroundDrawable(Theme.createSelectorDrawable(0x0f000000, 0));
             cancelButton.setPadding(AndroidUtilities.dp(29), 0, AndroidUtilities.dp(29), 0);
             cancelButton.setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
-            cancelButton.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            cancelButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             saveButtonsContainer.addView(cancelButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
             cancelButton.setOnClickListener(v -> cancelThemeApply(false));
 
-            doneButton = new TextView(context);
+            doneButton = new SuperTextView(context);
             doneButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             doneButton.setTextColor(getButtonsColor(Theme.key_chat_fieldOverlayText));
             doneButton.setGravity(Gravity.CENTER);
             doneButton.setBackgroundDrawable(Theme.createSelectorDrawable(0x0f000000, 0));
             doneButton.setPadding(AndroidUtilities.dp(29), 0, AndroidUtilities.dp(29), 0);
             doneButton.setText(LocaleController.getString("ApplyTheme", R.string.ApplyTheme).toUpperCase());
-            doneButton.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            doneButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             saveButtonsContainer.addView(doneButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.RIGHT));
             doneButton.setOnClickListener(v -> {
                 Theme.ThemeInfo previousTheme = Theme.getPreviousTheme();

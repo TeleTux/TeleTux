@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.core.view.ViewCompat;
 
@@ -42,14 +43,14 @@ public class GraySectionCell extends FrameLayout {
 
         setBackgroundColor(getThemedColor(Theme.key_graySection));
 
-        textView = new TextView(getContext());
+        textView = new SuperTextView(getContext());
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textView.setTextColor(getThemedColor(Theme.key_graySectionText));
         textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
         addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 16, 0, 16, 0));
 
-        rightTextView = new TextView(getContext()) {
+        rightTextView = new SuperTextView(getContext()) {
             @Override
             public CharSequence getAccessibilityClassName() {
                 return Button.class.getName();
@@ -58,7 +59,7 @@ public class GraySectionCell extends FrameLayout {
         rightTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         rightTextView.setTextColor(getThemedColor(Theme.key_graySectionText));
         rightTextView.setGravity((LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.CENTER_VERTICAL);
-        rightTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        rightTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(rightTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.TOP, 16, 0, 16, 0));
 
         ViewCompat.setAccessibilityHeading(this, true);

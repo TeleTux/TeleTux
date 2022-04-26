@@ -20,6 +20,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
@@ -32,6 +33,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -356,11 +358,11 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
                 LinearLayout container = new LinearLayout(context);
                 container.setOrientation(LinearLayout.VERTICAL);
 
-                TextView titleView = new TextView(context);
+                TextView titleView = new SuperTextView(context);
                 titleView.setText(LocaleController.getString("ChooseTheme", R.string.ChooseTheme));
                 titleView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
                 titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-                titleView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 container.addView(titleView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 22, 12, 22, 4));
                 titleView.setOnTouchListener((v2, event) -> true);
                 builder.setCustomView(container);

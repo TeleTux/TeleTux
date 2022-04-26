@@ -28,6 +28,7 @@ import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.util.SparseIntArray;
 import android.util.StateSet;
 import android.view.HapticFeedbackConstants;
@@ -427,7 +428,7 @@ public class RecyclerListView extends RecyclerView {
         private boolean fromTop;
         private float lastLetterY;
         private float fromWidth;
-        private TextPaint letterPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        private TextPaint letterPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         private String currentLetter;
         private Path path = new Path();
         private Path arrowPath = new Path();

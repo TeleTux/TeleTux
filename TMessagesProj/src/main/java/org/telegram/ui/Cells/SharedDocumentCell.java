@@ -28,6 +28,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DownloadController;
@@ -115,17 +116,17 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             addView(placeholderImageView, LayoutHelper.createFrame(40, 40, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 0 : 12, 8, LocaleController.isRTL ? 12 : 0, 0));
         }
 
-        extTextView = new TextView(context);
+        extTextView = new SuperTextView(context);
         extTextView.setTextColor(getThemedColor(Theme.key_files_iconText));
         extTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        extTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        extTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         extTextView.setLines(1);
         extTextView.setMaxLines(1);
         extTextView.setSingleLine(true);
         extTextView.setGravity(Gravity.CENTER);
         extTextView.setEllipsize(TextUtils.TruncateAt.END);
         extTextView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
-        extTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        extTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         if (viewType == VIEW_TYPE_PICKER) {
             addView(extTextView, LayoutHelper.createFrame(32, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 0 : 20, 28, LocaleController.isRTL ? 20 : 0, 0));
         } else {
@@ -153,10 +154,10 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             addView(thumbImageView, LayoutHelper.createFrame(40, 40, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 0 : 12, 8, LocaleController.isRTL ? 12 : 0, 0));
         }
 
-        nameTextView = new TextView(context);
+        nameTextView = new SuperTextView(context);
         nameTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
         nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-        nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         nameTextView.setEllipsize(TextUtils.TruncateAt.END);
         nameTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
 
@@ -171,7 +172,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             linearLayout.setOrientation(LinearLayout.HORIZONTAL);
             addView(linearLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 16 : 72, 5, LocaleController.isRTL ? 72 : 16, 0));
 
-            rightDateTextView = new TextView(context);
+            rightDateTextView = new SuperTextView(context);
             rightDateTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText3));
             rightDateTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             if (!LocaleController.isRTL) {
@@ -183,7 +184,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             }
             nameTextView.setMaxLines(2);
 
-            captionTextView = new TextView(context);
+            captionTextView = new SuperTextView(context);
             captionTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
             captionTextView.setLines(1);
             captionTextView.setMaxLines(1);
@@ -191,7 +192,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             captionTextView.setEllipsize(TextUtils.TruncateAt.END);
             captionTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
             captionTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
-            captionTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            captionTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
             addView(captionTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 8 : 72, 30, LocaleController.isRTL ? 72 : 8, 0));
             captionTextView.setVisibility(View.GONE);
@@ -211,14 +212,14 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             addView(statusImageView, LayoutHelper.createFrame(14, 14, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 8 : 70, 33, LocaleController.isRTL ? 72 : 8, 0));
         }
 
-        dateTextView = new TextView(context);
+        dateTextView = new SuperTextView(context);
         dateTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText3));
         dateTextView.setLines(1);
         dateTextView.setMaxLines(1);
         dateTextView.setSingleLine(true);
         dateTextView.setEllipsize(TextUtils.TruncateAt.END);
         dateTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
-        dateTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        dateTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
         if (viewType == VIEW_TYPE_PICKER) {
             dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);

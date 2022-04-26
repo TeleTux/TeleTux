@@ -11,7 +11,9 @@ package org.telegram.ui.Components;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.style.MetricAffectingSpan;
+import tw.nekomimi.nekogram.MeowTypefaceHelper;
 
 import org.telegram.messenger.AndroidUtilities;
 
@@ -51,7 +53,7 @@ public class TypefaceSpan extends MetricAffectingSpan {
     }
 
     public boolean isBold() {
-        return typeface == AndroidUtilities.getTypeface("fonts/Vazir-Bold.ttf");
+        return typeface == MeowTypefaceHelper.getBoldFont();
     }
 
     public boolean isItalic() {

@@ -21,6 +21,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.Drawable;
 import androidx.annotation.Keep;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 
@@ -76,9 +77,9 @@ public class CheckBox extends View {
         eraser2.setStrokeWidth(AndroidUtilities.dp(28));
         backgroundPaint.setStrokeWidth(AndroidUtilities.dp(2));
 
-        textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setTextSize(AndroidUtilities.dp(18));
-        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
         checkDrawable = context.getResources().getDrawable(resId).mutate();
     }

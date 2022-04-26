@@ -37,6 +37,7 @@ import android.view.accessibility.AccessibilityManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
@@ -168,7 +169,7 @@ public class NumberPicker extends LinearLayout {
 
         setWillNotDraw(false);
 
-        mInputText = new TextView(getContext());
+        mInputText = new SuperTextView(getContext());
         mInputText.setGravity(Gravity.CENTER);
         mInputText.setSingleLine(true);
         mInputText.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
@@ -187,7 +188,7 @@ public class NumberPicker extends LinearLayout {
         paint.setTextAlign(Align.CENTER);
         paint.setTextSize(mTextSize);
         if (usePersianCalendar && "fa".equals(LocaleController.getInstance().getCurrentLocaleInfo().pluralLangCode)) { 
-            paint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            paint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         } else {
             paint.setTypeface(mInputText.getTypeface());
         }

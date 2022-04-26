@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.util.TypedValue;
@@ -16,6 +17,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 
@@ -47,7 +49,7 @@ public class VoIPStatusTextView extends FrameLayout {
     public VoIPStatusTextView(@NonNull Context context) {
         super(context);
         for (int i = 0; i < 2; i++) {
-            textView[i] = new TextView(context);
+            textView[i] = new SuperTextView(context);
             textView[i].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             textView[i].setShadowLayer(AndroidUtilities.dp(3), 0, AndroidUtilities.dp(.666666667f), 0x4C000000);
             textView[i].setTextColor(Color.WHITE);
@@ -55,7 +57,7 @@ public class VoIPStatusTextView extends FrameLayout {
             addView(textView[i]);
         }
 
-        reconnectTextView = new TextView(context);
+        reconnectTextView = new SuperTextView(context);
         reconnectTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         reconnectTextView.setShadowLayer(AndroidUtilities.dp(3), 0, AndroidUtilities.dp(.666666667f), 0x4C000000);
         reconnectTextView.setTextColor(Color.WHITE);

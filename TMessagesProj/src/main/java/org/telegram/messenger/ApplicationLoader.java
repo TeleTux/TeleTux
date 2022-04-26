@@ -50,7 +50,8 @@ import java.util.LinkedList;
 import tw.nekomimi.nekogram.ExternalGcm;
 import tw.nekomimi.nekogram.NekoXConfig;
 import tw.nekomimi.nekogram.utils.FileUtil;
-
+import tw.nekomimi.nekogram.MeowTypefaceHelper;
+import android.graphics.Typeface;
 import static android.os.Build.VERSION.SDK_INT;
 
 public class ApplicationLoader extends Application {
@@ -387,6 +388,13 @@ public class ApplicationLoader extends Application {
         org.osmdroid.config.Configuration.getInstance().setOsmdroidBasePath(new File(ApplicationLoader.applicationContext.getCacheDir(), "osmdroid"));
 
         startPushService();
+
+        MeowTypefaceHelper.init(
+                Typeface.createFromAsset(getAssets(), "fonts/Vazir-Regular.ttf"),
+                Typeface.createFromAsset(getAssets(), "fonts/Vazir-Medium.ttf"),
+                Typeface.createFromAsset(getAssets(), "fonts/Vazir-Bold.ttf"),
+                Typeface.createFromAsset(getAssets(), "fonts/Vazir-Regular-UI.ttf"));
+    
 
     }
 

@@ -12,6 +12,7 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -26,7 +27,7 @@ public class SearchCounterView extends View {
 
     int animationType = -1;
 
-    TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
     RectF rectF = new RectF();
 
     int currentCount;

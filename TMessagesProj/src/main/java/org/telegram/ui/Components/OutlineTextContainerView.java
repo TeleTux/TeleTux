@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -41,7 +42,7 @@ public class OutlineTextContainerView extends FrameLayout {
     private RectF rect = new RectF();
     private String mText = "";
     private Paint outlinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    private TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
     private SpringAnimation selectionSpring = new SpringAnimation(this, SELECTION_PROGRESS_PROPERTY);
     private float selectionProgress;

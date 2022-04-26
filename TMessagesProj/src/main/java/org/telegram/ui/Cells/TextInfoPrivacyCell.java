@@ -21,6 +21,7 @@ import android.view.Gravity;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -56,7 +57,7 @@ public class TextInfoPrivacyCell extends FrameLayout {
         super(context);
         this.resourcesProvider = resourcesProvider;
 
-        textView = new TextView(context) {
+        textView = new SuperTextView(context) {
             @Override
             protected void onDraw(Canvas canvas) {
                 onTextDraw();
@@ -71,7 +72,7 @@ public class TextInfoPrivacyCell extends FrameLayout {
         textView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText4));
         textView.setLinkTextColor(getThemedColor(linkTextColorKey));
         textView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, padding, 0, padding, 0));
     }
 

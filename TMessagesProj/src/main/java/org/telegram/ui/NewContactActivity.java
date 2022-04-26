@@ -33,6 +33,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AndroidUtilities;
@@ -301,7 +302,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
             invalidateAvatar();
         }
 
-        countryButton = new TextView(context);
+        countryButton = new SuperTextView(context);
         countryButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
         countryButton.setPadding(0, AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4));
         countryButton.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
@@ -330,7 +331,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
         linearLayout2.setOrientation(HORIZONTAL);
         contentLayout.addView(linearLayout2, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 20, 0, 0));
 
-        textView = new TextView(context);
+        textView = new SuperTextView(context);
         textView.setText("+");
         textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);

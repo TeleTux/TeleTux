@@ -76,6 +76,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.method.Touch;
@@ -123,6 +124,7 @@ import android.widget.LinearLayout;
 import android.widget.OverScroller;
 import android.widget.Scroller;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.C;
@@ -1414,9 +1416,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
         public CounterView(Context context) {
             super(context);
-            textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             textPaint.setTextSize(AndroidUtilities.dp(15));
-            textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             textPaint.setColor(0xffffffff);
 
             paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -4837,7 +4839,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             protected void onTextViewCreated(TextView textView) {
                 super.onTextViewCreated(textView);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-                textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 textView.setEllipsize(TextUtils.TruncateAt.END);
                 textView.setTextColor(0xffffffff);
                 textView.setGravity(Gravity.LEFT);
@@ -4857,7 +4859,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
                 textView.setEllipsize(TextUtils.TruncateAt.END);
                 textView.setTextColor(0xffffffff);
-                textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 textView.setGravity(Gravity.LEFT);
             }
 
@@ -4993,9 +4995,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         pickerView.setBackgroundColor(0x7f000000);
         containerView.addView(pickerView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM | Gravity.LEFT));
 
-        docNameTextView = new TextView(containerView.getContext());
+        docNameTextView = new SuperTextView(containerView.getContext());
         docNameTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        docNameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        docNameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         docNameTextView.setSingleLine(true);
         docNameTextView.setMaxLines(1);
         docNameTextView.setEllipsize(TextUtils.TruncateAt.END);
@@ -5003,7 +5005,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         docNameTextView.setGravity(Gravity.LEFT);
         pickerView.addView(docNameTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.LEFT, 20, 23, 84, 0));
 
-        docInfoTextView = new TextView(containerView.getContext());
+        docInfoTextView = new SuperTextView(containerView.getContext());
         docInfoTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         docInfoTextView.setSingleLine(true);
         docInfoTextView.setMaxLines(1);
@@ -5153,7 +5155,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         videoTimelineView.setBackgroundColor(0x7f000000);
         containerView.addView(videoTimelineView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 58, Gravity.LEFT | Gravity.BOTTOM, 0, 8, 0, 0));
 
-        videoAvatarTooltip = new TextView(parentActivity);
+        videoAvatarTooltip = new SuperTextView(parentActivity);
         videoAvatarTooltip.setSingleLine(true);
         videoAvatarTooltip.setVisibility(View.GONE);
         videoAvatarTooltip.setText(LocaleController.getString("ChooseCover", R.string.ChooseCover));
@@ -5381,11 +5383,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         });
 
 
-        captionLimitView = new TextView(parentActivity);
+        captionLimitView = new SuperTextView(parentActivity);
         captionLimitView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         captionLimitView.setTextColor(0xffEC7777);
         captionLimitView.setGravity(Gravity.CENTER);
-        captionLimitView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        captionLimitView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         containerView.addView(captionLimitView, LayoutHelper.createFrame(56, 20, Gravity.BOTTOM | Gravity.RIGHT, 3, 0, 14, 78));
 
         itemsLayout = new LinearLayout(parentActivity) {
@@ -5634,12 +5636,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             linearLayout.setOrientation(LinearLayout.VERTICAL);
             builder.setCustomView(linearLayout);
 
-            TextView titleView = new TextView(parentActivity);
+            TextView titleView = new SuperTextView(parentActivity);
             titleView.setLines(1);
             titleView.setSingleLine(true);
             titleView.setText(LocaleController.getString("MessageLifetime", R.string.MessageLifetime));
             titleView.setTextColor(0xffffffff);
-            titleView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
             titleView.setEllipsize(TextUtils.TruncateAt.MIDDLE);
             titleView.setPadding(AndroidUtilities.dp(21), AndroidUtilities.dp(8), AndroidUtilities.dp(21), AndroidUtilities.dp(4));
@@ -5647,7 +5649,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             linearLayout.addView(titleView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
             titleView.setOnTouchListener((v13, event) -> true);
 
-            titleView = new TextView(parentActivity);
+            titleView = new SuperTextView(parentActivity);
             titleView.setText(isCurrentVideo ? LocaleController.getString("MessageLifetimeVideo", R.string.MessageLifetimeVideo) : LocaleController.getString("MessageLifetimePhoto", R.string.MessageLifetimePhoto));
             titleView.setTextColor(0xff808080);
             titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -5714,13 +5716,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             buttonsLayout.setPadding(AndroidUtilities.dp(8), AndroidUtilities.dp(8), AndroidUtilities.dp(8), AndroidUtilities.dp(8));
             linearLayout.addView(buttonsLayout, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 52));
 
-            TextView textView = new TextView(parentActivity);
+            TextView textView = new SuperTextView(parentActivity);
             textView.setMinWidth(AndroidUtilities.dp(64));
             textView.setTag(Dialog.BUTTON_POSITIVE);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             textView.setTextColor(getThemedColor(Theme.key_dialogFloatingButton));
             textView.setGravity(Gravity.CENTER);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             textView.setText(LocaleController.getString("Done", R.string.Done).toUpperCase());
             textView.setBackgroundDrawable(Theme.getRoundRectSelectorDrawable(0xff49bcf2));
             textView.setPadding(AndroidUtilities.dp(10), 0, AndroidUtilities.dp(10), 0);
@@ -5750,13 +5752,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
             });
 
-            textView = new TextView(parentActivity);
+            textView = new SuperTextView(parentActivity);
             textView.setMinWidth(AndroidUtilities.dp(64));
             textView.setTag(Dialog.BUTTON_NEGATIVE);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             textView.setTextColor(0xffffffff);
             textView.setGravity(Gravity.CENTER);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             textView.setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
             textView.setBackgroundDrawable(Theme.getRoundRectSelectorDrawable(0xffffffff));
             textView.setPadding(AndroidUtilities.dp(10), 0, AndroidUtilities.dp(10), 0);
@@ -5783,7 +5785,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             switchToEditMode(0);
         });
 
-        resetButton = new TextView(activityContext);
+        resetButton = new SuperTextView(activityContext);
         resetButton.setVisibility(View.GONE);
         resetButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         resetButton.setTextColor(0xffffffff);
@@ -5791,7 +5793,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         resetButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.ACTION_BAR_PICKER_SELECTOR_COLOR, 0));
         resetButton.setPadding(AndroidUtilities.dp(20), 0, AndroidUtilities.dp(20), 0);
         resetButton.setText(LocaleController.getString("Reset", R.string.CropReset).toUpperCase());
-        resetButton.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        resetButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         editorDoneLayout.addView(resetButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.CENTER));
         resetButton.setOnClickListener(v -> photoCropView.reset());
 
@@ -6792,7 +6794,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         videoPlayerTime.setGravity(Gravity.RIGHT | Gravity.TOP);
         videoPlayerTime.setTextSize(14);
         videoPlayerTime.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
-        videoPlayerTime.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        videoPlayerTime.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         videoPlayerControlFrameLayout.addView(videoPlayerTime, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.RIGHT | Gravity.TOP, 0, 15, 12, 0));
 
         exitFullscreenButton = new ImageView(containerView.getContext());
@@ -15022,7 +15024,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             super(context);
 
             paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             textPaint.setTextSize(AndroidUtilities.dp(14));
             textPaint.setColor(0xffcdcdcd);
 

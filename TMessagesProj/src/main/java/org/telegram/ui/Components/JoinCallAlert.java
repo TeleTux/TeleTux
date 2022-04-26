@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
@@ -135,7 +136,7 @@ public class JoinCallAlert extends BottomSheet {
                 textView[a].setGravity(Gravity.CENTER);
                 if (hasBackground) {
                     textView[a].setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
-                    textView[a].setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                    textView[a].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 } else {
                     textView[a].setTextColor(Theme.getColor(Theme.key_featuredStickers_addButton));
                 }
@@ -486,8 +487,8 @@ public class JoinCallAlert extends BottomSheet {
             internalLayout.addView(imageView, LayoutHelper.createLinear(160, 160, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 17, 8, 17, 0));
         }
 
-        textView = new TextView(context);
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        textView = new SuperTextView(context);
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
         if (type == TYPE_DISPLAY) {
             textView.setTextColor(Theme.getColor(Theme.key_voipgroup_nameText));
@@ -516,7 +517,7 @@ public class JoinCallAlert extends BottomSheet {
             internalLayout.addView(textView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.LEFT, 23, 8, 23, 0));
         }
 
-        messageTextView = new TextView(getContext());
+        messageTextView = new SuperTextView(getContext());
         if (type == TYPE_DISPLAY) {
             messageTextView.setTextColor(Theme.getColor(Theme.key_voipgroup_lastSeenText));
         } else {

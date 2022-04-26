@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.Gravity;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
@@ -26,7 +27,7 @@ public class ChatListCell extends LinearLayout {
         private RadioButton button;
         private boolean isThreeLines;
         private RectF rect = new RectF();
-        private TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        private TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
         public ListView(Context context, boolean threeLines) {
             super(context);

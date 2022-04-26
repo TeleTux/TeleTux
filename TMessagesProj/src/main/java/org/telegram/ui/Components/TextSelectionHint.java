@@ -12,6 +12,7 @@ import android.graphics.Path;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -28,7 +29,7 @@ import java.util.regex.Pattern;
 public class TextSelectionHint extends View {
 
     StaticLayout textLayout;
-    TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
     Paint selectionPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     int padding = AndroidUtilities.dp(24);

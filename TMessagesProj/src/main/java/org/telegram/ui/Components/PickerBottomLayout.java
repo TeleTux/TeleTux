@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -40,14 +41,14 @@ public class PickerBottomLayout extends FrameLayout {
 
         setBackgroundColor(Theme.getColor(darkTheme ? Theme.key_dialogBackground : Theme.key_windowBackgroundWhite));
 
-        cancelButton = new TextView(context);
+        cancelButton = new SuperTextView(context);
         cancelButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         cancelButton.setTextColor(Theme.getColor(Theme.key_picker_enabledButton));
         cancelButton.setGravity(Gravity.CENTER);
         cancelButton.setBackgroundDrawable(Theme.createSelectorDrawable(0x0f000000, 0));
         cancelButton.setPadding(AndroidUtilities.dp(33), 0, AndroidUtilities.dp(33), 0);
         cancelButton.setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
-        cancelButton.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        cancelButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(cancelButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
 
         LinearLayout rightLayout = new LinearLayout(context);
@@ -62,12 +63,12 @@ public class PickerBottomLayout extends FrameLayout {
         middleButton.setVisibility(GONE);
         rightLayout.addView(middleButton);
 
-        middleButtonTextView = new TextView(context);
+        middleButtonTextView = new SuperTextView(context);
         middleButtonTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         middleButtonTextView.setTextColor(Theme.getColor(Theme.key_picker_enabledButton));
         middleButtonTextView.setGravity(Gravity.CENTER);
         middleButtonTextView.setCompoundDrawablePadding(AndroidUtilities.dp(8));
-        middleButtonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        middleButtonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         middleButton.addView(middleButtonTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL));
 
         doneButton = new LinearLayout(context);
@@ -76,8 +77,8 @@ public class PickerBottomLayout extends FrameLayout {
         doneButton.setPadding(AndroidUtilities.dp(33), 0, AndroidUtilities.dp(33), 0);
         rightLayout.addView(doneButton);
 
-        doneButtonBadgeTextView = new TextView(context);
-        doneButtonBadgeTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        doneButtonBadgeTextView = new SuperTextView(context);
+        doneButtonBadgeTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         doneButtonBadgeTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         doneButtonBadgeTextView.setTextColor(Theme.getColor(Theme.key_picker_badgeText));
         doneButtonBadgeTextView.setGravity(Gravity.CENTER);
@@ -87,13 +88,13 @@ public class PickerBottomLayout extends FrameLayout {
         doneButtonBadgeTextView.setPadding(AndroidUtilities.dp(8), 0, AndroidUtilities.dp(8), AndroidUtilities.dp(1));
         doneButton.addView(doneButtonBadgeTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 23, Gravity.CENTER_VERTICAL, 0, 0, 10, 0));
 
-        doneButtonTextView = new TextView(context);
+        doneButtonTextView = new SuperTextView(context);
         doneButtonTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         doneButtonTextView.setTextColor(Theme.getColor(Theme.key_picker_enabledButton));
         doneButtonTextView.setGravity(Gravity.CENTER);
         doneButtonTextView.setCompoundDrawablePadding(AndroidUtilities.dp(8));
         doneButtonTextView.setText(LocaleController.getString("Send", R.string.Send).toUpperCase());
-        doneButtonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        doneButtonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         doneButton.addView(doneButtonTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL));
     }
 

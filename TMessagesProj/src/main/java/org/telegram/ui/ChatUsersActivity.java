@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
@@ -37,6 +38,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.collection.LongSparseArray;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -239,7 +241,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             super(context);
 
             paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             textPaint.setTextSize(AndroidUtilities.dp(13));
 
             for (int a = 0; a < 7; a++) {
@@ -3117,15 +3119,15 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_emptyListPlaceholder), PorterDuff.Mode.SRC_IN));
                     linearLayout.addView(imageView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL));
 
-                    TextView textView = new TextView(mContext);
+                    TextView textView = new SuperTextView(mContext);
                     textView.setText(LocaleController.getString("NoBlockedUsers", R.string.NoBlockedUsers));
                     textView.setTextColor(Theme.getColor(Theme.key_emptyListPlaceholder));
                     textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                     textView.setGravity(Gravity.CENTER_HORIZONTAL);
-                    textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                    textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                     linearLayout.addView(textView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 10, 0, 0));
 
-                    textView = new TextView(mContext);
+                    textView = new SuperTextView(mContext);
                     if (isChannel) {
                         textView.setText(LocaleController.getString("NoBlockedChannel2", R.string.NoBlockedChannel2));
                     } else {

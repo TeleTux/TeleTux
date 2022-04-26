@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -35,7 +36,7 @@ public class BlurSettingsBottomSheet extends BottomSheet {
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
-        TextView saturationTextView = new TextView(context);
+        TextView saturationTextView = new SuperTextView(context);
         saturationTextView.setText("Saturation " + (saturation * 5));
         saturationTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlue2));
         saturationTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
@@ -64,7 +65,7 @@ public class BlurSettingsBottomSheet extends BottomSheet {
         linearLayout.addView(seekBar, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 38, 0, 5, 4, 5, 0));
 
 
-        TextView alphaTextView = new TextView(context);
+        TextView alphaTextView = new SuperTextView(context);
         alphaTextView.setText("Alpha " + blurAlpha);
         alphaTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlue2));
         alphaTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
@@ -93,7 +94,7 @@ public class BlurSettingsBottomSheet extends BottomSheet {
 
 
 
-        TextView radiusTextView = new TextView(context);
+        TextView radiusTextView = new SuperTextView(context);
         radiusTextView.setText("Blur Radius");
         radiusTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlue2));
         radiusTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);

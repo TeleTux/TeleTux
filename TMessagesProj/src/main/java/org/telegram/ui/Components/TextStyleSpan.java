@@ -11,11 +11,14 @@ package org.telegram.ui.Components;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.style.MetricAffectingSpan;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
+import tw.nekomimi.nekogram.MeowTypefaceHelper;
+
 
 public class TextStyleSpan extends MetricAffectingSpan {
 
@@ -80,7 +83,7 @@ public class TextStyleSpan extends MetricAffectingSpan {
             } else if ((flags & FLAG_STYLE_BOLD) != 0 && (flags & FLAG_STYLE_ITALIC) != 0) {
                 return AndroidUtilities.getTypeface("fonts/rmediumitalic.ttf");
             } else if ((flags & FLAG_STYLE_BOLD) != 0) {
-                return AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf");
+                return MeowTypefaceHelper.getBoldFont();
             } else if ((flags & FLAG_STYLE_ITALIC) != 0) {
                 return AndroidUtilities.getTypeface("fonts/ritalic.ttf");
             } else {
@@ -148,7 +151,7 @@ public class TextStyleSpan extends MetricAffectingSpan {
     }
 
     public boolean isBold() {
-        return style.getTypeface() == AndroidUtilities.getTypeface("fonts/Vazir-Bold.ttf");
+        return style.getTypeface() == AndroidUtilities.getTypeface("fonts/rmedium.ttf");
     }
 
     public boolean isItalic() {

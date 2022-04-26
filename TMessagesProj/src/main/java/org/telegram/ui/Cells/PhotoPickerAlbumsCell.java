@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.MediaController;
@@ -58,24 +59,24 @@ public class PhotoPickerAlbumsCell extends FrameLayout {
             linearLayout.setBackgroundResource(R.drawable.album_shadow);
             addView(linearLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 60, Gravity.LEFT | Gravity.BOTTOM));
 
-            nameTextView = new TextView(context);
+            nameTextView = new SuperTextView(context);
             nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
             nameTextView.setTextColor(0xffffffff);
             nameTextView.setSingleLine(true);
             nameTextView.setEllipsize(TextUtils.TruncateAt.END);
             nameTextView.setMaxLines(1);
             nameTextView.setGravity(Gravity.BOTTOM);
-            nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             linearLayout.addView(nameTextView, LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT, 1.0f, 8, 0, 0, 5));
 
-            countTextView = new TextView(context);
+            countTextView = new SuperTextView(context);
             countTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
             countTextView.setTextColor(0xffffffff);
             countTextView.setSingleLine(true);
             countTextView.setEllipsize(TextUtils.TruncateAt.END);
             countTextView.setMaxLines(1);
             countTextView.setGravity(Gravity.BOTTOM);
-            countTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            countTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             linearLayout.addView(countTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, 4, 0, 7, 5));
 
             selector = new View(context);

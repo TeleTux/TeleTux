@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -66,7 +67,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
         imageView.setColorFilter(new PorterDuffColorFilter(iconColor, PorterDuff.Mode.SRC_IN));
         addView(imageView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 40, Gravity.CENTER_VERTICAL | (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT)));
 
-        textView = new TextView(context);
+        textView = new SuperTextView(context);
         textView.setLines(1);
         textView.setSingleLine(true);
         textView.setGravity(Gravity.LEFT);
@@ -177,7 +178,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
 
     public void setSubtext(String text) {
         if (subtextView == null) {
-            subtextView = new TextView(getContext());
+            subtextView = new SuperTextView(getContext());
             subtextView.setLines(1);
             subtextView.setSingleLine(true);
             subtextView.setGravity(Gravity.LEFT);

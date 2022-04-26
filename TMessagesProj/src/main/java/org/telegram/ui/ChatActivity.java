@@ -60,6 +60,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
@@ -90,6 +91,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.Toast;
 
 import androidx.collection.LongSparseArray;
@@ -1016,7 +1018,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         private int currentCounter;
         private String currentCounterString;
         private int textWidth;
-        private TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        private TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
         private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         private RectF rect = new RectF();
         private int circleWidth;
@@ -1025,7 +1027,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         private StaticLayout textLayout;
         private StaticLayout textLayoutOut;
         private int layoutTextWidth;
-        private TextPaint layoutPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        private TextPaint layoutPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
         Drawable selectableBackground;
 
@@ -1040,10 +1042,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         public UnreadCounterTextView(Context context) {
             super(context);
             textPaint.setTextSize(AndroidUtilities.dp(13));
-            textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
             layoutPaint.setTextSize(AndroidUtilities.dp(15));
-            layoutPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            layoutPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         }
 
         public void setText(CharSequence text, boolean animatedFromBottom) {
@@ -4360,7 +4362,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     greetingsViewContainer.setBackground(Theme.createServiceDrawable(AndroidUtilities.dp(10), greetingsViewContainer, contentView, getThemedPaint(Theme.key_paint_chatActionBackground)));
                     emptyViewContainer.addView(greetingsViewContainer, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 68, 0, 68, 0));
                 } else {
-                    emptyView = new TextView(context);
+                    emptyView = new SuperTextView(context);
                     emptyView.setText(emptyMessage);
                     emptyView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                     emptyView.setGravity(Gravity.CENTER);
@@ -6557,14 +6559,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         topChatPanelView.getBackground().setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_topPanelBackground), PorterDuff.Mode.SRC_IN));
         contentView.addView(topChatPanelView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 50, Gravity.TOP | Gravity.LEFT));
 
-        reportSpamButton = new TextView(context);
+        reportSpamButton = new SuperTextView(context);
         reportSpamButton.setTextColor(getThemedColor(Theme.key_chat_reportSpam));
         if (Build.VERSION.SDK_INT >= 21) {
             reportSpamButton.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_chat_reportSpam) & 0x19ffffff, 2));
         }
         reportSpamButton.setTag(Theme.key_chat_reportSpam);
         reportSpamButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        reportSpamButton.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        reportSpamButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         reportSpamButton.setSingleLine(true);
         reportSpamButton.setMaxLines(1);
         reportSpamButton.setGravity(Gravity.CENTER);
@@ -6577,11 +6579,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
         }, themeDelegate));
 
-        addToContactsButton = new TextView(context);
+        addToContactsButton = new SuperTextView(context);
         addToContactsButton.setTextColor(getThemedColor(Theme.key_chat_addContact));
         addToContactsButton.setVisibility(View.GONE);
         addToContactsButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        addToContactsButton.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        addToContactsButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addToContactsButton.setSingleLine(true);
         addToContactsButton.setMaxLines(1);
         addToContactsButton.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
@@ -6659,7 +6661,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         alertView.getBackground().setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_topPanelBackground), PorterDuff.Mode.SRC_IN));
         contentView.addView(alertView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 50, Gravity.TOP | Gravity.LEFT));
 
-        alertNameTextView = new TextView(context);
+        alertNameTextView = new SuperTextView(context);
         alertNameTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         alertNameTextView.setTextColor(getThemedColor(Theme.key_chat_topPanelTitle));
         alertNameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -7484,7 +7486,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         mentiondownButtonCounter = new SimpleTextView(context);
         mentiondownButtonCounter.setVisibility(View.INVISIBLE);
-        mentiondownButtonCounter.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        mentiondownButtonCounter.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         mentiondownButtonCounter.setTextSize(13);
         mentiondownButtonCounter.setTextColor(getThemedColor(Theme.key_chat_goDownButtonCounter));
         mentiondownButtonCounter.setGravity(Gravity.CENTER);
@@ -8368,11 +8370,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             button.addView(new Space(context), LayoutHelper.createLinear(10, LayoutHelper.MATCH_PARENT));
 
-            final TextView textView = new TextView(context);
+            final TextView textView = new SuperTextView(context);
             textView.setMaxLines(1);
             textView.setSingleLine(true);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             textView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
             textView.setEllipsize(TextUtils.TruncateAt.END);
             button.addTextView(textView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT));
@@ -8570,7 +8572,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         bottomOverlay.setPadding(0, AndroidUtilities.dp(2), 0, 0);
         contentView.addView(bottomOverlay, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 51, Gravity.BOTTOM));
 
-        bottomOverlayText = new TextView(context);
+        bottomOverlayText = new SuperTextView(context);
         bottomOverlayText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         bottomOverlayText.setGravity(Gravity.CENTER);
         bottomOverlayText.setMaxLines(2);
@@ -8717,7 +8719,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         bottomOverlayImage.setContentDescription(LocaleController.getString("SettingsHelp", R.string.SettingsHelp));
         bottomOverlayImage.setOnClickListener(v -> undoView.showWithAction(dialog_id, UndoView.ACTION_TEXT_INFO, LocaleController.getString("BroadcastGroupInfo", R.string.BroadcastGroupInfo)));
 
-        replyButton = new TextView(context);
+        replyButton = new SuperTextView(context);
         replyButton.setText(LocaleController.getString("Reply", R.string.Reply));
         replyButton.setGravity(Gravity.CENTER_VERTICAL);
         replyButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
@@ -8748,7 +8750,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         });
         bottomMessagesActionContainer.addView(replyButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP));
 
-        forwardButton = new TextView(context);
+        forwardButton = new SuperTextView(context);
         forwardButton.setText(LocaleController.getString("Forward", R.string.Forward));
         forwardButton.setGravity(Gravity.CENTER_VERTICAL);
         forwardButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
@@ -20508,7 +20510,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (user != null && !TextUtils.isEmpty(chatWithAdmin)) {
             isChatWithAdmin = true;
             if (chatWithAdminTextView == null) {
-                chatWithAdminTextView = new TextView(topChatPanelView.getContext());
+                chatWithAdminTextView = new SuperTextView(topChatPanelView.getContext());
                 chatWithAdminTextView.setGravity(Gravity.CENTER_VERTICAL);
                 chatWithAdminTextView.setPadding(AndroidUtilities.dp(14), 0, AndroidUtilities.dp(46), 0);
                 chatWithAdminTextView.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector), 2));
@@ -22831,7 +22833,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (showNoForwards) {
                 popupLayout.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
                 boolean isChannel = ChatObject.isChannel(currentChat) && !currentChat.megagroup;
-                TextView tv = new TextView(contentView.getContext());
+                TextView tv = new SuperTextView(contentView.getContext());
                 tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 tv.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
                 if (getMessagesController().isChatNoForwards(currentChat)) {
@@ -28823,7 +28825,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 Paint oldPaint = entry.getValue();
                 Paint newPaint;
                 if (oldPaint instanceof TextPaint) {
-                    newPaint = new TextPaint();
+                    newPaint = new SuperTextPaint();
                     newPaint.setTextSize(oldPaint.getTextSize());
                     newPaint.setTypeface(oldPaint.getTypeface());
                 } else {
@@ -29176,7 +29178,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         } else if (id == nkheaderbtn_zibi) {
             Context context = getParentActivity();
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            TextView messageTextView = new TextView(context);
+            TextView messageTextView = new SuperTextView(context);
             messageTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
             messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             messageTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
@@ -29189,7 +29191,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             frameLayout.addView(imageView, LayoutHelper.createFrame(40, 40, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 22, 5, 22, 0));
             avatarDrawable.setInfo(currentChat);
             imageView.setImage(ImageLocation.getForChat(currentChat, ImageLocation.TYPE_SMALL), "50_50", avatarDrawable, currentChat);
-            TextView textView = new TextView(context);
+            TextView textView = new SuperTextView(context);
             textView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
             textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));

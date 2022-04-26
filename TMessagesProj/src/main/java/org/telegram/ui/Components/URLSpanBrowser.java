@@ -10,6 +10,7 @@ package org.telegram.ui.Components;
 
 import android.net.Uri;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.style.URLSpan;
 import android.view.View;
 

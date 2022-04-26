@@ -28,6 +28,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
@@ -264,7 +265,7 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
             viewsCache.delete(id);
         }
         if (tab == null) {
-            tab = new TextView(getContext()) {
+            tab = new SuperTextView(getContext()) {
                 @Override
                 public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
                     super.onInitializeAccessibilityNodeInfo(info);
@@ -276,7 +277,7 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
             tab.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(selectorColorKey), 3));
             tab.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             tab.setSingleLine(true);
-            tab.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+            tab.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             tab.setPadding(AndroidUtilities.dp(16), 0, AndroidUtilities.dp(16), 0);
             tab.setOnClickListener(v -> {
                 int position1 = tabsContainer.indexOfChild(v);

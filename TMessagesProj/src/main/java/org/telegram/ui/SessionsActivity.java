@@ -29,6 +29,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -189,11 +190,11 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_sessions_devicesImage), PorterDuff.Mode.SRC_IN));
         emptyLayout.addView(imageView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
 
-        textView1 = new TextView(context);
+        textView1 = new SuperTextView(context);
         textView1.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2));
         textView1.setGravity(Gravity.CENTER);
         textView1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
-        textView1.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        textView1.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         if (currentType == 0) {
             textView1.setText(LocaleController.getString("NoOtherSessions", R.string.NoOtherSessions));
         } else {
@@ -201,7 +202,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
         emptyLayout.addView(textView1, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 0, 16, 0, 0));
 
-        textView2 = new TextView(context);
+        textView2 = new SuperTextView(context);
         textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2));
         textView2.setGravity(Gravity.CENTER);
         textView2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
@@ -948,7 +949,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
 //            imageView.setScaleType(ImageView.ScaleType.CENTER);
 //            imageView.playAnimation();
 
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 36, 152, 36, 0));
             textView.setGravity(Gravity.CENTER_HORIZONTAL);
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
@@ -982,7 +983,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
 
             textView.setText(spanned);
 
-            TextView buttonTextView = new TextView(context);
+            TextView buttonTextView = new SuperTextView(context);
             buttonTextView.setPadding(AndroidUtilities.dp(34), 0, AndroidUtilities.dp(34), 0);
             buttonTextView.setGravity(Gravity.CENTER);
             buttonTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -64,7 +65,7 @@ public class MessageSeenView extends FrameLayout {
         flickerLoadingView.setIsSingleCell(false);
         addView(flickerLoadingView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT));
 
-        titleView = new TextView(context) {
+        titleView = new SuperTextView(context) {
             @Override
             public void setText(CharSequence text, BufferType type) {
                 super.setText(text, type);
@@ -301,7 +302,7 @@ public class MessageSeenView extends FrameLayout {
             avatarImageView = new BackupImageView(context);
             addView(avatarImageView, LayoutHelper.createFrame(32, 32, Gravity.CENTER_VERTICAL, 13, 0, 0, 0));
             avatarImageView.setRoundRadius(AndroidUtilities.dp(16));
-            nameView = new TextView(context);
+            nameView = new SuperTextView(context);
             nameView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             nameView.setLines(1);
             nameView.setEllipsize(TextUtils.TruncateAt.END);

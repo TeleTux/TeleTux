@@ -13,6 +13,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.util.Log;
 import android.view.animation.DecelerateInterpolator;
 
@@ -38,7 +39,7 @@ public class MediaActionDrawable extends Drawable {
     public static final int ICON_CANCEL_FILL = 14;
     public static final int ICON_UPDATE = 15;
 
-    private TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    private TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint backPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint paint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -99,7 +100,7 @@ public class MediaActionDrawable extends Drawable {
 
         paint3.setColor(0xffffffff);
 
-        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textPaint.setTextSize(AndroidUtilities.dp(13));
         textPaint.setColor(0xffffffff);
 

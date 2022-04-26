@@ -1,6 +1,7 @@
 package org.telegram.ui.Components;
 
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.style.ForegroundColorSpan;
 
 public class ColorSpanUnderline extends ForegroundColorSpan {

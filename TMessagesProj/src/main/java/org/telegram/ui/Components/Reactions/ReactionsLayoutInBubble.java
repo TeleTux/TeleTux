@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
@@ -40,7 +41,7 @@ public class ReactionsLayoutInBubble {
     public boolean drawServiceShaderBackground;
 
     private static Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private static TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    private static TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
     public boolean isSmall;
 
     public int x;

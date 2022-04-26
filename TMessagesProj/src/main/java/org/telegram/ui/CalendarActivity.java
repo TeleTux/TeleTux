@@ -13,6 +13,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.GestureDetector;
@@ -23,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -73,9 +75,9 @@ public class CalendarActivity extends BaseFragment {
 
     RecyclerListView listView;
     LinearLayoutManager layoutManager;
-    TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-    TextPaint activeTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-    TextPaint textPaint2 = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+    TextPaint activeTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
+    TextPaint textPaint2 = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
 
     TextView selectDaysButton;
     TextView removeDaysButton;
@@ -281,7 +283,7 @@ public class CalendarActivity extends BaseFragment {
             bottomBar.setWillNotDraw(false);
             bottomBar.setPadding(0, AndroidUtilities.getShadowHeight(), 0, 0);
             bottomBar.setClipChildren(false);
-            selectDaysButton = new TextView(context);
+            selectDaysButton = new SuperTextView(context);
             selectDaysButton.setGravity(Gravity.CENTER);
             selectDaysButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             selectDaysButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
@@ -293,7 +295,7 @@ public class CalendarActivity extends BaseFragment {
             selectDaysButton.setAllCaps(true);
             bottomBar.addView(selectDaysButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, 0, 0, 0f, 0, 0));
 
-            removeDaysButton = new TextView(context);
+            removeDaysButton = new SuperTextView(context);
             removeDaysButton.setGravity(Gravity.CENTER);
             removeDaysButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             removeDaysButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));

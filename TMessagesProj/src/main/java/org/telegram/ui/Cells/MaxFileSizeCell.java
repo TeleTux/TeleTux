@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLoader;
@@ -42,7 +43,7 @@ public class MaxFileSizeCell extends FrameLayout {
 
         setWillNotDraw(false);
 
-        textView = new TextView(context);
+        textView = new SuperTextView(context);
         textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         textView.setLines(1);
@@ -51,10 +52,9 @@ public class MaxFileSizeCell extends FrameLayout {
         textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Bold.ttf"));
         addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 21, 13, 21, 0));
 
-        sizeTextView = new TextView(context);
+        sizeTextView = new SuperTextView(context);
         sizeTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlue2));
         sizeTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         sizeTextView.setLines(1);
@@ -62,7 +62,6 @@ public class MaxFileSizeCell extends FrameLayout {
         sizeTextView.setSingleLine(true);
         sizeTextView.setGravity((LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.TOP);
         sizeTextView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
-        sizeTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Bold.ttf"));
         addView(sizeTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.TOP, 21, 13, 21, 0));
 
         seekBarView = new SeekBarView(context) {

@@ -10,6 +10,7 @@ import android.os.Build;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.collection.LongSparseArray;
@@ -36,7 +38,7 @@ public class BotCommandsMenuView extends View {
 
     final RectF rectTmp = new RectF();
     final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    final TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    final TextPaint textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
     final MenuDrawable backDrawable = new MenuDrawable() {
         @Override
         public void invalidateSelf() {
@@ -253,7 +255,7 @@ public class BotCommandsMenuView extends View {
             setOrientation(HORIZONTAL);
             setPadding(AndroidUtilities.dp(16), 0, AndroidUtilities.dp(16), 0);
 
-            description = new TextView(context);
+            description = new SuperTextView(context);
             description.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             description.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             description.setTag(Theme.key_windowBackgroundWhiteBlackText);
@@ -261,7 +263,7 @@ public class BotCommandsMenuView extends View {
             description.setEllipsize(TextUtils.TruncateAt.END);
             addView(description, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 1f, Gravity.CENTER_VERTICAL, 0, 0, AndroidUtilities.dp(8), 0));
 
-            command = new TextView(context);
+            command = new SuperTextView(context);
             command.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             command.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
             command.setTag(Theme.key_windowBackgroundWhiteGrayText);

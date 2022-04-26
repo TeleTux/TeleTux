@@ -23,6 +23,7 @@ import android.os.Vibrator;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
@@ -152,9 +153,9 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         emojiIconDrawable.setColorFilter(new PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY));
         emojiIconDrawable.setIcon(R.drawable.input_smile, false);
 
-        lengthTextPaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+        lengthTextPaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
         lengthTextPaint.setTextSize(AndroidUtilities.dp(13));
-        lengthTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        lengthTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         lengthTextPaint.setColor(0xffd9d9d9);
 
         messageEditText = new EditTextCaption(context, null) {
@@ -376,7 +377,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         captionLimitView.setVisibility(View.GONE);
         captionLimitView.setTextSize(15);
         captionLimitView.setTextColor(0xffffffff);
-        captionLimitView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        captionLimitView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         captionLimitView.setCenterAlign(true);
         addView(captionLimitView, LayoutHelper.createFrame(48, 20, Gravity.BOTTOM | Gravity.RIGHT, 3, 0, 3, 48));
     }

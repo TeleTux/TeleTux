@@ -26,11 +26,13 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ReplacementSpan;
 import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
@@ -642,7 +644,7 @@ public class SpoilerEffect extends Drawable {
         int tLen = vSpan.toString().trim().length();
         if (tLen == 0) return;
         int width = textLayout.getEllipsizedWidth() > 0 ? textLayout.getEllipsizedWidth() : textLayout.getWidth();
-        TextPaint measurePaint = new TextPaint(textLayout.getPaint());
+        TextPaint measurePaint = new SuperTextPaint(textLayout.getPaint());
         measurePaint.setColor(Color.BLACK);
         StaticLayout newLayout;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

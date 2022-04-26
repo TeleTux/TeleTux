@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
@@ -518,14 +519,14 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         imageView.getImageReceiver().setAutoRepeat(1);
         linearLayout.addView(imageView, LayoutHelper.createLinear(144, 144, Gravity.CENTER_HORIZONTAL, 0, 16, 0, 0));
 
-        TextView title = new TextView(context);
+        TextView title = new SuperTextView(context);
         title.setGravity(Gravity.CENTER_HORIZONTAL);
         title.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
         title.setText(LocaleController.getString("DownloadedFiles", R.string.DownloadedFiles));
         linearLayout.addView(title, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 21, 30, 21, 0));
 
-        TextView description = new TextView(context);
+        TextView description = new SuperTextView(context);
         description.setGravity(Gravity.CENTER_HORIZONTAL);
         description.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         description.setTextColor(Theme.getColor(Theme.key_dialogTextHint));
@@ -533,7 +534,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         linearLayout.addView(description, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 21, 15, 21, 16));
 
 
-        TextView buttonTextView = new TextView(context);
+        TextView buttonTextView = new SuperTextView(context);
         buttonTextView.setPadding(AndroidUtilities.dp(34), 0, AndroidUtilities.dp(34), 0);
         buttonTextView.setGravity(Gravity.CENTER);
         buttonTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -546,7 +547,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         linearLayout.addView(buttonTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, 0, 16, 15, 16, 16));
 
 
-        TextView buttonTextView2 = new TextView(context);
+        TextView buttonTextView2 = new SuperTextView(context);
         buttonTextView2.setPadding(AndroidUtilities.dp(34), 0, AndroidUtilities.dp(34), 0);
         buttonTextView2.setGravity(Gravity.CENTER);
         buttonTextView2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);

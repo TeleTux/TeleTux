@@ -47,6 +47,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
@@ -564,10 +565,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         titleTextView = new ClippingTextViewSwitcher(context) {
             @Override
             protected TextView createTextView() {
-                final TextView textView = new TextView(context);
+                final TextView textView = new SuperTextView(context);
                 textView.setTextColor(getThemedColor(Theme.key_player_actionBarTitle));
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
-                textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+                textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 textView.setEllipsize(TextUtils.TruncateAt.END);
                 textView.setSingleLine(true);
                 return textView;
@@ -578,7 +579,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         authorTextView = new ClippingTextViewSwitcher(context) {
             @Override
             protected TextView createTextView() {
-                final TextView textView = new TextView(context);
+                final TextView textView = new SuperTextView(context);
                 textView.setTextColor(getThemedColor(Theme.key_player_time));
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
                 textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -658,11 +659,11 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         timeTextView.setText("0:00");
         timeTextView.setTextColor(getThemedColor(Theme.key_player_time));
         timeTextView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
-        timeTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        timeTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
 
         playerLayout.addView(timeTextView, LayoutHelper.createFrame(100, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.LEFT, 20, 98, 0, 0));
 
-        durationTextView = new TextView(context);
+        durationTextView = new SuperTextView(context);
         durationTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
         durationTextView.setTextColor(getThemedColor(Theme.key_player_time));
         durationTextView.setGravity(Gravity.CENTER);
@@ -1082,16 +1083,16 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         emptyImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogEmptyImage), PorterDuff.Mode.MULTIPLY));
         emptyView.addView(emptyImageView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
 
-        emptyTitleTextView = new TextView(context);
+        emptyTitleTextView = new SuperTextView(context);
         emptyTitleTextView.setTextColor(getThemedColor(Theme.key_dialogEmptyText));
         emptyTitleTextView.setGravity(Gravity.CENTER);
         emptyTitleTextView.setText(LocaleController.getString("NoAudioFound", R.string.NoAudioFound));
-        emptyTitleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        emptyTitleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         emptyTitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
         emptyTitleTextView.setPadding(AndroidUtilities.dp(40), 0, AndroidUtilities.dp(40), 0);
         emptyView.addView(emptyTitleTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 0, 11, 0, 0));
 
-        emptySubtitleTextView = new TextView(context);
+        emptySubtitleTextView = new SuperTextView(context);
         emptySubtitleTextView.setTextColor(getThemedColor(Theme.key_dialogEmptyText));
         emptySubtitleTextView.setGravity(Gravity.CENTER);
         emptySubtitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);

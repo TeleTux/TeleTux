@@ -20,6 +20,7 @@ import android.media.MediaMetadataRetriever;
 import android.os.Build;
 import android.os.SystemClock;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
@@ -31,6 +32,7 @@ import android.view.ViewPropertyAnimator;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.Interpolator;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 import androidx.exifinterface.media.ExifInterface;
@@ -94,7 +96,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         setWillNotDraw(false);
 
         ActionBarMenu menu = parentAlert.actionBar.createMenu();
-        header = new TextView(context);
+        header = new SuperTextView(context);
         ActionBarMenuItem dropDownContainer = new ActionBarMenuItem(context, menu, 0, 0, resourcesProvider) {
             @Override
             public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
@@ -1854,7 +1856,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                         bitmapCanvas.drawColor(0x00000000);
 
                         if (textPaint == null) {
-                            textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                            textPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
                             textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                         }
                         textPaint.setColor(getThemedColor(Theme.key_chat_attachCheckBoxCheck));
@@ -1897,7 +1899,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                     if (durationText != null) {
                         if (videoDurationBitmap == null || videoDurationBitmapText == null || !videoDurationBitmapText.equals(durationText)) {
                             if (videoDurationTextPaint == null) {
-                                videoDurationTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                                videoDurationTextPaint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
                                 videoDurationTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                                 videoDurationTextPaint.setColor(0xffffffff);
                             }

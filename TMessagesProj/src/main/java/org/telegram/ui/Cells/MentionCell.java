@@ -14,6 +14,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.MediaDataController;
@@ -52,7 +53,6 @@ public class MentionCell extends LinearLayout {
         nameTextView.setSingleLine(true);
         nameTextView.setGravity(Gravity.LEFT);
         nameTextView.setEllipsize(TextUtils.TruncateAt.END);
-        nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Bold.ttf"));
         addView(nameTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 12, 0, 0, 0));
 
         usernameTextView = new EmojiTextView(context);
@@ -61,7 +61,6 @@ public class MentionCell extends LinearLayout {
         usernameTextView.setSingleLine(true);
         usernameTextView.setGravity(Gravity.LEFT);
         usernameTextView.setEllipsize(TextUtils.TruncateAt.END);
-        usernameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Bold.ttf"));
         addView(usernameTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 12, 0, 8, 0));
     }
 

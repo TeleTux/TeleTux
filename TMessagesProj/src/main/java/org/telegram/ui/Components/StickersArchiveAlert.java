@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.MediaDataController;
@@ -59,7 +60,7 @@ public class StickersArchiveAlert extends AlertDialog.Builder {
         container.setOrientation(LinearLayout.VERTICAL);
         setView(container);
 
-        TextView textView = new TextView(context);
+        TextView textView = new SuperTextView(context);
         textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         textView.setGravity(LayoutHelper.getAbsoluteGravityStart());
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);

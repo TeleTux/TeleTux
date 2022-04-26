@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.annotation.NonNull;
 
@@ -52,7 +53,7 @@ public class MemberRequestCell extends FrameLayout {
         addView(statusTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP, LocaleController.isRTL ? 12 : 74, 36, LocaleController.isRTL ? 74 : 12, 0));
 
         int btnPadding = AndroidUtilities.dp(17);
-        TextView addButton = new TextView(getContext());
+        TextView addButton = new SuperTextView(getContext());
         addButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4), Theme.getColor(Theme.key_featuredStickers_addButton), Theme.getColor(Theme.key_featuredStickers_addButtonPressed)));
         addButton.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
         addButton.setMaxLines(1);
@@ -69,7 +70,7 @@ public class MemberRequestCell extends FrameLayout {
         addView(addButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 32, LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT, LocaleController.isRTL ? 0 : 73, 62, LocaleController.isRTL ? 73 : 0, 0));
 
         float addButtonWidth = addButton.getPaint().measureText(addButton.getText().toString()) + btnPadding * 2;
-        TextView dismissButton = new TextView(getContext());
+        TextView dismissButton = new SuperTextView(getContext());
         dismissButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4), Color.TRANSPARENT, Theme.getColor(Theme.key_listSelector), 0xff000000));
         dismissButton.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
         dismissButton.setMaxLines(1);

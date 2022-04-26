@@ -9,6 +9,7 @@
 package org.telegram.ui.Components;
 
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 
 import org.telegram.messenger.AndroidUtilities;
 
@@ -21,7 +22,7 @@ public class URLSpanNoUnderlineBold extends URLSpanNoUnderline {
     @Override
     public void updateDrawState(TextPaint ds) {
         super.updateDrawState(ds);
-        ds.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        ds.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         ds.setUnderlineText(false);
     }
 }

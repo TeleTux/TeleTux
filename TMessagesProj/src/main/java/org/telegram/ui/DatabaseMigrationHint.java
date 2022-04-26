@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import androidx.core.content.ContextCompat;
 
@@ -45,14 +46,14 @@ public class DatabaseMigrationHint extends FrameLayout {
         stickerView.playAnimation();
         container.addView(stickerView, LayoutHelper.createLinear(150, 150, Gravity.CENTER_HORIZONTAL));
 
-        title = new TextView(context);
+        title = new SuperTextView(context);
         title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
         title.setText(LocaleController.getString("OptimizingTelegram", R.string.OptimizingTelegram));
         title.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         title.setGravity(Gravity.CENTER_HORIZONTAL);
         container.addView(title, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 50, 32, 50, 0));
 
-        description1 = new TextView(context);
+        description1 = new SuperTextView(context);
         description1.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
         description1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         description1.setText(LocaleController.getString("OptimizingTelegramDescription1", R.string.OptimizingTelegramDescription1));
@@ -60,7 +61,7 @@ public class DatabaseMigrationHint extends FrameLayout {
         description1.setGravity(Gravity.CENTER_HORIZONTAL);
         container.addView(description1, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 36, 20, 36, 0));
 
-        description2 = new TextView(context);
+        description2 = new SuperTextView(context);
         description2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         description2.setText(LocaleController.getString("OptimizingTelegramDescription2", R.string.OptimizingTelegramDescription2));
         description2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));

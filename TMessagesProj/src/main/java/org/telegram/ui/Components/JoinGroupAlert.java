@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
@@ -98,8 +99,8 @@ public class JoinGroupAlert extends BottomSheet {
             avatarImageView.setImage(ImageLocation.getForPhoto(size, invite.photo), "50_50", avatarDrawable, invite);
         }
 
-        TextView textView = new TextView(context);
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        TextView textView = new SuperTextView(context);
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
         textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         textView.setText(title);
@@ -110,7 +111,7 @@ public class JoinGroupAlert extends BottomSheet {
         final boolean isChannel = invite.channel && !invite.megagroup || ChatObject.isChannelAndNotMegaGroup(invite.chat);
         boolean hasAbout = !TextUtils.isEmpty(invite.about);
         if (participants_count > 0) {
-            textView = new TextView(context);
+            textView = new SuperTextView(context);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             textView.setTextColor(Theme.getColor(Theme.key_dialogTextGray3));
             textView.setSingleLine(true);
@@ -124,7 +125,7 @@ public class JoinGroupAlert extends BottomSheet {
         }
 
         if (hasAbout) {
-            TextView aboutTextView = new TextView(context);
+            TextView aboutTextView = new SuperTextView(context);
             aboutTextView.setGravity(Gravity.CENTER);
             aboutTextView.setText(invite.about);
             aboutTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
@@ -142,7 +143,7 @@ public class JoinGroupAlert extends BottomSheet {
             requestProgressView.setVisibility(View.INVISIBLE);
             requestFrameLayout.addView(requestProgressView, LayoutHelper.createFrame(48, 48, Gravity.CENTER));
 
-            requestTextView = new TextView(getContext());
+            requestTextView = new SuperTextView(getContext());
             requestTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6), getThemedColor(Theme.key_featuredStickers_addButton), getThemedColor(Theme.key_featuredStickers_addButtonPressed)));
             requestTextView.setEllipsize(TextUtils.TruncateAt.END);
             requestTextView.setGravity(Gravity.CENTER);
@@ -187,7 +188,7 @@ public class JoinGroupAlert extends BottomSheet {
             });
             requestFrameLayout.addView(requestTextView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48, Gravity.START, 16, 0, 16, 0));
 
-            TextView descriptionTextView = new TextView(getContext());
+            TextView descriptionTextView = new SuperTextView(getContext());
             descriptionTextView.setGravity(Gravity.CENTER);
             descriptionTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             descriptionTextView.setText(isChannel ? LocaleController.getString("RequestToJoinChannelDescription", R.string.RequestToJoinChannelDescription) : LocaleController.getString("RequestToJoinGroupDescription", R.string.RequestToJoinGroupDescription));

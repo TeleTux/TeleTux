@@ -26,6 +26,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Bitmaps;
@@ -269,24 +270,24 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         toolsView.setBackgroundColor(0xff000000);
         addView(toolsView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.LEFT | Gravity.BOTTOM));
 
-        cancelTextView = new TextView(context);
+        cancelTextView = new SuperTextView(context);
         cancelTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         cancelTextView.setTextColor(0xffffffff);
         cancelTextView.setGravity(Gravity.CENTER);
         cancelTextView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.ACTION_BAR_PICKER_SELECTOR_COLOR, 0));
         cancelTextView.setPadding(AndroidUtilities.dp(20), 0, AndroidUtilities.dp(20), 0);
         cancelTextView.setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
-        cancelTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        cancelTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         toolsView.addView(cancelTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
 
-        doneTextView = new TextView(context);
+        doneTextView = new SuperTextView(context);
         doneTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         doneTextView.setTextColor(getThemedColor(Theme.key_dialogFloatingButton));
         doneTextView.setGravity(Gravity.CENTER);
         doneTextView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.ACTION_BAR_PICKER_SELECTOR_COLOR, 0));
         doneTextView.setPadding(AndroidUtilities.dp(20), 0, AndroidUtilities.dp(20), 0);
         doneTextView.setText(LocaleController.getString("Done", R.string.Done).toUpperCase());
-        doneTextView.setTypeface(AndroidUtilities.getTypeface("fonts/Vazir-Regular.ttf"));
+        doneTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         toolsView.addView(doneTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.RIGHT));
 
         paintButton = new ImageView(context);
@@ -1235,7 +1236,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
             LinearLayout parent = new LinearLayout(getContext());
             parent.setOrientation(LinearLayout.HORIZONTAL);
 
-            TextView deleteView = new TextView(getContext());
+            TextView deleteView = new SuperTextView(getContext());
             deleteView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
             deleteView.setBackgroundDrawable(Theme.getSelectorDrawable(false));
             deleteView.setGravity(Gravity.CENTER_VERTICAL);
@@ -1253,7 +1254,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
             parent.addView(deleteView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 48));
 
             if (entityView instanceof TextPaintView) {
-                TextView editView = new TextView(getContext());
+                TextView editView = new SuperTextView(getContext());
                 editView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
                 editView.setBackgroundDrawable(Theme.getSelectorDrawable(false));
                 editView.setGravity(Gravity.CENTER_VERTICAL);
@@ -1271,7 +1272,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
                 parent.addView(editView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 48));
             }
 
-            TextView duplicateView = new TextView(getContext());
+            TextView duplicateView = new SuperTextView(getContext());
             duplicateView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
             duplicateView.setBackgroundDrawable(Theme.getSelectorDrawable(false));
             duplicateView.setGravity(Gravity.CENTER_VERTICAL);
@@ -1320,7 +1321,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         imageView.setColorFilter(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
         button.addView(imageView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.CENTER_VERTICAL, 16, 0, 16, 0));
 
-        TextView textView = new TextView(getContext());
+        TextView textView = new SuperTextView(getContext());
         textView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         textView.setText(text);
@@ -1377,7 +1378,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         imageView.setColorFilter(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
         button.addView(imageView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.CENTER_VERTICAL, 16, 0, 16, 0));
 
-        TextView textView = new TextView(getContext());
+        TextView textView = new SuperTextView(getContext());
         textView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         textView.setText(text);

@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
 import android.view.View;
@@ -58,7 +59,7 @@ public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate,
 
     public PopupAudioView(Context context) {
         super(context);
-        timePaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+        timePaint = new SuperTextPaint(TextPaint.ANTI_ALIAS_FLAG);
         timePaint.setTextSize(AndroidUtilities.dp(16));
 
         TAG = DownloadController.getInstance(currentAccount).generateObserverTag();
