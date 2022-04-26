@@ -146,6 +146,11 @@ object NaConfig {
         ConfigItem.configTypeString,
         LocaleController.getString("TeleTux", R.string.TeleTux)
     )
+    val CodeSyntaxHighlight = addConfig(
+        "CodeSyntaxHighlight",
+        ConfigItem.configTypeBool,
+        true
+    )
 
     fun addConfig(
         k: String,
