@@ -44,7 +44,7 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:enforceNavigationBarContrast">false</item>
         <item name="android:windowSplashScreenBackground">@color/SplashBackground</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_nagram</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
     </style>
 
 </resources>
