@@ -185,7 +185,7 @@ public class NekoSettingsActivity extends BaseFragment {
             } else if (position == translationRow) {
                 Browser.openUrl(getParentActivity(), "https://hosted.weblate.org/engage/teletux/");
             } else if (position == donationRow) {
-                Browser.openUrl(getParentActivity(), "https://idpay.ir/arimasmod/camp/20803");
+                Browser.openUrl(getParentActivity(), "https://idpay.ir/teletux");
             } else if (position == fdroidRow) {
                 Browser.openUrl(getParentActivity(), "https://f-droid.org/packages/teletux.messenger");
             } else if (position == googlePlayRow) {
