@@ -47,11 +47,7 @@
     <string name="TransToLang">Idioma destino de la traducción</string>
     <string name="TransInputToLang">Idioma de origen de la traducción</string>
     <string name="More">Más</string>
-<<<<<<< HEAD
-    <string name="TeleTuxUpdatesChannel">Canal de actualizaciones TeleTux</string>
-=======
-    <string name="NekoXUpdatesChannel">Canal de actualizaciones de NekoX</string>
->>>>>>> upnekox/dev
+    <string name="NekoXUpdatesChannel">Canal de actualizaciones de TeleTux</string>
     <string name="ShowIdAndDc">Mostrar ID / DC en el perfil</string>
     <string name="UseDefaultTheme">Usar tema predeterminado *</string>
     <string name="NightMode">Modo nocturno</string>
