@@ -88,8 +88,8 @@
     <string name="SortByUser">Sortuj wg. użytkownika</string>
     <string name="SortByContacts">Sortuj wg. kontaktów</string>
     <string name="NekoXPushService">TeleTux Push Service</string>
-    <string name="EnablePushAlert">Proszę włączyć TeleTux Push Service”</string>
-    <string name="DisablePushAlert">Proszę wyłączyć TeleTux Push Service”</string>
+    <string name="EnablePushAlert">Proszę włączyć „TeleTux Push Service”</string>
+    <string name="DisablePushAlert">Proszę wyłączyć „TeleTux Push Service”</string>
     <string name="DisableUndo">Wyłącz kilkusekundowy dymek przywracania usuniętego czatu</string>
     <string name="DisableSystemAccount">Wyłącz konta systemowe</string>
     <string name="FilterMenu">Menu filtrowania czatów</string>
