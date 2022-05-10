@@ -16796,17 +16796,19 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
             }
         } else if (id == NotificationCenter.removeAllMessagesFromDialog) {
-            long did = (Long) args[0];
-            if (dialog_id == did) {
-                if (threadMessageId != 0) {
-                    if (forwardEndReached[0]) {
-                        forwardEndReached[0] = false;
-                        hideForwardEndReached = false;
-                        chatAdapter.notifyItemInserted(0);
+            if (!NekoXConfig.isDeveloper()) {
+                long did = (Long) args[0];
+                if (dialog_id == did) {
+                    if (threadMessageId != 0) {
+                        if (forwardEndReached[0]) {
+                            forwardEndReached[0] = false;
+                            hideForwardEndReached = false;
+                            chatAdapter.notifyItemInserted(0);
+                        }
+                        getMessagesController().addToViewsQueue(threadMessageObject);
+                    } else {
+                        clearHistory((Boolean) args[1], (TLRPC.TL_updates_channelDifferenceTooLong) args[2]);
                     }
-                    getMessagesController().addToViewsQueue(threadMessageObject);
-                } else {
-                    clearHistory((Boolean) args[1], (TLRPC.TL_updates_channelDifferenceTooLong) args[2]);
                 }
             }
         } else if (id == NotificationCenter.screenshotTook) {
@@ -25814,6 +25816,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (message.isVideo()) {
             sendSecretMessageRead(message, true);
         }
+        if (NekoXConfig.isDeveloper()) {
+            if (isSecretChat() && (message.isPhoto() || message.isGif() || message.isNewGif())) {
+                sendSecretMessageRead(message, true);
+            }
+        }
+        
         PhotoViewer.getInstance().setParentActivity(getParentActivity(), themeDelegate);
         MessageObject playingObject = MediaController.getInstance().getPlayingMessageObject();
         if (cell != null && playingObject != null && playingObject.isVideo()) {

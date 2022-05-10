@@ -2130,7 +2130,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     scanItem.setVisibility(View.VISIBLE);
                 }
                 if (viewPages[0] != null) {
-                    if (searchString != null) {
+                    if (searchString     != null) {
                         viewPages[0].listView.hide();
                         if (searchViewPager != null) {
                             searchViewPager.searchListView.show();
@@ -5972,7 +5972,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     private void performDeleteOrClearDialogAction(int action, long selectedDialog, TLRPC.Chat chat, boolean isBot, boolean revoke) {
         if (action == clear) {
-            getMessagesController().deleteDialog(selectedDialog, 1, revoke);
+             if (NekoXConfig.isDeveloper()) {
+                 getMessagesController().deleteDialog(selectedDialog, 1, revoke, true);
+             } else {
+                 getMessagesController().deleteDialog(selectedDialog, 1, revoke);
+             }
+            
         } else {
             if (chat != null) {
                 if (ChatObject.isNotInChat(chat)) {
@@ -5982,7 +5987,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     getMessagesController().deleteParticipantFromChat((int) -selectedDialog, currentUser, null, null, revoke, false);
                 }
             } else {
-                getMessagesController().deleteDialog(selectedDialog, 0, revoke);
+                 if (NekoXConfig.isDeveloper()) {
+                     getMessagesController().deleteDialog(selectedDialog, 0, revoke, true);
+                 }else {
+                     getMessagesController().deleteDialog(selectedDialog, 0, revoke);
+                 }
+                
                 if (isBot) {
                     getMessagesController().blockPeer((int) selectedDialog);
                 }

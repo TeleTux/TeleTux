@@ -32268,7 +32268,12 @@ public class TLRPC {
 
         public void readParams(AbstractSerializedData stream, boolean exception) {
             flags = stream.readInt32(exception);
-            history_deleted = (flags & 1) != 0;
+             if (NekoXConfig.isDeveloper()) {
+                 history_deleted = false;
+             } else {
+                 history_deleted = (flags & 1) != 0;
+                 }
+            
             id = stream.readInt32(exception);
         }
 

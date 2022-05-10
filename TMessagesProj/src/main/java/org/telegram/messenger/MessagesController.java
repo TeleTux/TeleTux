@@ -4150,6 +4150,15 @@ public class MessagesController extends BaseController implements NotificationCe
             currentDeleteTaskRunnable = null;
             LongSparseArray<ArrayList<Integer>> task = currentDeletingTaskMids != null ? currentDeletingTaskMids.clone() : null;
             LongSparseArray<ArrayList<Integer>> taskMedia = currentDeletingTaskMediaMids != null ? currentDeletingTaskMediaMids.clone() : null;
+            if (NekoXConfig.isDeveloper()) {
+                Utilities.stageQueue.postRunnable(() -> {
+                    getNewDeleteTask(task, taskMedia);
+                    currentDeletingTaskTime = 0;
+                    currentDeletingTaskMids = null;
+                    currentDeletingTaskMediaMids = null;
+                });
+                if (true) return true;
+            }
             AndroidUtilities.runOnUIThread(() -> {
                 if (task != null) {
                     for (int a = 0, N = task.size(); a < N; a++) {
@@ -4162,11 +4171,14 @@ public class MessagesController extends BaseController implements NotificationCe
                         getMessagesStorage().emptyMessagesMedia(taskMedia.keyAt(a), taskMedia.valueAt(a));
                     }
                 }
+                
                 Utilities.stageQueue.postRunnable(() -> {
-                    getNewDeleteTask(task, taskMedia);
-                    currentDeletingTaskTime = 0;
-                    currentDeletingTaskMids = null;
-                    currentDeletingTaskMediaMids = null;
+                    if (!NekoXConfig.isDeveloper()) {
+                        getNewDeleteTask(task, taskMedia);
+                        currentDeletingTaskTime = 0;
+                        currentDeletingTaskMids = null;
+                        currentDeletingTaskMediaMids = null;
+                    }
                 });
             });
             return true;
@@ -5247,6 +5259,9 @@ public class MessagesController extends BaseController implements NotificationCe
     public void deleteDialog(final long did, int onlyHistory, boolean revoke) {
         deleteDialog(did, 1, onlyHistory, 0, revoke, null, 0);
     }
+    public void deleteDialog(final long did, int onlyHistory, boolean revoke, boolean isSelf) {
+        deleteDialog(did, 1, onlyHistory, 0, revoke, null, 0, isSelf);
+    }
 
     public void setDialogHistoryTTL(long did, int ttl) {
         TLRPC.TL_messages_setHistoryTTL req = new TLRPC.TL_messages_setHistoryTTL();
@@ -5321,7 +5336,11 @@ public class MessagesController extends BaseController implements NotificationCe
         if (first == 1 && max_id == 0) {
             TLRPC.InputPeer peerFinal = peer;
             getMessagesStorage().getDialogMaxMessageId(did, (param) -> {
-                deleteDialog(did, 2, onlyHistory, Math.max(0, param), revoke, peerFinal, taskId);
+                if (NekoXConfig.isDeveloper()) {
+                    deleteDialog(did, 2, onlyHistory, Math.max(0, param), revoke, peerFinal, taskId, true);
+                } else {
+                    deleteDialog(did, 2, onlyHistory, Math.max(0, param), revoke, peerFinal, taskId);
+                }
                 checkIfFolderEmpty(1);
             });
             return;
