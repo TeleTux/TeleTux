@@ -993,6 +993,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     private final Theme.ResourcesProvider resourcesProvider;
     private final boolean canDrawBackgroundInParent;
 
+    private boolean isBlockedUserMessage() {
+        return currentMessageObject.isBlockedMessage();
+    }
+
     // Public for enter transition
     public List<SpoilerEffect> replySpoilers = new ArrayList<>();
     private Stack<SpoilerEffect> replySpoilersPool = new Stack<>();
