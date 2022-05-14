@@ -2,6 +2,7 @@ package tw.nekomimi.nekogram.utils
 
 import android.content.Context
 import org.telegram.messenger.*
+import org.telegram.messenger.MessagesStorage
 import org.telegram.messenger.browser.Browser
 import org.telegram.tgnet.ConnectionsManager
 import org.telegram.tgnet.TLObject
