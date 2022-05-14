@@ -158,6 +158,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.NekoXConfig;
+import tw.nekomimi.nekogram.shamsicalendar.PersianDateFormat;
 
 public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate, ImageReceiver.ImageReceiverDelegate, DownloadController.FileDownloadProgressListener, TextSelectionHelper.SelectableView, NotificationCenter.NotificationCenterDelegate {
 
@@ -10378,8 +10379,14 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         } else if (edited || deleted) {
 //            timeString = LocaleController.getString("EditedMessage", R.string.EditedMessage) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
             timeString = (deleted ? LocaleController.getString("DeletedMessage", R.string.DeletedMessage) : LocaleController.getString("EditedMessage", R.string.EditedMessage)) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
+            if (NekoConfig.usePersianCalendar) {
+                timeString = PersianDateFormat.farsiCharacter(timeString);
+            }
         } else {
             timeString = LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
+            if (NekoConfig.usePersianCalendar) {
+                timeString = PersianDateFormat.farsiCharacter(timeString);
+            }
         } else {
             timeString = messageObject.messageOwner.date + "";
         }
