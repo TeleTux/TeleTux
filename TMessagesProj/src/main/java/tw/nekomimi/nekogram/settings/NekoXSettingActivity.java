@@ -162,8 +162,9 @@ public class NekoXSettingActivity extends BaseFragment {
         disableScreenshotDetectionRow = rowCount++;
         disableStatusUpdateRow = rowCount++;
         hide_MeRow = rowCount++;
-        fetchAndExportLangRow = rowCount++;
         chatDeleteMarkRow = rowCount++;
+        fetchAndExportLangRow = rowCount++;
+        
 
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
