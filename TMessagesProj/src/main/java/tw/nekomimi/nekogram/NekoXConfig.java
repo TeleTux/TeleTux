@@ -69,7 +69,7 @@ public class NekoXConfig {
     public static boolean disableStatusUpdate = preferences.getBoolean("disable_status_update", false);
     public static boolean hide_Me = preferences.getBoolean("hide_me", false);
     public static boolean keepOnlineStatus = preferences.getBoolean("keepOnlineStatus", false);
-
+    public static boolean chatDeleteMark = preferences.getBoolean("chatDeleteMark", false);
     public static int autoUpdateReleaseChannel = preferences.getInt("autoUpdateReleaseChannel", 2);
     public static String ignoredUpdateTag = preferences.getString("ignoredUpdateTag", "");
 //    public static long nextUpdateCheck = preferences.getLong("nextUpdateCheckTimestamp", 0);
@@ -86,6 +86,7 @@ public class NekoXConfig {
                     .putBoolean("disable_screenshot_detection", disableScreenshotDetection = false)
                     .putBoolean("disable_status_update", disableStatusUpdate = false)
                     .putBoolean("hide_me", hide_Me = false)
+                    .putBoolean("chatDeleteMark", chatDeleteMark = false)
                     .apply();
         }
     }
@@ -254,6 +255,9 @@ public class NekoXConfig {
 
     }
 
+    public static void togglechatDeleteMark() {
+        preferences.edit().putBoolean("chatDeleteMark", chatDeleteMark = !chatDeleteMark).apply();
+    }
     
     public static void setChannelAlias(long channelID, String name) {
         preferences.edit().putString(NekoConfig.channelAliasPrefix + channelID, name).apply();
