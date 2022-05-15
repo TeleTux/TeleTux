@@ -218,8 +218,8 @@ public class PersianDateFormat {
     return date;
   }
   public static String convertToPersianDigits(String value) {
-    return value.replace("1", "Ù¡").replace("2", "Ù¢").replace("3", "Ù£").replace("4", "Û´").replace("5", "Ûµ")
-      .replace("6", "Û¶").replace("7", "Ù§").replace("8", "Ù¨").replace("9", "Ù©").replace("0", "Ù ");
+    return value.replace("1", "۱").replace("2", "۲").replace("3", "۳").replace("4", "۴").replace("5", "۵")
+      .replace("6", "۶").replace("7", "۷").replace("8", "۸").replace("9", "۹").replace("0", "۰");
   }
 }
 
