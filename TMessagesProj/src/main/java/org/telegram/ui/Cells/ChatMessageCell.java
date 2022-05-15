@@ -10382,7 +10382,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             if (NekoConfig.usePersianCalendar) {
                 timeString = PersianDateFormat.farsiCharacter(timeString);
             }
-        } else {
+        } else if (LocaleController.getInstance().formatterDay != null && LocaleController.getInstance().formatterYear != null) {
             timeString = LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
             if (NekoConfig.usePersianCalendar) {
                 timeString = PersianDateFormat.farsiCharacter(timeString);
