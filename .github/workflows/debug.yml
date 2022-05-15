@@ -3,7 +3,7 @@ name: Debug build
 on:
   push:
     branches:
-      - dev
+      - '**'
     paths-ignore:
       - '**.md'
       - '.github/**'
