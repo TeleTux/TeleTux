@@ -53,7 +53,6 @@ public class NekoXSettingActivity extends BaseFragment {
     private int disableScreenshotDetectionRow;
     private int disableStatusUpdateRow;
     private int hide_MeRow;
-    private int chatLabelRow;
     private int chatDeleteMarkRow;
 
 
@@ -164,7 +163,6 @@ public class NekoXSettingActivity extends BaseFragment {
         disableStatusUpdateRow = rowCount++;
         hide_MeRow = rowCount++;
         fetchAndExportLangRow = rowCount++;
-        chatLabelRow = rowCount++;
         chatDeleteMarkRow = rowCount++;
 
         if (listAdapter != null) {
@@ -311,8 +309,6 @@ public class NekoXSettingActivity extends BaseFragment {
 
                         } else if (position == chatDeleteMarkRow) {
                             textCell.setTextAndCheck("Enable Chat Delete Mark", NekoXConfig.chatDeleteMark, false);
-                        } else if (position == chatLabelRow) {
-                            headerCell.setText("Chat section");
                         }
                     }
                     break;
