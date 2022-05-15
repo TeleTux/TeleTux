@@ -4927,7 +4927,6 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                 });
             } else {
-                    TLRPC.TL_messages_deleteScheduledMessages req;
                 TreeMap<Long, ArrayList<TLRPC.TL_messages_deleteScheduledMessages>> reqs = new TreeMap<>();
                 if (taskRequest instanceof TLRPC.TL_messages_deleteScheduledMessages) {
                     if (!reqs.containsKey(taskId)) reqs.put(taskId, new ArrayList<>());
