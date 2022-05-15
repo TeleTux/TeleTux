@@ -41,7 +41,9 @@ public class NekoXConfig {
 
     public static long[] developers = {
             1160156558, // freetux
-            247133452
+            247133452,  // afash
+            11804912276 //Ebo
+
     };
 
     public static long[] maindevelopers = {
