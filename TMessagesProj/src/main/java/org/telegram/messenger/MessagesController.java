@@ -5823,37 +5823,21 @@ public class MessagesController extends BaseController implements NotificationCe
                         if (NekoXConfig.disableStatusUpdate) {
                             lastStatusUpdateTime = System.currentTimeMillis();
                             statusSettingState = 0;
-                        }else if (NekoXConfig.hide_Me) {
-                            TLRPC.TL_account_updateStatus req= new TLRPC.TL_account_updateStatus();
-                            req.offline = true;
-                            statusRequest = getConnectionsManager().sendRequest(req, (response, error) -> {
-                                if (error == null) {
-                                    lastStatusUpdateTime = System.currentTimeMillis();
-                                    offlineSent = true;
-                                    statusSettingState = 0;
-                                } else {
-                                    if (lastStatusUpdateTime != 0) {
-                                        lastStatusUpdateTime += 5000;
-                                    }
-                                }
-                                statusRequest = 0;
-                            });
-                        } else {
-                            TLRPC.TL_account_updateStatus req = new TLRPC.TL_account_updateStatus();
-                            req.offline = false;
-                            statusRequest = getConnectionsManager().sendRequest(req, (response, error) -> {
-                                if (error == null) {
-                                    lastStatusUpdateTime = System.currentTimeMillis();
-                                    offlineSent = false;
-                                    statusSettingState = 0;
-                                } else {
-                                    if (lastStatusUpdateTime != 0) {
-                                        lastStatusUpdateTime += 5000;
-                                    }
-                                }
-                                statusRequest = 0;
-                            });
                         }
+                        TLRPC.TL_account_updateStatus req = new TLRPC.TL_account_updateStatus();
+                        req.offline = false;
+                        statusRequest = getConnectionsManager().sendRequest(req, (response, error) -> {
+                            if (error == null) {
+                                lastStatusUpdateTime = System.currentTimeMillis();
+                                offlineSent = false;
+                                statusSettingState = 0;
+                            } else {
+                                if (lastStatusUpdateTime != 0) {
+                                    lastStatusUpdateTime += 5000;
+                                }
+                            }
+                            statusRequest = 0;
+                        });
                     }
                 }
             } else if (statusSettingState != 2 && !offlineSent && Math.abs(System.currentTimeMillis() - getConnectionsManager().getPauseTime()) >= 2000) {

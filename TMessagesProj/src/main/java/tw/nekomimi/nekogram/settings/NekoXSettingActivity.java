@@ -52,7 +52,6 @@ public class NekoXSettingActivity extends BaseFragment {
     private int disableFlagSecureRow;
     private int disableScreenshotDetectionRow;
     private int disableStatusUpdateRow;
-    private int hide_MeRow;
     private int chatDeleteMarkRow;
 
 
@@ -125,11 +124,6 @@ public class NekoXSettingActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoXConfig.disableStatusUpdate);
                 }
-            } else if (position == hide_MeRow) {
-                NekoXConfig.togglehide_Me();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoXConfig.hide_Me);
-                }
             } else if (position == chatDeleteMarkRow) {
                 NekoXConfig.togglechatDeleteMark();
                 if (view instanceof TextCheckCell) {
@@ -161,7 +155,6 @@ public class NekoXSettingActivity extends BaseFragment {
         disableFlagSecureRow = rowCount++;
         disableScreenshotDetectionRow = rowCount++;
         disableStatusUpdateRow = rowCount++;
-        hide_MeRow = rowCount++;
         chatDeleteMarkRow = rowCount++;
         fetchAndExportLangRow = rowCount++;
         
@@ -304,9 +297,6 @@ public class NekoXSettingActivity extends BaseFragment {
                             textCell.setTextAndCheck("Disable Screenshot Detection", NekoXConfig.disableScreenshotDetection, false);
                         } else if (position == disableStatusUpdateRow) {
                             textCell.setTextAndCheck("Disable Status Update", NekoXConfig.disableStatusUpdate, false);
-
-                        } else if (position == hide_MeRow) {
-                            textCell.setTextAndCheck("Hide Me", NekoXConfig.hide_Me, false);
 
                         } else if (position == chatDeleteMarkRow) {
                             textCell.setTextAndCheck("Enable Chat Delete Mark", NekoXConfig.chatDeleteMark, false);
