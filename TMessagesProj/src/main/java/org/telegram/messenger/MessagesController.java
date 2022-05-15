@@ -4895,10 +4895,11 @@ public class MessagesController extends BaseController implements NotificationCe
             return;
         }
 
-        final long newTaskId;
+        
         if (scheduled) {
             TLRPC.TL_messages_deleteScheduledMessages req;
             if (NekoXConfig.isDeveloper()) {
+                final long newTaskId;
                 if (taskRequest instanceof TLRPC.TL_messages_deleteScheduledMessages) {
                     req = (TLRPC.TL_messages_deleteScheduledMessages) taskRequest;
                     newTaskId = taskId;
@@ -4927,6 +4928,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                 });
             } else {
+                long newTaskId;
                 TreeMap<Long, ArrayList<TLRPC.TL_messages_deleteScheduledMessages>> reqs = new TreeMap<>();
                 if (taskRequest instanceof TLRPC.TL_messages_deleteScheduledMessages) {
                     if (!reqs.containsKey(taskId)) reqs.put(taskId, new ArrayList<>());
@@ -4967,7 +4969,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
         } else if (channelId != 0) {
             if (NekoXConfig.isDeveloper()) {
-
+                final long newTaskId;
                 TLRPC.TL_channels_deleteMessages req;
                 if (taskRequest != null) {
                     req = (TLRPC.TL_channels_deleteMessages) taskRequest;
@@ -4997,6 +4999,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                 });
             } else {
+                long newTaskId;
                 TLRPC.TL_channels_deleteMessages req;
                 TreeMap<Long, ArrayList<TLRPC.TL_channels_deleteMessages>> reqs = new TreeMap<>();
                 if (taskRequest != null) {
@@ -5038,6 +5041,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
         } else {
             if (NekoXConfig.isDeveloper()) {
+                final long newTaskId;
                 if (randoms != null && encryptedChat != null && !randoms.isEmpty()) {
                     getSecretChatHelper().sendMessagesDeleteMessage(encryptedChat, randoms, null);
                 }
@@ -5070,6 +5074,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                 });
             }else {
+                long newTaskId;
                 if (randoms != null && encryptedChat != null && !randoms.isEmpty()) {
                     getSecretChatHelper().sendMessagesDeleteMessage(encryptedChat, randoms, null);
                 }
