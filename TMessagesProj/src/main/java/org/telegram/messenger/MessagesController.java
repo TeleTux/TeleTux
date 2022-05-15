@@ -4895,7 +4895,7 @@ public class MessagesController extends BaseController implements NotificationCe
             return;
         }
 
-        long newTaskId;
+        final long newTaskId;
         if (scheduled) {
             TLRPC.TL_messages_deleteScheduledMessages req;
             if (NekoXConfig.isDeveloper()) {
