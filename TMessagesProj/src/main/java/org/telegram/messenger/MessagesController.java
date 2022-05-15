@@ -14591,9 +14591,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         if (deletedMessages != null) {
             for (int a = 0, size = deletedMessages.size(); a < size; a++) {
-                if (!NekoXConfig.isDeveloper()) {
-                    long key = deletedMessages.keyAt(a);
-                }
+                long key = deletedMessages.keyAt(a);
                 ArrayList<Integer> arrayList = deletedMessages.valueAt(a);
                 getMessagesStorage().getStorageQueue().postRunnable(() -> {
                     if (NekoXConfig.isDeveloper()) {
