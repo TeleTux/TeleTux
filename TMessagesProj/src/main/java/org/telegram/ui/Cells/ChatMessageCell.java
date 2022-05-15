@@ -4855,6 +4855,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
                 String text;
                 String time = LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
+                if (LocaleController.usePersianCalendar) {
+                    time = PersianDateFormat.convertToPersianDigits(time);
+                }
                 TLRPC.TL_messageActionPhoneCall call = (TLRPC.TL_messageActionPhoneCall) messageObject.messageOwner.action;
                 boolean isMissed = call.reason instanceof TLRPC.TL_phoneCallDiscardReasonMissed;
                 if (messageObject.isOutOwner()) {
@@ -10379,13 +10382,13 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         } else if (edited || deleted) {
 //            timeString = LocaleController.getString("EditedMessage", R.string.EditedMessage) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
             timeString = (deleted ? LocaleController.getString("DeletedMessage", R.string.DeletedMessage) : LocaleController.getString("EditedMessage", R.string.EditedMessage)) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
-            if (NekoConfig.usePersianCalendar) {
-                timeString = PersianDateFormat.farsiCharacter(timeString);
+            if (LocaleController.usePersianCalendar) {
+                timeString = PersianDateFormat.convertToPersianDigits(timeString);
             }
         } else if (LocaleController.getInstance().formatterDay != null && LocaleController.getInstance().formatterYear != null) {
             timeString = LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
-            if (NekoConfig.usePersianCalendar) {
-                timeString = PersianDateFormat.farsiCharacter(timeString);
+            if (LocaleController.usePersianCalendar) {
+                timeString = PersianDateFormat.convertToPersianDigits(timeString);
             }
         } else {
             timeString = messageObject.messageOwner.date + "";
