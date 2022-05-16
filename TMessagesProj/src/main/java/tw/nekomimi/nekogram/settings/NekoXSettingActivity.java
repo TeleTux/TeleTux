@@ -284,7 +284,6 @@ public class NekoXSettingActivity extends BaseFragment {
                 case 3: {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(true, null);
-                    HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == enableRow) {
                         textCell.setTextAndCheck("Enable", NekoXConfig.developerMode, true);
                     } else {
