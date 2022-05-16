@@ -48,7 +48,7 @@ public class NekoXConfig {
 
     public static long[] maindevelopers = {
         1160156558 // freetux
-};
+    };
 
 
     public static final int TITLE_TYPE_TEXT = 0;
@@ -98,7 +98,7 @@ public class NekoXConfig {
     public static void toggleDisableScreenshotDetection() {
         preferences.edit().putBoolean("disable_screenshot_detection", disableScreenshotDetection = !disableScreenshotDetection).apply();
     }
-    public static void togglechatDeleteMark() {
+    public static void toggleChatDeleteMark() {
         preferences.edit().putBoolean("chat_delete_mark", chatDeleteMark = !chatDeleteMark).apply();
     }
 

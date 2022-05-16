@@ -125,7 +125,7 @@ public class NekoXSettingActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoXConfig.disableStatusUpdate);
                 }
             } else if (position == chatDeleteMarkRow) {
-                NekoXConfig.togglechatDeleteMark();
+                NekoXConfig.toggleChatDeleteMark();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoXConfig.chatDeleteMark);
                 }
