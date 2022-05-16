@@ -297,7 +297,6 @@ public class NekoXSettingActivity extends BaseFragment {
                             textCell.setTextAndCheck("Disable Screenshot Detection", NekoXConfig.disableScreenshotDetection, false);
                         } else if (position == disableStatusUpdateRow) {
                             textCell.setTextAndCheck("Disable Status Update", NekoXConfig.disableStatusUpdate, false);
-
                         } else if (position == chatDeleteMarkRow) {
                             textCell.setTextAndCheck("Enable Chat Delete Mark", NekoXConfig.chatDeleteMark, false);
                         }
