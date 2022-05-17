@@ -311,6 +311,7 @@ public class NekoXSettingActivity extends BaseFragment {
                     if (position == fetchAndExportLangRow) {
                         textCell.setText("Export Builtin Languages", true);
                     }
+                    break;
                 }
 
             }
