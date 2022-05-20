@@ -122,7 +122,7 @@ public class PersianDateFormat {
             date.KurdishMonthName(),
             date.PashtoMonthName(),
             date.monthNamesLatin(),
-            date.latindayNames()
+            date.latindayName()
     };
     if(numberFormatCharacter == PersianDateNumberCharacter.FARSI){
       PersianDateFormat.farsiCharacter(values);
