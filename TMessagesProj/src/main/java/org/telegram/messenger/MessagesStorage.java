@@ -11128,8 +11128,7 @@ public class MessagesStorage extends BaseController {
                                     TLRPC.Message oldMessage = TLRPC.Message.TLdeserialize(data, data.readInt32(false), false);
                                     oldMessage.readAttachPath(data, getUserConfig().clientUserId);
                                     if (!oldMessage.message.equals(message.message) && message.from_id != null && message.dialog_id == message.from_id.user_id) {
-                                        if (LocaleController.usePersianCalendar) {
-                                            PersianDate pDate = new PersianDate();                                            
+                                        if (LocaleController.usePersianCalendar) {                                          
                                             PersianDateFormat pdformater = new PersianDateFormat("I F j Y H:i:s",PersianDateNumberCharacter.FARSI);                                      
                                             message.message = String.format("%s\n\n`%s`\n%s", message.message, pdformater.format(pdate), oldMessage.message);
                                         } else {
