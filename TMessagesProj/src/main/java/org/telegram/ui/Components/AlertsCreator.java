@@ -2585,12 +2585,14 @@ public class AlertsCreator {
                 calendar.setTimeInMillis(date);
                 int year = calendar.get(Calendar.YEAR);
                 LocaleController loc = LocaleController.getInstance();
-                final String week = loc.formatterWeek.format(date) + "; ";
+                final String week = null;
                 if (year == currentYear) {
                     if (LocaleController.usePersianCalendar) {
-                        PersianDate pdate = new PersianDate(date);
+                        final String week = loc.formatterWeek.format(date) + "؛ ";
+                        week = new PersianDate(date);
                         return week + pdate.getPersianMonthDay();
                     } else {
+                        week = loc.formatterWeek.format(date) + "; ";
                         return week + loc.formatterScheduleDay.format(date);
                     }
                 }else {
