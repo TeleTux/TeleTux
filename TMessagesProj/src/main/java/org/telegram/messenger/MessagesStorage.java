@@ -11111,7 +11111,7 @@ public class MessagesStorage extends BaseController {
                     int minDeleteTime = Integer.MAX_VALUE;
                     TLRPC.Message botKeyboard = null;
                     long channelId = 0;
-                    PersianDate pDate = new PersianDate();
+                    
                     for (int a = 0; a < count; a++) {
                         TLRPC.Message message = messages.messages.get(a);
 
@@ -11128,7 +11128,8 @@ public class MessagesStorage extends BaseController {
                                     TLRPC.Message oldMessage = TLRPC.Message.TLdeserialize(data, data.readInt32(false), false);
                                     oldMessage.readAttachPath(data, getUserConfig().clientUserId);
                                     if (!oldMessage.message.equals(message.message) && message.from_id != null && message.dialog_id == message.from_id.user_id) {
-                                        if (LocaleController.usePersianCalendar) {                                   
+                                        if (LocaleController.usePersianCalendar) {
+                                            PersianDate pDate = new PersianDate();                                   
                                             message.message = String.format("%s\n\n`%s`\n%s", message.message, PersianDateFormat.format(pDate, "l j F Y در H:i:s", PersianDateFormat.PersianDateNumberCharacter.FARSI), oldMessage.message);
                                         } else {
                                             message.message = String.format("%s\n\n`%s`\n%s", message.message, ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME), oldMessage.message);
