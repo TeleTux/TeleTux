@@ -18,6 +18,8 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Pair;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
+import tw.nekomimi.nekogram.shamsicalendar.PersianDateFormat;
+import tw.nekomimi.nekogram.shamsicalendar.PersianDate;
 
 import androidx.annotation.UiThread;
 
@@ -11109,6 +11111,7 @@ public class MessagesStorage extends BaseController {
                     int minDeleteTime = Integer.MAX_VALUE;
                     TLRPC.Message botKeyboard = null;
                     long channelId = 0;
+                    PersianDate pDate = new PersianDate();
                     for (int a = 0; a < count; a++) {
                         TLRPC.Message message = messages.messages.get(a);
 
@@ -11125,7 +11128,13 @@ public class MessagesStorage extends BaseController {
                                     TLRPC.Message oldMessage = TLRPC.Message.TLdeserialize(data, data.readInt32(false), false);
                                     oldMessage.readAttachPath(data, getUserConfig().clientUserId);
                                     if (!oldMessage.message.equals(message.message) && message.from_id != null && message.dialog_id == message.from_id.user_id) {
-                                        message.message = String.format("%s\n\n`%s`\n%s", message.message, ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME), oldMessage.message);
+                                        if (LocaleController.usePersianCalendar) {
+                                            PersianDateFormat pdformater = new PersianDateFormat('I F j Y H:i:s',PersianDateNumberCharacter.FARSI); //return Farsi character
+                                            message.message = String.format("%s\n\n`%s`\n%s", message.message, pdformater, oldMessage.message);
+                                        } else {
+                                            message.message = String.format("%s\n\n`%s`\n%s", message.message, ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME), oldMessage.message);
+                                        }
+                                        
                                     }
                                     data.reuse();
                                     int send_state = cursor.intValue(5);
