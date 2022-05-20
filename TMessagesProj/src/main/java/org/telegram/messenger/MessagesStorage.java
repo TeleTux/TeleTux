@@ -11131,7 +11131,7 @@ public class MessagesStorage extends BaseController {
                                         if (LocaleController.usePersianCalendar) {
                                             PersianDate pDate = new PersianDate();
                                             if (LocaleController.displayPersianCalendarByLatin) {
-                                                message.message = String.format("%s\n\n`%s`\n%s", message.message, PersianDateFormat.format(pDate, "k j T Y در H:i:s"), oldMessage.message);
+                                                message.message = String.format("%s\n\n`%s`\n%s", message.message, PersianDateFormat.format(pDate, "k j T Y  H:i:s"), oldMessage.message);
                                             } else {
                                                 message.message = String.format("%s\n\n`%s`\n%s", message.message, PersianDateFormat.format(pDate, "l j F Y  H:i:s", PersianDateFormat.PersianDateNumberCharacter.FARSI), oldMessage.message);
                                             }
