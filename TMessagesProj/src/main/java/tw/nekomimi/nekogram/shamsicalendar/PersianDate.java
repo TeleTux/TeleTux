@@ -81,6 +81,8 @@ public class PersianDate {
       {0, 31, 62, 93, 124, 155, 186, 216, 246, 276, 306, 336, 366}};
   private final String[] dayNames = {"شنبه", "یک‌شنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌شنبه",
       "جمعه"};
+  private final String[] latindayNames = {"Shanbeh", "YekShanbeh", "DoShanbeh", "SeShanbeh", "CheharShanbeh", "PanjShanbeh",
+      "Jomeh"};
   private final String[] monthNames = {"فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور",
       "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"};
   private final String[] monthNamesLatin = {"Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar",
@@ -674,6 +676,12 @@ public class PersianDate {
    */
   public String dayName(PersianDate date) {
     return this.dayNames[this.dayOfWeek(date)];
+  }
+  public String latindayName() {
+    return this.latindayName(this);
+  }
+  public String latindayName(PersianDate date) {
+    return this.latindayNames[this.dayOfWeek(date)];
   }
 
   /**
