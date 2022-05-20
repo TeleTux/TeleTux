@@ -2585,7 +2585,7 @@ public class AlertsCreator {
                 calendar.setTimeInMillis(date);
                 int year = calendar.get(Calendar.YEAR);
                 LocaleController loc = LocaleController.getInstance();
-                private static String week = null;
+                String week = null;
                 if (year == currentYear) {
                     if (LocaleController.usePersianCalendar) {
                         week = loc.formatterWeek.format(date) + "؛ ";
