@@ -75,7 +75,7 @@ import org.telegram.ui.Components.SlideChooseView;
 import org.telegram.ui.Components.StorageDiagramView;
 import org.telegram.ui.Components.StroageUsageView;
 import org.telegram.ui.Components.UndoView;
-
+import android.content.DialogInterface
 import java.io.File;
 import java.util.ArrayList;
 
