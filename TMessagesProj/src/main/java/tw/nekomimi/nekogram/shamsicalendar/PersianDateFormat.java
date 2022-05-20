@@ -1,5 +1,4 @@
-package com.freetux.PRSMS.common.util.shamsicalendar;
-
+package tw.nekomimi.nekogram.shamsicalendar
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
