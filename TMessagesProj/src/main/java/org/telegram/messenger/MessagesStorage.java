@@ -11129,12 +11129,15 @@ public class MessagesStorage extends BaseController {
                                     oldMessage.readAttachPath(data, getUserConfig().clientUserId);
                                     if (!oldMessage.message.equals(message.message) && message.from_id != null && message.dialog_id == message.from_id.user_id) {
                                         if (LocaleController.usePersianCalendar) {
-                                            PersianDate pDate = new PersianDate();                                   
-                                            message.message = String.format("%s\n\n`%s`\n%s", message.message, PersianDateFormat.format(pDate, "l j F Y در H:i:s", PersianDateFormat.PersianDateNumberCharacter.FARSI), oldMessage.message);
+                                            PersianDate pDate = new PersianDate();
+                                            if (LocaleController.displayPersianCalendarByLatin) {
+                                                message.message = String.format("%s\n\n`%s`\n%s", message.message, PersianDateFormat.format(pDate, "k j T Y در H:i:s"), oldMessage.message);
+                                            } else {
+                                                message.message = String.format("%s\n\n`%s`\n%s", message.message, PersianDateFormat.format(pDate, "l j F Y  H:i:s", PersianDateFormat.PersianDateNumberCharacter.FARSI), oldMessage.message);
+                                            }
                                         } else {
                                             message.message = String.format("%s\n\n`%s`\n%s", message.message, ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME), oldMessage.message);
-                                        }
-                                        
+                                        }    
                                     }
                                     data.reuse();
                                     int send_state = cursor.intValue(5);
