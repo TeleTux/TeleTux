@@ -1653,7 +1653,7 @@ public class LocaleController {
                     if ( displayPersianCalendarByLatin) {
                         return getInstance().formatterDay.format(new Date(date));
                     } else {
-                        PersianDateFormat pdformater1 = new PersianDateFormat("H:i", PersianDateFormat.PersianDateFormat.PersianDateNumberCharacter.FARSI);
+                        PersianDateFormat pdformater1 = new PersianDateFormat("H:i", PersianDateFormat.PersianDateNumberCharacter.FARSI);
                         return pdformater1.format(pdate);
                     }
                 } else{
@@ -2066,7 +2066,7 @@ public class LocaleController {
                         if (displayPersianCalendarByLatin) {
                             return getInstance().formatterDay.format(new Date(date));
                         } else {
-                            PersianDateFormat pdformater1 = new PersianDateFormat("H:i", PersianDateNumberCharacter.FARSI);
+                            PersianDateFormat pdformater1 = new PersianDateFormat("H:i", PersianDateFormat.PersianDateNumberCharacter.FARSI);
                             return pdformater1.format(pdate);
                         }
                     } else{
