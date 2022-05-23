@@ -27,7 +27,7 @@ object NaConfig {
         ArrayList<ConfigItem>()
 
     // Configs
-    var fullShadowBan =
+    var FullShadowBan =
         addConfig(
             "FullShadowBan",
             ConfigItem.configTypeBool,
