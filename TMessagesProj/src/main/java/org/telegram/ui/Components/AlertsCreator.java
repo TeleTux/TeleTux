@@ -2588,11 +2588,15 @@ public class AlertsCreator {
                 String week = null;
                 if (year == currentYear) {
                     if (LocaleController.usePersianCalendar) {
-                        week = loc.formatterWeek.format(date) + "؛ ";
+                        if (LocaleController.displayPersianCalendarByLatin) {
+                            week = loc.formatterWeek.format(date) + ", ";
+                        }else {
+                            week = loc.formatterWeek.format(date) + "، ";
+                        }   
                         PersianDate pdate = new PersianDate(date);
                         return week + pdate.getPersianMonthDay();
                     } else {
-                        week = loc.formatterWeek.format(date) + "; ";
+                        week = loc.formatterWeek.format(date) + ", ";
                         return week + loc.formatterScheduleDay.format(date);
                     }
                 }else {
