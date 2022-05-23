@@ -89,10 +89,10 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
     private final AbstractConfigCell divider0 = cellGroup.appendCell(new ConfigCellDivider());
     
     private final AbstractConfigCell header2 = cellGroup.appendCell(new ConfigCellHeader(LocaleController.getString("TeleTux")));
+    private final AbstractConfigCell FullShadowBanRow = cellGroup.appendCell(new ConfigCellTextCheck(NaConfig.INSTANCE.getFullShadowBan()));
     private final AbstractConfigCell forceCopyRow = cellGroup.appendCell(new ConfigCellTextCheck(NaConfig.INSTANCE.getForceCopy()));
     private final AbstractConfigCell audioEnhanceRow = cellGroup.appendCell(new ConfigCellTextCheck(NaConfig.INSTANCE.getNoiseSuppressAndVoiceEnhance()));
     private final AbstractConfigCell divider1 = cellGroup.appendCell(new ConfigCellDivider());
-    private final AbstractConfigCell FullShadowBanRow = cellGroup.appendCell(new ConfigCellTextCheck(NaConfig.INSTANCE.getFullShadowBan()));
     private UndoView tooltip;
 
     @Override
