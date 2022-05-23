@@ -27,12 +27,20 @@ object NaConfig {
         ArrayList<ConfigItem>()
 
     // Configs
-    var forceCopy =
+    var fullShadowBan =
         addConfig(
-            "ForceCopy",
+            "FullShadowBan",
             ConfigItem.configTypeBool,
             false
         )
+
+    var forceCopy =
+    addConfig(
+        "ForceCopy",
+        ConfigItem.configTypeBool,
+        false
+        )
+
     var showInvertReply =
         addConfig(
             "ForceCopy",

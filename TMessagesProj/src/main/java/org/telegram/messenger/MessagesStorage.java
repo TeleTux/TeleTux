@@ -57,6 +57,7 @@ import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.transtale.TranslateDb;
+import xyz.nextalone.nagram.NaConfig;
 
 public class MessagesStorage extends BaseController {
 
