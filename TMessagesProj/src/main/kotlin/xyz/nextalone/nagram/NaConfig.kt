@@ -35,11 +35,11 @@ object NaConfig {
         )
 
     var forceCopy =
-    addConfig(
-        "ForceCopy",
-        ConfigItem.configTypeBool,
-        false
-        )
+        addConfig(
+            "ForceCopy",
+            ConfigItem.configTypeBool,
+            false
+            )
 
     var showInvertReply =
         addConfig(
