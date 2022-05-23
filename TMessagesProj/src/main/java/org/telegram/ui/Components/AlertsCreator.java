@@ -2301,11 +2301,11 @@ public class AlertsCreator {
                 num = 1;
                 if (LocaleController.usePersianCalendar) {
                     PersianDate pdate = new PersianDate(time);
-                    PersianDateFormat pdateformater1 = new PersianDateFormat("F j در H:i");
+                    PersianDateFormat pdateformater1 = new PersianDateFormat("j F در H:i");
                     button.setText(LanguageUtils.getPersianNumbers(pdateformater1.format(pdate)));
                     if (type == 1) {
                         PersianDate pdate1 = new PersianDate(time);
-                        PersianDateFormat pdateformater2 = new PersianDateFormat("یادآوری در تاریخ F j در H:i");
+                        PersianDateFormat pdateformater2 = new PersianDateFormat("یادآوری در تاریخ j F در H:i");
                         button.setText(LanguageUtils.getPersianNumbers(pdateformater2.format(pdate1)));
                     }
                 } else {
@@ -2323,11 +2323,11 @@ public class AlertsCreator {
                 num = 2;
                 if (LocaleController.usePersianCalendar) {
                     PersianDate pdate = new PersianDate(time);
-                    PersianDateFormat pdateformater1 = new PersianDateFormat("Y F j در H:i");
+                    PersianDateFormat pdateformater1 = new PersianDateFormat("j F Y در H:i");
                     button.setText(LanguageUtils.getPersianNumbers(pdateformater1.format(pdate)));
                     if (type == 1) {
                         PersianDate pdate1 = new PersianDate(time);
-                        PersianDateFormat pdateformater2 = new PersianDateFormat("یادآوری در تاریخ Y F j در H:i");
+                        PersianDateFormat pdateformater2 = new PersianDateFormat("یادآوری در تاریخ j F Y در H:i");
                         button.setText(LanguageUtils.getPersianNumbers(pdateformater2.format(pdate1)));
                     }
                 } else {
