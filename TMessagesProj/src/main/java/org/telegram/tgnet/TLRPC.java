@@ -32268,7 +32268,7 @@ public class TLRPC {
 
         public void readParams(AbstractSerializedData stream, boolean exception) {
             flags = stream.readInt32(exception);
-             if (NekoXConfig.isDeveloper()) {
+             if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
                  history_deleted = false;
              } else {
                  history_deleted = (flags & 1) != 0;

@@ -71,6 +71,7 @@ public class NekoXConfig {
     public static boolean disableStatusUpdate = preferences.getBoolean("disable_status_update", false);
     public static boolean keepOnlineStatus = preferences.getBoolean("keepOnlineStatus", false);
     public static boolean chatDeleteMark = preferences.getBoolean("chat_delete_mark", false);
+    public static boolean chatStopDelete = preferences.getBoolean("chat_stop_delete", false);
     public static int autoUpdateReleaseChannel = preferences.getInt("autoUpdateReleaseChannel", 2);
     public static String ignoredUpdateTag = preferences.getString("ignoredUpdateTag", "");
 //    public static long nextUpdateCheck = preferences.getLong("nextUpdateCheckTimestamp", 0);
@@ -86,6 +87,7 @@ public class NekoXConfig {
                     .putBoolean("disable_flag_secure", disableFlagSecure = false)
                     .putBoolean("disable_screenshot_detection", disableScreenshotDetection = false)
                     .putBoolean("disable_status_update", disableStatusUpdate = false)
+                    .putBoolean("chat_stop_delete", chatStopDelete = false)
                     .putBoolean("chat_delete_mark", chatDeleteMark = false)
                     .apply();
         }
@@ -98,6 +100,10 @@ public class NekoXConfig {
     public static void toggleDisableScreenshotDetection() {
         preferences.edit().putBoolean("disable_screenshot_detection", disableScreenshotDetection = !disableScreenshotDetection).apply();
     }
+    public static void toggleChatStopDelete() {
+        preferences.edit().putBoolean("chat_stop_delete", chatStopDelete = !chatStopDelete).apply();
+    }
+
     public static void toggleChatDeleteMark() {
         preferences.edit().putBoolean("chat_delete_mark", chatDeleteMark = !chatDeleteMark).apply();
     }

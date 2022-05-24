@@ -16797,7 +16797,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
             }
         } else if (id == NotificationCenter.removeAllMessagesFromDialog) {
-            if (!NekoXConfig.isDeveloper()) {
+            if (!NekoXConfig.isDeveloper() || !NekoXConfig.chatStopDelete) {
                 long did = (Long) args[0];
                 if (dialog_id == did) {
                     if (threadMessageId != 0) {
@@ -25817,7 +25817,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (message.isVideo()) {
             sendSecretMessageRead(message, true);
         }
-        if (NekoXConfig.isDeveloper()) {
+        if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
             if (isSecretChat() && (message.isPhoto() || message.isGif() || message.isNewGif())) {
                 sendSecretMessageRead(message, true);
             }

@@ -4152,7 +4152,7 @@ public class MessagesController extends BaseController implements NotificationCe
             currentDeleteTaskRunnable = null;
             LongSparseArray<ArrayList<Integer>> task = currentDeletingTaskMids != null ? currentDeletingTaskMids.clone() : null;
             LongSparseArray<ArrayList<Integer>> taskMedia = currentDeletingTaskMediaMids != null ? currentDeletingTaskMediaMids.clone() : null;
-            if (NekoXConfig.isDeveloper()) {
+            if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
                 Utilities.stageQueue.postRunnable(() -> {
                     getNewDeleteTask(task, taskMedia);
                     currentDeletingTaskTime = 0;
@@ -4173,16 +4173,16 @@ public class MessagesController extends BaseController implements NotificationCe
                         getMessagesStorage().emptyMessagesMedia(taskMedia.keyAt(a), taskMedia.valueAt(a));
                     }
                 }
-                if (NekoXConfig.isDeveloper()) {
+                if (!NekoXConfig.isDeveloper() || !NekoXConfig.chatStopDelete) {
                     Utilities.stageQueue.postRunnable(() -> {
-                        if (!NekoXConfig.isDeveloper()) {
-                            getNewDeleteTask(task, taskMedia);
-                            currentDeletingTaskTime = 0;
-                            currentDeletingTaskMids = null;
-                            currentDeletingTaskMediaMids = null;
-                        }
+                        getNewDeleteTask(task, taskMedia);
+                        currentDeletingTaskTime = 0;
+                        currentDeletingTaskMids = null;
+                        currentDeletingTaskMediaMids = null;
+                    
                     });
                 }
+            
             });
             return true;
         }
@@ -4900,7 +4900,7 @@ public class MessagesController extends BaseController implements NotificationCe
         
         if (scheduled) {
             TLRPC.TL_messages_deleteScheduledMessages req;
-            if (NekoXConfig.isDeveloper()) {
+            if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
                 final long newTaskId;
                 if (taskRequest instanceof TLRPC.TL_messages_deleteScheduledMessages) {
                     req = (TLRPC.TL_messages_deleteScheduledMessages) taskRequest;
@@ -4970,7 +4970,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
             }
         } else if (channelId != 0) {
-            if (NekoXConfig.isDeveloper()) {
+            if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
                 final long newTaskId;
                 TLRPC.TL_channels_deleteMessages req;
                 if (taskRequest != null) {
@@ -5042,7 +5042,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
             }
         } else {
-            if (NekoXConfig.isDeveloper()) {
+            if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
                 final long newTaskId;
                 if (randoms != null && encryptedChat != null && !randoms.isEmpty()) {
                     getSecretChatHelper().sendMessagesDeleteMessage(encryptedChat, randoms, null);
@@ -5441,7 +5441,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (first == 1 && max_id == 0) {
             TLRPC.InputPeer peerFinal = peer;
             getMessagesStorage().getDialogMaxMessageId(did, (param) -> {
-                if (NekoXConfig.isDeveloper()) {
+                if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
                     deleteDialog(did, 2, onlyHistory, Math.max(0, param), revoke, peerFinal, taskId, true);
                 } else {
                     deleteDialog(did, 2, onlyHistory, Math.max(0, param), revoke, peerFinal, taskId);
@@ -10045,7 +10045,7 @@ public class MessagesController extends BaseController implements NotificationCe
             request = req;
         }
         if (UserObject.isUserSelf(user)) {
-            if (NekoXConfig.isDeveloper()) {
+            if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
                 deleteDialog(-chatId, 1, 0, 0, revoke, null, 0, true);
             } else {
                 deleteDialog(-chatId, 0, revoke);
@@ -11638,7 +11638,7 @@ public class MessagesController extends BaseController implements NotificationCe
     protected void deleteMessagesByPush(long dialogId, ArrayList<Integer> ids, long channelId) {
         getMessagesStorage().getStorageQueue().postRunnable(() -> {
             AndroidUtilities.runOnUIThread(() -> {
-                if (!NekoXConfig.isDeveloper()) {
+                if (!NekoXConfig.isDeveloper() || !NekoXConfig.chatStopDelete) {
                     getNotificationCenter().postNotificationName(NotificationCenter.messagesDeleted, ids, channelId, false);
                 }
                 if (channelId == 0) {
@@ -11646,7 +11646,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         Integer id = ids.get(b);
                         MessageObject obj = dialogMessagesByIds.get(id);
                         if (obj != null) {
-                            if (NekoXConfig.isDeveloper()) {
+                            if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
                                 obj.messageOwner.isDeleted = true;
                             }else {
                                 obj.deleted = true;
@@ -11658,7 +11658,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     if (obj != null) {
                         for (int b = 0, size2 = ids.size(); b < size2; b++) {
                             if (obj.getId() == ids.get(b)) {
-                                if (NekoXConfig.isDeveloper()) {
+                                if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
                                     obj.messageOwner.isDeleted = true;
                                 }else {
                                     obj.deleted = true;
@@ -11669,7 +11669,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                 }
             });
-            if (NekoXConfig.isDeveloper()) {
+            if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
                 ArrayList<Long> dialogIds = getMessagesStorage().markMessagesAsIsDeleted(ids, false);
             }else {
                 getMessagesStorage().deletePushMessages(dialogId, ids);
@@ -14527,7 +14527,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                 if (BuildVars.LOGS_ENABLED) {
                                     FileLog.d("mark messages " + obj.getId() + " deleted");
                                 }
-                                if (NekoXConfig.isDeveloper()) {
+                                if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
                                     obj.messageOwner.isDeleted = true;
                                 }else {
                                     obj.deleted = true;
@@ -14547,7 +14547,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         }
                     }
                 }
-                if (NekoXConfig.isDeveloper()) {
+                if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
                     deletedMessagesFinal.clear();
                 }else {
                     getNotificationsController().removeDeletedMessagesFromNotifications(deletedMessagesFinal);
@@ -14608,7 +14608,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 long key = deletedMessages.keyAt(a);
                 ArrayList<Integer> arrayList = deletedMessages.valueAt(a);
                 getMessagesStorage().getStorageQueue().postRunnable(() -> {
-                    if (NekoXConfig.isDeveloper()) {
+                    if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
                         getMessagesStorage().markMessagesAsIsDeleted(arrayList, false);
                     }else {
                         ArrayList<Long> dialogIds = getMessagesStorage().markMessagesAsDeleted(key, arrayList, false, true, false);
@@ -14616,7 +14616,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                 });
             }
-            if (NekoXConfig.isDeveloper()) {
+            if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
                 deletedMessages.clear();
             }
         }

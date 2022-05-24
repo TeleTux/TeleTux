@@ -63,7 +63,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
-
+import org.telegram.messenger.FileLog;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
@@ -358,7 +358,7 @@ public class MessageUtils extends BaseController {
                     AndroidUtilities.runOnUIThread(callback);
                 }
             } catch (Exception e) {
-                LogUtils.e(e);
+                FileLog.e(e);
             }
         });
     }
@@ -448,7 +448,7 @@ public class MessageUtils extends BaseController {
             QRCodeWriter writer = new QRCodeWriter();
             return writer.encode(key, 768, 768, hints, null);
         } catch (Exception e) {
-            LogUtils.e(e);
+            FileLog.e(e);
         }
         return null;
     }

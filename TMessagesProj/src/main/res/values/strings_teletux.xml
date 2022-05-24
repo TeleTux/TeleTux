@@ -21,4 +21,7 @@
     <string name="Groupicon" translatable="false">f0c0</string>
     <string name="hideBottomButton">Hide Bottom Button</string>
     <string name="FullShadowBan">Full Shadow Ban</string>
+    <string name="DeleteAllFromSelfAdmin">With admin rights</string>
+    <string name="SendCallback">Send Callback Data</string>
+    <string name="CallbackData">Callback Data</string>
 </resources>

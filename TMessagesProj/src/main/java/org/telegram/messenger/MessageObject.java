@@ -6490,9 +6490,9 @@ public class MessageObject {
 
     public boolean isBlockedMessage() {
         var messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
-        if (isSponsored() && ConfigManager.getBooleanOrFalse(Defines.blockSponsorAds))
+        if (isSponsored() && NekoConfig.hideSponsoredMessage.Bool())
             return true;
-        if (ConfigManager.getBooleanOrFalse(Defines.ignoreBlockedUser)) {
+        if (NekoConfig.ignoreBlocked.Bool()) {
             if (messagesController.blockePeers.indexOfKey(getFromChatId()) >= 0 )
                 return true;
             if (messageOwner.fwd_from != null && messageOwner.fwd_from.from_id != null

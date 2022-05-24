@@ -5972,7 +5972,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     private void performDeleteOrClearDialogAction(int action, long selectedDialog, TLRPC.Chat chat, boolean isBot, boolean revoke) {
         if (action == clear) {
-             if (NekoXConfig.isDeveloper()) {
+             if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
                  getMessagesController().deleteDialog(selectedDialog, 1, revoke, true);
              } else {
                  getMessagesController().deleteDialog(selectedDialog, 1, revoke);
@@ -5987,7 +5987,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     getMessagesController().deleteParticipantFromChat((int) -selectedDialog, currentUser, null, null, revoke, false);
                 }
             } else {
-                 if (NekoXConfig.isDeveloper()) {
+                 if (NekoXConfig.isDeveloper() && NekoXConfig.chatStopDelete ) {
                      getMessagesController().deleteDialog(selectedDialog, 0, revoke, true);
                  }else {
                      getMessagesController().deleteDialog(selectedDialog, 0, revoke);

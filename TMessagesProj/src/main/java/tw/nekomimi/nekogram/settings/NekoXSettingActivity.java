@@ -52,6 +52,7 @@ public class NekoXSettingActivity extends BaseFragment {
     private int disableFlagSecureRow;
     private int disableScreenshotDetectionRow;
     private int disableStatusUpdateRow;
+    private int chatStopDeleteRow;
     private int chatDeleteMarkRow;
 
 
@@ -129,6 +130,11 @@ public class NekoXSettingActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoXConfig.chatDeleteMark);
                 }
+            } else if (position == chatStopDeleteRow) {
+                NekoXConfig.toggleChatStopDelete();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoXConfig.chatStopDelete);
+                }
             }
 
 
@@ -155,6 +161,7 @@ public class NekoXSettingActivity extends BaseFragment {
         disableFlagSecureRow = rowCount++;
         disableScreenshotDetectionRow = rowCount++;
         disableStatusUpdateRow = rowCount++;
+        chatStopDeleteRow = rowCount++;
         chatDeleteMarkRow = rowCount++;
         fetchAndExportLangRow = rowCount++;
         
@@ -298,6 +305,8 @@ public class NekoXSettingActivity extends BaseFragment {
                             textCell.setTextAndCheck("Disable Status Update", NekoXConfig.disableStatusUpdate, false);
                         } else if (position == chatDeleteMarkRow) {
                             textCell.setTextAndCheck("Enable Chat Delete Mark", NekoXConfig.chatDeleteMark, false);
+                        } else if (position == chatStopDeleteRow) {
+                            textCell.setTextAndCheck("Stop Deletion", NekoXConfig.chatStopDelete, false);
                         }
                     }
                     break;
