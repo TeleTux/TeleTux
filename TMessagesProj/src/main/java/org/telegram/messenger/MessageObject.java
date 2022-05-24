@@ -70,6 +70,7 @@ import java.util.regex.Pattern;
 import cn.hutool.core.util.StrUtil;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.NekoXConfig;
+import tw.nekomimi.nekogram.shamsicalendar.PersianDate;
 
 public class MessageObject {
 
@@ -2908,8 +2909,14 @@ public class MessageObject {
                 } else if (messageOwner.action instanceof TLRPC.TL_messageActionLoginUnknownLocation) {
                     String date;
                     long time = ((long) messageOwner.date) * 1000;
+                    PersianDate pdate = new PersianDate(time);
+
                     if (LocaleController.getInstance().formatterDay != null && LocaleController.getInstance().formatterYear != null) {
-                        date = LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(time), LocaleController.getInstance().formatterDay.format(time));
+                        if (LocaleController.usePersianCalendar) {
+                            date = LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, pdate.getPersianShortDate(), LocaleController.getInstance().formatterDay.format(time));
+                        } else {
+                            date = LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(time), LocaleController.getInstance().formatterDay.format(time));
+                        }
                     } else {
                         date = "" + messageOwner.date;
                     }
