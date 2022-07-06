@@ -290,7 +290,7 @@ public class FilterCreateActivity extends BaseFragment {
         } else {
             TextPaint paint = new SuperTextPaint(Paint.ANTI_ALIAS_FLAG);
             paint.setTextSize(AndroidUtilities.dp(20));
-            actionBar.setTitle(filter.name);
+            actionBar.setTitle(Emoji.replaceEmoji(filter.name, paint.getFontMetricsInt(), AndroidUtilities.dp(20), false));
         }
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
             @Override
@@ -441,47 +441,9 @@ public class FilterCreateActivity extends BaseFragment {
             return;
         }
         int flags = newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS;
-        String newName = "";
-        String newEmoticon = "";
-        if ((flags & MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS) == MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS) {
-            if ((newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ) != 0) {
-                newName = LocaleController.getString("FilterNameUnread", R.string.FilterNameUnread);
-                newEmoticon = "\u2705";
-            } else if ((newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED) != 0) {
-                newName = LocaleController.getString("FilterNameNonMuted", R.string.FilterNameNonMuted);
-                newEmoticon = "\uD83D\uDD14";
-            }
-        } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_CONTACTS) != 0) {
-            flags &=~ MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
-            if (flags == 0) {
-                newName = LocaleController.getString("FilterContacts", R.string.FilterContacts);
-                newEmoticon = "\uD83D\uDC64";
-            }
-        } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS) != 0) {
-            flags &=~ MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
-            if (flags == 0) {
-                newName = LocaleController.getString("FilterNonContacts", R.string.FilterNonContacts);
-                newEmoticon = "\uD83D\uDC64";
-            }
-        } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_GROUPS) != 0) {
-            flags &=~ MessagesController.DIALOG_FILTER_FLAG_GROUPS;
-            if (flags == 0) {
-                newName = LocaleController.getString("FilterGroups", R.string.FilterGroups);
-                newEmoticon = "\uD83D\uDC65";
-            }
-        } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_BOTS) != 0) {
-            flags &=~ MessagesController.DIALOG_FILTER_FLAG_BOTS;
-            if (flags == 0) {
-                newName = LocaleController.getString("FilterBots", R.string.FilterBots);
-                newEmoticon = "\uD83E\uDD16";
-            }
-        } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_CHANNELS) != 0) {
-            flags &=~ MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
-            if (flags == 0) {
-                newName = LocaleController.getString("FilterChannels", R.string.FilterChannels);
-                newEmoticon = "\uD83D\uDCE2";
-            }
-        }
+        var result = FolderIconHelper.getEmoticonFromFlags(flags);
+        String newName = result.first;
+        String newEmoticon = result.second;
         if (newName != null && newName.length() > MAX_NAME_LENGTH) {
             newName = "";
         }
@@ -1027,10 +989,10 @@ public class FilterCreateActivity extends BaseFragment {
                         textCell.setTextAndIcon(LocaleController.formatPluralString("FilterShowMoreChats", newNeverShow.size() - 5), R.drawable.arrow_more, false);
                     } else if (position == includeAddRow) {
                         textCell.setColors(Theme.key_switchTrackChecked, Theme.key_windowBackgroundWhiteBlueText4);
-                        textCell.setTextAndIcon(LocaleController.getString("FilterAddChats", R.string.FilterAddChats), R.drawable.baseline_person_add_24, position + 1 != includeSectionRow);
+                        textCell.setTextAndIcon(LocaleController.getString("FilterAddChats", R.string.FilterAddChats), R.drawable.msg_chats_add, position + 1 != includeSectionRow);
                     } else if (position == excludeAddRow) {
                         textCell.setColors(Theme.key_switchTrackChecked, Theme.key_windowBackgroundWhiteBlueText4);
-                        textCell.setTextAndIcon(LocaleController.getString("FilterRemoveChats", R.string.FilterRemoveChats), R.drawable.baseline_person_add_24, position + 1 != excludeSectionRow);
+                        textCell.setTextAndIcon(LocaleController.getString("FilterRemoveChats", R.string.FilterRemoveChats), R.drawable.msg_chats_add, position + 1 != excludeSectionRow);
                     }
                     break;
                 }
@@ -1050,7 +1012,7 @@ public class FilterCreateActivity extends BaseFragment {
                 }
                 case 2: {
                     PollEditTextCell cell = (PollEditTextCell) holder.itemView;
-                    cell.setIcon(FolderIconHelper.getTabIcon(newFilterEmoticon, false), newFilterEmoticon);
+                    cell.setIcon(FolderIconHelper.getTabIcon(newFilterEmoticon), newFilterEmoticon);
                     break;
                 }
             }
