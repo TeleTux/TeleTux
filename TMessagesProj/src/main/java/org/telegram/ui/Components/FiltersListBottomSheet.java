@@ -22,6 +22,9 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import tw.nekomimi.nekogram.ui.SuperTextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.LocaleController;
@@ -35,9 +38,6 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.DialogsActivity;
 
 import java.util.ArrayList;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class FiltersListBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
 
@@ -310,7 +310,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
         ArrayList<MessagesController.DialogFilter> filters = fragment.getMessagesController().dialogFilters;
         for (int a = 0, N = filters.size(); a < N; a++) {
             MessagesController.DialogFilter filter = filters.get(a);
-            if (!getDialogsCount(fragment, filter, selectedDialogs, true, true).isEmpty()) {
+            if (!getDialogsCount(fragment, filter, selectedDialogs, true, true).isEmpty() && !filter.isDefault()) {
                 result.add(filter);
             }
         }
@@ -396,7 +396,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                 if ((filter.flags & MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS) == (MessagesController.DIALOG_FILTER_FLAG_CONTACTS | MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS)) {
                     icon = R.drawable.baseline_person_24;
                 } else if ((filter.flags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ) != 0 && (filter.flags & MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS) == MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS) {
-                    icon = R.drawable.menu_unread;
+                    icon = R.drawable.msg_markunread;
                 } else if ((filter.flags & MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS) == MessagesController.DIALOG_FILTER_FLAG_CHANNELS) {
                     icon = R.drawable.baseline_notifications_24;
                 } else if ((filter.flags & MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS) == MessagesController.DIALOG_FILTER_FLAG_GROUPS) {

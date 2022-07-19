@@ -4,10 +4,14 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +19,7 @@ import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.R;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
 
@@ -100,6 +105,17 @@ public class ActionBarMenuSubItem extends FrameLayout {
             return;
         }
         checkView.setChecked(checked, true);
+    }
+
+    @Override
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        info.setEnabled(isEnabled());
+        if (checkView != null && checkView.isChecked()) {
+            info.setCheckable(true);
+            info.setChecked(checkView.isChecked());
+            info.setClassName("android.widget.CheckBox");
+        }
     }
 
     public void setCheckColor(String colorKey) {

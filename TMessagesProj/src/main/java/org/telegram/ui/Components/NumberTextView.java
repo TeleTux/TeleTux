@@ -20,6 +20,7 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import org.telegram.messenger.AndroidUtilities;
 

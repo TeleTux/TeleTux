@@ -18,6 +18,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.AbsoluteSizeSpan;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -27,12 +28,14 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.LinkSpanDrawable;
 
 import java.util.ArrayList;
 
 public class TextInfoPrivacyCell extends FrameLayout {
 
     private TextView textView;
+    private LinkSpanDrawable.LinkCollector links;
     private String linkTextColorKey = Theme.key_windowBackgroundWhiteLinkText;
     private int topPadding = 10;
     private int bottomPadding = 17;
@@ -57,7 +60,7 @@ public class TextInfoPrivacyCell extends FrameLayout {
         super(context);
         this.resourcesProvider = resourcesProvider;
 
-        textView = new SuperTextView(context) {
+        textView = new LinkSpanDrawable.LinksTextView(context, links = new LinkSpanDrawable.LinkCollector(this), resourcesProvider) {
             @Override
             protected void onDraw(Canvas canvas) {
                 onTextDraw();
@@ -74,6 +77,19 @@ public class TextInfoPrivacyCell extends FrameLayout {
         textView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
         textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, padding, 0, padding, 0));
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        if (links != null) {
+            canvas.save();
+            canvas.translate(textView.getLeft(), textView.getTop());
+            if (links.draw(canvas)) {
+                invalidate();
+            }
+            canvas.restore();
+        }
+        super.onDraw(canvas);
     }
 
     protected void onTextDraw() {
@@ -151,7 +167,7 @@ public class TextInfoPrivacyCell extends FrameLayout {
 
     public void setEnabled(boolean value, ArrayList<Animator> animators) {
         if (animators != null) {
-            animators.add(ObjectAnimator.ofFloat(textView, "alpha", value ? 1.0f : 0.5f));
+            animators.add(ObjectAnimator.ofFloat(textView, View.ALPHA, value ? 1.0f : 0.5f));
         } else {
             textView.setAlpha(value ? 1.0f : 0.5f);
         }

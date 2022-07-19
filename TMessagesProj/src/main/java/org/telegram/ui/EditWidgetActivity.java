@@ -53,7 +53,6 @@ import org.telegram.messenger.ChatsWidgetProvider;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.ContactsWidgetProvider;
 import org.telegram.messenger.DialogObject;
-import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
@@ -291,7 +290,7 @@ public class EditWidgetActivity extends BaseFragment {
                     try {
                         Bitmap bitmap = null;
                         if (photoPath != null) {
-                            File path = FileLoader.getPathToAttach(photoPath, true);
+                            File path = getFileLoader().getPathToAttach(photoPath, true);
                             bitmap = BitmapFactory.decodeFile(path.toString());
                         }
 
@@ -564,7 +563,7 @@ public class EditWidgetActivity extends BaseFragment {
                         try {
                             Bitmap bitmap = null;
                             if (photoPath != null) {
-                                File path = FileLoader.getPathToAttach(photoPath, true);
+                                File path = getFileLoader().getPathToAttach(photoPath, true);
                                 bitmap = BitmapFactory.decodeFile(path.toString());
                             }
 

@@ -28,7 +28,10 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import tw.nekomimi.nekogram.ui.SuperTextPaint;
 import android.text.TextUtils;
+import android.text.method.MovementMethod;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 
@@ -85,6 +88,8 @@ public class SimpleTextView extends View implements Drawable.Callback {
     private int textWidth;
     private int totalWidth;
     private int textHeight;
+    public int rightDrawableX;
+    public int rightDrawableY;
     private boolean wasLayout;
 
     private int minWidth;
@@ -105,6 +110,11 @@ public class SimpleTextView extends View implements Drawable.Callback {
     private Stack<SpoilerEffect> spoilersPool = new Stack<>();
     private Path path = new Path();
     private boolean usaAlphaForEmoji;
+    private boolean canHideRightDrawable;
+    private boolean rightDrawableHidden;
+    private OnClickListener rightDrawableOnClickListener;
+    private boolean maybeClick;
+    private float touchDownX, touchDownY;
 
     public SimpleTextView(Context context) {
         super(context);
@@ -245,6 +255,7 @@ public class SimpleTextView extends View implements Drawable.Callback {
     protected boolean createLayout(int width) {
         CharSequence text = this.text;
         replacingDrawableTextIndex = -1;
+        rightDrawableHidden = false;
         if (text != null) {
             text = Emoji.replaceEmoji(text, textPaint.getFontMetricsInt(), (int) textPaint.getTextSize(), false);
             try {
@@ -252,9 +263,10 @@ public class SimpleTextView extends View implements Drawable.Callback {
                     width -= leftDrawable.getIntrinsicWidth();
                     width -= drawablePadding;
                 }
+                int rightDrawableWidth = 0;
                 if (rightDrawable != null) {
-                    int dw = (int) (rightDrawable.getIntrinsicWidth() * rightDrawableScale);
-                    width -= dw;
+                    rightDrawableWidth = (int) (rightDrawable.getIntrinsicWidth() * rightDrawableScale);
+                    width -= rightDrawableWidth;
                     width -= drawablePadding;
                 }
                 if (replacedText != null && replacedDrawable != null) {
@@ -266,6 +278,14 @@ public class SimpleTextView extends View implements Drawable.Callback {
                     } else {
                         width -= replacedDrawable.getIntrinsicWidth();
                         width -= drawablePadding;
+                    }
+                }
+                if (canHideRightDrawable && rightDrawableWidth != 0) {
+                    CharSequence string = TextUtils.ellipsize(text, textPaint, width, TextUtils.TruncateAt.END);
+                    if (!text.equals(string)) {
+                        rightDrawableHidden = true;
+                        width += rightDrawableWidth;
+                        width += drawablePadding;
                     }
                 }
                 if (buildFullLayout) {
@@ -622,7 +642,7 @@ public class SimpleTextView extends View implements Drawable.Callback {
                 totalWidth += drawablePadding + replacedDrawable.getIntrinsicWidth();
             }
         }
-        if (rightDrawable != null) {
+        if (rightDrawable != null && !rightDrawableHidden && rightDrawableScale > 0) {
             int x = textOffsetX + textWidth + drawablePadding + (int) -scrollingOffset;
             if ((gravity & Gravity.HORIZONTAL_GRAVITY_MASK) == Gravity.CENTER_HORIZONTAL) {
                 x += offsetX;
@@ -633,6 +653,8 @@ public class SimpleTextView extends View implements Drawable.Callback {
             int dh = (int) (rightDrawable.getIntrinsicHeight() * rightDrawableScale);
             int y = (textHeight - dh) / 2 + rightDrawableTopPadding;
             rightDrawable.setBounds(x, y, x + dw, y + dh);
+            rightDrawableX = x + (dw >> 1);
+            rightDrawableY = y + (dh >> 1);
             rightDrawable.draw(canvas);
             totalWidth += drawablePadding + dw;
         }
@@ -832,5 +854,38 @@ public class SimpleTextView extends View implements Drawable.Callback {
 
     public int getTextColor() {
         return textPaint.getColor();
+    }
+
+    public void setCanHideRightDrawable(boolean b) {
+        canHideRightDrawable = b;
+    }
+
+    public void setRightDrawableOnClick(OnClickListener onClickListener) {
+        rightDrawableOnClickListener = onClickListener;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (rightDrawableOnClickListener != null && rightDrawable != null) {
+            AndroidUtilities.rectTmp.set(rightDrawableX - AndroidUtilities.dp(16), rightDrawableY - AndroidUtilities.dp(16), rightDrawableX + AndroidUtilities.dp(16), rightDrawableY + AndroidUtilities.dp(16));
+            if (event.getAction() == MotionEvent.ACTION_DOWN && AndroidUtilities.rectTmp.contains((int) event.getX(), (int) event.getY())) {
+                maybeClick = true;
+                touchDownX = event.getX();
+                touchDownY = event.getY();
+                getParent().requestDisallowInterceptTouchEvent(true);
+            } else if (event.getAction() == MotionEvent.ACTION_MOVE && maybeClick) {
+                if (Math.abs(event.getX() - touchDownX) >= AndroidUtilities.touchSlop || Math.abs(event.getY() - touchDownY) >= AndroidUtilities.touchSlop) {
+                    maybeClick = false;
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                }
+            } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+                if (maybeClick && event.getAction() == MotionEvent.ACTION_UP) {
+                    rightDrawableOnClickListener.onClick(this);
+                }
+                maybeClick = false;
+                getParent().requestDisallowInterceptTouchEvent(false);
+            }
+        }
+        return super.onTouchEvent(event) || maybeClick;
     }
 }

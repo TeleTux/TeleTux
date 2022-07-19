@@ -289,6 +289,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         behindKeyboardColorKey = null;
         behindKeyboardColor = 0xff252525;
         useLightStatusBar = false;
+        fixNavigationBar(0xff252525);
 
         currentType = MediaDataController.TYPE_IMAGE;
 

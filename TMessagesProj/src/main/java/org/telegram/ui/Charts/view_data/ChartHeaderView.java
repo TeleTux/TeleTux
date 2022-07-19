@@ -20,8 +20,8 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Charts.BaseChartView;
+import org.telegram.ui.Components.LayoutHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -75,7 +75,7 @@ public class ChartHeaderView extends FrameLayout {
 
         back.setVisibility(View.GONE);
         back.setText(LocaleController.getString("ZoomOut", R.string.ZoomOut));
-        zoomIcon = ContextCompat.getDrawable(getContext(), R.drawable.stats_zoom);
+        zoomIcon = ContextCompat.getDrawable(getContext(), R.drawable.msg_zoomout_stats);
         back.setCompoundDrawablesWithIntrinsicBounds(zoomIcon, null, null, null);
         back.setCompoundDrawablePadding(AndroidUtilities.dp(4));
         back.setPadding(AndroidUtilities.dp(8), AndroidUtilities.dp(4), AndroidUtilities.dp(8), AndroidUtilities.dp(4));

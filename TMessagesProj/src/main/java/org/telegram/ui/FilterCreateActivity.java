@@ -18,6 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import tw.nekomimi.nekogram.ui.SuperTextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DialogObject;

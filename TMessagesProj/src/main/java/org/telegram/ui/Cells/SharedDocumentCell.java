@@ -32,12 +32,12 @@ import tw.nekomimi.nekogram.ui.SuperTextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DownloadController;
+import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
-import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC;
@@ -406,7 +406,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             if (!messageObject.isVideo() && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaPhoto) && !MessageObject.isGifDocument(document)) {
                 fileName = FileLoader.getDocumentFileName(document);
             }
-            if (TextUtils.isEmpty(fileName)) {
+            if (TextUtils.isEmpty(fileName) && document.mime_type != null) {
                 if (document.mime_type.startsWith("video")) {
                     if (MessageObject.isGifDocument(document)) {
                         fileName = LocaleController.getString("AttachGif", R.string.AttachGif);
@@ -414,7 +414,11 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
                         fileName = LocaleController.getString("AttachVideo", R.string.AttachVideo);
                     }
                 } else if (document.mime_type.startsWith("image")) {
-                    fileName = LocaleController.getString("AttachPhoto", R.string.AttachPhoto);
+                    if (MessageObject.isGifDocument(document)) {
+                        fileName = LocaleController.getString("AttachGif", R.string.AttachGif);
+                    } else {
+                        fileName = LocaleController.getString("AttachPhoto", R.string.AttachPhoto);
+                    }
                 } else if (document.mime_type.startsWith("audio")) {
                     fileName = LocaleController.getString("AttachAudio", R.string.AttachAudio);
                 } else {
@@ -688,7 +692,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         super.onInitializeAccessibilityNodeInfo(info);
         if (checkBox.isChecked()) {
             info.setCheckable(true);
-            info.setChecked(true);
+            info.setChecked(checkBox.isChecked());
         }
     }
 

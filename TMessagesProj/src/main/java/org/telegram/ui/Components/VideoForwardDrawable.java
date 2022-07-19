@@ -35,6 +35,7 @@ public class VideoForwardDrawable extends Drawable {
 
     private long time;
     private String timeStr;
+    private float playScaleFactor = 1f;
 
     public void setTime(long dt) {
         time = dt;
@@ -66,6 +67,11 @@ public class VideoForwardDrawable extends Drawable {
             }
         }
         path1.close();
+    }
+
+    public void setPlayScaleFactor(float playScaleFactor) {
+        this.playScaleFactor = playScaleFactor;
+        invalidate();
     }
 
     public boolean isAnimating() {
@@ -171,6 +177,7 @@ public class VideoForwardDrawable extends Drawable {
         }
 
         canvas.save();
+        canvas.scale(playScaleFactor, playScaleFactor, x, y + getIntrinsicHeight() / 2f);
         if (leftSide) {
             canvas.rotate(180, x, y + getIntrinsicHeight() / 2);
         }
