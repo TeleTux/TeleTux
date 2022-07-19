@@ -41,6 +41,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ForegroundDetector;
+import org.telegram.ui.LauncherIconController;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -350,6 +351,7 @@ public class ApplicationLoader extends Application {
 
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("app start time = " + (startTime = SystemClock.elapsedRealtime()));
+            FileLog.d("buildVersion = " + BuildVars.BUILD_VERSION);
         }
         if (applicationContext == null) {
             applicationContext = getApplicationContext();
@@ -396,6 +398,7 @@ public class ApplicationLoader extends Application {
                 Typeface.createFromAsset(getAssets(), "fonts/Vazir-Regular-UI.ttf"));
     
 
+LauncherIconController.tryFixLauncherIconIfNeeded();
     }
 
     public static void startPushService() {

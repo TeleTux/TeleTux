@@ -932,7 +932,8 @@ public class ViewPagerFixed extends FrameLayout {
                 }
             };
             ((DefaultItemAnimator) listView.getItemAnimator()).setDelayAnimations(false);
-            listView.setSelectorType(7);
+            listView.setSelectorType(8);
+            listView.setSelectorRadius(6);
             listView.setSelectorDrawableColor(Theme.getColor(selectorColorKey));
             listView.setLayoutManager(layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) {
                 @Override

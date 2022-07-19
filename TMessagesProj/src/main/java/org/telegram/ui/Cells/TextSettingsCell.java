@@ -28,15 +28,20 @@ import tw.nekomimi.nekogram.ui.SuperTextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.BackupImageView;
+import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.RLottieImageView;
 
 import java.util.ArrayList;
 
 public class TextSettingsCell extends FrameLayout {
 
+    private Theme.ResourcesProvider resourcesProvider;
     private TextView textView;
-    private TextView valueTextView;
+    private AnimatedTextView valueTextView;
+    private ImageView imageView;
     private BackupImageView valueBackupImageView;
     private ImageView valueImageView;
     private boolean needDivider;
@@ -57,8 +62,17 @@ public class TextSettingsCell extends FrameLayout {
         this(context, 21);
     }
 
+    public TextSettingsCell(Context context, Theme.ResourcesProvider resourcesProvider) {
+        this(context, 21, resourcesProvider);
+    }
+
     public TextSettingsCell(Context context, int padding) {
+        this(context, padding, null);
+    }
+
+    public TextSettingsCell(Context context, int padding, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.resourcesProvider = resourcesProvider;
         this.padding = padding;
 
         textView = new SuperTextView(context);
@@ -68,21 +82,22 @@ public class TextSettingsCell extends FrameLayout {
         textView.setSingleLine(true);
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
-        textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
         addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, padding, 0, padding, 0));
     
 
-        valueTextView = new SuperTextView(context);
-        valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-        valueTextView.setLines(1);
-        valueTextView.setMaxLines(1);
-        valueTextView.setSingleLine(true);
-        valueTextView.setEllipsize(TextUtils.TruncateAt.END);
+        valueTextView = new AnimatedTextView(context, true, true, !LocaleController.isRTL);
+        valueTextView.setAnimationProperties(.55f, 0, 320, CubicBezierInterpolator.EASE_OUT_QUINT);
+        valueTextView.setTextSize(AndroidUtilities.dp(16));
         valueTextView.setGravity((LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.CENTER_VERTICAL);
-        valueTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteValueText));
-        valueTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        valueTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteValueText, resourcesProvider));
         addView(valueTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.TOP, padding, 0, padding, 0));
+
+        imageView = new RLottieImageView(context);
+        imageView.setScaleType(ImageView.ScaleType.CENTER);
+        imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.MULTIPLY));
+        imageView.setVisibility(GONE);
+        addView(imageView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL, 21, 0, 21, 0));
 
         valueImageView = new ImageView(context);
         valueImageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -99,6 +114,10 @@ public class TextSettingsCell extends FrameLayout {
         int width = availableWidth / 2;
         if (valueImageView.getVisibility() == VISIBLE) {
             valueImageView.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST), MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.EXACTLY));
+        }
+
+        if (imageView.getVisibility() == VISIBLE) {
+            imageView.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST), MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.AT_MOST));
         }
 
         if (valueBackupImageView != null) {
@@ -129,7 +148,7 @@ public class TextSettingsCell extends FrameLayout {
         canDisable = value;
     }
 
-    public TextView getValueTextView() {
+    public AnimatedTextView getValueTextView() {
         return valueTextView;
     }
 
@@ -150,10 +169,14 @@ public class TextSettingsCell extends FrameLayout {
     }
 
     public void setTextAndValue(CharSequence text, CharSequence value, boolean divider) {
+        setTextAndValue(text, value, false, divider);
+    }
+
+    public void setTextAndValue(CharSequence text, CharSequence value, boolean animated, boolean divider) {
         textView.setText(text);
         valueImageView.setVisibility(INVISIBLE);
         if (value != null) {
-            valueTextView.setText(value);
+            valueTextView.setText(value, animated);
             valueTextView.setVisibility(VISIBLE);
         } else {
             valueTextView.setVisibility(INVISIBLE);
@@ -174,6 +197,18 @@ public class TextSettingsCell extends FrameLayout {
         }
         needDivider = divider;
         setWillNotDraw(!divider);
+    }
+
+    public void setIcon(int resId) {
+        MarginLayoutParams params = (MarginLayoutParams) textView.getLayoutParams();
+        if (resId == 0) {
+            imageView.setVisibility(GONE);
+            params.leftMargin = 0;
+        } else {
+            imageView.setImageResource(resId);
+            imageView.setVisibility(VISIBLE);
+            params.leftMargin = AndroidUtilities.dp(71);
+        }
     }
 
     public void setEnabled(boolean value, ArrayList<Animator> animators) {
@@ -214,7 +249,7 @@ public class TextSettingsCell extends FrameLayout {
         if (drawLoading || drawLoadingProgress != 0) {
             if (paint == null) {
                 paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                paint.setColor(Theme.getColor(Theme.key_dialogSearchBackground));
+                paint.setColor(Theme.getColor(Theme.key_dialogSearchBackground, resourcesProvider));
             }
             //LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT;
             if (incrementLoadingProgress) {
@@ -268,6 +303,7 @@ public class TextSettingsCell extends FrameLayout {
     @Override
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
+        info.setText(textView.getText() + (valueTextView != null && valueTextView.getVisibility() == View.VISIBLE ? "\n" + valueTextView.getText() : ""));
         info.setEnabled(isEnabled());
     }
 
