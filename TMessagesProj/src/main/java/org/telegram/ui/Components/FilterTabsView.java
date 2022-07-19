@@ -394,7 +394,7 @@ public class FilterTabsView extends FrameLayout {
                 }
             }
 
-            int iconX = 0;
+            //int iconX = 0;
             if (NekoConfig.tabsTitleType.Int() != NekoXConfig.TITLE_TYPE_TEXT) {
                 int emoticonWidth = FolderIconHelper.getIconWidth();
                 if (!TextUtils.equals(currentTab.emoticon, currentEmoticon)) {
@@ -604,7 +604,7 @@ public class FilterTabsView extends FrameLayout {
                     lockDrawableColor = unactiveColor;
                     lockDrawable.setColorFilter(new PorterDuffColorFilter(unactiveColor, PorterDuff.Mode.MULTIPLY));
                 }
-                int iconX = (int) ((getMeasuredWidth() - lockDrawable.getIntrinsicWidth()) / 2f + locIconXOffset);
+                iconX = (int) ((getMeasuredWidth() - lockDrawable.getIntrinsicWidth()) / 2f + locIconXOffset);
                 int iconY = getMeasuredHeight() - AndroidUtilities.dp(12);
                 lockDrawable.setBounds(iconX, iconY, iconX + lockDrawable.getIntrinsicWidth(), iconY + lockDrawable.getIntrinsicHeight());
                 if (progressToLocked != 1f) {
@@ -1877,24 +1877,25 @@ public class FilterTabsView extends FrameLayout {
         showAllChatsTab = show;
         removeTabs();
         if (showAllChatsTab)
-            addTab(Integer.MAX_VALUE, 0, LocaleController.getString("FilterAllChats", R.string.FilterAllChats), null);
+            addTab(Integer.MAX_VALUE, 0, LocaleController.getString("FilterAllChats", R.string.FilterAllChats), false, false, null);
         ArrayList<MessagesController.DialogFilter> filters = AccountInstance.getInstance(UserConfig.selectedAccount).getMessagesController().dialogFilters;
         removeTabs();
         for (int a = 0, N = filters.size(); a < N; a++) {
             MessagesController.DialogFilter dialogFilter = filters.get(a);
             if (filters.get(a).isDefault()) {
                 if (showAllChatsTab)
-                    addTab(a, 0, LocaleController.getString("FilterAllChats", R.string.FilterAllChats), true,  false);
+                    addTab(a, 0, LocaleController.getString("FilterAllChats", R.string.FilterAllChats), true,  filters.get(a).locked, null);
             } else {
                 switch (NekoConfig.tabsTitleType.Int()) {
                     case NekoXConfig.TITLE_TYPE_TEXT:
-                        addTab(a, filters.get(a).localId, filters.get(a).name, dialogFilter.name);
+                    
+                        addTab(a, filters.get(a).localId, filters.get(a).name, false, filters.get(a).locked, dialogFilter.name);
                         break;
                     case NekoXConfig.TITLE_TYPE_ICON:
-                        addTab(a, filters.get(a).localId, filters.get(a).name, dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1");
+                        addTab(a, filters.get(a).localId, filters.get(a).name, false, filters.get(a).locked,dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1");
                         break;
                     case NekoXConfig.TITLE_TYPE_MIX:
-                        addTab(a, filters.get(a).localId, filters.get(a).name, dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1 " + dialogFilter.name);
+                        addTab(a, filters.get(a).localId, filters.get(a).name, false, filters.get(a).locked, dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1 " + dialogFilter.name);
                         break;
                 }
             }

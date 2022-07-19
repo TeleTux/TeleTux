@@ -3180,7 +3180,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
             editTextItem.addSubItem(text_transalte, LocaleController.getString("Translate", R.string.Translate));
 
             editTextItem.addSubItem(text_spoiler, LocaleController.getString("Spoiler", R.string.Spoiler));
-            SpannableStringBuilder stringBuilder = new SpannableStringBuilder(LocaleController.getString("Bold", R.string.Bold));
+            //SpannableStringBuilder stringBuilder = new SpannableStringBuilder(LocaleController.getString("Bold", R.string.Bold));
             stringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface("fonts/Vazir-Bold.ttf")), 0, stringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             editTextItem.addSubItem(text_bold, stringBuilder);
             stringBuilder = new SpannableStringBuilder(LocaleController.getString("Italic", R.string.Italic));
