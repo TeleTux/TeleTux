@@ -4280,7 +4280,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     filterTabsView.resetTabId();
                 }
                 filterTabsView.removeTabs();
-<<<<<<< HEAD
                 for (int a = 0, N = filters.size(); a < N; a++) {
                     MessagesController.DialogFilter dialogFilter = filters.get(a);
                     if (filters.get(a).isDefault()) {
@@ -4289,32 +4288,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     } else {
                         switch (NekoConfig.tabsTitleType.Int()) {
                             case NekoXConfig.TITLE_TYPE_TEXT:
-                                filterTabsView.addTab(a, filters.get(a).localId, dialogFilter.name, false, false);
+                                filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name, dialogFilter.name);
                                 break;
                             case NekoXConfig.TITLE_TYPE_ICON:
-                                filterTabsView.addTab(a, filters.get(a).localId, dialogFilter.emoticon != null ? dialogFilter.emoticon : "📂", false, false);
+                                filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name, dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1");
                                 break;
                             case NekoXConfig.TITLE_TYPE_MIX:
-                                filterTabsView.addTab(a, filters.get(a).localId, dialogFilter.emoticon != null ? dialogFilter.emoticon + " " + dialogFilter.name : "📂 " + dialogFilter.name, false, false);
+                                filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name, dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1 " + dialogFilter.name);
                                 break;
-                        }                    }
-=======
-                if (filterTabsView.showAllChatsTab)
-                    filterTabsView.addTab(Integer.MAX_VALUE, 0, LocaleController.getString("FilterAllChats", R.string.FilterAllChats), null);
-                for (int a = 0, N = filters.size(); a < N; a++) {
-                    MessagesController.DialogFilter dialogFilter = filters.get(a);
-                    switch (NekoConfig.tabsTitleType.Int()) {
-                        case NekoXConfig.TITLE_TYPE_TEXT:
-                            filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name, dialogFilter.name);
-                            break;
-                        case NekoXConfig.TITLE_TYPE_ICON:
-                            filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name, dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1");
-                            break;
-                        case NekoXConfig.TITLE_TYPE_MIX:
-                            filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name, dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1 " + dialogFilter.name);
-                            break;
+                        }
                     }
->>>>>>> 57a677882 (feat: add folder icon settings ported from Nekogram)
                 }
                 boolean updateCurrentTab = NekoConfig.hideAllTab.Bool();
                 if (stableId >= 0) {
