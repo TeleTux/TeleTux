@@ -112,9 +112,9 @@ public class CropRotationWheel extends FrameLayout {
         rotation90Button.setContentDescription(LocaleController.getString("AccDescrRotate", R.string.AccDescrRotate));
         addView(rotation90Button, LayoutHelper.createFrame(70, 64, Gravity.RIGHT | Gravity.CENTER_VERTICAL));
 
-        degreesLabel = new SuperTextView(context);
-        degreesLabel.setTextColor(Color.WHITE);
-        addView(degreesLabel, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL));
+        //degreesLabel = new SuperTextView(context);
+        //degreesLabel.setTextColor(Color.WHITE);
+        //addView(degreesLabel, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL));
         degreesTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         degreesTextPaint.setColor(Color.WHITE);
         degreesTextPaint.setTextSize(AndroidUtilities.dp(14));

@@ -81,15 +81,19 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     private boolean needDivider;
 
     public UserCell(Context context, int padding, int checkbox, boolean admin) {
-        this(context, padding, checkbox, admin, false, null);
+        this(context, padding, checkbox, admin, false, false, null);
     }
 
     public UserCell(Context context, int padding, int checkbox, boolean admin, Theme.ResourcesProvider resourcesProvider) {
-        this(context, padding, checkbox, admin, false, resourcesProvider);
+        this(context, padding, checkbox, admin, false, false, resourcesProvider);
     }
 
     public UserCell(Context context, int padding, int checkbox, boolean admin, boolean needAddButton) {
         this(context, padding, checkbox, admin, needAddButton, false, null);
+    }
+
+    public UserCell(Context context, int padding, int checkbox, boolean admin, boolean needAddButton, boolean needMutualIcon) {
+        this(context, padding, checkbox, admin, needAddButton, needMutualIcon, null);
     }
 
     public UserCell(Context context, int padding, int checkbox, boolean admin, boolean needAddButton, boolean needMutualIcon, Theme.ResourcesProvider resourcesProvider) {
