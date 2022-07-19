@@ -1871,6 +1871,7 @@ public class LocaleController {
                             return LocaleController.formatString("LastSeenFormatted", R.string.LastSeenFormatted, getInstance().formatterDay.format(new Date(date)));
                         }
                         return LocaleController.formatString("LastSeenFormatted", R.string.LastSeenFormatted, LocaleController.formatString("YesterdayAtFormatted", R.string.YesterdayAtFormatted, LanguageUtils.getPersianNumbers(String.valueOf(getInstance().formatterDay.format(new Date(date))))));
+                    }
                 } else {
                     if (madeShorter != null) {
                         madeShorter[0] = true;
