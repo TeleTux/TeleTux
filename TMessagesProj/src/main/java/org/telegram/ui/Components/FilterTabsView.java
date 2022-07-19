@@ -508,7 +508,6 @@ public class FilterTabsView extends FrameLayout {
 
             lastEmoticon = currentEmoticon;
             lastTextX = textX;
-            lastIconX = iconX;
             lastTabCount = currentTab.counter;
             lastTitleLayout = textLayout;
             lastTitle = currentText;
@@ -1208,10 +1207,10 @@ public class FilterTabsView extends FrameLayout {
             currentPosition = position;
         }
 
-        Tab tab = new Tab(id, text);
+        Tab tab = new Tab(id, text, emoticon);
         tab.isDefault = isDefault;
         tab.isLocked = isLocked;
-        allTabsWidth += tab.getWidth(true) + AndroidUtilities.dp(32);
+        allTabsWidth += tab.getWidth(true) + FolderIconHelper.getPaddingTab();
         tabs.add(tab);
     }
 
