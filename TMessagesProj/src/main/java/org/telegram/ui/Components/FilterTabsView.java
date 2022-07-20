@@ -394,7 +394,7 @@ public class FilterTabsView extends FrameLayout {
                 }
             }
 
-            //int iconX = 0;
+            int iconX = 0;
             if (NekoConfig.tabsTitleType.Int() != NekoXConfig.TITLE_TYPE_TEXT) {
                 int emoticonWidth = FolderIconHelper.getIconWidth();
                 if (!TextUtils.equals(currentTab.emoticon, currentEmoticon)) {
