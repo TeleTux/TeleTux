@@ -1877,7 +1877,7 @@ public class FilterTabsView extends FrameLayout {
         showAllChatsTab = show;
         removeTabs();
         if (showAllChatsTab)
-            addTab(Integer.MAX_VALUE, 0, LocaleController.getString("FilterAllChats", R.string.FilterAllChats), false, false, null);
+            addTab(Integer.MAX_VALUE, 0, LocaleController.getString("FilterAllChats", R.string.FilterAllChats), null, true, false);
         ArrayList<MessagesController.DialogFilter> filters = AccountInstance.getInstance(UserConfig.selectedAccount).getMessagesController().dialogFilters;
         removeTabs();
         for (int a = 0, N = filters.size(); a < N; a++) {
