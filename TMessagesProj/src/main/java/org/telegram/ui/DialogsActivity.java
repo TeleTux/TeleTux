@@ -4288,13 +4288,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     } else {
                         switch (NekoConfig.tabsTitleType.Int()) {
                             case NekoXConfig.TITLE_TYPE_TEXT:
-                                filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name, false, filters.get(a).locked, dialogFilter.name);
+                                filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name, false, false, dialogFilter.name);
                                 break;
                             case NekoXConfig.TITLE_TYPE_ICON:
-                                filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name, false, filters.get(a).locked, dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1");
+                                filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name, false, false, dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1");
                                 break;
                             case NekoXConfig.TITLE_TYPE_MIX:
-                                filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name, false, filters.get(a).locked, dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1 " + dialogFilter.name);
+                                filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name, false, false, dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1 " + dialogFilter.name);
                                 break;
                         }
                     }

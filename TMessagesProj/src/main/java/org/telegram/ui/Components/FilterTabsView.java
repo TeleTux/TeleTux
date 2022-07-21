@@ -1888,14 +1888,13 @@ public class FilterTabsView extends FrameLayout {
             } else {
                 switch (NekoConfig.tabsTitleType.Int()) {
                     case NekoXConfig.TITLE_TYPE_TEXT:
-                    
-                        addTab(a, filters.get(a).localId, filters.get(a).name, false, filters.get(a).locked, dialogFilter.name);
+                        addTab(a, filters.get(a).localId, filters.get(a).name, false, false, dialogFilter.name);
                         break;
                     case NekoXConfig.TITLE_TYPE_ICON:
-                        addTab(a, filters.get(a).localId, filters.get(a).name, false, filters.get(a).locked,dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1");
+                        addTab(a, filters.get(a).localId, filters.get(a).name, false, false,dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1");
                         break;
                     case NekoXConfig.TITLE_TYPE_MIX:
-                        addTab(a, filters.get(a).localId, filters.get(a).name, false, filters.get(a).locked, dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1 " + dialogFilter.name);
+                        addTab(a, filters.get(a).localId, filters.get(a).name, false, false, dialogFilter.emoticon != null ? dialogFilter.emoticon : "\uD83D\uDCC1 " + dialogFilter.name);
                         break;
                 }
             }
