@@ -93,6 +93,7 @@ public class MessagesStorage extends BaseController {
     private CountDownLatch openSync = new CountDownLatch(1);
 
     private static SparseArray<MessagesStorage> Instance = new SparseArray();
+    private static final Object lockObject = new Object;
     private final static int LAST_DB_VERSION = 93;
     private final static int DUROV_RELOGIN = 2;
     private boolean databaseMigrationInProgress;

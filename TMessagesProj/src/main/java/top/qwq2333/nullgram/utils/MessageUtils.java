@@ -21,6 +21,8 @@ package top.qwq2333.nullgram.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -34,12 +36,16 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.core.content.FileProvider;
+
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BaseController;
+import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.LocaleController;
@@ -47,6 +53,7 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
@@ -61,9 +68,10 @@ import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.Bulletin;
+import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.messenger.FileLog;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
@@ -76,6 +84,14 @@ import java.util.concurrent.CountDownLatch;
 
 
 public class MessageUtils extends BaseController {
+
+    public static final ArrayList<DatacenterInfo> datacenterInfos = new ArrayList<>(5);
+
+    static {
+        for (int a = 1; a <= 5; a++) {
+            datacenterInfos.add(new DatacenterInfo(a));
+        }
+    }
 
     private static final MessageUtils[] Instance = new MessageUtils[UserConfig.MAX_ACCOUNT_COUNT];
 
@@ -186,9 +202,13 @@ public class MessageUtils extends BaseController {
 
         builder.setPositiveButton(LocaleController.getString("DeleteAll", R.string.DeleteAll), (dialogInterface, i) -> {
             if (cell != null && cell.isChecked()) {
-                showDeleteHistoryBulletin(fragment, 0, false, () -> getMessagesController().deleteUserChannelHistory(chat, getUserConfig().getCurrentUser(), null, 0), resourcesProvider);
+                getMessagesController().deleteUserChannelHistory(chat, getUserConfig().getCurrentUser(), null, 0);
             } else {
-                deleteUserHistoryWithSearch(fragment, -chat.id, mergeDialogId, (count, deleteAction) -> showDeleteHistoryBulletin(fragment, count, true, deleteAction, resourcesProvider));
+                deleteUserHistoryWithSearch(fragment, -chat.id, mergeDialogId, count -> {
+                    if (BulletinFactory.canShowBulletin(fragment)) {
+                        BulletinFactory.createDeleteMessagesBulletin(fragment, count, resourcesProvider).show();
+                    }
+                });
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -200,7 +220,8 @@ public class MessageUtils extends BaseController {
         }
     }
 
-    public void deleteUserHistoryWithSearch(BaseFragment fragment, final long dialogId, final long mergeDialogId, SearchMessagesResultCallback callback) {
+
+    public void deleteUserHistoryWithSearch(BaseFragment fragment, final long dialogId, final long mergeDialogId, MessagesStorage.IntCallback callback) {
         Utilities.globalQueue.postRunnable(() -> {
             ArrayList<Integer> messageIds = new ArrayList<>();
             var latch = new CountDownLatch(1);
@@ -218,22 +239,20 @@ public class MessageUtils extends BaseController {
                 for (int i = 0; i < N; i += 100) {
                     lists.add(new ArrayList<>(messageIds.subList(i, Math.min(N, i + 100))));
                 }
-                var deleteAction = new Runnable() {
-                    @Override
-                    public void run() {
-                        for (ArrayList<Integer> list : lists) {
-                            getMessagesController().deleteMessages(list, null, null, dialogId, true, false);
-                        }
+                AndroidUtilities.runOnUIThread(() -> {
+                    for (ArrayList<Integer> list : lists) {
+                        getMessagesController().deleteMessages(list, null, null, dialogId, true, false);
                     }
-                };
-                AndroidUtilities.runOnUIThread(callback != null ? () -> callback.run(messageIds.size(), deleteAction) : deleteAction);
+                    if (callback != null) {
+                        callback.run(messageIds.size());
+                    }
+                });
             }
             if (mergeDialogId != 0) {
                 deleteUserHistoryWithSearch(fragment, mergeDialogId, 0, null);
             }
         });
     }
-
 
     public void doSearchMessages(BaseFragment fragment, CountDownLatch latch, ArrayList<Integer> messageIds, TLRPC.InputPeer peer, TLRPC.InputPeer fromId, int offsetId, long hash) {
         var req = new TLRPC.TL_messages_search();
@@ -320,14 +339,14 @@ public class MessageUtils extends BaseController {
             }
         }
         if (TextUtils.isEmpty(path)) {
-            path = FileLoader.getPathToMessage(messageObject.messageOwner).toString();
+            path = getFileLoader().getPathToMessage(messageObject.messageOwner).toString();
             File temp = new File(path);
             if (!temp.exists()) {
                 path = null;
             }
         }
         if (TextUtils.isEmpty(path)) {
-            path = FileLoader.getPathToAttach(messageObject.getDocument(), true).toString();
+            path = getFileLoader().getPathToAttach(messageObject.getDocument(), true).toString();
             File temp = new File(path);
             if (!temp.exists()) {
                 return;
@@ -337,7 +356,7 @@ public class MessageUtils extends BaseController {
     }
 
     public static void saveStickerToGallery(Activity activity, TLRPC.Document document, Runnable callback) {
-        String path = FileLoader.getPathToAttach(document, true).toString();
+        String path = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(document, true).toString();
         File temp = new File(path);
         if (!temp.exists()) {
             return;
@@ -358,12 +377,57 @@ public class MessageUtils extends BaseController {
                     AndroidUtilities.runOnUIThread(callback);
                 }
             } catch (Exception e) {
-                FileLog.e(e);
+                Log.e(e);
             }
         });
     }
 
-    public String getDCLocation(int dc) {
+    public void addMessageToClipboard(MessageObject selectedObject, Runnable callback) {
+        var path = getPathToMessage(selectedObject);
+        if (!TextUtils.isEmpty(path)) {
+            addFileToClipboard(new File(path), callback);
+        }
+    }
+
+    public static void addFileToClipboard(File file, Runnable callback) {
+        try {
+            var context = ApplicationLoader.applicationContext;
+            var clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            var uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
+            var clip = ClipData.newUri(context.getContentResolver(), "label", uri);
+            clipboard.setPrimaryClip(clip);
+            callback.run();
+        } catch (Exception e) {
+            Log.e(e);
+        }
+    }
+
+    public String getPathToMessage(MessageObject messageObject) {
+        String path = messageObject.messageOwner.attachPath;
+        if (!TextUtils.isEmpty(path)) {
+            File temp = new File(path);
+            if (!temp.exists()) {
+                path = null;
+            }
+        }
+        if (TextUtils.isEmpty(path)) {
+            path = getFileLoader().getPathToMessage(messageObject.messageOwner).toString();
+            File temp = new File(path);
+            if (!temp.exists()) {
+                path = null;
+            }
+        }
+        if (TextUtils.isEmpty(path)) {
+            path = getFileLoader().getPathToAttach(messageObject.getDocument(), true).toString();
+            File temp = new File(path);
+            if (!temp.exists()) {
+                return null;
+            }
+        }
+        return path;
+    }
+
+    public static String getDCLocation(int dc) {
         switch (dc) {
             case 1:
             case 3:
@@ -377,6 +441,40 @@ public class MessageUtils extends BaseController {
                 return "Unknown";
         }
     }
+
+    public static String getDCName(int dc) {
+        switch (dc) {
+            case 1:
+                return "Pluto";
+            case 2:
+                return "Venus";
+            case 3:
+                return "Aurora";
+            case 4:
+                return "Vesta";
+            case 5:
+                return "Flora";
+            default:
+                return "Unknown";
+        }
+    }
+
+
+    public static class DatacenterInfo {
+
+        public int id;
+
+        public long pingId;
+        public long ping;
+        public boolean checking;
+        public boolean available;
+        public long availableCheckTime;
+
+        public DatacenterInfo(int i) {
+            id = i;
+        }
+    }
+
 
     private static final CharsetDecoder utf8Decoder = StandardCharsets.UTF_8.newDecoder();
 
@@ -448,7 +546,7 @@ public class MessageUtils extends BaseController {
             QRCodeWriter writer = new QRCodeWriter();
             return writer.encode(key, 768, 768, hints, null);
         } catch (Exception e) {
-            FileLog.e(e);
+            Log.e(e);
         }
         return null;
     }

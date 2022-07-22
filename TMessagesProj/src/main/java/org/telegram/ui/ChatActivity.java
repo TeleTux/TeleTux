@@ -22508,7 +22508,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                             icons.add(R.drawable.proxy_on);
                         } else if (type == 7) {
                             items.add(LocaleController.getString("AddToStickers", R.string.AddToStickers));
-                            options.add(OPTION_ADD_TO_STICKERS_OR_MASKS9);
+                            options.add(OPTION_ADD_TO_STICKERS_OR_MASKS);
                             icons.add(R.drawable.msg_sticker);
                         } else if (type == 8) {
                             long uid = selectedObject.messageOwner.media.user_id;
