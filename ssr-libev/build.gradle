@@ -23,10 +23,8 @@ android {
     ndkVersion rootProject.ext.ndkVersion
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion 19
+        targetSdkVersion 30
 
         externalNativeBuild {
             ndkBuild {
@@ -52,5 +50,6 @@ android {
             path 'src/main/jni/Android.mk'
         }
     }
+    namespace 'io.nekohasekai.ssr_libev'
 
 }
