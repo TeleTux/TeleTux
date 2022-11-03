@@ -35,6 +35,16 @@ public class NekoConfig {
     public static SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
 
     public static boolean useIPv6;
+    // Configs
+    public static ConfigItem migrate = addConfig("NekoConfigMigrate", configTypeBool, false);
+    public static ConfigItem largeAvatarInDrawer = addConfig("AvatarAsBackground", configTypeInt, 0); // 0:TG Default 1:NekoX Default 2:Large Avatar
+    public static ConfigItem unreadBadgeOnBackButton = addConfig("unreadBadgeOnBackButton", configTypeBool, false);
+//    public static ConfigItem customPublicProxyIP = addConfig("customPublicProxyIP", configTypeString, "");
+    public static ConfigItem update_download_soucre = addConfig("update_download_soucre", configTypeInt, 0); // 0: Github 1: Channel 2:CDNDrive, removed
+    public static ConfigItem useCustomEmoji = addConfig("useCustomEmoji", configTypeBool, false);
+    public static ConfigItem repeatConfirm = addConfig("repeatConfirm", configTypeBool, false);
+    public static ConfigItem disableInstantCamera = addConfig("DisableInstantCamera", configTypeBool, false);
+    public static ConfigItem showSeconds = addConfig("showSeconds", configTypeBool, false);
 
     public static boolean useSystemEmoji;
     public static boolean ignoreBlocked;
