@@ -382,10 +382,9 @@ android {
 
 }
 
-def okHttpVersion = "5.0.0-alpha.2"
-def fcmVersion = "21.1.0"
-def crashlyticsVersion = "18.2.0"
-def playCoreVersion = "1.10.0"
+def fcmVersion = "23.0.7"
+def crashlyticsVersion = "18.2.12"
+def playCoreVersion = "1.10.3"
 
 dependencies {
 
@@ -411,8 +410,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.20"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1-native-mt"
 
-    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
-    implementation 'dnsjava:dnsjava:3.4.0'
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+    implementation 'dnsjava:dnsjava:3.4.1'
     implementation "org.dizitart:nitrite:3.4.3"
 
     implementation "cn.hutool:hutool-core:5.7.5"
