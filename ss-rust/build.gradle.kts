@@ -19,14 +19,14 @@ if (gradle.startParameter.taskNames.isNotEmpty()) {
 
 android {
 
-    ndkVersion = rootProject.extra.get("ndkVersion").toString()
+    ndkVersion = "21.4.7075529"
 
-    compileSdk = 31
+    compileSdkVersion(30)
     defaultConfig {
-        minSdk = 23
-        targetSdk = 31
+        minSdkVersion(21)
+        targetSdkVersion(30)
     }
-    buildToolsVersion = "31.0.0"
+    buildToolsVersion = "30.0.3"
 
     if (targetAbi.isNotBlank()) splits.abi {
         reset()
