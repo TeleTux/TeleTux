@@ -107,7 +107,7 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 30
         ndkVersion "21.4.7075529"
 
