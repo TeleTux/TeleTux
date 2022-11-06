@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+      - bugfix
     paths-ignore:
       - '**.md'
       - '.github/**'
