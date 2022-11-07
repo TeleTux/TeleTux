@@ -392,18 +392,22 @@
             android:taskAffinity=""
             android:theme="@style/Theme.TMessages.PopupNotification"
             android:resizeableActivity="false"
+            android:exported="true"
             android:windowSoftInputMode="adjustResize|stateHidden">
+            
         </activity>
         <activity android:name="org.telegram.ui.VoIPPermissionActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
             android:taskAffinity="${applicationId}.voip"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.TMessages.Transparent"/>
+            android:theme="@style/Theme.TMessages.Transparent"
+            android:exported="true"/>
         <activity android:name="org.telegram.ui.VoIPFeedbackActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
             android:taskAffinity="${applicationId}.voip_feedback"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.TMessages.TransparentWithAlerts"/>
+            android:theme="@style/Theme.TMessages.TransparentWithAlerts"
+            android:exported="true"/>
 
         <receiver
             android:name=".AutoMessageHeardReceiver"
