@@ -111,6 +111,7 @@
         tools:replace="android:supportsRtl">
 
         <activity
+            android:exported="false"
             android:name="org.telegram.ui.LaunchActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
             android:hardwareAccelerated="@bool/useHardwareAcceleration"
@@ -197,6 +198,7 @@
             <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
         </activity>
         <activity-alias
+            android:exported="false"
             android:name="org.telegram.ui.CallsActivity"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:permission="android.permission.CALL_PHONE">
@@ -388,6 +390,7 @@
             </intent-filter>
         </service>
         <service
+            android:exported="false"
             android:name="tw.mimi.nekogram.NekoXPushService"
             android:enabled="true"
             android:label="@string/TeleTuxPushService"
@@ -406,7 +409,7 @@
         <!--        <data android:scheme="wear" android:host="*" />-->
         <!--    </intent-filter>-->
         <!--</service>-->
-        <service android:name=".voip.TelegramConnectionService" android:permission="android.permission.BIND_TELECOM_CONNECTION_SERVICE">
+        <service android:name=".voip.TelegramConnectionService" android:permission="android.permission.BIND_TELECOM_CONNECTION_SERVICE" android:exported="false">
             <intent-filter>
                 <action android:name="android.telecom.ConnectionService" />
             </intent-filter>
