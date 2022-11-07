@@ -344,7 +344,7 @@
         <!--    </intent-filter>-->
         <!--</receiver>-->
 
-        <receiver android:name=".CallReceiver">
+        <receiver android:name=".CallReceiver" android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE"/>
             </intent-filter>
@@ -442,21 +442,21 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".WearReplyReceiver" android:enabled="true" android:exported="false"/>
+        <receiver android:name=".WearReplyReceiver" android:enabled="true"/>
 
-        <receiver android:name=".StopLiveLocationReceiver" android:enabled="true" android:exported="false"/>
+        <receiver android:name=".StopLiveLocationReceiver" android:enabled="true"/>
 
-        <receiver android:name=".PopupReplyReceiver" android:enabled="true" android:exported="false"/>
+        <receiver android:name=".PopupReplyReceiver" android:enabled="true"/>
 
-        <receiver android:name=".NotificationCallbackReceiver" android:enabled="true" android:exported="false"/>
+        <receiver android:name=".NotificationCallbackReceiver" android:enabled="true"/>
 
-        <receiver android:name=".ShareBroadcastReceiver" android:enabled="true" android:exported="false"/>
+        <receiver android:name=".ShareBroadcastReceiver" android:enabled="true"/>
 
-        <receiver android:name=".CustomTabsCopyReceiver" android:enabled="true" android:exported="false"/>
+        <receiver android:name=".CustomTabsCopyReceiver" android:enabled="true"/>
 
-        <receiver android:name=".NotificationDismissReceiver" android:exported="false"/>
+        <receiver android:name=".NotificationDismissReceiver"/>
 
-        <receiver android:name=".voip.VoIPActionsReceiver" android:exported="false"/>
+        <receiver android:name=".voip.VoIPActionsReceiver"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
