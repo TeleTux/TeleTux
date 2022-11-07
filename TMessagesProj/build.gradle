@@ -108,7 +108,7 @@ android {
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 32
+        targetSdkVersion 31
         ndkVersion "21.4.7075529"
 
         versionName verName
