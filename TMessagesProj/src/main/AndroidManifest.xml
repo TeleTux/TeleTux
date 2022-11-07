@@ -411,24 +411,21 @@
             android:exported="true"/>
 
         <receiver
-            android:name=".AutoMessageHeardReceiver"
-            android:exported="false">
+            android:name=".AutoMessageHeardReceiver">
             <intent-filter>
                 <action android:name="org.telegram.messenger.ACTION_MESSAGE_HEARD"/>
             </intent-filter>
         </receiver>
 
         <receiver
-            android:name=".NotificationsDisabledReceiver"
-            android:exported="false">
+            android:name=".NotificationsDisabledReceiver">
             <intent-filter>
                 <action android:name="android.app.action.NOTIFICATION_CHANNEL_BLOCK_STATE_CHANGED"/>
             </intent-filter>
         </receiver>
 
         <receiver
-            android:name=".AutoMessageReplyReceiver"
-            android:exported="false">
+            android:name=".AutoMessageReplyReceiver">
             <intent-filter>
                 <action android:name="org.telegram.messenger.ACTION_MESSAGE_REPLY"/>
             </intent-filter>
@@ -442,14 +439,13 @@
         <!--    </intent-filter>-->
         <!--</receiver>-->
 
-        <receiver android:name=".CallReceiver"
-            android:exported="true">
+        <receiver android:name=".CallReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE"/>
             </intent-filter>
         </receiver>
 
-        <service android:name=".AuthenticatorService" android:exported="true">
+        <service android:name=".AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
@@ -457,7 +453,7 @@
                 android:resource="@xml/auth"/>
         </service>
 
-        <service android:name=".ContactsSyncAdapterService" android:exported="true">
+        <service android:name=".ContactsSyncAdapterService">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
@@ -468,19 +464,18 @@
         </service>
 
         <service android:name=".KeepAliveJob"
-            android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
         <service android:name=".BringAppForegroundService" android:enabled="true"/>
         <service android:name=".NotificationsService" android:enabled="true"/>
-        <service android:name=".NotificationRepeat" android:exported="false"/>
+        <service android:name=".NotificationRepeat"/>
         <service android:name=".VideoEncodingService" android:enabled="true"/>
         <service android:name=".ImportingService" android:enabled="true"/>
         <service android:name=".LocationSharingService"
             android:foregroundServiceType="location"
             android:enabled="true"/>
         <service android:name=".voip.VoIPService" android:enabled="true" android:foregroundServiceType="mediaProjection|camera|microphone|mediaPlayback"/>
-        <service android:name=".MusicPlayerService" android:exported="true" android:enabled="true" android:foregroundServiceType="mediaPlayback"/>
-        <service android:name=".MusicBrowserService" android:exported="true">
+        <service android:name=".MusicPlayerService" android:enabled="true" android:foregroundServiceType="mediaPlayback"/>
+        <service android:name=".MusicBrowserService">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService"/>
             </intent-filter>
@@ -495,14 +490,13 @@
 <!--            </intent-filter>-->
 <!--        </service>-->
         <service android:name=".voip.TelegramConnectionService"
-            android:permission="android.permission.BIND_TELECOM_CONNECTION_SERVICE"
-            android:exported="true">
+            android:permission="android.permission.BIND_TELECOM_CONNECTION_SERVICE">
             <intent-filter>
                 <action android:name="android.telecom.ConnectionService" />
             </intent-filter>
         </service>
 
-        <receiver android:name=".MusicPlayerReceiver" android:exported="true" >
+        <receiver android:name=".MusicPlayerReceiver" >
             <intent-filter>
                 <action android:name="org.telegram.android.musicplayer.close" />
                 <action android:name="org.telegram.android.musicplayer.pause" />
@@ -513,45 +507,44 @@
                 <action android:name="android.media.AUDIO_BECOMING_NOISY" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".voip.VoIPMediaButtonReceiver" android:exported="false">
+        <receiver android:name=".voip.VoIPMediaButtonReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".AppStartReceiver" android:enabled="true" android:exported="true">
+        <receiver android:name=".AppStartReceiver" android:enabled="true">
             <intent-filter>
                 <action android:name="org.telegram.start" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".RefererReceiver" android:exported="true" android:permission="android.permission.INSTALL_PACKAGES">
+        <receiver android:name=".RefererReceiver" android:permission="android.permission.INSTALL_PACKAGES">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".WearReplyReceiver" android:enabled="true" android:exported="false"/>
+        <receiver android:name=".WearReplyReceiver" android:enabled="true"/>
 
-        <receiver android:name=".StopLiveLocationReceiver" android:enabled="true" android:exported="false"/>
+        <receiver android:name=".StopLiveLocationReceiver" android:enabled="true"/>
 
-        <receiver android:name=".PopupReplyReceiver" android:enabled="true" android:exported="false"/>
+        <receiver android:name=".PopupReplyReceiver" android:enabled="true"/>
 
-        <receiver android:name=".NotificationCallbackReceiver" android:enabled="true" android:exported="false"/>
+        <receiver android:name=".NotificationCallbackReceiver" android:enabled="true"/>
 
-        <receiver android:name=".ShareBroadcastReceiver" android:enabled="true" android:exported="false"/>
+        <receiver android:name=".ShareBroadcastReceiver" android:enabled="true"/>
 
-        <receiver android:name=".CustomTabsCopyReceiver" android:enabled="true" android:exported="false"/>
+        <receiver android:name=".CustomTabsCopyReceiver" android:enabled="true" />
 
-        <receiver android:name=".NotificationDismissReceiver" android:exported="false"/>
+        <receiver android:name=".NotificationDismissReceiver" />
 
-        <receiver android:name=".voip.VoIPActionsReceiver" android:exported="false"/>
+        <receiver android:name=".voip.VoIPActionsReceiver"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
-            android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
@@ -561,15 +554,13 @@
         <provider
             android:authorities="${applicationId}.notification_image_provider"
             android:name=".NotificationImageProvider"
-            android:exported="false"
             android:grantUriPermissions="true"/>
 
         <provider
             android:authorities="${applicationId}.call_sound_provider"
-            android:name=".voip.CallNotificationSoundProvider"
-            android:exported="true"/>
+            android:name=".voip.CallNotificationSoundProvider" />
 
-        <receiver android:name=".ChatsWidgetProvider" android:exported="false">
+        <receiver android:name=".ChatsWidgetProvider">
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/chats_widget_info" />
             <intent-filter>
@@ -578,10 +569,9 @@
         </receiver>
 
         <service android:name=".ChatsWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"
-            android:exported="false" />
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
-        <receiver android:name=".ContactsWidgetProvider" android:exported="false">
+        <receiver android:name=".ContactsWidgetProvider" >
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/contacts_widget_info" />
             <intent-filter>
@@ -591,10 +581,9 @@
 
         <service android:name=".ContactsWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS"
-            android:exported="false" />
+            />
 
-        <receiver android:name=".FeedWidgetProvider"
-            android:exported="true">
+        <receiver android:name=".FeedWidgetProvider">
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/feed_widget_info" />
             <intent-filter>
@@ -606,7 +595,7 @@
 <!--            android:permission="android.permission.BIND_REMOTEVIEWS"-->
 <!--            android:exported="false" />-->
 
-        <receiver android:name="tw.nekomimi.nekogram.SaveToDownloadReceiver" android:exported="false">
+        <receiver android:name="tw.nekomimi.nekogram.SaveToDownloadReceiver">
             <intent-filter>
                 <action android:name="${applicationId}.CANCEL_SAVE_TO_DOWNLOAD" />
             </intent-filter>
