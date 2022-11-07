@@ -46,6 +46,10 @@ jobs:
           echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.4.7075529" --sdk_root=${ANDROID_SDK_ROOT} &> /dev/null
           echo "sdk.dir=${ANDROID_HOME}" > local.properties
           echo "ndk.dir=${ANDROID_HOME}/ndk/21.4.7075529" >> local.properties
+          cd ${ANDROID_HOME}/build-tools/31.0.0 \
+          && mv d8 dx \
+          && cd lib  \
+          && mv d8.jar dx.jar
       - name: Native Build
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
@@ -76,6 +80,10 @@ jobs:
           echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.4.7075529" --sdk_root=${ANDROID_SDK_ROOT} &> /dev/null
           echo "sdk.dir=${ANDROID_HOME}" > local.properties
           echo "ndk.dir=${ANDROID_HOME}/ndk/21.4.7075529" >> local.properties
+          cd ${ANDROID_HOME}/build-tools/31.0.0 \
+          && mv d8 dx \
+          && cd lib  \
+          && mv d8.jar dx.jar
       - name: Native Build
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
@@ -137,6 +145,10 @@ jobs:
           echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.4.7075529" --sdk_root=${ANDROID_SDK_ROOT} &> /dev/null
           echo "sdk.dir=${ANDROID_HOME}" > local.properties
           echo "ndk.dir=${ANDROID_HOME}/ndk/21.4.7075529" >> local.properties
+          cd ${ANDROID_HOME}/build-tools/31.0.0 \
+          && mv d8 dx \
+          && cd lib  \
+          && mv d8.jar dx.jar
       - name: Fix BoringSSL
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
@@ -171,6 +183,10 @@ jobs:
           echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.4.7075529" --sdk_root=${ANDROID_SDK_ROOT} &> /dev/null
           echo "sdk.dir=${ANDROID_HOME}" > local.properties
           echo "ndk.dir=${ANDROID_HOME}/ndk/21.4.7075529" >> local.properties
+          cd ${ANDROID_HOME}/build-tools/31.0.0 \
+          && mv d8 dx \
+          && cd lib  \
+          && mv d8.jar dx.jar
       - name: Install Golang
         uses: actions/setup-go@v2
         if: steps.cache.outputs.cache-hit != 'true'
@@ -203,6 +219,10 @@ jobs:
           echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.4.7075529" --sdk_root=${ANDROID_SDK_ROOT} &> /dev/null
           echo "sdk.dir=${ANDROID_HOME}" > local.properties
           echo "ndk.dir=${ANDROID_HOME}/ndk/21.4.7075529" >> local.properties
+          cd ${ANDROID_HOME}/build-tools/31.0.0 \
+          && mv d8 dx \
+          && cd lib  \
+          && mv d8.jar dx.jar
       - name: Install Rust
         if: steps.cache.outputs.cache-hit != 'true'
         run: ./run init action shadowsocks
@@ -233,6 +253,10 @@ jobs:
           echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.4.7075529" --sdk_root=${ANDROID_SDK_ROOT} &> /dev/null
           echo "sdk.dir=${ANDROID_HOME}" > local.properties
           echo "ndk.dir=${ANDROID_HOME}/ndk/21.4.7075529" >> local.properties
+          cd ${ANDROID_HOME}/build-tools/31.0.0 \
+          && mv d8 dx \
+          && cd lib  \
+          && mv d8.jar dx.jar
       - name: Native Build
         if: steps.cache.outputs.cache-hit != 'true'
         run: ./run libs ssr
@@ -261,6 +285,11 @@ jobs:
           echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.4.7075529" --sdk_root=${ANDROID_SDK_ROOT} &> /dev/null
           echo "sdk.dir=${ANDROID_HOME}" > local.properties
           echo "ndk.dir=${ANDROID_HOME}/ndk/21.4.7075529" >> local.properties
+          
+          cd ${ANDROID_HOME}/build-tools/31.0.0 \
+          && mv d8 dx \
+          && cd lib  \
+          && mv d8.jar dx.jar
       - name: Fetch Status
         run: |
           git submodule status TMessagesProj/jni/ffmpeg > ffmpeg_status
@@ -372,6 +401,10 @@ jobs:
           echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.4.7075529" --sdk_root=${ANDROID_SDK_ROOT} &> /dev/null
           echo "sdk.dir=${ANDROID_HOME}" > local.properties
           echo "ndk.dir=${ANDROID_HOME}/ndk/21.4.7075529" >> local.properties
+          cd ${ANDROID_HOME}/build-tools/31.0.0 \
+          && mv d8 dx \
+          && cd lib  \
+          && mv d8.jar dx.jar
       - name: Fetch Status
         run: |
           git submodule status TMessagesProj/jni/ffmpeg > ffmpeg_status
