@@ -325,16 +325,21 @@ android {
     productFlavors {
         mini {
             isDefault true
+            manifestPlaceholders = [is_full_version: "false"]
         }
         miniAppleEmoji {
+            manifestPlaceholders = [is_full_version: "false"]
         }
         full {
+            manifestPlaceholders = [is_full_version: "true"]
         }
         fullAppleEmoji {
+            manifestPlaceholders = [is_full_version: "true"]
         }
         miniPlay {
             versionNameSuffix "-play"
             versionCode verCode - 2
+            manifestPlaceholders = [is_full_version: "false"]
         }
     }
 
