@@ -113,7 +113,6 @@ android {
 
         versionName verName
         versionCode verCode
-s
         def appId = "147667"
         def appHash = "32c9ee834b3766f931f3cbea6383fb8f"
 
