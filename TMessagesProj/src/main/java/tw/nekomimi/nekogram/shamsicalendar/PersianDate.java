@@ -2,7 +2,6 @@ package tw.nekomimi.nekogram.shamsicalendar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import tw.nekomimi.nekogram.NekoConfig;
@@ -72,15 +71,6 @@ public class PersianDate {
 
   public static boolean displayPersianCalendarByLatin = NekoConfig.displayPersianCalendarByLatin.Bool();
   
-  /**
-   * ---- Don not change---
-   */
-  private final int[][] grgSumOfDays = {
-      {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365},
-      {0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366}};
-  private final int[][] hshSumOfDays = {
-      {0, 31, 62, 93, 124, 155, 186, 216, 246, 276, 306, 336, 365},
-      {0, 31, 62, 93, 124, 155, 186, 216, 246, 276, 306, 336, 366}};
   private final String[] dayNames = {"شنبه", "یک‌شنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌شنبه",
       "جمعه"};
   private final String[] latindayNames = {"Shanbeh", "YekShanbeh", "DoShanbeh", "SeShanbeh", "CheharShanbeh", "PanjShanbeh",
@@ -260,13 +250,13 @@ public class PersianDate {
         .setHour(hour)
         .setMinute(minute)
         .setSecond(second);
-    int[] convert = this.toJalali(year, month, day);
-    this.shYear = convert[0];
-    this.shMonth = convert[1];
-    this.shDay = convert[2];
-    this.setShYear(convert[0])
-        .setShMonth(convert[1])
-        .setShDay(convert[2]);
+    JalaliDate jalaliDate = JalaliCalendarUtil.toJalali(year, month, day);
+    this.shYear = jalaliDate.getYear();
+    this.shMonth = jalaliDate.getMonth();
+    this.shDay = jalaliDate.getDay();
+    this.setShYear(jalaliDate.getYear())
+        .setShMonth(jalaliDate.getMonth())
+        .setShDay(jalaliDate.getDay());
     return this;
   }
 
@@ -301,10 +291,10 @@ public class PersianDate {
         .setHour(hour)
         .setMinute(minute)
         .setSecond(second);
-    int[] convert = this.toGregorian(year, month, day);
-    this.setGrgYear(convert[0])
-        .setGrgMonth(convert[1])
-        .setGrgDay(convert[2]);
+    GregorianDate gregorianDate = JalaliCalendarUtil.toGregorian(year, month, day);
+    this.setGrgYear(gregorianDate.getYear())
+        .setGrgMonth(gregorianDate.getMonth())
+        .setGrgDay(gregorianDate.getDay());
     return this;
   }
 
@@ -317,10 +307,10 @@ public class PersianDate {
    * @return PersianDate
    */
   private PersianDate prepareDate2(int year, int month, int day) {
-    int[] convert = this.toGregorian(year, month, day);
-    this.grgYear = convert[0];
-    this.grgMonth = convert[1];
-    this.setGrgDay(convert[2]);
+    GregorianDate gregorianDate = JalaliCalendarUtil.toGregorian(year, month, day);
+    this.grgYear = gregorianDate.getYear();
+    this.grgMonth = gregorianDate.getMonth();
+    this.setGrgDay(gregorianDate.getDay());
     return this;
   }
 
@@ -335,10 +325,10 @@ public class PersianDate {
         .textNumberFilter("" + this.getMinute()) + ":" + this
         .textNumberFilter("" + this.getSecond()) + "Z";
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-    int[] convert = this.toJalali(this.getGrgYear(), this.getGrgMonth(), this.getGrgDay());
-    this.shYear = convert[0];
-    this.shMonth = convert[1];
-    this.shDay = convert[2];
+    JalaliDate jalaliDate = JalaliCalendarUtil.toJalali(this.getGrgYear(), this.getGrgMonth(), this.getGrgDay());
+    this.shYear = jalaliDate.getYear();
+    this.shMonth = jalaliDate.getMonth();
+    this.shDay = jalaliDate.getDay();
     Date date = null;
     try {
       date = format.parse(dtStart);
@@ -358,22 +348,12 @@ public class PersianDate {
   }
 
   /**
-   * Check Grg year is leap
-   *
-   * @param Year Year
-   * @return boolean
-   */
-  public boolean grgIsLeap(int Year) {
-    return ((Year % 4) == 0 && ((Year % 100) != 0 || (Year % 400) == 0));
-  }
-
-  /**
    * Check year in Leap
    *
    * @return true or false
    */
   public boolean isLeap() {
-    return this.isLeap(this.shYear);
+    return JalaliCalendarUtil.isJalaliLeap(this.shYear);
   }
 
   /**
@@ -383,30 +363,7 @@ public class PersianDate {
    * @return true or false
    */
   public boolean isLeap(int year) {
-    double referenceYear = 1375;
-    double startYear = 1375;
-    double yearRes = year - referenceYear;
-    if (yearRes > 0) {
-      if (yearRes >= 33) {
-        double numb = yearRes / 33;
-        startYear = referenceYear + Math.floor(numb) * 33;
-      }
-    } else {
-      if (yearRes >= -33) {
-        startYear = referenceYear - 33;
-      } else {
-        double numb = Math.abs(yearRes / 33);
-        startYear = referenceYear - (Math.floor(numb) + 1) * 33;
-      }
-    }
-    double[] leapYears = {startYear, startYear + 4, startYear + 8, startYear + 16, startYear + 20,
-        startYear + 24, startYear + 28, startYear + 33};
-    return (Arrays.binarySearch(leapYears, year)) >= 0;
-//		double Year = year;
-//		Year = (Year - 474) % 128;
-//		Year = ((Year >= 30) ? 0 : 29) + Year;
-//		Year = Year - Math.floor(Year / 33) - 1;
-//		return ((Year % 4) == 0);
+    return JalaliCalendarUtil.isJalaliLeap(year);
   }
 
   /**
@@ -416,99 +373,7 @@ public class PersianDate {
    * @return true if year is leap
    */
   public static boolean isJalaliLeap(int year) {
-    return (new PersianDate().isLeap(year));
-  }
-
-  /**
-   * Check static is leap year for Grg Date
-   *
-   * @param year Year
-   * @return boolean
-   */
-  public static boolean isGrgLeap(int year) {
-    return (new PersianDate().grgIsLeap(year));
-  }
-
-  /**
-   * Convert Grg date to jalali date
-   *
-   * @param year year in Grg date
-   * @param month month in Grg date
-   * @param day day in Grg date
-   * @return a int[year][month][day] in jalali date
-   */
-  public int[] toJalali(int year, int month, int day) {
-    int hshDay = 1;
-    int hshMonth = 1;
-    int hshElapsed;
-    int hshYear = year - 621;
-    boolean grgLeap = this.grgIsLeap(year);
-    boolean hshLeap = this.isLeap(hshYear - 1);
-    int grgElapsed = grgSumOfDays[(grgLeap ? 1 : 0)][month - 1] + day;
-    int XmasToNorooz = (hshLeap && grgLeap) ? 80 : 79;
-    if (grgElapsed <= XmasToNorooz) {
-      hshElapsed = grgElapsed + 286;
-      hshYear--;
-			if (hshLeap && !grgLeap) {
-				hshElapsed++;
-			}
-    } else {
-      hshElapsed = grgElapsed - XmasToNorooz;
-      hshLeap = this.isLeap(hshYear);
-    }
-    if (year >= 2029 && (year - 2029) % 4 == 0) {
-      hshElapsed++;
-    }
-    for (int i = 1; i <= 12; i++) {
-      if (hshSumOfDays[(hshLeap ? 1 : 0)][i] >= hshElapsed) {
-        hshMonth = i;
-        hshDay = hshElapsed - hshSumOfDays[(hshLeap ? 1 : 0)][i - 1];
-        break;
-      }
-    }
-    return new int[]{hshYear, hshMonth, hshDay};
-  }
-
-  /**
-   * Convert Jalali date to Grg
-   *
-   * @param year Year in jalali
-   * @param month Month in Jalali
-   * @param day Day in Jalali
-   * @return int[year][month][day]
-   */
-  public int[] toGregorian(int year, int month, int day) {
-    int grgYear = year + 621;
-    int grgDay = 0;
-    int grgMonth = 0;
-    int grgElapsed;
-
-    boolean hshLeap = this.isLeap(year);
-    boolean grgLeap = this.grgIsLeap(grgYear);
-
-    int hshElapsed = hshSumOfDays[hshLeap ? 1 : 0][month - 1] + day;
-
-    if (month > 10 || (month == 10 && hshElapsed > 286 + (grgLeap ? 1 : 0))) {
-      grgElapsed = hshElapsed - (286 + (grgLeap ? 1 : 0));
-      grgLeap = grgIsLeap(++grgYear);
-    } else {
-      hshLeap = this.isLeap(year - 1);
-      grgElapsed = hshElapsed + 79 + (hshLeap ? 1 : 0) - (grgIsLeap(grgYear - 1) ? 1 : 0);
-    }
-    if (grgYear >= 2030 && (grgYear - 2030) % 4 == 0) {
-      grgElapsed--;
-    }
-    if (grgYear == 1989) {
-      grgElapsed++;
-    }
-    for (int i = 1; i <= 12; i++) {
-      if (grgSumOfDays[grgLeap ? 1 : 0][i] >= grgElapsed) {
-        grgMonth = i;
-        grgDay = grgElapsed - grgSumOfDays[grgLeap ? 1 : 0][i - 1];
-        break;
-      }
-    }
-    return new int[]{grgYear, grgMonth, grgDay};
+    return JalaliCalendarUtil.isJalaliLeap(year);
   }
 
   /**
@@ -697,7 +562,7 @@ public class PersianDate {
    * calc count of day in month
    */
   public int getMonthDays(int Year, int month) {
-    if (month == 12 && !this.isLeap(Year)) {
+    if (month == 12 && !isLeap(Year)) {
       return 29;
     }
     if (month <= 6) {
@@ -748,7 +613,7 @@ public class PersianDate {
       month = month % 12;
     }
     for (long i = (year - 1); i >= 0; i--) {
-      if (this.isLeap(this.getShYear() + (int) i)) {
+      if (JalaliCalendarUtil.isJalaliLeap(this.getShYear() + (int) i)) {
         day += 366;
       } else {
         day += 365;
@@ -1016,7 +881,7 @@ public class PersianDate {
     } else if (month <= 11) {
       return 30;
     } else {
-      if (this.isLeap(year)) {
+      if (JalaliCalendarUtil.isJalaliLeap(year)) {
         return 30;
       } else {
         return 29;
@@ -1030,7 +895,7 @@ public class PersianDate {
     } else if (month <= 10) {
       return 30;
     } else {
-      if (this.isLeap(year)) {
+      if (JalaliCalendarUtil.isJalaliLeap(year)) {
         return 30;
       } else {
         return 29;
